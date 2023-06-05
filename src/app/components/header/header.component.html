@@ -1,0 +1,36 @@
+<!--<nav class="navbar navbar-default">-->
+<!--  <div class="container-fluid">-->
+<!--    <div class="navbar-default">-->
+<!--      <ul class="nav navbar-nav">-->
+<!--        &lt;!&ndash;<li routerLinkActive="active"><a routerLink="/recipes">Recipes</a></li>-->
+<!--        <li routerLinkActive="active"><a routerLink="/shopping-list">Shopping List</a></li>&ndash;&gt;-->
+<!--        <li routerLinkActive="active"><a routerLink="/shop">shop</a></li>-->
+<!--      </ul>-->
+<!--      &lt;!&ndash;<ul class="nav navbar-nav navbar-right">-->
+<!--        <li class="dropdown" appDropdown>-->
+<!--          <a style="cursor: pointer;" class="dropdown-toggle" role="button">Manage <span class="caret"></span></a>-->
+<!--          <ul class="dropdown-menu">-->
+<!--            <li><a style="cursor: pointer;" (click)="onSaveData()">Save Data</a></li>-->
+<!--            <li><a style="cursor: pointer;" (click)="onFetchData()">Fetch Data</a></li>-->
+<!--          </ul>-->
+<!--        </li>-->
+<!--      </ul>&ndash;&gt;-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</nav>-->
+
+<mat-toolbar class="transparent">
+  <button mat-icon-button aria-label="Home button" routerLink="/">
+    <mat-icon>home</mat-icon>
+  </button>
+  <span class="spacer"></span>
+  <button routerLink="/cart" mat-icon-button aria-label="Checkout button" class="button fancy-button" >
+    <mat-icon>shopping_cart</mat-icon>
+    <span class="count">{{countCart}}</span>
+  </button>
+</mat-toolbar>
+
+<div class="text-center" style="margin-top: 5%; margin-bottom: 5%;">
+  <h1 class="jumbo" style="font-size: 70px; line-height: 0px;">{{ title }}</h1>
+  <h2 style="    margin-top: 5%;" >{{ subtitle }}</h2>
+</div>

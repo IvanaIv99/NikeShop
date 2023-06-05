@@ -1,10 +1,20 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 
-const routes: Routes = [];
+import { ShopComponent } from './components/shop/shop.component';
+import {CartComponent} from "./components/cart/cart.component";
+
+const appRoutes: Routes = [
+  { path: '', redirectTo: '/shop', pathMatch: 'full' },
+  { path: 'shop', component: ShopComponent },
+  {path: "cart", component: CartComponent },
+
+];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(appRoutes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+
+}

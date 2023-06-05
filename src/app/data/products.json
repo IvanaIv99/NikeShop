@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "name": "SNike X OFF-white",
+    "price": 999,
+    "categories": [
+      {
+        "id": 1,
+        "name": "Man"
+      }
+    ],
+    "imageUrl": "IMG_999.png",
+    "description": "The 10: Air Jordan 1 off-white - Chicago",
+    "sizes": [37,38,39,40,41]
+  },
+  {
+    "id": 2,
+    "name": "Nike Dunk Low 1",
+    "price": 1250,
+    "categories": [
+      {
+        "id": 1,
+        "name": "Man"
+      },
+      {
+        "id": 2,
+        "name": "Woman"
+      }
+    ],
+    "imageUrl": "IMG_4767.png",
+    "description": "Nike Dunk Low 1",
+    "sizes": [37,38,39,40,41]
+  },
+  {
+    "id": 3,
+    "name": "SNike X OFF-white Dunk Low",
+    "price": 999,
+    "categories": [
+      {
+        "id": 2,
+        "name": "Woman"
+      }
+    ],
+    "imageUrl": "IMG_4770.png",
+    "description": "The top 10: Dunk 1 off-white - Chicago",
+    "sizes": [37,38,39,40,41]
+  },
+  {
+    "id": 4,
+    "name": "Nike X OFF-white AF1",
+    "price": 560,
+    "categories": [
+      {
+        "id": 3,
+        "name": "Kids"
+      }
+    ],
+    "imageUrl": "IMG_123.png",
+    "description": "Air Force 1 Retro High 'Off-White - UNC' sneakers",
+    "sizes": [32,33,34,35]
+  },
+  {
+    "id": 5,
+    "name": "Air Jordan Low 1",
+    "price": 800,
+    "categories": [
+        {
+          "id": 1,
+          "name": "Man"
+        }
+    ],
+    "imageUrl": "transparent.png",
+    "description": "The top 10: Air Jordan 1 off-white - Chicago",
+    "sizes": [37,38,39,40,41]
+  },
+  {
+    "id": 6,
+    "name": "Nike X Nicki J AF1",
+    "price": 1050,
+    "categories": [
+      {
+        "id": 2,
+        "name": "Woman"
+      }
+    ],
+    "imageUrl": "IMG_456.png",
+    "description": "Air force 1 Retro COLORS 'Off-White - UNC' sneakers",
+    "sizes": [37,38,39,40,41]
+  }
+]

@@ -1,0 +1,25 @@
+
+  <th scope="row">{{index + 1}}</th>
+  <td> {{cartItem.name}}</td>
+  <td> {{cartItem.size}}</td>
+  <td>{{cartItem.price}} $</td>
+  <td>
+    <input
+      [(ngModel)]="cartItem.quantity"
+      [ngModelOptions]="{standalone: true}"
+      min="1"
+      type="number"
+      value="{{cartItem.quantity }}"
+      class="form-control cartQty"
+      (change)="changeSubtotal(cartItem ,index)"
+    />
+  </td>
+  <td #subTotalWrap >{{cartItem.total}}$</td>
+  <td>
+    <button type="button"
+            class="btn btn-primary deleteProduct"
+            aria-label="Left Align"
+            (click)="removeProduct(cartItem)"
+            > x
+    </button>
+  </td>
