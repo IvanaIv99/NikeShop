@@ -1,28 +1,38 @@
 
-  <div class="mb-5">
-    <section class="card">
-      <div class="product-image" style="background-image: url('../../../assets/products/{{product.imageUrl}}')">
+<div class="container mb-3">
+  <div class="card">
+    <div class="imgBx">
+      <img src="../../../assets/products/{{product.imageUrl}}" alt="nike-air-shoe">
+    </div>
+    <div class="contentBx">
+      <h2>{{product.name}}</h2>
+      <h4 class="fw-bold text-white">{{categoryString}}</h4>
+      <div class="size">
+        <h3>Size :</h3>
+        <ul class="list-inline" >
+          <li  class="list-inline-item" *ngFor="let size of product.sizes; let i = index" [value]="size" >
+            <a (click)="onSelectedAttribute(size,'size')">
+              <span [ngStyle]="{'background-color': activeSize === size ? 'green' : 'white' }">{{size}}</span>
+            </a>
+          </li>
+        </ul>
       </div>
-      <div class="product-info">
-        <h2 class="mb-0">{{product.name}}</h2>
-        <h3 class="fw-bold">{{categoryString}}</h3>
-
-        <p class="font-italic mb-3">{{product.description}}</p>
-        <div class="price">${{product.price}}</div>
+      <div class="color">
+        <h3>Color :</h3>
+        <ul class="list-inline" >
+          <li  class="list-inline-item" *ngFor="let color of product.colors; let i = index" [value]="color" >
+            <a (click)="onSelectedAttribute(color['name'], 'color')" >
+              <span [ngStyle]="{'background': color['code'], 'border': activeColor ===  color['name'] ? '3px solid white' : 'none' }" ></span>
+            </a>
+          </li>
+        </ul>
       </div>
-      <div class="row d-flex flex-row" >
-        <select style="border-radius: 0.2rem;cursor:pointer;width: 30%;
-    margin: 0 auto; font-size:15px" class=" form-select form-select-lg mb-3 mt-3 text-center" aria-label=".form-select-lg example"  (change)="onChangedAttribute( $event)"
-        >
-          <option selected>Size</option>
-          <option  *ngFor="let size of product.sizes"  [value]="size" >{{size}}</option>
-        </select>
+      <div class="price">
+        <h3>${{product.price}}</h3>
       </div>
-       <button class="buy-btn" id="{{product.id}}" (click)="addProductToCart(product)" >
-         Buy Now
-       </button>
-    </section>
+      <div class="buyNow">
+        <a id="{{product.id}}" (click)="addProductToCart(product)">Buy Now</a>
+      </div>
+    </div>
   </div>
-
-
-<!--               (click)="onCartUpdated($event)"-->
+</div>

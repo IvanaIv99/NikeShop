@@ -23,7 +23,7 @@
 
 .search > h1,
 .search > h3 {
-  color: black;
+  color: white;
   margin-bottom: 15px;
 }
 
@@ -34,7 +34,7 @@
 
 .search > div:after {
   content: "";
-  background: black;
+  background: white;
   width: 4px;
   height: 20px;
   position: absolute;
@@ -44,20 +44,20 @@
 }
 
 .search > div > input {
-  color: black;
+  color: white;
   font-size: 16px;
   background: transparent;
   width: 25px;
   height: 25px;
   padding: 15px;
-  border: solid 3px black;
+  border: solid 3px white;
   outline: none;
   border-radius: 35px;
   transition: width 0.5s;
 }
 
 .search > div > input::placeholder {
-  color: black;
+  color: white;
   opacity: 0;
   transition: opacity 150ms ease-out;
 }
@@ -69,16 +69,4 @@
 .search > div > input:focus,
 .search > div > input:not(:placeholder-shown) {
   width: 250px;
-}
-
-
-
-@media screen and (max-width: 800px) {
-
-.container {
-padding: 2rem 0;
-width: 100%;
-grid-template-columns: 25% 25% ;
-grid-gap: 10px;
-}
 }

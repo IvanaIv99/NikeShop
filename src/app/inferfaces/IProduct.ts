@@ -1,4 +1,5 @@
 import {Categories} from "./ICategories";
+import {Colors} from "./IColors";
 
 export interface Product {
   id: number;
@@ -8,5 +9,6 @@ export interface Product {
   price: number;
   imageUrl: string;
   sizes: number[];
+  colors: Colors[]
 
 }

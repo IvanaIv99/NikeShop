@@ -8,10 +8,13 @@ import {Product} from "../../inferfaces/IProduct";
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent  implements OnInit {
-
   @Input() product: Product;
   @Input() categoryString: string;
   @Output() productAdded = new EventEmitter();
+
+  public activeSize: number;
+  public activeColor: string;
+
   constructor(
     private productService: ProductService
   ) {
@@ -23,9 +26,17 @@ export class ProductComponent  implements OnInit {
 
   addProductToCart(product) {
     this.productService.addProductToCart(product, this.productAdded);
-    alert("Product added to cart.");
   }
-  onChangedAttribute(value) {
-    this.productService.onChangedAttribute(value, this.product);
+
+  public onSelectedAttribute(value: any, attribute: string ): void {
+    this.productService.onSelectedAttribute(value, attribute, this.product);
+    this.setActiveAttribute(value, attribute);
+
   }
+
+  public setActiveAttribute(value: any, attribute: string){
+    if(attribute == 'size') this.activeSize = value;
+    if(attribute == 'color') this.activeColor = value;
+  }
+
 }

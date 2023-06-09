@@ -11,8 +11,9 @@ export class ProductService {
   addProductToCart(product, event) {
     event.emit(product);
   }
-  onChangedAttribute(value, product) {
-    product.selectedSize = value.target.value;
+  onSelectedAttribute(value, attribute, product) {
+    if(attribute == 'size')  product.selectedSize = value;
+    if(attribute == 'color')  product.selectedColor = value;
   }
 
   getProducts(){

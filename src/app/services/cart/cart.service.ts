@@ -23,7 +23,7 @@ export class CartService {
     if (!productExistInCart) {
       this.addToCartIfNotExist(item);
     }else{
-      if(productExistInCart.size === item.size){
+      if(productExistInCart.size === item.size && productExistInCart.color === item.color){
         this.items.map(item => {
           if(item.id == productExistInCart.id){
             item.quantity++;
@@ -35,6 +35,8 @@ export class CartService {
       }
     }
     this.saveCart();
+    alert("Product added to cart.");
+
   }
 
   addToCartIfNotExist(item : CartItem){

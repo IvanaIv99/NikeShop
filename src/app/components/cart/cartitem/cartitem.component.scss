@@ -1,8 +1,6 @@
 .cart-item-wrapper {
-    /*border: 1px solid limegreen;*/
     display: flex;
     justify-content: space-between;
-
 }
 
 input {
@@ -17,6 +15,7 @@ input {
 }
 
  td {
+   color:white;
   font-size: 17px ;
 }
 .deleteProduct{

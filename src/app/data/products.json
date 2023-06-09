@@ -11,7 +11,29 @@
     ],
     "imageUrl": "IMG_999.png",
     "description": "The 10: Air Jordan 1 off-white - Chicago",
-    "sizes": [37,38,39,40,41]
+    "sizes": [37,38,39,40,41],
+    "colors": [
+      {
+        "id": 1,
+        "name": "red",
+        "code" : "#B90000"
+      },
+      {
+        "id": 2,
+        "name": "blue",
+        "code" : "#0079FF"
+      },
+      {
+        "id": 3,
+        "name": "green",
+        "code" : "#1B9C85"
+      },
+      {
+        "id": 4,
+        "name": "black",
+        "code" : "#000000"
+      }
+    ]
   },
   {
     "id": 2,
@@ -29,7 +51,24 @@
     ],
     "imageUrl": "IMG_4767.png",
     "description": "Nike Dunk Low 1",
-    "sizes": [37,38,39,40,41]
+    "sizes": [37,38,39,40,41],
+    "colors": [
+      {
+        "id": 2,
+        "name": "blue",
+        "code" : "#0079FF"
+      },
+      {
+        "id": 3,
+        "name": "green",
+        "code" : "#1B9C85"
+      },
+      {
+        "id": 7,
+        "name": "orange",
+        "code" : "#FC4F00"
+      }
+    ]
   },
   {
     "id": 3,
@@ -43,7 +82,19 @@
     ],
     "imageUrl": "IMG_4770.png",
     "description": "The top 10: Dunk 1 off-white - Chicago",
-    "sizes": [37,38,39,40,41]
+    "sizes": [37,38,39,40,41],
+    "colors": [
+      {
+        "id": 1,
+        "name": "red",
+        "code" : "#B90000"
+      },
+      {
+        "id": 7,
+        "name": "orange",
+        "code" : "#FC4F00"
+      }
+    ]
   },
   {
     "id": 4,
@@ -57,7 +108,19 @@
     ],
     "imageUrl": "IMG_123.png",
     "description": "Air Force 1 Retro High 'Off-White - UNC' sneakers",
-    "sizes": [32,33,34,35]
+    "sizes": [32,33,34,35],
+    "colors": [
+      {
+        "id": 4,
+        "name": "black",
+        "code" : "#000000"
+      },
+      {
+        "id": 6,
+        "name": "white",
+        "code" : "#111111"
+      }
+    ]
   },
   {
     "id": 5,
@@ -71,7 +134,19 @@
     ],
     "imageUrl": "transparent.png",
     "description": "The top 10: Air Jordan 1 off-white - Chicago",
-    "sizes": [37,38,39,40,41]
+    "sizes": [37,38,39,40,41],
+    "colors": [
+      {
+        "id": 1,
+        "name": "red",
+        "code" : "#B90000"
+      },
+      {
+        "id": 4,
+        "name": "black",
+        "code" : "#000000"
+      }
+    ]
   },
   {
     "id": 6,
@@ -85,6 +160,23 @@
     ],
     "imageUrl": "IMG_456.png",
     "description": "Air force 1 Retro COLORS 'Off-White - UNC' sneakers",
-    "sizes": [37,38,39,40,41]
+    "sizes": [37,38,39,40,41],
+    "colors": [
+      {
+        "id": 1,
+        "name": "red",
+        "code" : "#B90000"
+      },
+      {
+        "id": 2,
+        "name": "blue",
+        "code" : "#0079FF"
+      },
+      {
+        "id": 5,
+        "name": "pink",
+        "code" : "#FFAAC9"
+      }
+    ]
   }
 ]

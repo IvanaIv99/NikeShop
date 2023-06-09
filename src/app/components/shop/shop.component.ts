@@ -33,9 +33,18 @@ export class ShopComponent implements OnInit {
       price: product.price,
       total: product.price,
       size: product.selectedSize,
+      color: product.selectedColor
     };
 
-    item.size ? this.cartService.addProductToCart(item) : alert('Shoe size is required.')
+    if( !item.size ){
+      alert('Color is required.')
+    } else if(!item.color){
+      alert('Shoe size and color is required.')
+    }else{
+      this.cartService.addProductToCart(item);
+    }
+
+
   }
 
 

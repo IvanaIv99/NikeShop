@@ -2,8 +2,20 @@
   list-style-type: none;
 }
 
-.jumbo {
-  font-family: 'Pacifico', cursive;
+.title {
+  font-family: 'Pacifico', cursive !important;
+  font-size: 80px;
+  line-height: 0px;
+}
+
+.subtitle{
+  text-transform: uppercase;
+  margin-top: 4%;
+  font-size: 20px;
+}
+
+.center{
+  margin-top: 5%; margin-bottom: 5%;
 }
 
 .spacer {
