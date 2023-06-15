@@ -24,6 +24,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {MatSelectModule} from "@angular/material/select";
 import { FooterComponent } from './components/footer/footer.component';
 import {NgForOf} from "@angular/common";
+import {OrderComponent} from "./order/order.component";
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import {NgForOf} from "@angular/common";
     ProductListComponent,
     ProductPipe,
     FooterComponent,
+    OrderComponent
   ],
   imports: [
     BrowserModule,
