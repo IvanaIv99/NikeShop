@@ -1,0 +1,93 @@
+h2{
+  font-size: 30px;
+  margin-bottom: 5%;
+}
+
+#orderForm{
+  width: 50%;
+  mat-form-field{
+    width: 100%;
+  }
+
+  //input[type="text"], input[type="tel"], input[type="email"], select
+  //{
+  //  width: 70%;
+  //  height: 30px;
+  //  padding: 5px 10px;
+  //  margin-bottom: 10px;
+  //  border: 1px solid #dadada;
+  //  color: #888;
+  //}
+}
+
+#yorder{
+  width: 50%;
+  margin-left: 3%;
+
+  .yander-content{
+    width: 100%;
+  }
+
+  div{
+    padding: 15px 0;
+  }
+
+  table{
+    margin: 0;
+    padding: 0;
+  }
+  th{
+    border-bottom: 1px solid #dadada;
+    padding: 10px 0;
+  }
+  tr>td:nth-child(1){
+    text-align: left;
+    color: #ffffff;
+  }
+  tr>td:nth-child(2){
+    text-align: right;
+    color: #ffffff;
+  }
+  td{
+    border-bottom: 1px solid #dadada;
+    padding: 25px 25px 25px 0;
+  }
+
+  p{
+    display: block;
+    color: #ffffff;
+    margin: 0;
+    padding-left: 25px;
+  }
+
+  button{
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 30px;
+    background: #52ad9c;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+  }
+  button:hover{
+    cursor: pointer;
+    background: #428a7d;
+  }
+}
+
+div.input-container {
+  width: 100%;
+  margin: 25px 0px;
+  padding-top: 10px
+}
+
+.inputLabel {
+  /*color: #CCC;*/
+  cursor: pointer;
+  transform: translate(10px, -40px);
+  transition: transform 0.3s ease;
+  color: #707070;
+}
+
