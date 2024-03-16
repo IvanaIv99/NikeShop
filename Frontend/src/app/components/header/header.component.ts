@@ -1,6 +1,7 @@
 import {Component, ElementRef, QueryList, ViewChildren} from '@angular/core';
 import {AppComponent} from "../../app.component";
 import {CartService} from "../../services/cart/cart.service";
+import {AuthService} from "../../services/auth/auth.service";
 
 @Component({
   selector: 'app-header',
@@ -10,9 +11,10 @@ import {CartService} from "../../services/cart/cart.service";
 
 export class HeaderComponent extends AppComponent{
   constructor(
-    private cartService: CartService
+    private cartService: CartService,
+    public authService: AuthService
   ) {
-    super();
+      super();
   }
 
   countCart: any = this.cartService.count;

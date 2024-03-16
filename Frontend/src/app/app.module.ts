@@ -26,6 +26,11 @@ import { FooterComponent } from './components/footer/footer.component';
 import {NgForOf} from "@angular/common";
 import {OrderComponent} from "./components/order/order.component";
 import {MatFormFieldModule} from "@angular/material/form-field";
+import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './components/login/login.component';
+import { AdminDashboardComponent } from './components/admin/admin.component'
+import {MatTabsModule} from "@angular/material/tabs";
+import { DashboardComponent } from './components/admin/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +43,10 @@ import {MatFormFieldModule} from "@angular/material/form-field";
     ProductListComponent,
     ProductPipe,
     FooterComponent,
-    OrderComponent
+    OrderComponent,
+    LoginComponent,
+    AdminDashboardComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +67,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
     FontAwesomeModule,
     MatSelectModule,
     NgForOf,
-
+    HttpClientModule,
+    MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

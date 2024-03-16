@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::prefix('api')->group(function () {
+
+    //Product
+    Route::prefix('products')->group(function () {
+        Route::get('/getAll', [ProductController::class, 'getAll']);
+    });
+
+    Route::post('/auth/login', [AuthController::class, 'login']);
+
+    Route::post('/auth/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 });

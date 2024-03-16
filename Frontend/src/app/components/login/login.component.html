@@ -1,0 +1,28 @@
+<div class="form-container container mt-3 mb-5">
+  <div class="">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="d-flex flex-column align-items-center">
+      <div class="title mb-2">
+        <h2>ADMIN PORTAL</h2>
+      </div>
+      <div id="loginForm" >
+        <div class="row flex-column align-items-center">
+          <div class="col-6">
+            <mat-form-field color="accent">
+              <mat-label>Enter your email</mat-label>
+              <input matInput placeholder="pat@example.com" [formControl]="loginForm.controls.email">
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field color="accent">
+              <mat-label>Password</mat-label>
+              <input matInput type="password" [formControl]="loginForm.controls.password">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary" type="submit">Login</button>
+    </form>
+  </div>
+</div>
+
+

@@ -1,6 +1,7 @@
 import {Component, OnInit, EventEmitter, Output, Input} from '@angular/core';
 import {ProductService} from "../../services/product/product.service";
 import {Product} from "../../inferfaces/IProduct";
+import {ProductModel} from "../../models/product.model";
 
 @Component({
   selector: 'app-product',
@@ -8,7 +9,7 @@ import {Product} from "../../inferfaces/IProduct";
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent  implements OnInit {
-  @Input() product: Product;
+  @Input() product: ProductModel;
   @Input() categoryString: string;
   @Output() productAdded = new EventEmitter();
 
@@ -21,10 +22,9 @@ export class ProductComponent  implements OnInit {
   }
 
   ngOnInit(): void {
-    this.categoryString = this.product.categories.map(x => x.name).join(" | ");
   }
 
-  addProductToCart(product) {
+  addProductToCart(product: ProductModel) {
     this.productService.addProductToCart(product, this.productAdded);
   }
 

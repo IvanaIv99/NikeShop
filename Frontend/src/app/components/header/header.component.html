@@ -1,15 +1,23 @@
- <mat-toolbar class="transparent">
+<mat-toolbar class="transparent" *ngIf="!authService.isLoggedIn">
   <button mat-icon-button aria-label="Home button" routerLink="/">
     <mat-icon [ngStyle]="{color:'white'}" >home</mat-icon>
   </button>
   <span class="spacer"></span>
+   <button routerLink="admin/login" mat-icon-button class="button fancy-button">
+     <mat-icon>account_circle</mat-icon>
+   </button>
   <button routerLink="/cart" mat-icon-button aria-label="Checkout button" class="button fancy-button" >
     <mat-icon [ngStyle]="{color:'white'}">shopping_cart</mat-icon>
     <span class="count">{{countCart}}</span>
   </button>
 </mat-toolbar>
 
+<mat-toolbar class="transparent" *ngIf="authService.isLoggedIn">
+    <span class="spacer"></span>
+    <button mat-button  color="accent" > Logout </button>
+</mat-toolbar>
+
 <div class="text-center center">
   <h1 class="title">{{ title }}</h1>
-  <h2 class="subtitle" >{{ subtitle }}</h2>
+  <h2 class="subtitle" >{{ authService.isLoggedIn() ? subtitleAdmin : subtitle }}</h2>
 </div>

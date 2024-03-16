@@ -3,6 +3,8 @@ import { CartItem } from '../../inferfaces/ICartItem';
 import {Product} from "../../inferfaces/IProduct";
 import {CartService} from "../../services/cart/cart.service";
 import {ProductService} from "../../services/product/product.service";
+import {ProductModel} from "../../models/product.model";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-shop',
@@ -11,7 +13,7 @@ import {ProductService} from "../../services/product/product.service";
 })
 export class ShopComponent implements OnInit {
 
-  productList : Product[];
+  products: any;
 
   constructor(
     public productService: ProductService,
@@ -21,7 +23,8 @@ export class ShopComponent implements OnInit {
 
   ngOnInit() {
     this.cartService.updateCartTotal();
-    this.productList = this.productService.getProducts();
+
+    this.getProducts();
   }
 
   addProductToCart(product) {
@@ -44,8 +47,15 @@ export class ShopComponent implements OnInit {
       this.cartService.addProductToCart(item);
     }
 
+  }
+  private getProducts(): any
+  {
+    this.productService.getProductsList().subscribe({
+      next: (data) => {
+        this.products = data[0];
+      },
+      error: (e) => console.error(e)
+    });
 
   }
-
-
 }

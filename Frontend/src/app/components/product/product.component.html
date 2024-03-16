@@ -2,7 +2,7 @@
 <div class="container mb-3">
   <div class="card">
     <div class="imgBx">
-      <img src="../../../assets/products/{{product.imageUrl}}" alt="nike-air-shoe">
+      <img src="../../../assets/products/{{product.image}}" alt="nike-air-shoe">
     </div>
     <div class="contentBx">
       <h2>{{product.name}}</h2>
@@ -11,8 +11,8 @@
         <h3>Size :</h3>
         <ul class="list-inline" >
           <li  class="list-inline-item" *ngFor="let size of product.sizes; let i = index" [value]="size" >
-            <a (click)="onSelectedAttribute(size,'size')">
-              <span [ngStyle]="{'background-color': activeSize === size ? 'green' : 'white' }">{{size}}</span>
+            <a (click)="onSelectedAttribute(size.size,'size')">
+              <span [ngStyle]="{'background-color': activeSize === size.size ? 'green' : 'white' }">{{size.size}}</span>
             </a>
           </li>
         </ul>
