@@ -1,0 +1,29 @@
+
+<th scope="row">{{index + 1}}</th>
+<td><img style="width: 70px" src="../../../../assets/products/{{productItem.image}}" alt="nike-air-shoe"></td>
+<td>{{productItem.name}}</td>
+<td>
+    <span *ngFor="let size of this.productItem.sizes">{{size.size}},</span>
+</td>
+<td>
+    <span *ngFor="let category of this.productItem.categories">{{category.name}},</span>
+</td>
+<td>
+    <span *ngFor="let color of this.productItem.colors">{{color.name}},</span>
+</td>
+<td>{{productItem.price}}$</td>
+<td>{{productItem.created_at}}</td>
+<td>
+    <button type="button"
+            class="btn btn-primary editProduct"
+            aria-label="Left Align"
+            style="margin-right: 5px"
+            routerLink="edit/{{productItem.id}}"
+    > Edit
+    </button>
+    <button type="button"
+            class="btn btn-danger deleteProduct"
+            aria-label="Left Align"
+    > Delete
+    </button>
+</td>

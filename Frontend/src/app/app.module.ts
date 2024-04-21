@@ -31,6 +31,14 @@ import { LoginComponent } from './components/login/login.component';
 import { AdminDashboardComponent } from './components/admin/admin.component'
 import {MatTabsModule} from "@angular/material/tabs";
 import { DashboardComponent } from './components/admin/dashboard/dashboard.component';
+import {MatGridListModule} from "@angular/material/grid-list";
+import { OrdersComponent } from './components/admin/orders/orders.component';
+import { ListProductsComponent } from './components/admin/products/list-products/list-products.component';
+// @ts-ignore
+import { ProductItemComponent } from "./components/admin/products/product-item/product-item.component";
+import {MatMenuModule} from "@angular/material/menu";
+import {DataTablesModule} from "angular-datatables";
+import { AddEditProductComponent } from './components/admin/products/add-edit-product/add-edit-product.component';
 
 @NgModule({
   declarations: [
@@ -46,30 +54,37 @@ import { DashboardComponent } from './components/admin/dashboard/dashboard.compo
     OrderComponent,
     LoginComponent,
     AdminDashboardComponent,
-    DashboardComponent
+    DashboardComponent,
+    OrdersComponent,
+    ListProductsComponent,
+    ProductItemComponent,
+    AddEditProductComponent
   ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatFormFieldModule,
-    MatListModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    NgbModule,
-    MatTableModule,
-    MatInputModule,
-    FontAwesomeModule,
-    MatSelectModule,
-    NgForOf,
-    HttpClientModule,
-    MatTabsModule
-  ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        ReactiveFormsModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MatSidenavModule,
+        MatFormFieldModule,
+        MatListModule,
+        MatButtonModule,
+        MatIconModule,
+        MatCardModule,
+        NgbModule,
+        MatTableModule,
+        MatInputModule,
+        FontAwesomeModule,
+        MatSelectModule,
+        NgForOf,
+        HttpClientModule,
+        MatTabsModule,
+        MatGridListModule,
+        MatMenuModule,
+        DataTablesModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

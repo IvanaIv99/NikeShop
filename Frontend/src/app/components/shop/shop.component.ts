@@ -50,12 +50,12 @@ export class ShopComponent implements OnInit {
   }
   private getProducts(): any
   {
-    this.productService.getProductsList().subscribe({
+    this.productService.getProducts().subscribe({
       next: (data) => {
         this.products = data[0];
       },
       error: (e) => console.error(e)
     });
-
   }
+
 }

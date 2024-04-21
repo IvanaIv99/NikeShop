@@ -8,6 +8,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @mixin IdeHelperProduct
+ */
 class Product extends Model
 {
     protected $table = 'products';
@@ -17,16 +20,16 @@ class Product extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'product_categories', 'product_id', 'category_id');
+        return $this->belongsToMany(Category::class, 'products_categories', 'product_id', 'category_id');
     }
 
     public function sizes()
     {
-        return $this->belongsToMany(Size::class, 'product_sizes', 'product_id', 'size_id');
+        return $this->belongsToMany(Size::class, 'products_sizes', 'product_id', 'size_id');
     }
 
     public function colors()
     {
-        return $this->belongsToMany(Color::class, 'product_colors', 'product_id', 'color_id');
+        return $this->belongsToMany(Color::class, 'products_colors', 'product_id', 'color_id');
     }
 }

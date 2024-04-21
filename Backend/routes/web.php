@@ -19,7 +19,12 @@ Route::prefix('api')->group(function () {
 
     //Product
     Route::prefix('products')->group(function () {
-        Route::get('/getAll', [ProductController::class, 'getAll']);
+        Route::get('/', [ProductController::class, 'get']);
+        Route::get('/sizes', [ProductController::class, 'getSizes']);
+        Route::get('/categories', [ProductController::class, 'getCategories']);
+        Route::get('/colors', [ProductController::class, 'getColors']);
+        Route::post('/create', [ProductController::class, 'create']);
+        Route::post('/edit/{product}', [ProductController::class, 'edit']);
     });
 
     Route::post('/auth/login', [AuthController::class, 'login']);

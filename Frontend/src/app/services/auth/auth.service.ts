@@ -25,7 +25,6 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     //TODO: Check token expiry and other security checks
-      console.log(localStorage.getItem('access_token'));
     return (localStorage.getItem('access_token') !== null);
   }
 }

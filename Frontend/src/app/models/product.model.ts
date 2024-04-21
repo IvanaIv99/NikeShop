@@ -10,5 +10,6 @@ export class ProductModel {
   price: number;
   image: string;
   sizes: SizeModel[];
-  colors: ColorModel[]
+  colors: ColorModel[];
+  created_at: number;
 }

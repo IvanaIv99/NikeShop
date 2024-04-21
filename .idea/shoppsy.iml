@@ -5,13 +5,19 @@
       <sourceFolder url="file://$MODULE_DIR$/Backend/app" isTestSource="false" packagePrefix="App\" />
       <sourceFolder url="file://$MODULE_DIR$/Backend/database/factories" isTestSource="false" packagePrefix="Database\Factories\" />
       <sourceFolder url="file://$MODULE_DIR$/Backend/database/seeders" isTestSource="false" packagePrefix="Database\Seeders\" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/Backend/tests" isTestSource="true" packagePrefix="Tests\" />
+      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/dist" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/barryvdh/laravel-ide-helper" />
+      <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/barryvdh/reflection-docblock" />
       <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/brick/math" />
       <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/carbonphp/carbon-doctrine-types" />
       <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/dflydev/dot-access-data" />
+      <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/doctrine/deprecations" />
       <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/doctrine/inflector" />
       <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/doctrine/lexer" />
       <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/dragonmantank/cron-expression" />
@@ -48,7 +54,10 @@
       <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/nunomaduro/termwind" />
       <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/phar-io/manifest" />
       <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/phar-io/version" />
+      <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/phpdocumentor/reflection-common" />
+      <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/phpdocumentor/type-resolver" />
       <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/phpoption/phpoption" />
+      <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/phpstan/phpdoc-parser" />
       <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/phpunit/php-code-coverage" />
       <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/phpunit/php-file-iterator" />
       <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/phpunit/php-invoker" />

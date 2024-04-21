@@ -1,0 +1,64 @@
+<div class="form-container container mb-5">
+    <div class="">
+        <form [formGroup]="form" (ngSubmit)="onSubmit(this.id)" class="d-flex flex-column align-items-center">
+                <h1>{{title}}</h1>
+            <div id="addProductForm" >
+                <div class="row">
+                    <div class="col-6">
+                        <mat-form-field color="accent" class="full-width" appearance="fill">
+                            <mat-label>Name</mat-label>
+                            <input matInput formControlName="name">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field color="accent">
+                            <mat-label>Description</mat-label>
+                            <input matInput formControlName="description">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <mat-form-field color="accent">
+                            <mat-label>Price</mat-label>
+                            <input matInput placeholder="$" formControlName="price">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <!--                        <input  type="file" formControlName="image" (change)="uploadImage($event)">-->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <mat-form-field color="accent">
+                            <mat-label>Categories</mat-label>
+                            <mat-select formControlName="categories">
+                                <mat-option *ngFor="let category of this.categoriesList" [value]="category.id" >{{category.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field color="accent">
+                            <mat-label>Colors</mat-label>
+                            <mat-select formControlName="colors" >
+                                <mat-option *ngFor="let color of this.colorsList" [value]="color.id">{{color.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-6">
+                        <mat-form-field color="accent">
+                            <mat-label>Sizes</mat-label>
+                            <mat-select formControlName="sizes" >
+                                <mat-option *ngFor="let size of this.sizesList" [value]="size.id">{{size.size}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+                <button class="btn btn-primary" type="submit">Submit</button>
+
+            </div>
+        </form>
+    </div>
+</div>
