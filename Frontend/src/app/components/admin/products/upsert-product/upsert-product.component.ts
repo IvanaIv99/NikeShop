@@ -2,14 +2,16 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ProductService} from "../../../../services/product/product.service";
-import {first} from "rxjs";
+import {first, Observable} from "rxjs";
+import {SnackbarService} from "../../../../services/common/snackbar/SnackbarService";
+import {ProductModel} from "../../../../models/product.model";
 
 @Component({
   selector: 'app-add-edit-product',
-  templateUrl: './add-edit-product.component.html',
-  styleUrls: ['./add-edit-product.component.scss']
+  templateUrl: './upsert-product.component.html',
+  styleUrls: ['./upsert-product.component.scss']
 })
-export class AddEditProductComponent implements OnInit {
+export class UpsertProductComponent implements OnInit {
 
   form!: FormGroup;
   id?: string;
@@ -17,6 +19,8 @@ export class AddEditProductComponent implements OnInit {
   submitting = false;
   submitted = false;
   title!: string;
+  fileName: any;
+  image:any;
 
   categoriesList: any;
   sizesList: any;
@@ -27,30 +31,20 @@ export class AddEditProductComponent implements OnInit {
       private route: ActivatedRoute,
       private router: Router,
       private productService: ProductService,
+      private snackbarService: SnackbarService
   ) {}
 
   ngOnInit() {
-    this.id = this.route.snapshot.params['id'];
-
-    this.form = this.formBuilder.group({
-      name: [''],
-      description: [''],
-      // image: new FormControl('', [Validators.required]),
-      price: [''],
-      categories: [''],
-      colors: [''],
-      sizes: [''],
-    });
-
     this.getSizes();
     this.getCategories();
     this.getColors();
+    this.form = this.createForm();
 
-    this.title = 'Add Product';
+    this.id = this.route.snapshot.params['id'];
+    this.title = this.id ? 'Edit Product' : 'Add Product';
+
     if (this.id) {
-      // edit mode
-      this.title = 'Edit Product';
-      this.loading = true;
+     this.loading = true;
       this.productService.getProducts(this.id)
           .pipe(first())
           .subscribe(product => {
@@ -62,50 +56,45 @@ export class AddEditProductComponent implements OnInit {
               colors: product[0].colors.map(color => color['pivot']['color_id']),
               sizes: product[0].sizes.map(size => size['pivot']['size_id'])
             });
+
             this.loading = false;
           });
-
     }
   }
 
-  // convenience getter for easy access to form fields
-  get f() { return this.form.controls; }
-
   onSubmit(productId?: any) {
     this.submitted = true;
-
-    // reset alerts on submit
-    // this.alertService.clear();
-
-    // stop here if form is invalid
     if (this.form.invalid) {
       return;
     }
 
     this.submitting = true;
+
     this.saveProduct(productId)
         .pipe(first())
         .subscribe({
           next: () => {
-            // this.alertService.success('User saved', { keepAfterRouteChange: true });
-            // this.router.navigateByUrl('/prod');
+            this.snackbarService.showSuccess('Saved.');
           },
           error: error => {
-            // this.alertService.error(error);
+            this.snackbarService.showError(error);
             this.submitting = false;
           }
         })
   }
-  private saveProduct(productId?: any) {
-    // create or update user based on id param
-    // console.log(this.form.value);
-    // return this.id
-    //     ? this.prod.update(this.id!, this.form.value)
-    //     : this.accountService.register(this.form.value);
-    if(productId){
-      return this.productService.updateProduct(this.form.value, productId);
-    }
-    return this.productService.addProduct(this.form.value);
+  private saveProduct(productId?: any): Observable<ProductModel> {
+    const formData = new FormData();
+    formData.append('name', this.form.value['name'])
+    formData.append('description', this.form.value['description'])
+    formData.append('price', this.form.value['price'])
+    formData.append('image', this.image, this.image.name)
+    formData.append('categories', this.form.value['categories'])
+    formData.append('colors', this.form.value['colors'])
+    formData.append('sizes', this.form.value['sizes'])
+
+    return productId ?
+      this.productService.updateProduct(formData, productId) :
+      this.productService.addProduct(formData);
   }
 
   private getSizes(): any
@@ -138,4 +127,21 @@ export class AddEditProductComponent implements OnInit {
     });
   }
 
+  onFileSelected(event) {
+    this.image = event.target.files[0];
+    this.fileName = event.target.files[0].name;
+  }
+
+  private createForm(){
+    return this.formBuilder.group({
+      name: [null],
+      description: [null],
+      price: [null],
+      image: [null],
+      categories: [null],
+      colors: [null],
+      // sizes: [null, Validators.required]
+      sizes: [null]
+    });
+  }
 }

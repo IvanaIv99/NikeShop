@@ -60,19 +60,14 @@ export class ProductService {
   }
 
   addProduct(data: any){
-
-    // const httpOptions = {
-    //   headers: new HttpHeaders({
-    //     "Content-Type": "multipart/form-data",
-    //     'Accept': 'application/json',
-    //     'Type': 'formData'
-    //   })
-    // };
-
-    return this.httpClient.post<any>(`${environment.apiUrl}/products/create`, data)
+    return this.httpClient.post<ProductModel>(`${environment.apiUrl}/products/create`, data)
   }
 
   updateProduct(data: any, productId: any){
-    return this.httpClient.post<any>(`${environment.apiUrl}/products/edit/${productId}`, data)
+    return this.httpClient.post<ProductModel>(`${environment.apiUrl}/products/edit/${productId}`, data)
+  }
+
+  deleteProduct(productId: any){
+    return this.httpClient.delete<ProductModel>(`${environment.apiUrl}/products/delete/${productId}`)
   }
 }

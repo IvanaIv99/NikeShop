@@ -1,9 +1,84 @@
-<mat-toolbar class="d-flex flex-row justify-content-center">
-    <mat-toolbar-row class="menu-item">
-            <button routerLink="products">Products</button>
-    </mat-toolbar-row>
+<div class="wrapper container">
 
-    <mat-toolbar-row class="menu-item">
-        <span>Second Row</span>
-    </mat-toolbar-row>
-</mat-toolbar>
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 class="heading">Admin Dashboard Stat</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+      <a class="dashboard-stat red" href="#">
+        <div class="visual">
+          <i class="fa fa-usd"></i>
+        </div>
+        <div class="details">
+          <div class="number">
+            <span>312</span>
+          </div>
+          <div class="desc">Products</div>
+        </div>
+      </a>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+      <a class="dashboard-stat blue" href="#">
+        <div class="visual">
+          <i class="fa fa-bar-chart-o"></i>
+        </div>
+        <div class="details">
+          <div class="number">
+            <span>12.5</span>
+          </div>
+          <div class="desc">Orders</div>
+        </div>
+      </a>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+      <a class="dashboard-stat hoki" href="#">
+        <div class="visual">
+          <i class="fa fa-credit-card"></i>
+        </div>
+        <div class="details">
+          <div class="number">
+            <span>323$</span>
+          </div>
+          <div class="desc">Profit</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 class="heading">Admin Dashboard View</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+      <a class="dashboard-stat dark" href="#" routerLink="products">
+        <div class="visual">
+          <i class="fa fa-usd"></i>
+        </div>
+        <div class="details">
+          <div class="number">
+            <span>Products</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dark" href="#">
+          <div class="visual">
+            <i class="fa fa-usd"></i>
+          </div>
+          <div class="details">
+            <div class="number">
+              <span>Orders</span>
+            </div>
+          </div>
+        </a>
+    </div>
+
+  </div>
+
+</div>

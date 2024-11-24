@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import {environment} from "../../../environment/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -11,20 +12,23 @@ export class AuthService {
 
   constructor(private http: HttpClient,public router: Router) { }
 
-  getToken() {
-    return localStorage.getItem('access_token');
-  }
-
   logout() {
-    let removeToken = localStorage.removeItem('access_token');
 
+    this.http.post(`${environment.apiUrl}/auth/logout`, [])
+      .subscribe({
+        next: (response) => {
+        },
+        error: (e) => console.error(e)
+      });
+
+    let removeToken = localStorage.removeItem('currentUser');
     if (removeToken == null) {
-      this.router.navigate(['login']);
+      this.router.navigate(['admin/login']);
     }
   }
 
   isLoggedIn(): boolean {
     //TODO: Check token expiry and other security checks
-    return (localStorage.getItem('access_token') !== null);
+   return localStorage.getItem('currentUser') !== null;
   }
 }

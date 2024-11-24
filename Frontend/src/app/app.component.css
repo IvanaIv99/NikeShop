@@ -1,0 +1,18 @@
+
+/* Success Snackbar Styling */
+.success-snackbar {
+  background-color: #4caf50; /* Green */
+  color: white;
+}
+
+/* Error Snackbar Styling */
+.error-snackbar {
+  background-color: #f44336; /* Red */
+  color: white;
+}
+
+/* Info Snackbar Styling */
+.info-snackbar {
+  background-color: #2196f3; /* Blue */
+  color: white;
+}

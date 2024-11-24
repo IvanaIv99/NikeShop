@@ -12,7 +12,7 @@ export class AppComponent {
   loadedFeature = 'recipe';
   title = 'NikeStore';
   subtitle = 'Which one do you want?';
-  subtitleAdmin = 'Admin Panel';
+  subtitleAdmin = 'Welcome to Admin Panel';
 
   constructor() { }
 

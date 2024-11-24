@@ -25,14 +25,19 @@
                         </mat-form-field>
                     </div>
                     <div class="col-6">
-                        <!--                        <input  type="file" formControlName="image" (change)="uploadImage($event)">-->
+                        <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+                        <div class="file-upload">
+                          {{ fileName || "No file uploaded yet."}}
+                          <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
+                          <mat-icon>attach_file</mat-icon></button>
+                        </div>
                     </div>
-                </div>
+                    </div>
                 <div class="row">
                     <div class="col-6">
                         <mat-form-field color="accent">
                             <mat-label>Categories</mat-label>
-                            <mat-select formControlName="categories">
+                            <mat-select formControlName="categories" multiple>
                                 <mat-option *ngFor="let category of this.categoriesList" [value]="category.id" >{{category.name}}</mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -40,7 +45,7 @@
                     <div class="col-6">
                         <mat-form-field color="accent">
                             <mat-label>Colors</mat-label>
-                            <mat-select formControlName="colors" >
+                            <mat-select formControlName="colors" multiple >
                                 <mat-option *ngFor="let color of this.colorsList" [value]="color.id">{{color.name}}</mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -49,7 +54,7 @@
                     <div class="col-6">
                         <mat-form-field color="accent">
                             <mat-label>Sizes</mat-label>
-                            <mat-select formControlName="sizes" >
+                            <mat-select formControlName="sizes" multiple >
                                 <mat-option *ngFor="let size of this.sizesList" [value]="size.id">{{size.size}}</mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -57,7 +62,7 @@
 
                 </div>
                 <button class="btn btn-primary" type="submit">Submit</button>
-
+              <button class="btn btn-danger m-2" type="button" routerLink="../../">Back</button>
             </div>
         </form>
     </div>

@@ -9,7 +9,7 @@ import {AuthService} from "../../services/auth/auth.service";
   styleUrls: ['./header.component.scss']
 })
 
-export class HeaderComponent extends AppComponent{
+export class HeaderComponent extends AppComponent {
   constructor(
     private cartService: CartService,
     public authService: AuthService
@@ -19,12 +19,15 @@ export class HeaderComponent extends AppComponent{
 
   countCart: any = this.cartService.count;
 
-
   ngOnInit(){
      this.cartService.countInCart().subscribe(count => {
         this.countCart = count
       }
     );
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
 }

@@ -25,9 +25,12 @@ Route::prefix('api')->group(function () {
         Route::get('/colors', [ProductController::class, 'getColors']);
         Route::post('/create', [ProductController::class, 'create']);
         Route::post('/edit/{product}', [ProductController::class, 'edit']);
+        Route::delete('/delete/{product}', [ProductController::class, 'delete']);
     });
 
-    Route::post('/auth/login', [AuthController::class, 'login']);
+    Route::post('/auth/login', [AuthController::class, 'login'])->name('login');
 
-    Route::post('/auth/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+    Route::middleware('auth:sanctum')->group(function (){
+        Route::post('/auth/logout', [AuthController::class, 'logout'])->name('logout');
+    });
 });

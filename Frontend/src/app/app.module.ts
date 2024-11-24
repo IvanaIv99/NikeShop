@@ -23,7 +23,7 @@ import {MatInputModule} from "@angular/material/input";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {MatSelectModule} from "@angular/material/select";
 import { FooterComponent } from './components/footer/footer.component';
-import {NgForOf} from "@angular/common";
+import {CommonModule, NgForOf} from "@angular/common";
 import {OrderComponent} from "./components/order/order.component";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import { HttpClientModule } from '@angular/common/http';
@@ -38,7 +38,9 @@ import { ListProductsComponent } from './components/admin/products/list-products
 import { ProductItemComponent } from "./components/admin/products/product-item/product-item.component";
 import {MatMenuModule} from "@angular/material/menu";
 import {DataTablesModule} from "angular-datatables";
-import { AddEditProductComponent } from './components/admin/products/add-edit-product/add-edit-product.component';
+import { UpsertProductComponent } from './components/admin/products/upsert-product/upsert-product.component';
+import {RouterModule} from "@angular/router";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -58,9 +60,11 @@ import { AddEditProductComponent } from './components/admin/products/add-edit-pr
     OrdersComponent,
     ListProductsComponent,
     ProductItemComponent,
-    AddEditProductComponent
+    UpsertProductComponent
   ],
     imports: [
+        CommonModule,
+        RouterModule,
         BrowserModule,
         FormsModule,
         ReactiveFormsModule,
@@ -83,8 +87,10 @@ import { AddEditProductComponent } from './components/admin/products/add-edit-pr
         MatTabsModule,
         MatGridListModule,
         MatMenuModule,
-        DataTablesModule
+        DataTablesModule,
+        MatSnackBarModule
     ],
+  exports: [RouterModule],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -21,8 +21,8 @@ export class LoginComponent {
   onSubmit() {
     this.http.post(`${environment.apiUrl}/auth/login`, this.loginForm.value)
       .subscribe({
-        next: (response) => {
-          localStorage.setItem('access_token', response['token']);
+        next: (user) => {
+          localStorage.setItem('currentUser', JSON.stringify(user));
         },
         error: (e) => console.error(e)
       });
