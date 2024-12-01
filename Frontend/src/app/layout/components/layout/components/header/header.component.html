@@ -1,0 +1,28 @@
+<mat-toolbar class="transparent" *ngIf="!authService.isLoggedIn()">
+  <!--<mat-toolbar class="transparent" *ngIf="authService.isLoggedIn">-->
+
+  <button mat-icon-button aria-label="Home button" routerLink="/" *ngIf="!isHome()" >
+    <mat-icon [ngStyle]="{color:'white'}" >home</mat-icon>
+  </button>
+
+  <button routerLink="login" mat-icon-button class="button fancy-button">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+
+  <span class="spacer"></span>
+
+  <button routerLink="/cart" mat-icon-button aria-label="Checkout button" class="button fancy-button" >
+    <mat-icon [ngStyle]="{color:'white'}">shopping_cart</mat-icon>
+    <span class="count">{{countCart}}</span>
+  </button>
+
+</mat-toolbar>
+
+<mat-toolbar class="transparent" *ngIf="authService.isLoggedIn()">
+  <span class="spacer"></span>
+  <button mat-button  color="accent" (click)="logout()"> Logout </button>
+</mat-toolbar>
+
+<div class="text-center center">
+  <h1 class="title"> NikeStore </h1>
+</div>

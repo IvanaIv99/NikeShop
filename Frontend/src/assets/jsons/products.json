@@ -1,0 +1,35 @@
+[
+    {
+        "id": 1,
+        "naziv": "Proizvod 1",
+        "cena": 100,
+        "kategorija": "Kategorija 1",
+        "tip": "Tip 1",
+        "kategorijaId": 1,
+        "tipId": 1,
+        "daLiJeAktivan": 0,
+        "opis": "Proizvod 1 opis..."
+    },
+    {
+        "id": 2,
+        "naziv": "Proizvod 2",
+        "cena": 70,
+        "kategorija": "Kategorija 2",
+        "tip": "Tip 2",
+        "kategorijaId": 2,
+        "tipId": 2,
+        "daLiJeAktivan": 1,
+        "opis": "Proizvod 2 opis..."
+    },
+    {
+        "id": 3,
+        "naziv": "Proizvod 3",
+        "cena": 156,
+        "kategorija": "Kategorija 2",
+        "tip": "Tip 1",
+        "kategorijaId": 2,
+        "tipId": 1,
+        "daLiJeAktivan": 1,
+        "opis": "Proizvod 3 opis..."
+    }
+]

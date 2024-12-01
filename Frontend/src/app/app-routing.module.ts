@@ -1,27 +1,45 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { ShopComponent } from './components/shop/shop.component';
-import {CartComponent} from "./components/cart/cart.component";
-import {OrderComponent} from "./components/order/order.component";
-import {LoginComponent} from "./components/login/login.component";
-import {AdminDashboardComponent} from "./components/admin/admin.component";
-import { ListProductsComponent} from "./components/admin/products/list-products/list-products.component";
-import {UpsertProductComponent} from "./components/admin/products/upsert-product/upsert-product.component";
+import {LayoutComponent} from "./layout/components/layout/layout.component";
+import {AuthGuard} from "./shared/guards/auth.guard";
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/shop', pathMatch: 'full' },
-  { path: 'shop', component: ShopComponent, children: [
-      {path: 'cart', component: CartComponent }
+  {
+    path: "",
+    component: LayoutComponent,
+    children: [
+      {
+        path: "",
+        pathMatch: "full",
+        redirectTo: "home"
+      },
+      {
+        path: 'home',
+        loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
+      },
+      {
+        path: 'login',
+        loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
+      },
+      {
+        path: 'shop',
+        loadChildren: () => import('./shop/shop.module').then(m => m.ShopModule)
+      },
+      {
+        path: 'cart',
+        loadChildren: () => import('./cart/cart.module').then(m => m.CartModule)
+      },
+      {
+        path: 'process-order',
+        loadChildren: () => import('./process-order/process-order.module').then(m => m.ProcessOrderModule)
+      },
+      {
+        path: 'admin-panel',
+        loadChildren: () => import('./admin-panel/admin-panel.module').then(m => m.AdminPanelModule),
+        canActivateChild: [AuthGuard]
+      }
     ]
-  },
-  // { path: 'cart', component: CartComponent },
-  { path: 'process_order', component: OrderComponent },
-  { path: 'admin/login', component: LoginComponent },
-  { path: 'admin/dashboard', component: AdminDashboardComponent},
-  { path: 'admin/dashboard/products', component: ListProductsComponent},
-  { path: 'admin/dashboard/products/add', component: UpsertProductComponent},
-  { path: 'admin/dashboard/products/edit/:id', component: UpsertProductComponent},
+  }
 ];
 
 @NgModule({
