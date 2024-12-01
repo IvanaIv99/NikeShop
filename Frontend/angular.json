@@ -74,15 +74,15 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "shoppsy:build",
-            "proxyConfig": "proxyconfig.json"
+            "proxyConfig": "proxyconfig.json",
+            "buildTarget": "shoppsy:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "shoppsy:build:production"
+              "buildTarget": "shoppsy:build:production"
             },
             "development": {
-              "browserTarget": "shoppsy:build:development"
+              "buildTarget": "shoppsy:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -90,7 +90,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "shoppsy:build"
+            "buildTarget": "shoppsy:build"
           }
         },
         "test": {
