@@ -56,14 +56,17 @@ class ProductController extends Controller
 
     public function create(Request $request): JsonResponse
     {
-        //$data = $request->validate([]);
         $data = $request->all();
 
         $product = new Product();
         $product->name = $data['name'];
         $product->description = $data['description'];
         $product->price = $data['price'];
-        $product->image = $this->handleImage($data['image']);
+
+        if ($data['image']){
+            $product->image = $this->handleImage($data['image']);
+        }
+
         $product->save();
 
         $product->colors()->attach($data['colors']);

@@ -18,6 +18,11 @@ class Product extends Model
         'name','description','price','image'
     ];
 
+    public function getImageAttribute($value): string
+    {
+        return asset('storage/products/' . $value);
+    }
+
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'products_categories', 'product_id', 'category_id');
