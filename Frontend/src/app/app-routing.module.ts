@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {LayoutComponent} from "./layout/components/layout/layout.component";
 import {AuthGuard} from "./shared/guards/auth.guard";
+import { LayoutComponent as AdminLayoutComponent } from "./admin-panel/layout/components/layout/layout.component";
 
 const appRoutes: Routes = [
   {
@@ -32,13 +33,20 @@ const appRoutes: Routes = [
       {
         path: 'process-order',
         loadChildren: () => import('./process-order/process-order.module').then(m => m.ProcessOrderModule)
-      },
-      {
-        path: 'admin-panel',
-        loadChildren: () => import('./admin-panel/admin-panel.module').then(m => m.AdminPanelModule),
-        canActivateChild: [AuthGuard]
       }
     ]
+  },
+  {
+    path: "admin-panel",
+    component: AdminLayoutComponent,
+    canActivateChild: [AuthGuard],
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('./admin-panel/admin-panel.module').then((m) => m.AdminPanelModule),
+      },
+    ],
   }
 ];
 

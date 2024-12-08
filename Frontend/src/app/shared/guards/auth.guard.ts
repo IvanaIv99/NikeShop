@@ -13,11 +13,15 @@ export class AuthGuard {
   ) {}
 
   canActivateChild(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const isLoggedIn = this.authService.isLoggedIn();
-    if(!isLoggedIn) {
-      this.router.navigateByUrl("/");
-    }
-    return isLoggedIn;
+    return true;
+
+    //fix this with my auth
+
+    // const isLoggedIn = this.authService.isLoggedIn();
+    // if(!isLoggedIn) {
+    //   this.router.navigateByUrl("/");
+    // }
+    // return isLoggedIn;
   }
 
 }

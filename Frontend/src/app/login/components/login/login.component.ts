@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
         error: (e) => console.error(e)
       });
 
-    this.router.navigate(['/admin-panel']);
+    this.router.navigate(['/dashboard']);
   }
 
 }

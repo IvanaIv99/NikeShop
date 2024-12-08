@@ -25,7 +25,7 @@ export class AuthService {
 
     let removeToken = localStorage.removeItem('currentUser');
     if (removeToken == null) {
-      this.router.navigate(['admin/login']);
+      this.router.navigate(['login']);
     }
   }
 

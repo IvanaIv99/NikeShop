@@ -23,3 +23,38 @@ html::after{
 }
 
 @import 'bootstrap/scss/bootstrap';
+// main framework
+// main framework
+@import '../node_modules/bootstrap/scss/functions';
+@import '../node_modules/bootstrap/scss/variables';
+@import '../node_modules/bootstrap/scss/variables-dark';
+
+@import 'assets/scss/settings/color-variables';
+@import 'assets/scss/settings/theme-variables';
+@import 'assets/scss/settings/bootstrap-variables.scss';
+
+@import 'assets/scss/bootstrap/bootstrap.scss';
+
+@import '../node_modules/bootstrap/scss/utilities';
+@import '../node_modules/bootstrap/scss/utilities/api';
+
+// main framework
+@import 'assets/scss/themes/generic.scss';
+@import 'assets/scss/themes/general.scss';
+
+// Layouts
+@import 'assets/scss/themes/layouts/layouts';
+
+// Componants
+@import 'assets/scss/themes/components/components';
+
+// pages
+@import 'assets/scss/themes/pages/page.scss';
+
+@import 'assets/scss/themes/customizer';
+@import 'assets/scss/style-preset.scss';
+
+// fonts
+@import url('assets/fonts/berry/berry-icons.css'); /** custom font icons - berry **/
+@import 'assets/fonts/tabler-icons.min.css';
+@import 'assets/fonts/phosphor/duotone/style.css';

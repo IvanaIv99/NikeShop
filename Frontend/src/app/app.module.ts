@@ -6,6 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LayoutModule } from './layout/layout.module';
 import {SharedModule} from "./shared/shared.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {AdminPanelModule} from "./admin-panel/admin-panel.module";
 
 @NgModule({
 
@@ -18,7 +19,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     NgbModule,
     LayoutModule,
     SharedModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AdminPanelModule
   ],
   providers: [
   ],
