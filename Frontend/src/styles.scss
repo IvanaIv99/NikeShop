@@ -1,4 +1,7 @@
-html, body { min-height: 100vh; color:white !important;  font-family: 'Montserrat', sans-serif !important;
+html, body {
+  min-height: 100vh;
+  color:white !important;
+ // font-family: 'Montserrat', sans-serif !important;
 }
 body {
   margin: 0;
@@ -18,9 +21,30 @@ html::after{
   width: 100%;
   background-color: #19191a;
   height: 100%;
-
-
 }
+
+.black-background{
+  background-color: black !important;
+}
+
+.mid-black-background {
+  background-color: #1f1f1f !important;
+}
+
+.logo {
+  font-family: 'Pacifico', cursive !important;
+  font-size: 80px !important;
+  color: white;
+}
+
+.small-logo {
+  font-family: 'Pacifico', cursive !important;
+  font-size: 80px;
+  color: white;
+  margin: 0 !important;
+  padding-left: 25px;
+}
+
 
 @import 'bootstrap/scss/bootstrap';
 // main framework

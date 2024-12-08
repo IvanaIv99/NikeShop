@@ -11,7 +11,7 @@ body {
   position: relative;
   top: $header-height;
   margin-left: $sidebar-width;
-  margin-right: 20px;
+  margin-right: 0px;
   min-height: calc(100vh - #{$temp});
   background: $body-bg;
   border-radius: 8px;

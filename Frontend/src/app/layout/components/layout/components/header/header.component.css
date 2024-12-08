@@ -2,11 +2,6 @@
   list-style-type: none;
 }
 
-.title {
-  font-family: 'Pacifico', cursive !important;
-  font-size: 80px;
-}
-
 .subtitle{
   text-transform: uppercase;
   margin-top: 4%;

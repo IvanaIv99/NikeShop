@@ -1,0 +1,14 @@
+<!-- [ Sidebar Menu ] start -->
+<nav>
+  <div class="navbar-wrapper">
+    <div class="m-header">
+      <!-- [ Header Topbar ] start -->
+      <a [routerLink]="['/admin-panel/dashboard']" class="b-brand">
+        <!-- ========   change your logo hear   ============ -->
+        <h1 class="small-logo"> NikeStore </h1>
+      </a>
+    </div>
+    <app-nav-content (NavCollapsedMob)="navCollapseMob()" class="scroll-div w-100"></app-nav-content>
+  </div>
+</nav>
+<!-- [ Sidebar Menu ] end -->

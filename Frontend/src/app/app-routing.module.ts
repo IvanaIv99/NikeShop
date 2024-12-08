@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {LayoutComponent} from "./layout/components/layout/layout.component";
 import {AuthGuard} from "./shared/guards/auth.guard";
-import { LayoutComponent as AdminLayoutComponent } from "./admin-panel/layout/components/layout/layout.component";
+import { LayoutComponent as AdminLayoutComponent } from "./admin/layout/components/layout/layout.component";
 
 const appRoutes: Routes = [
   {
@@ -44,8 +44,8 @@ const appRoutes: Routes = [
       {
         path: '',
         loadChildren: () =>
-          import('./admin-panel/admin-panel.module').then((m) => m.AdminPanelModule),
-      },
+          import('./admin/admin-panel.module').then((m) => m.AdminPanelModule),
+      }
     ],
   }
 ];
