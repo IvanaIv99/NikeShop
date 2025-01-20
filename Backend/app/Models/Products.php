@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 /**
  * @mixin IdeHelperProduct
  */
-class Product extends Model
+class Products extends Model
 {
     protected $table = 'products';
     protected $fillable = [
@@ -25,16 +25,16 @@ class Product extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'products_categories', 'product_id', 'category_id');
+        return $this->belongsToMany(Categories::class, 'products_categories', 'product_id', 'category_id');
     }
 
     public function sizes()
     {
-        return $this->belongsToMany(Size::class, 'products_sizes', 'product_id', 'size_id');
+        return $this->belongsToMany(Sizes::class, 'products_sizes', 'product_id', 'size_id');
     }
 
     public function colors()
     {
-        return $this->belongsToMany(Color::class, 'products_colors', 'product_id', 'color_id');
+        return $this->belongsToMany(Colors::class, 'products_colors', 'product_id', 'color_id');
     }
 }

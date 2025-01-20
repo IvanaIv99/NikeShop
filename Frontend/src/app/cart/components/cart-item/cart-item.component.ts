@@ -1,5 +1,5 @@
 import {Component, OnInit, Input, EventEmitter, Output, ViewChildren, QueryList, ElementRef} from '@angular/core';
-import {CartItem} from "../../../shared/inferfaces/ICartItem";
+import {ICartItem} from "../../interfaces/i-cart-item";
 import {CartService} from "../../business-logic/cart.service";
 @Component({
   selector: 'tr[app-cart-item]',
@@ -9,7 +9,7 @@ import {CartService} from "../../business-logic/cart.service";
 })
 export class CartItemComponent  implements OnInit {
 
-  @Input() cartItem: CartItem;
+  @Input() cartItem: ICartItem;
   @Input() index: number;
 
   @Output() productRemoved = new EventEmitter();
@@ -20,7 +20,7 @@ export class CartItemComponent  implements OnInit {
     private cartService: CartService
   ) {}
 
-  removeProduct(cartItem: CartItem) {
+  removeProduct(cartItem: ICartItem) {
     this.cartService.removeProduct(cartItem);
   }
 

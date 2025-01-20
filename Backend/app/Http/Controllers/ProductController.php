@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Color;
-use App\Models\Product;
-use App\Models\Size;
+use App\Models\Categories;
+use App\Models\Colors;
+use App\Models\Products;
+use App\Models\Sizes;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
@@ -18,12 +18,12 @@ class ProductController extends Controller
 
         return response()->json([
             $productId ?
-                Product::query()->find($productId)->with([
+                Products::query()->find($productId)->with([
                     'categories:name',
                     'sizes:size',
                     'colors:name'
                 ])->first()
-                : Product::with('categories','sizes','colors')->get()
+                : Products::with('categories','sizes','colors')->get()
         ]);
     }
 
@@ -32,7 +32,7 @@ class ProductController extends Controller
         $productId = $request->get('productId');
 
         return response()->json([
-            $productId ? Product::query()->find($productId)->sizes()->pluck('size')->all() : Size::all()
+            $productId ? Products::query()->find($productId)->sizes()->pluck('size')->all() : Sizes::all()
         ]);
     }
 
@@ -41,7 +41,7 @@ class ProductController extends Controller
         $productId = $request->get('productId');
 
         return response()->json([
-            $productId ? Product::query()->find($productId)->categories()->pluck('name')->all() : Category::all()
+            $productId ? Products::query()->find($productId)->categories()->pluck('name')->all() : Categories::all()
         ]);
     }
 
@@ -50,7 +50,7 @@ class ProductController extends Controller
         $productId = $request->get('productId');
 
         return response()->json([
-            $productId ? Product::query()->find($productId)->colors()->pluck('name')->all() : Color::all()
+            $productId ? Products::query()->find($productId)->colors()->pluck('name')->all() : Colors::all()
         ]);
     }
 
@@ -58,7 +58,7 @@ class ProductController extends Controller
     {
         $data = $request->all();
 
-        $product = new Product();
+        $product = new Products();
         $product->name = $data['name'];
         $product->description = $data['description'];
         $product->price = $data['price'];
@@ -88,7 +88,7 @@ class ProductController extends Controller
         return $newName;
     }
 
-    public function edit(Request $request, Product $product): JsonResponse
+    public function edit(Request $request, Products $product): JsonResponse
     {
         $data = $request->all();
         $product->name = $request->get('name');
@@ -103,7 +103,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function delete(Request $request, Product $product): JsonResponse
+    public function delete(Request $request, Products $product): JsonResponse
     {
         return response()->json([
             "result" => $product->delete()

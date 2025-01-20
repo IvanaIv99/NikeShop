@@ -1,0 +1,27 @@
+<section>
+  <div class="example-button-row">
+    <button mat-raised-button routerLink="add">Add</button>
+  </div>
+</section>
+<section style="margin-top:2%;">
+  <table datatable class="table table-dark">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col"></th>
+      <th scope="col">Name</th>
+      <th scope="col">Colors</th>
+      <th scope="col">Categories</th>
+      <th scope="col">Sizes</th>
+      <th scope="col">Price</th>
+      <th scope="col">Date Added</th>
+      <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr app-product-item *ngFor="let item of products;let i = index"
+        [productItem]="item" [index]="i">
+    </tr>
+    </tbody>
+  </table>
+</section>

@@ -1,7 +1,7 @@
-import {Categories} from "./ICategories";
-import {Colors} from "./IColors";
+import {Categories} from "../../../shared/inferfaces/ICategories";
+import {Colors} from "../../../shared/inferfaces/IColors";
 
-export interface Product {
+export interface IProduct {
   id: number;
   name: string;
   categories:  Categories[];
@@ -10,5 +10,4 @@ export interface Product {
   imageUrl: string;
   sizes: number[];
   colors: Colors[]
-
 }

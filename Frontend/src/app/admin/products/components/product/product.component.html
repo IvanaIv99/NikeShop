@@ -1,6 +1,6 @@
 
 <th scope="row">{{index + 1}}</th>
-<td><img style="width: 70px" src="../../../../assets/products/{{productItem.image}}" alt="nike-air-shoe"></td>
+<td><img style="width: 70px" src="{{productItem.image}}" alt="nike-air-shoe" ></td>
 <td>{{productItem.name}}</td>
 <td>
     <span *ngFor="let size of this.productItem.sizes">{{size.size}},</span>

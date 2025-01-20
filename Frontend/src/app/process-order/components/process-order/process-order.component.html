@@ -1,6 +1,6 @@
 <div class="form-container container mb-5">
   <div class="">
-    <form [formGroup]="orderForm" (ngSubmit)="submit()" class="d-flex flex-column align-items-center">
+    <form [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column align-items-center">
       <div class="title mb-5">
         <h2>Order Form</h2>
       </div>
@@ -35,19 +35,28 @@
         </div>
 
         <div class="row">
-          <div class="col-6">
+          <div class="col-4">
             <mat-form-field color="accent">
               <mat-label>Country</mat-label>
-              <mat-select>
-                <mat-option value="one">First option</mat-option>
-                <mat-option value="two">Second option</mat-option>
+              <mat-select #country name="country" id="country" (selectionChange)="onCountryChange($event)">
+                <mat-option *ngFor="let country of countries" [value]="country | json">{{ country.name }}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="col-6">
+          <div class="col-4">
+            <mat-form-field color="accent">
+              <mat-label>State</mat-label>
+              <mat-select  #state name="state" id="state" (selectionChange)="onStateChange($event)">
+                <mat-option *ngFor="let state of states" [value]="state | json" >{{state.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-4">
             <mat-form-field color="accent">
               <mat-label>City</mat-label>
-              <input matInput formControlName="city">
+              <mat-select #city name="city" id="city" (selectionChange)="onCityChange($event)">
+                <mat-option *ngFor="let city of cities" [value]="city | json" >{{ city.name }}</mat-option>
+              </mat-select>
             </mat-form-field>
           </div>
         </div>
@@ -67,8 +76,16 @@
           </div>
         </div>
 
-      </div>
+        <div class="row">
+          <div class="col-12">
+            <mat-form-field color="accent">
+              <mat-label>Additional informations</mat-label>
+              <input matInput formControlName="additional">
+            </mat-form-field>
+          </div>
+        </div>
 
+      </div>
 
       <div id="orderDetails">
         <div class="row yander-content" style="padding-top: 0;">
@@ -89,20 +106,9 @@
               <td>Free shipping</td>
             </tr>
           </table>
-
-
           <div class="paymentMethod d-flex flex-row justify-content-around">
             <div>
-              <input type="radio" name="dbt" value="dbt" checked> Direct Bank Transfer
-            </div>
-            <div>
-              <input type="radio" name="dbt" value="cd"> Cash on Delivery
-            </div>
-            <div>
-              <input type="radio" name="dbt" value="cd"> Paypal
-              <span>
-              <img src="https://www.logolynx.com/images/logolynx/c3/c36093ca9fb6c250f74d319550acac4d.jpeg" alt="" width="50">
-            </span>
+              <input type="radio" name="dbt" value="1" checked> Cash on Delivery
             </div>
           </div>
           <button class="btn btn-primary" type="submit">Submit</button>

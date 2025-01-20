@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
+        DB::table('payment_methods')->truncate();
         DB::table('product_categories')->truncate();
         DB::table('product_sizes')->truncate();
         DB::table('product_colors')->truncate();
@@ -34,7 +35,8 @@ class DatabaseSeeder extends Seeder
             ProductCategorySeeder::class,
             ProductSizeSeeder::class,
             ProductColorSeeder::class,
-            AdminSeeder::class
+            AdminSeeder::class,
+            PaymentMethodSeeder::class
         ]);
     }
 }

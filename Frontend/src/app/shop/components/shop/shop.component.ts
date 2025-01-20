@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { CartItem } from '../../../shared/inferfaces/ICartItem';
+import { ICartItem } from '../../../cart/interfaces/i-cart-item';
 import {CartService} from "../../../cart/business-logic/cart.service";
 import {ProductService} from "../../business-logic/product.service";
 
@@ -26,7 +26,7 @@ export class ShopComponent implements OnInit {
 
   addProductToCart(product) {
 
-    let item: CartItem = {
+    let item: ICartItem = {
       id : product.id,
       name: product.name,
       quantity: 1,

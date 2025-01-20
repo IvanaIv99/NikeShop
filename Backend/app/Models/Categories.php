@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @mixin IdeHelperCategory
  */
-class Category extends Model
+class Categories extends Model
 {
     protected $table = 'categories';
     protected $fillable = [
@@ -17,6 +17,6 @@ class Category extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'products_categories', 'category_id','product_id');
+        return $this->belongsToMany(Products::class, 'products_categories', 'category_id','product_id');
     }
 }

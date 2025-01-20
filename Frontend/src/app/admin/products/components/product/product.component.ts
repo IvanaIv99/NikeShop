@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ProductService} from "../../../../../../shop/business-logic/product.service";
-import {SnackbarService} from "../../../../../../shared/services/common/snackbar/SnackbarService";
-import {ProductModel} from "../../../../../../shop/models/product.model";
+import {ProductService} from "../../../../shop/business-logic/product.service";
+import {SnackbarService} from "../../../../shared/services/common/snackbar/SnackbarService";
+import {ProductModel} from "../../../../shop/models/product.model";
 @Component({
   selector: 'tr[app-product-item]',
   templateUrl: './product.component.html',

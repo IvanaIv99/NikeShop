@@ -1,35 +1,47 @@
 [
-    {
-        "id": 1,
-        "naziv": "Proizvod 1",
-        "cena": 100,
-        "kategorija": "Kategorija 1",
-        "tip": "Tip 1",
-        "kategorijaId": 1,
-        "tipId": 1,
-        "daLiJeAktivan": 0,
-        "opis": "Proizvod 1 opis..."
-    },
-    {
-        "id": 2,
-        "naziv": "Proizvod 2",
-        "cena": 70,
-        "kategorija": "Kategorija 2",
-        "tip": "Tip 2",
-        "kategorijaId": 2,
-        "tipId": 2,
-        "daLiJeAktivan": 1,
-        "opis": "Proizvod 2 opis..."
-    },
-    {
-        "id": 3,
-        "naziv": "Proizvod 3",
-        "cena": 156,
-        "kategorija": "Kategorija 2",
-        "tip": "Tip 1",
-        "kategorijaId": 2,
-        "tipId": 1,
-        "daLiJeAktivan": 1,
-        "opis": "Proizvod 3 opis..."
-    }
+  {
+    "id": "2",
+    "name": "Nike Dunk Low 1",
+    "description": "Nike Dunk Low 1",
+    "price": "1250.00",
+    "image": "IMG_4767.png",
+    "created_at": "2024-03-16 23:29:40",
+    "updated_at": null
+  },
+  {
+    "id": "3",
+    "name": "SNike X OFF-white Dunk Low",
+    "description": "The top 10: Dunk 1 off-white - Chicago",
+    "price": "999.00",
+    "image": "IMG_4770.png",
+    "created_at": "2024-03-16 23:29:40",
+    "updated_at": null
+  },
+  {
+    "id": "4",
+    "name": "Nike X OFF-white AF1",
+    "description": "Air Force 1 Retro High 'Off-White - UNC' sneakers",
+    "price": "560.00",
+    "image": "IMG_123.png",
+    "created_at": "2024-03-16 23:29:40",
+    "updated_at": null
+  },
+  {
+    "id": "5",
+    "name": "Air Jordan Low 1",
+    "description": "The top 10: Air Jordan 1 off-white - Chicago",
+    "price": "800.00",
+    "image": "transparent.png",
+    "created_at": "2024-03-16 23:29:40",
+    "updated_at": null
+  },
+  {
+    "id": "6",
+    "name": "Nike X Nicki J AF1",
+    "description": "Air force 1 Retro COLORS 'Off-White - UNC' sneakers",
+    "price": "1050.00",
+    "image": "IMG_456.png",
+    "created_at": "2024-03-16 23:29:40",
+    "updated_at": null
+  }
 ]

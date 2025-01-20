@@ -1,5 +1,5 @@
 import {EventEmitter, Injectable, Input, Output} from '@angular/core';
-import {Product} from "../../shared/inferfaces/IProduct";
+import {IProduct} from "../../admin/products/interfaces/i-product";
 import * as productsJson from "../../shared/data/products.json";
 import {HttpClient, HttpHeaders} from '@angular/common/http'
 import {ProductModel} from "../models/product.model";
@@ -15,7 +15,7 @@ export class ProductService {
 
   constructor(private httpClient: HttpClient) { }
 
-  productList: Product[] = (productsJson as any).default;
+  productList: IProduct[] = (productsJson as any).default;
   products: ProductModel[];
 
   addProductToCart(product, event) {

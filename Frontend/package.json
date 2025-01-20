@@ -37,6 +37,7 @@
     "axios": "^1.6.2",
     "bootstrap": "^5.2.3",
     "component": "^1.1.0",
+    "country-state-city": "^3.2.1",
     "datatables.net": "^1.11.3",
     "datatables.net-bs5": "^1.11.3",
     "datatables.net-dt": "^1.11.3",

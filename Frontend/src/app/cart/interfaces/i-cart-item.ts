@@ -1,9 +1,9 @@
 
-export interface CartItem {
+export interface ICartItem {
   id: number;
   name: string;
   price: number;
-  size: number;
+  size: string;
   color: string;
   total:number;
   quantity: number;

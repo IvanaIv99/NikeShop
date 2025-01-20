@@ -1,5 +1,5 @@
 import { Component, OnInit, Input,  EventEmitter, Output } from '@angular/core';
-import {Product} from "../../../shared/inferfaces/IProduct";
+import {IProduct} from "../../../admin/products/interfaces/i-product";
 import {CartService} from "../../business-logic/cart.service";
 
 @Component({
@@ -8,7 +8,7 @@ import {CartService} from "../../business-logic/cart.service";
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
-  @Input() products: Product[];
+  @Input() products: IProduct[];
   @Output() productRemoved = new EventEmitter();
 
   cartProducts = [];

@@ -1,16 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {CartComponent} from "../../cart/components/cart/cart.component";
-import {ProductsComponent} from "./components/products/products.component";
+import {ProductsDashboardComponent} from "./components/products-dashboard/products-dashboard.component";
+import {ProductFormComponent} from "./components/products-form/product-form.component";
 
 const routes: Routes = [
   {
     path: "",
-    component: ProductsComponent,
+    component: ProductsDashboardComponent,
   },
   {
     path: 'add',
-    loadChildren: () => import('./components/products/components/product-form/components/product-form.module').then(m => m.ProductFormModule)
+    component: ProductFormComponent
+  },
+  {
+    path: 'edit/:id',
+    component: ProductFormComponent
   },
 ];
 

@@ -2,12 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {first, Observable} from "rxjs";
-import {ProductService} from "../../../../../../../../shop/business-logic/product.service";
-import {SnackbarService} from "../../../../../../../../shared/services/common/snackbar/SnackbarService";
-import {ProductModel} from "../../../../../../../../shop/models/product.model";
+import {ProductService} from "../../../../shop/business-logic/product.service";
+import {SnackbarService} from "../../../../shared/services/common/snackbar/SnackbarService";
+import {ProductModel} from "../../../../shop/models/product.model";
 
 @Component({
-  selector: 'app-add-edit-product',
+  selector: 'product-form',
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.scss']
 })

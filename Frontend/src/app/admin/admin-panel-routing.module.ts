@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {LayoutComponent as AdminLayoutComponent} from "./layout/components/layout/layout.component";
 import {AuthGuard} from "../shared/guards/auth.guard";
-import {ProductsComponent} from "./products/components/products/products.component";
 
 const routes: Routes = [
   {

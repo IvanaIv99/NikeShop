@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('country');
             $table->string('city');
             $table->string('address');
-            $table->string('additional')->nullable();
             $table->decimal('subtotal');
             $table->unsignedBigInteger('payment_method_id');
+            $table->string('status');
             $table->timestamps();
 
             $table->foreign('payment_method_id')->references('id')->on('payment_methods')->onDelete('cascade');

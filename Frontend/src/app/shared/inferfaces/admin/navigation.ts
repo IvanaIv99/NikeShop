@@ -28,7 +28,7 @@ const NavigationItems = [
         title: 'Dashboard',
         type: 'item',
         classes: 'nav-item',
-        url: '/default',
+        url: '/admin-panel/dashboard',
         icon: 'ti ti-dashboard',
         breadcrumbs: false
       }
@@ -69,7 +69,7 @@ const NavigationItems = [
         title: 'Products',
         type: 'item',
         classes: 'nav-item',
-        url: '/products',
+        url: '/admin-panel/products',
         icon: 'ti ti-typography'
       },
       {
@@ -77,7 +77,7 @@ const NavigationItems = [
         title: 'Orders',
         type: 'item',
         classes: 'nav-item',
-        url: '/orders',
+        url: '/admin-panel/orders',
         icon: 'ti ti-brush'
       }
     ]

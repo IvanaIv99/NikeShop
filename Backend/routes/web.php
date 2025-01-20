@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +29,17 @@ Route::prefix('api')->group(function () {
         Route::post('/create', [ProductController::class, 'create']);
         Route::post('/edit/{product}', [ProductController::class, 'edit']);
         Route::delete('/delete/{product}', [ProductController::class, 'delete']);
+    });
+
+    // Orders
+    Route::prefix('orders')->group(function () {
+        Route::get('/', [OrdersController::class, 'get']);
+        Route::post('/create', [OrdersController::class, 'create']);
+    });
+
+    // Payment Methods
+    Route::prefix('paymentMethods')->group(function () {
+        Route::get('/', [PaymentMethodController::class, 'get']);
     });
 
     // Analytics

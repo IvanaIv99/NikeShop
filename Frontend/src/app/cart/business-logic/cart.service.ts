@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {CartItem} from "../../shared/inferfaces/ICartItem";
+import {ICartItem} from "../interfaces/i-cart-item";
 import {Subject} from "rxjs";
 
 @Injectable({
@@ -18,7 +18,7 @@ export class CartService {
   updateCartTotal() {
   }
 
-  addProductToCart(item : CartItem) {
+  addProductToCart(item : ICartItem) {
     const productExistInCart = this.items?.find(({id}) => id === item.id);
     if (!productExistInCart) {
       this.addToCartIfNotExist(item);
@@ -39,14 +39,14 @@ export class CartService {
 
   }
 
-  addToCartIfNotExist(item : CartItem){
+  addToCartIfNotExist(item : ICartItem){
     item.quantity = 1;
     this.items?.push(item);
     this.count+=1;
     this.simpleObservable.next(this.count)
   }
 
-  removeProduct(item: CartItem) {
+  removeProduct(item: ICartItem) {
     let index = this.items.findIndex(cartItem => cartItem.id === item.id);
     if (index > -1) {
       this.items.splice(index, 1);
