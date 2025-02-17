@@ -13,7 +13,7 @@ class ProductCategorySeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('product_categories')->insert([
+        DB::table('products_categories')->insert([
             [
                 'product_id' => 1,
                 'category_id' => 2

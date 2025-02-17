@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('size_id');
             $table->unsignedBigInteger('color_id');
             $table->integer('quantity');
+            $table->decimal('total');
 
             $table->timestamps();
 

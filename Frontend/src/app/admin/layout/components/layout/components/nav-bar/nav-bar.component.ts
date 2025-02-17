@@ -1,6 +1,7 @@
 // Angular import
 import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 import { BerryConfig } from '../../../../../../app-config';
+import {AuthService} from "../../../../../../shared/services/auth/auth.service";
 
 @Component({
   selector: 'app-nav-bar',
@@ -16,7 +17,9 @@ export class NavBarComponent {
   navCollapsedMob;
 
   // Constructor
-  constructor() {
+  constructor(
+    public authService: AuthService
+  ) {
     this.windowWidth = window.innerWidth;
     this.navCollapsed = this.windowWidth >= 1025 ? BerryConfig.isCollapse_menu : false;
     this.navCollapsedMob = false;
@@ -41,5 +44,9 @@ export class NavBarComponent {
     if (this.windowWidth < 1025) {
       this.NavCollapsedMob.emit();
     }
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 }

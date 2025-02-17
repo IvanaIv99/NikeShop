@@ -11,7 +11,7 @@ export class CartService {
 
   items = [];
 
-  count = JSON.parse(localStorage.getItem("cartItems")).length;
+  count = JSON.parse(localStorage.getItem("cartItems"))?.length ?? 0;
   simpleObservable = new Subject();
   simpleObservable$ = this.simpleObservable.asObservable();
 
@@ -23,7 +23,7 @@ export class CartService {
     if (!productExistInCart) {
       this.addToCartIfNotExist(item);
     }else{
-      if(productExistInCart.size === item.size && productExistInCart.color === item.color){
+      if(productExistInCart.size.id === item.size.id && productExistInCart.color_id === item.color.id){
         this.items.map(item => {
           if(item.id == productExistInCart.id){
             item.quantity++;
@@ -36,7 +36,6 @@ export class CartService {
     }
     this.saveCart();
     alert("Product added to cart.");
-
   }
 
   addToCartIfNotExist(item : ICartItem){

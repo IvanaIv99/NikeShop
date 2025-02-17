@@ -23,7 +23,7 @@ export class ProcessOrderComponent {
     country: new FormControl('',[Validators.required]),
     state: new FormControl('',[Validators.required]),
     address: new FormControl('',[Validators.required]),
-    paymentMethod: new FormControl(1),
+    paymentMethod: new FormControl('pay_on_delivery'),
     additional: new FormControl(''),
   });
 
@@ -34,9 +34,9 @@ export class ProcessOrderComponent {
   states = null;
   cities = null;
 
-  selectedCountry;
-  selectedState;
-  selectedCity;
+  selectedCountry: any;
+  selectedState: any;
+  selectedCity: any;
 
   constructor(
     private cartService: CartService,
@@ -50,15 +50,14 @@ export class ProcessOrderComponent {
     this.subTotal = this.cartService.calcTotal();
   }
 
-
   submit(): void {
     const dataToSend: IOrderRequest = this.getDataForSend();
     this.requestsService.insert(dataToSend).subscribe({
       next: (data) => {
-        console.log(data);
+        alert("Order Created");
       },
       error: (err) => {
-        console.log(err);
+        alert(err);
       }
     })
   }
@@ -74,14 +73,14 @@ export class ProcessOrderComponent {
       state: this.selectedState.name,
       city: this.selectedCity.name,
       address: formValue.address,
-      paymentMethod: formValue.paymentMethod,
+      payment_method: formValue.paymentMethod,
       additional:formValue.additional,
       subtotal: this.subTotal,
       items: this.cartService.getCartItems().map(item => ({
-        idProduct: item.id,
+        product_id: item.id,
         quantity: item.quantity,
-        idSize: item.size,
-        idColor: item.color,
+        size_id: item.size.id,
+        color_id: item.color.id,
         total: item.total
       })) as IOrderItem[]
     }

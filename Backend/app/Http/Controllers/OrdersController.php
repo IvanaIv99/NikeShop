@@ -12,8 +12,10 @@ class OrdersController extends Controller
 {
     public function create(Request $request): JsonResponse
     {
+        //payment metod i status u enum
         DB::transaction(function () use ($request) {
-            // Kreirajte novi Order objekat
+            $orderItems = [];
+
             $order = new Order();
             $order->first_name = $request->get('first_name');
             $order->last_name = $request->get('last_name');
@@ -24,7 +26,7 @@ class OrdersController extends Controller
             $order->city = $request->get('city');
             $order->address = $request->get('address');
             $order->additional = $request->get('additional');
-            $order->payment_method = 'pay_on_delivery';
+            $order->payment_method = $request->get('payment_method');
             $order->subtotal = $request->get('subtotal');
             $order->status = 'received';
             $order->created_at = now();
@@ -32,20 +34,20 @@ class OrdersController extends Controller
             $order->save();
 
             foreach ($request->get('items') as $item) {
-                $orderItem = OrderItem::query()->insert([
+                $orderItems[] = [
                     'order_id' => $order->id,
-                    'product_id' => $item->idProduct,
-                    'size_id' => $item->idSize,
-                    'color_id' => $item->idColor,
-                    'quantity' => $item->quantity,
-                    'total' => $item->total
-                ]);
+                    'product_id' => $item['product_id'],
+                    'size_id' => $item['size_id'],
+                    'color_id' => $item['color_id'],
+                    'quantity' => $item['quantity'],
+                    'total' => $item['total']
+                ];
             }
 
-            dd($order);
+            OrderItem::query()->insert($orderItems);
         });
 
-        return response()->json([]);
+        return response()->json(['message' => 'Order created'], 201);
     }
 
     public function get(Request $request): JsonResponse

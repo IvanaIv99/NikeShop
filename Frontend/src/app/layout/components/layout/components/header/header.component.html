@@ -17,8 +17,10 @@
   </button>
 
 </mat-toolbar>
-
 <mat-toolbar class="transparent" *ngIf="authService.isLoggedIn()">
+  <button routerLink="admin-panel" mat-icon-button class="button fancy-button">
+    <mat-icon>account_circle</mat-icon>
+  </button>
   <span class="spacer"></span>
   <button mat-button  color="accent" (click)="logout()"> Logout </button>
 </mat-toolbar>

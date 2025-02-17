@@ -14,9 +14,6 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {NavBarComponent} from "./components/layout/components/nav-bar/nav-bar.component";
 import {NavigationComponent} from "./components/layout/components/navigation/navigation.component";
-import {NavLeftComponent} from "./components/layout/components/nav-bar/nav-left/nav-left.component";
-import {NavLogoComponent} from "./components/layout/components/nav-bar/nav-logo/nav-logo.component";
-import {NavRightComponent} from "./components/layout/components/nav-bar/nav-right/nav-right.component";
 import {NavContentComponent} from "./components/layout/components/navigation/nav-content/nav-content.component";
 import {
   NavCollapseComponent
@@ -29,9 +26,6 @@ import {NavItemComponent} from "./components/layout/components/navigation/nav-co
     LayoutComponent,
     NavBarComponent,
     NavigationComponent,
-    NavLeftComponent,
-    NavLogoComponent,
-    NavRightComponent,
     NavContentComponent,
     NavCollapseComponent,
     NavGroupComponent,

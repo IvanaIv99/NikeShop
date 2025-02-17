@@ -1,6 +1,8 @@
 import {Component, OnInit, EventEmitter, Output, Input} from '@angular/core';
 import {ProductService} from "../../business-logic/product.service";
 import {ProductModel} from "../../models/product.model";
+import {SizeModel} from "../../models/size.model";
+import {ColorModel} from "../../models/color.model";
 
 @Component({
   selector: 'app-product',
@@ -12,8 +14,8 @@ export class ProductComponent  implements OnInit {
   @Input() categoryString: string;
   @Output() productAdded = new EventEmitter();
 
-  public activeSize: number;
-  public activeColor: string;
+  public activeSize: SizeModel|null;
+  public activeColor: ColorModel|null;
 
   constructor(
     private productService: ProductService
@@ -30,7 +32,6 @@ export class ProductComponent  implements OnInit {
   public onSelectedAttribute(value: any, attribute: string ): void {
     this.productService.onSelectedAttribute(value, attribute, this.product);
     this.setActiveAttribute(value, attribute);
-
   }
 
   public setActiveAttribute(value: any, attribute: string){

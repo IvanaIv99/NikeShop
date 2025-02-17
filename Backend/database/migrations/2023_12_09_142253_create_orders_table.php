@@ -15,15 +15,17 @@ return new class extends Migration
             $table->id();
             $table->string('first_name');
             $table->string('last_name');
+            $table->string('email');
+            $table->string('phone');
             $table->string('country');
+            $table->string('state');
             $table->string('city');
             $table->string('address');
+            $table->string('additional')->nullable();
+            $table->string('payment_method');
             $table->decimal('subtotal');
-            $table->unsignedBigInteger('payment_method_id');
             $table->string('status');
             $table->timestamps();
-
-            $table->foreign('payment_method_id')->references('id')->on('payment_methods')->onDelete('cascade');
         });
     }
 

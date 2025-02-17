@@ -10,7 +10,7 @@ interface IOrderBase {
   state: string;
   city: string;
   address: string;
-  paymentMethod: number,
+  payment_method: string,
   additional: string,
   subtotal: number,
   items: IOrderItem[]
@@ -19,7 +19,7 @@ interface IOrderBase {
 export interface IOrder extends IOrderBase {
   id: number;
   status: string;
-  paymentMethodId: IPaymentOption
+  payment_method: string;
 }
 
 export interface IOrderRequest extends IOrderBase {

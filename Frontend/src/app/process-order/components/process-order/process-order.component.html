@@ -68,12 +68,6 @@
               <input matInput formControlName="address">
             </mat-form-field>
           </div>
-          <div class="col-6">
-            <mat-form-field color="accent">
-              <mat-label>Apartment, suite, unit etc. (optional)</mat-label>
-              <input matInput formControlName="additional">
-            </mat-form-field>
-          </div>
         </div>
 
         <div class="row">
@@ -94,7 +88,7 @@
                 <th colspan="2">Your order</th>
             </tr>
             <tr *ngFor="let item of cartProducts;let i = index">
-              <td>{{item.name}} | {{item.color}} | x {{item.quantity}} </td>
+              <td>{{item.name}} | {{item.color.name}} | x {{item.quantity}} </td>
               <td>${{item.total}}</td>
             </tr>
             <tr>
@@ -107,9 +101,9 @@
             </tr>
           </table>
           <div class="paymentMethod d-flex flex-row justify-content-around">
-            <div>
-              <input type="radio" name="dbt" value="1" checked> Cash on Delivery
-            </div>
+            <mat-radio-group formControlName="paymentMethod">
+              <mat-radio-button value="pay_on_delivery">Pay On Delivery</mat-radio-button>
+            </mat-radio-group>
           </div>
           <button class="btn btn-primary" type="submit">Submit</button>
         </div>

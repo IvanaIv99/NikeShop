@@ -5,23 +5,23 @@ import {ColorModel} from "../../shop/models/color.model";
 
 export interface IOrderItem {
   id: number;
-  idProduct: IProduct;
+  product_id: IProduct;
   quantity: number;
   size: SizeModel;
   color: ColorModel;
 }
 
 interface IOrderItemBase {
-  idProduct: IProduct;
+  product_id: IProduct;
   quantity: number;
-  idSize: number;
-  idColor: number;
+  size_id: number;
+  color_id: number;
   total: number;
 }
 
 export interface IOrderItem extends IOrderItemBase {
   id: number;
-  idOrder: IOrder;
+  order_id: IOrder;
 }
 
 export interface IOrderItemRequest extends IOrderItemBase {
