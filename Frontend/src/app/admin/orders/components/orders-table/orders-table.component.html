@@ -1,18 +1,32 @@
-<section style="margin-top:2%;">
-  <table datatable class="table table-dark">
-    <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Date</th>
-      <th scope="col">Subtotal</th>
-      <th scope="col">Status</th>
-      <th scope="col">Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr app-order-item *ngFor="let item of orders;let i = index"
-        [order]="item" [index]="i">
-    </tr>
-    </tbody>
-  </table>
-</section>
+<table mat-table [dataSource]="dataSource" class="common-table">
+  @for(column of tableService.columns; track column) {
+    <ng-container [matColumnDef]="column.index">
+      <th mat-header-cell *matHeaderCellDef> {{ column.title }} </th>
+      <td mat-cell *matCellDef="let element">
+        @switch(column.type) {
+          @case(columnTypeEnum.boolean) {
+            @if(element[column.index]) {
+              <mat-icon>check</mat-icon>
+            }
+            @else {
+              <mat-icon>close</mat-icon>
+            }
+          }
+          @case(columnTypeEnum.action) {
+            <button mat-raised-button (click)="doAction(element)">{{column.index}}</button>
+          }
+          @case(columnTypeEnum.date) {
+            <span>{{element[column.index] | date: 'd MMM yyyy | HH:mm'}}</span>
+          }
+          @default {
+            {{element[column.index]}}
+          }
+        }
+      </td>
+    </ng-container>
+  }
+  <tr mat-header-row *matHeaderRowDef="tableService.displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: tableService.displayedColumns;"></tr>
+</table>
+<mat-paginator [pageSizeOptions]="this.tableService.pageSizeOptions" showFirstLastButtons aria-label="Select page">
+</mat-paginator>

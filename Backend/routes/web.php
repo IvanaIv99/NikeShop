@@ -35,6 +35,7 @@ Route::prefix('api')->group(function () {
     Route::prefix('orders')->group(function () {
         Route::get('/', [OrdersController::class, 'get']);
         Route::post('/create', [OrdersController::class, 'create']);
+        Route::get('/{order}', [OrdersController::class, 'getOne']);
     });
 
     // Payment Methods

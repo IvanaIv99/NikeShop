@@ -1,0 +1,40 @@
+<div class="container products-dashboard">
+    <h1 class="order-title">Order Details - #{{order.id}}</h1>
+
+    <div class="info-cards-container d-flex ">
+        <!-- Personal Details Section -->
+        <mat-card class="section">
+            <mat-card-header>
+                <mat-card-title>Personal Details</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-list>
+                    <mat-list-item><strong>First Name:</strong> {{order.first_name}}</mat-list-item>
+                    <mat-list-item><strong>Last Name:</strong> {{order.last_name}}</mat-list-item>
+                    <mat-list-item><strong>Email:</strong> {{order.email}}</mat-list-item>
+                    <mat-list-item><strong>Phone:</strong> {{order.phone}}</mat-list-item>
+                </mat-list>
+            </mat-card-content>
+        </mat-card>
+
+        <!-- Address Details Section -->
+        <mat-card class="section" style="margin-left: 10px;">
+            <mat-card-header>
+                <mat-card-title>Address Details</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-list>
+                    <mat-list-item><strong>Address:</strong> {{order.address}}</mat-list-item>
+                    <mat-list-item><strong>Country:</strong> {{order.country}}</mat-list-item>
+                    <mat-list-item><strong>State:</strong> {{order.state}}</mat-list-item>
+                    <mat-list-item><strong>City:</strong> {{order.city}}</mat-list-item>
+                </mat-list>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <!-- Order Summary Table (for example, a separate section below) -->
+    <mat-card class="section order-summary">
+
+    </mat-card>
+</div>

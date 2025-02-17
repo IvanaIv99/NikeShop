@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 import { Country, State, City }  from 'country-state-city';
 
 @Component({
-  selector: 'app-order',
+  selector: 'app-orders',
   templateUrl: './process-order.component.html',
   styleUrls: ['./process-order.component.scss']
 })

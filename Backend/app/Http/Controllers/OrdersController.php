@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\JsonResponse;
@@ -53,6 +54,11 @@ class OrdersController extends Controller
     public function get(Request $request): JsonResponse
     {
         return response()->json(['data' => Order::all()]);
+    }
+
+    public function getOne(Order $order, Request $request): JsonResponse
+    {
+        return response()->json(['data' => OrderResource::make($order->load('orderItems'))]);
     }
 
 }
