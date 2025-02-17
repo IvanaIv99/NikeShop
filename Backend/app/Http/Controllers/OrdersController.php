@@ -52,7 +52,7 @@ class OrdersController extends Controller
 
     public function get(Request $request): JsonResponse
     {
-        return response()->json([]);
+        return response()->json(['data' => Order::all()]);
     }
 
 }

@@ -1,0 +1,18 @@
+<section style="margin-top:2%;">
+  <table datatable class="table table-dark">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Date</th>
+      <th scope="col">Subtotal</th>
+      <th scope="col">Status</th>
+      <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr app-order-item *ngFor="let item of orders;let i = index"
+        [order]="item" [index]="i">
+    </tr>
+    </tbody>
+  </table>
+</section>

@@ -34,30 +34,6 @@ const NavigationItems = [
       }
     ]
   },
-  // {
-  //   id: 'page',
-  //   title: 'Pages',
-  //   type: 'group',
-  //   icon: 'icon-navigation',
-  //   children: [
-  //     {
-  //       id: 'Authentication',
-  //       title: 'Authentication',
-  //       type: 'collapse',
-  //       icon: 'ti ti-key',
-  //       children: [
-  //         {
-  //           id: 'login',
-  //           title: 'Login',
-  //           type: 'item',
-  //           url: '/guest/login',
-  //           target: true,
-  //           breadcrumbs: false
-  //         }
-  //       ]
-  //     }
-  //   ]
-  // },
   {
     id: 'elements',
     title: 'Manage',
