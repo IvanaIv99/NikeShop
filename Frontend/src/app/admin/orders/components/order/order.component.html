@@ -1,40 +1,118 @@
-<div class="container products-dashboard">
-    <h1 class="order-title">Order Details - #{{order.id}}</h1>
+<div class="container-fluid">
 
-    <div class="info-cards-container d-flex ">
-        <!-- Personal Details Section -->
-        <mat-card class="section">
-            <mat-card-header>
-                <mat-card-title>Personal Details</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                <mat-list>
-                    <mat-list-item><strong>First Name:</strong> {{order.first_name}}</mat-list-item>
-                    <mat-list-item><strong>Last Name:</strong> {{order.last_name}}</mat-list-item>
-                    <mat-list-item><strong>Email:</strong> {{order.email}}</mat-list-item>
-                    <mat-list-item><strong>Phone:</strong> {{order.phone}}</mat-list-item>
-                </mat-list>
-            </mat-card-content>
-        </mat-card>
-
-        <!-- Address Details Section -->
-        <mat-card class="section" style="margin-left: 10px;">
-            <mat-card-header>
-                <mat-card-title>Address Details</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                <mat-list>
-                    <mat-list-item><strong>Address:</strong> {{order.address}}</mat-list-item>
-                    <mat-list-item><strong>Country:</strong> {{order.country}}</mat-list-item>
-                    <mat-list-item><strong>State:</strong> {{order.state}}</mat-list-item>
-                    <mat-list-item><strong>City:</strong> {{order.city}}</mat-list-item>
-                </mat-list>
-            </mat-card-content>
-        </mat-card>
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center py-3">
+      <h2 class="h5 mb-0"><a href="#" class="text-muted"></a> Order #{{ order.id }}</h2>
     </div>
-
-    <!-- Order Summary Table (for example, a separate section below) -->
-    <mat-card class="section order-summary">
-
-    </mat-card>
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="mb-3 d-flex justify-content-between">
+              <div>
+                <span class="me-3">{{ order.created_at | date: 'd MMM yyyy | HH:mm'}}</span>
+                <span class="me-3">#{{ order.id }}</span>
+                <span class="badge rounded-pill bg-info">{{ order.status }}</span>
+              </div>
+              <div class="d-flex">
+                <button class="btn btn-link p-0 me-3 d-none d-lg-block btn-icon-text"><i class="bi bi-download"></i>
+                  <span class="text">Invoice</span></button>
+                <div class="dropdown">
+                  <button class="btn btn-link p-0 text-muted" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-three-dots-vertical"></i>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-pencil"></i> Edit</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-printer"></i> Print</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <table class="table table-borderless" style="--bs-table-bg: none;" >
+              <tbody>
+                <tr *ngFor="let orderItem of order.items">
+                  <td>
+                    <div class="d-flex mb-2">
+                      <div class="flex-shrink-0">
+                        <img style="width: 50px" src="{{orderItem.product.image}}" alt="" class="img-fluid">
+                      </div>
+                      <div class="flex-lg-grow-1 ms-3">
+                        <h4 class="mb-0 text-white">{{ orderItem.product.name }}</h4>
+                        <p class="text-white">Color: {{ orderItem.color.name }}</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="text-white"> {{ orderItem.quantity }}</td>
+                  <td class="text-end text-white">${{ orderItem.total }}</td>
+                </tr>
+              </tbody>
+              <tfoot>
+              <tr>
+                <td colspan="2" class="text-white">Subtotal</td>
+                <td class="text-end text-white">$159,98</td>
+              </tr>
+              <tr>
+                <td colspan="2" class="text-white">Shipping</td>
+                <td class="text-end text-white">$20.00</td>
+              </tr>
+              <tr>
+                <td colspan="2" class="text-white">Discount (Code: NEWYEAR)</td>
+                <td class="text-danger text-end text-white">-$10.00</td>
+              </tr>
+              <tr class="fw-bold">
+                <td colspan="2" class="text-white">TOTAL</td>
+                <td class="text-end text-white">$169,98</td>
+              </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-6">
+                <h3 class="h6">Payment Method</h3>
+                <p>{{order.payment_method}}<br>
+                  Total: ${{ order.subtotal }} <span class="badge bg-success rounded-pill">PAID</span></p>
+              </div>
+              <div class="col-lg-6">
+                <h3 class="h6">Billing address</h3>
+                <address>
+                  <strong>{{order.first_name}} {{order.last_name}}</strong><br>
+                  {{ order.address }}<br>
+                  {{ order.city + ", " + order.country }}<br>
+                  <abbr title="Phone">P:</abbr> {{ order.phone }}
+                </address>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h3 class="h6">Customer Notes</h3>
+            <p>{{order.additional}}</p>
+          </div>
+        </div>
+        <div class="card mb-4">
+          <div class="card-body">
+            <h3 class="h6">Shipping Information</h3>
+            <strong>FedEx</strong>
+            <span><a href="#" class="text-decoration-underline" target="_blank">FF1234567890</a> <i
+              class="bi bi-box-arrow-up-right"></i> </span>
+            <hr>
+            <h3 class="h6">Address</h3>
+            <address>
+              <strong>John Doe</strong><br>
+              1355 Market St, Suite 900<br>
+              San Francisco, CA 94103<br>
+              <abbr title="Phone">P:</abbr> (123) 456-7890
+            </address>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

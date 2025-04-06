@@ -49,7 +49,7 @@ export class ShopComponent implements OnInit {
   {
     this.productService.getProducts().subscribe({
       next: (data) => {
-        this.products = data[0];
+        this.products = data['data'];
       },
       error: (e) => console.error(e)
     });

@@ -6,7 +6,6 @@ import {OrdersTableComponent} from "./components/orders-table/orders-table.compo
 import {SharedModule} from "../../shared/shared.module";
 import {OrdersComponent} from "./components/orders/orders.component";
 
-
 @NgModule({
   declarations: [
     OrdersComponent,

@@ -77,7 +77,7 @@ export class ProcessOrderComponent {
       additional:formValue.additional,
       subtotal: this.subTotal,
       items: this.cartService.getCartItems().map(item => ({
-        product_id: item.id,
+        product: item.product,
         quantity: item.quantity,
         size_id: item.size.id,
         color_id: item.color.id,

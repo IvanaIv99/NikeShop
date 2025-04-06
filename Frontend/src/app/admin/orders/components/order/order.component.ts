@@ -27,6 +27,7 @@ export class OrderComponent implements OnInit {
     this.requestsService.getOneOrder(id).subscribe({
       next: (response) => {
         this.order = response['data'];
+        console.log(this.order);
       },
       error: (e) => console.error(e)
     });
