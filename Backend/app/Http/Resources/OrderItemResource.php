@@ -10,6 +10,7 @@ class OrderItemResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'product' => $this->product,
             'size' => SizeResource::make($this->size),
             'color' => ColorResource::make($this->color),
             'quantity' => $this->quantity,

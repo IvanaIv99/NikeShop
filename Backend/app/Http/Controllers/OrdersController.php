@@ -58,7 +58,7 @@ class OrdersController extends Controller
 
     public function getOne(Order $order, Request $request): JsonResponse
     {
-        return response()->json(['data' => OrderResource::make($order->load('orderItems'))]);
+        return response()->json(['data' => OrderResource::make($order->load('orderItems.product'))]);
     }
 
 }
