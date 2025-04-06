@@ -21,7 +21,7 @@ export class ProcessOrderComponent {
     phone: new FormControl('',[Validators.required]),
     city: new FormControl('',[Validators.required]),
     country: new FormControl('',[Validators.required]),
-    state: new FormControl('',[Validators.required]),
+    zip: new FormControl('',[Validators.required]),
     address: new FormControl('',[Validators.required]),
     paymentMethod: new FormControl('pay_on_delivery'),
     additional: new FormControl(''),
@@ -70,7 +70,7 @@ export class ProcessOrderComponent {
       email: formValue.email,
       phone: formValue.phone,
       country: this.selectedCountry.name,
-      state: this.selectedState.name,
+      zip: this.selectedState.name,
       city: this.selectedCity.name,
       address: formValue.address,
       payment_method: formValue.paymentMethod,
@@ -86,19 +86,8 @@ export class ProcessOrderComponent {
     }
   }
 
-  onCountryChange(event:any): void {
-    this.states = State.getStatesOfCountry(JSON.parse(event.value).isoCode);
-    this.selectedCountry = JSON.parse(event.value);
-    this.cities = this.selectedState = this.selectedCity = null;
+  onCountryChange(): void {
+    this.cities = City.getCitiesOfCountry(this.selectedCountry.isoCode)
   }
 
-  onStateChange(event:any): void {
-     this.cities = City.getCitiesOfState(this.selectedCountry.isoCode, JSON.parse(event.value).isoCode)
-     this.selectedState = JSON.parse(event.value);
-     this.selectedCity = null;
-  }
-
-  onCityChange(event:any): void {
-    this.selectedCity = JSON.parse(event.value);
-  }
 }

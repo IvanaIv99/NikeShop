@@ -1,9 +1,9 @@
 
   <th scope="row">{{index + 1}}</th>
-  <td> {{cartItem.name}}</td>
+  <td> {{cartItem.product.name}}</td>
   <td> {{cartItem.size.size}}</td>
   <td> {{cartItem.color.name}}</td>
-  <td>{{cartItem.price}} $</td>
+  <td>{{cartItem.product.price}} $</td>
   <td>
     <input
       [(ngModel)]="cartItem.quantity"

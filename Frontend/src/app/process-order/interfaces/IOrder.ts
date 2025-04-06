@@ -7,7 +7,7 @@ interface IOrderBase {
   email: string;
   phone: string;
   country: string;
-  state: string;
+  zip: number;
   city: string;
   address: string;
   payment_method: string,

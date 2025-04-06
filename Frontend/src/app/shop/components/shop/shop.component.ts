@@ -27,10 +27,8 @@ export class ShopComponent implements OnInit {
   addProductToCart(product) {
 
     let item: ICartItem = {
-      id : product.id,
-      name: product.name,
+      product: product,
       quantity: 1,
-      price: product.price,
       total: product.price,
       size: product.selectedSize,
       color: product.selectedColor

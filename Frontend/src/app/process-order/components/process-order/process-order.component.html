@@ -1,113 +1,210 @@
-<div class="form-container container mb-5">
-  <div class="">
-    <form [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column align-items-center">
-      <div class="title mb-5">
-        <h2>Order Form</h2>
+<div class="container">
+  <div class="row">
+    <div class="col-xl-7">
+      <div class="card">
+        <div class="card-body">
+          <ol class="activity-checkout mb-0 px-4 mt-3">
+            <li class="checkout-item">
+              <div class="avatar checkout-icon p-1">
+                <div class="avatar-title rounded-circle bg-primary">
+                  <i class="bx bxs-receipt text-white font-size-20"></i>
+                </div>
+              </div>
+              <div class="feed-item-list">
+                <div>
+                  <h5 class="font-size-16 mb-1">Shipping Info</h5>
+                  <p class="text-muted text-truncate mb-4">Sed ut perspiciatis unde omnis iste</p>
+                  <div class="mb-3">
+                    <form [formGroup]="form" (ngSubmit)="submit()">
+                      <div>
+                        <div class="row">
+                          <div class="col-lg-4">
+                            <div class="mb-3">
+                              <label class="form-label" for="first-name">First Name</label>
+                              <input type="text" class="form-control" formControlName="firstName" id="first-name" placeholder="Enter First Name">
+                            </div>
+                          </div>
+                          <div class="col-lg-4">
+                            <div class="mb-3">
+                              <label class="form-label" for="last-name">Last Name</label>
+                              <input type="text" class="form-control" id="last-name" formControlName="lastName" placeholder="Enter Last Name">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-4">
+                            <div class="mb-3">
+                              <label class="form-label" for="billing-email-address">Email Address</label>
+                              <input type="email" class="form-control" id="billing-email-address"  formControlName="email" placeholder="Enter email">
+                            </div>
+                          </div>
+                          <div class="col-lg-4">
+                            <div class="mb-3">
+                              <label class="form-label" for="billing-phone">Phone</label>
+                              <input type="text" class="form-control" id="billing-phone"  formControlName="phone" placeholder="Enter Phone no.">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="mb-3">
+                          <label class="form-label" for="billing-address">Address</label>
+                          <input class="form-control" id="billing-address" rows="3" formControlName="address" placeholder="Enter full address"/>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-lg-4">
+                            <div class="mb-4 mb-lg-0">
+                              <label class="form-label">Country</label>
+                              <select
+                                class="form-control form-select"
+                                name="country"
+                                id="country"
+                                formControlName="country"
+                                [(ngModel)]="selectedCountry"
+                                (change)="onCountryChange()">
+                                <option selected >Select Country</option>
+                                <option *ngFor="let country of countries" [ngValue]="country">
+                                  {{ country.name }}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="col-lg-4">
+                            <div class="mb-4 mb-lg-0">
+                              <label class="form-label">City</label>
+                              <select
+                                class="form-control form-select"
+                                name="city"
+                                id="city"
+                                formControlName="city"
+                                [(ngModel)]="selectedCity"
+                              >
+                                <option *ngFor="let city of cities" [ngValue]="city">
+                                  {{ city.name }}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="col-lg-4">
+                            <div class="mb-0">
+                              <label class="form-label" for="zip-code">Zip / Postal code</label>
+                              <input type="text" class="form-control" formControlName="zip" id="zip-code" placeholder="Enter Postal code">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row mt-3">
+                          <div class="mb-3">
+                            <label class="form-label" for="additional">Additional</label>
+                            <textarea class="form-control" id="additional" formControlName="additional" rows="3" placeholder="Additional informations"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="checkout-item">
+              <div class="avatar checkout-icon p-1">
+                <div class="avatar-title rounded-circle bg-primary">
+                  <i class="bx bxs-wallet-alt text-white font-size-20"></i>
+                </div>
+              </div>
+              <div class="feed-item-list">
+                <div>
+                  <h5 class="font-size-16 mb-1">Payment Info</h5>
+                  <p class="text-muted text-truncate mb-4">Duis arcu tortor, suscipit eget</p>
+                </div>
+                <div>
+                  <h5 class="font-size-14 mb-3">Payment method :</h5>
+                  <div class="row">
+                    <div class="col-lg-3 col-sm-6">
+                      <div>
+                        <label class="card-radio-label">
+                          <input type="radio" name="pay-method" id="pay-methodoption3" class="card-radio-input" checked="">
+                          <span class="card-radio py-3 text-center text-truncate">
+                            <i class="bx bx-money d-block h2 mb-3"></i>
+                            <span>Cash on Delivery</span>
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
       </div>
-      <div id="orderForm" >
-        <div class="row">
-          <div class="col-6">
-            <mat-form-field color="accent" class="full-width" appearance="fill">
-              <mat-label>First Name</mat-label>
-              <input matInput formControlName="firstName">
-            </mat-form-field>
-          </div>
-          <div class="col-6">
-            <mat-form-field color="accent">
-              <mat-label>Last Name</mat-label>
-              <input matInput formControlName="lastName">
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-6">
-            <mat-form-field color="accent">
-              <mat-label>Enter your email</mat-label>
-              <input matInput placeholder="pat@example.com" formControlName="email">
-            </mat-form-field>
-          </div>
-          <div class="col-6">
-            <mat-form-field color="accent">
-              <mat-label>Phone</mat-label>
-              <input matInput formControlName="phone">
-            </mat-form-field>
-          </div>
-        </div>
+    </div>
+    <div class="col-xl-5">
+      <div class="card checkout-order-summary">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-centered mb-0 table-nowrap">
+              <thead>
+              <tr>
+                <th class="border-top-0" style="width: 110px;" scope="col">Product</th>
+                <th class="border-top-0" scope="col">Product Desc</th>
+                <th class="border-top-0" scope="col">Price</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let item of cartProducts">
+                <th scope="row">
+                  <img src="{{item.product.image}}" alt="product-img" title="product-img"
+                       class="img-fluid rounded "></th>
+                <td>
+                  <h5 class="font-size-16 text-truncate"><a href="#" class="text-dark">{{ item.product.name }}</a></h5>
+                  <p class="text-muted mb-0 mt-1">$ {{ item.product.price }} x {{ item.quantity }}</p>
+                </td>
+                <td>$ {{ item.total }}</td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <h5 class="font-size-14 m-0">Sub Total :</h5>
+                </td>
+                <td>
+                  $ {{ this.subTotal }}
+                </td>
+              </tr>
 
-        <div class="row">
-          <div class="col-4">
-            <mat-form-field color="accent">
-              <mat-label>Country</mat-label>
-              <mat-select #country name="country" id="country" (selectionChange)="onCountryChange($event)">
-                <mat-option *ngFor="let country of countries" [value]="country | json">{{ country.name }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="col-4">
-            <mat-form-field color="accent">
-              <mat-label>State</mat-label>
-              <mat-select  #state name="state" id="state" (selectionChange)="onStateChange($event)">
-                <mat-option *ngFor="let state of states" [value]="state | json" >{{state.name}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="col-4">
-            <mat-form-field color="accent">
-              <mat-label>City</mat-label>
-              <mat-select #city name="city" id="city" (selectionChange)="onCityChange($event)">
-                <mat-option *ngFor="let city of cities" [value]="city | json" >{{ city.name }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
+              <tr>
+                <td colspan="2">
+                  <h5 class="font-size-14 m-0">Shipping Charge :</h5>
+                </td>
+                <td>
+                  $ 0
+                </td>
+              </tr>
 
-        <div class="row">
-          <div class="col-6">
-            <mat-form-field color="accent">
-              <mat-label>House number and street name</mat-label>
-              <input matInput formControlName="address">
-            </mat-form-field>
-          </div>
-        </div>
+              <tr class="bg-light">
+                <td colspan="2">
+                  <h5 class="font-size-14 m-0">Total:</h5>
+                </td>
+                <td>
+                  $ {{ this.subTotal }}
+                </td>
+              </tr>
+              </tbody>
+            </table>
 
-        <div class="row">
-          <div class="col-12">
-            <mat-form-field color="accent">
-              <mat-label>Additional informations</mat-label>
-              <input matInput formControlName="additional">
-            </mat-form-field>
           </div>
-        </div>
-
-      </div>
-
-      <div id="orderDetails">
-        <div class="row yander-content" style="padding-top: 0;">
-          <table>
-            <tr>
-                <th colspan="2">Your order</th>
-            </tr>
-            <tr *ngFor="let item of cartProducts;let i = index">
-              <td>{{item.name}} | {{item.color.name}} | x {{item.quantity}} </td>
-              <td>${{item.total}}</td>
-            </tr>
-            <tr>
-              <th>Subtotal</th>
-              <td>${{subTotal}}</td>
-            </tr>
-            <tr>
-              <th>Shipping</th>
-              <td>Free shipping</td>
-            </tr>
-          </table>
-          <div class="paymentMethod d-flex flex-row justify-content-around">
-            <mat-radio-group formControlName="paymentMethod">
-              <mat-radio-button value="pay_on_delivery">Pay On Delivery</mat-radio-button>
-            </mat-radio-group>
-          </div>
-          <button class="btn btn-primary" type="submit">Submit</button>
         </div>
       </div>
-    </form>
+      <div class="row my-4">
+        <div class="col">
+          <div class="text-end mt-2 mt-sm-0">
+            <button type="submit" class="btn btn-success">
+              <i class="mdi mdi-cart-outline me-1"></i> Send Order
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

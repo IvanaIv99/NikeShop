@@ -19,13 +19,13 @@ export class CartService {
   }
 
   addProductToCart(item : ICartItem) {
-    const productExistInCart = this.items?.find(({id}) => id === item.id);
+    const productExistInCart = this.items?.find(({id}) => id === item.product.id);
     if (!productExistInCart) {
       this.addToCartIfNotExist(item);
     }else{
       if(productExistInCart.size.id === item.size.id && productExistInCart.color_id === item.color.id){
         this.items.map(item => {
-          if(item.id == productExistInCart.id){
+          if(item.product.id == productExistInCart.id){
             item.quantity++;
             item.total = item.quantity * item.price;
           }
@@ -46,7 +46,7 @@ export class CartService {
   }
 
   removeProduct(item: ICartItem) {
-    let index = this.items.findIndex(cartItem => cartItem.id === item.id);
+    let index = this.items.findIndex(cartItem => cartItem.id === item.product.id);
     if (index > -1) {
       this.items.splice(index, 1);
       this.saveCart();
@@ -56,23 +56,21 @@ export class CartService {
 
   }
 
-  calcTotal() {
+  calcTotal(): any {
     return this.items.reduce(
       (sum, x) => ({
-        quantity: 1,
-        price: sum.price + x.quantity * x.price
+        quantity: sum.quantity + x.quantity,
+        price: sum.price + x.quantity * x.product.price
       }),
-      { quantity: 1, price: 0 }
+      { quantity: 0, price: 0 }
     ).price;
   }
 
   changeSubtotal(item, index, subTotalItems) {
     const qty = item.quantity;
-    const amt = item.price;
+    const amt = item.product.price;
     const subTotal = amt * qty;
-    subTotalItems.toArray()[
-      index
-      ].nativeElement.innerHTML = subTotal+"$";
+    subTotalItems.toArray()[index].nativeElement.innerHTML = subTotal+"$";
 
     item.total = subTotal;
     this.saveCart();
