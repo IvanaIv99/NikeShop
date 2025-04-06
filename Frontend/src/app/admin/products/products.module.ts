@@ -4,14 +4,14 @@ import { ProductsRoutingModule } from './products-routing.module';
 import {ProductFormComponent} from "./components/products-form/product-form.component";
 import {SharedModule} from "../../shared/shared.module";
 import {ProductComponent} from "./components/product/product.component";
-import {ProductsDashboardComponent} from "./components/products-dashboard/products-dashboard.component";
+import {ProductsComponent} from "./components/products/products.component";
 import {ProductsTableComponent} from "./components/products-table/products-table.component";
 
 @NgModule({
   declarations: [
     ProductFormComponent,
     ProductComponent,
-    ProductsDashboardComponent,
+    ProductsComponent,
     ProductsTableComponent
   ],
   imports: [

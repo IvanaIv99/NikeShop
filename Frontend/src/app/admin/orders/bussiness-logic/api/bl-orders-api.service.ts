@@ -8,7 +8,6 @@ import {IOrder} from "../../interfaces/i-order";
   providedIn: 'root'
 })
 export class BlOrdersApiService {
-
   constructor(
     public http: HttpClient
   ) {}

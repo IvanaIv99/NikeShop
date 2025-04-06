@@ -1,5 +1,7 @@
 export enum ColumnType {
-    boolean,
-    action,
-    date
+  boolean,
+  action,
+  date,
+  image,
+  list
 }

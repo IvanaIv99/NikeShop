@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {ProductsDashboardComponent} from "./components/products-dashboard/products-dashboard.component";
+import {ProductsComponent} from "./components/products/products.component";
 import {ProductFormComponent} from "./components/products-form/product-form.component";
 
 const routes: Routes = [
   {
     path: "",
-    component: ProductsDashboardComponent,
+    component: ProductsComponent,
   },
   {
     path: 'add',

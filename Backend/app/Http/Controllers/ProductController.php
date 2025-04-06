@@ -16,14 +16,12 @@ class ProductController extends Controller
     {
         $productId = $request->get('productId');
 
+        $data = $productId ?
+            Products::query()->find($productId)->with(['categories:name', 'sizes:size', 'colors:name'])->first() :
+            Products::with('categories','sizes','colors')->get();
+
         return response()->json([
-            $productId ?
-                Products::query()->find($productId)->with([
-                    'categories:name',
-                    'sizes:size',
-                    'colors:name'
-                ])->first()
-                : Products::with('categories','sizes','colors')->get()
+            'data' => $data,
         ]);
     }
 
