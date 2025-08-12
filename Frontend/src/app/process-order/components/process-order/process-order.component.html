@@ -1,210 +1,145 @@
-<div class="container">
-  <div class="row">
-    <div class="col-xl-7">
-      <div class="card">
-        <div class="card-body">
-          <ol class="activity-checkout mb-0 px-4 mt-3">
-            <li class="checkout-item">
-              <div class="avatar checkout-icon p-1">
-                <div class="avatar-title rounded-circle bg-primary">
-                  <i class="bx bxs-receipt text-white font-size-20"></i>
-                </div>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="container my-4">
+    <div class="row g-4">
+
+      <!-- LEFT COLUMN: Shipping & Payment -->
+      <div class="col-xl-7">
+
+        <!-- Shipping Info -->
+        <div class="card mb-4">
+          <div class="card-header d-flex align-items-center">
+            <i class="bx bxs-receipt text-primary me-2 fs-4"></i>
+            <h5 class="mb-0">Shipping Info</h5>
+          </div>
+          <div class="card-body">
+
+            <!-- Name -->
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <label class="form-label">First Name</label>
+                <input type="text" class="form-control" formControlName="firstName" placeholder="Enter First Name">
               </div>
-              <div class="feed-item-list">
-                <div>
-                  <h5 class="font-size-16 mb-1">Shipping Info</h5>
-                  <p class="text-muted text-truncate mb-4">Sed ut perspiciatis unde omnis iste</p>
-                  <div class="mb-3">
-                    <form [formGroup]="form" (ngSubmit)="submit()">
-                      <div>
-                        <div class="row">
-                          <div class="col-lg-4">
-                            <div class="mb-3">
-                              <label class="form-label" for="first-name">First Name</label>
-                              <input type="text" class="form-control" formControlName="firstName" id="first-name" placeholder="Enter First Name">
-                            </div>
-                          </div>
-                          <div class="col-lg-4">
-                            <div class="mb-3">
-                              <label class="form-label" for="last-name">Last Name</label>
-                              <input type="text" class="form-control" id="last-name" formControlName="lastName" placeholder="Enter Last Name">
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-4">
-                            <div class="mb-3">
-                              <label class="form-label" for="billing-email-address">Email Address</label>
-                              <input type="email" class="form-control" id="billing-email-address"  formControlName="email" placeholder="Enter email">
-                            </div>
-                          </div>
-                          <div class="col-lg-4">
-                            <div class="mb-3">
-                              <label class="form-label" for="billing-phone">Phone</label>
-                              <input type="text" class="form-control" id="billing-phone"  formControlName="phone" placeholder="Enter Phone no.">
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="mb-3">
-                          <label class="form-label" for="billing-address">Address</label>
-                          <input class="form-control" id="billing-address" rows="3" formControlName="address" placeholder="Enter full address"/>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-lg-4">
-                            <div class="mb-4 mb-lg-0">
-                              <label class="form-label">Country</label>
-                              <select
-                                class="form-control form-select"
-                                name="country"
-                                id="country"
-                                formControlName="country"
-                                [(ngModel)]="selectedCountry"
-                                (change)="onCountryChange()">
-                                <option selected >Select Country</option>
-                                <option *ngFor="let country of countries" [ngValue]="country">
-                                  {{ country.name }}
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div class="col-lg-4">
-                            <div class="mb-4 mb-lg-0">
-                              <label class="form-label">City</label>
-                              <select
-                                class="form-control form-select"
-                                name="city"
-                                id="city"
-                                formControlName="city"
-                                [(ngModel)]="selectedCity"
-                              >
-                                <option *ngFor="let city of cities" [ngValue]="city">
-                                  {{ city.name }}
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div class="col-lg-4">
-                            <div class="mb-0">
-                              <label class="form-label" for="zip-code">Zip / Postal code</label>
-                              <input type="text" class="form-control" formControlName="zip" id="zip-code" placeholder="Enter Postal code">
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="row mt-3">
-                          <div class="mb-3">
-                            <label class="form-label" for="additional">Additional</label>
-                            <textarea class="form-control" id="additional" formControlName="additional" rows="3" placeholder="Additional informations"></textarea>
-                          </div>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
+              <div class="col-md-4">
+                <label class="form-label">Last Name</label>
+                <input type="text" class="form-control" formControlName="lastName" placeholder="Enter Last Name">
               </div>
-            </li>
-            <li class="checkout-item">
-              <div class="avatar checkout-icon p-1">
-                <div class="avatar-title rounded-circle bg-primary">
-                  <i class="bx bxs-wallet-alt text-white font-size-20"></i>
-                </div>
+            </div>
+
+            <!-- Contact -->
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-control" formControlName="email" placeholder="Enter email">
               </div>
-              <div class="feed-item-list">
-                <div>
-                  <h5 class="font-size-16 mb-1">Payment Info</h5>
-                  <p class="text-muted text-truncate mb-4">Duis arcu tortor, suscipit eget</p>
-                </div>
-                <div>
-                  <h5 class="font-size-14 mb-3">Payment method :</h5>
-                  <div class="row">
-                    <div class="col-lg-3 col-sm-6">
-                      <div>
-                        <label class="card-radio-label">
-                          <input type="radio" name="pay-method" id="pay-methodoption3" class="card-radio-input" checked="">
-                          <span class="card-radio py-3 text-center text-truncate">
-                            <i class="bx bx-money d-block h2 mb-3"></i>
-                            <span>Cash on Delivery</span>
-                          </span>
-                        </label>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
+              <div class="col-md-4">
+                <label class="form-label">Phone</label>
+                <input type="text" class="form-control" formControlName="phone" placeholder="Enter phone no.">
               </div>
-            </li>
-          </ol>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-5">
-      <div class="card checkout-order-summary">
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-centered mb-0 table-nowrap">
-              <thead>
-              <tr>
-                <th class="border-top-0" style="width: 110px;" scope="col">Product</th>
-                <th class="border-top-0" scope="col">Product Desc</th>
-                <th class="border-top-0" scope="col">Price</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr *ngFor="let item of cartProducts">
-                <th scope="row">
-                  <img src="{{item.product.image}}" alt="product-img" title="product-img"
-                       class="img-fluid rounded "></th>
-                <td>
-                  <h5 class="font-size-16 text-truncate"><a href="#" class="text-dark">{{ item.product.name }}</a></h5>
-                  <p class="text-muted mb-0 mt-1">$ {{ item.product.price }} x {{ item.quantity }}</p>
-                </td>
-                <td>$ {{ item.total }}</td>
-              </tr>
-              <tr>
-                <td colspan="2">
-                  <h5 class="font-size-14 m-0">Sub Total :</h5>
-                </td>
-                <td>
-                  $ {{ this.subTotal }}
-                </td>
-              </tr>
+            </div>
 
-              <tr>
-                <td colspan="2">
-                  <h5 class="font-size-14 m-0">Shipping Charge :</h5>
-                </td>
-                <td>
-                  $ 0
-                </td>
-              </tr>
+            <!-- Address -->
+            <div class="mb-3">
+              <label class="form-label">Address</label>
+              <input type="text" class="form-control" formControlName="address" placeholder="Enter full address">
+            </div>
 
-              <tr class="bg-light">
-                <td colspan="2">
-                  <h5 class="font-size-14 m-0">Total:</h5>
-                </td>
-                <td>
-                  $ {{ this.subTotal }}
-                </td>
-              </tr>
-              </tbody>
-            </table>
+            <!-- Location -->
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <label class="form-label">Country</label>
+                <select class="form-select" formControlName="country">
+                  <option value="">Select Country</option>
+                  <option *ngFor="let country of countries" [ngValue]="country">
+                    {{ country.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">City</label>
+                <select class="form-select" formControlName="city">
+                  <option value="">Select City</option>
+                  <option *ngFor="let city of cities" [ngValue]="city">
+                    {{ city.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Zip / Postal Code</label>
+                <input type="text" class="form-control" formControlName="zip" placeholder="Enter postal code">
+              </div>
+            </div>
 
+            <!-- Additional -->
+            <div class="mb-3">
+              <label class="form-label">Additional Information</label>
+              <textarea class="form-control" formControlName="additional" rows="3" placeholder="Additional information"></textarea>
+            </div>
           </div>
         </div>
+
+        <!-- Payment Info -->
+        <div class="card">
+          <div class="card-header d-flex align-items-center">
+            <i class="bx bxs-wallet-alt text-primary me-2 fs-4"></i>
+            <h5 class="mb-0">Payment Info</h5>
+          </div>
+          <div class="card-body">
+            <h6 class="mb-3">Payment Method:</h6>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" value="cash_on_delivery" id="pay-cod" formControlName="paymentMethod">
+              <label class="form-check-label" for="pay-cod">
+                <i class="bx bx-money me-1"></i> Cash on Delivery
+              </label>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <div class="row my-4">
-        <div class="col">
-          <div class="text-end mt-2 mt-sm-0">
-            <button type="submit" class="btn btn-success">
+
+      <!-- RIGHT COLUMN: Order Summary -->
+      <div class="col-xl-5">
+        <div class="card checkout-order-summary">
+          <div class="card-header">
+            <h5 class="mb-0">Order Summary</h5>
+          </div>
+          <div class="card-body">
+
+            <!-- Products -->
+            <div *ngFor="let item of cartProducts" class="d-flex align-items-center mb-3">
+              <img [src]="item.product.image" alt="product" class="img-thumbnail me-3" style="width:60px; height:60px; object-fit:cover;">
+              <div>
+                <div>{{ item.product.name }}</div>
+                <small class="text-muted">${{ item.product.price }} × {{ item.quantity }}</small>
+              </div>
+              <div class="ms-auto fw-bold">${{ item.total }}</div>
+            </div>
+
+            <hr>
+
+            <!-- Totals -->
+            <div class="d-flex justify-content-between mb-2">
+              <span>Sub Total:</span>
+              <strong>${{ subTotal }}</strong>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <span>Shipping Charge:</span>
+              <strong>$0</strong>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between">
+              <span>Total:</span>
+              <strong>${{ subTotal }}</strong>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn btn-success w-100 mt-3">
               <i class="mdi mdi-cart-outline me-1"></i> Send Order
             </button>
+
           </div>
         </div>
       </div>
+
     </div>
   </div>
-</div>
+</form>

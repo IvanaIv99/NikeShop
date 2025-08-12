@@ -25,7 +25,6 @@ export class ShopComponent implements OnInit {
   }
 
   addProductToCart(product) {
-
     let item: ICartItem = {
       product: product,
       quantity: 1,
@@ -34,14 +33,7 @@ export class ShopComponent implements OnInit {
       color: product.selectedColor
     };
 
-    if( !item.size ){
-      alert('Color is required.')
-    } else if(!item.color){
-      alert('Shoe size and color is required.')
-    }else{
-      this.cartService.addProductToCart(item);
-    }
-
+    this.cartService.addProductToCart(item);
   }
   private getProducts(): any
   {

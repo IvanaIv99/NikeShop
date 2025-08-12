@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import {ICartItem} from "../interfaces/i-cart-item";
 import {Subject} from "rxjs";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
 
-  constructor() { }
+  constructor(private snackBar: MatSnackBar) { }
 
   items = [];
 
@@ -19,6 +20,14 @@ export class CartService {
   }
 
   addProductToCart(item : ICartItem) {
+    if(!item.size || !item.color){
+      this.snackBar.open('Size and color are required.', 'Close', {
+        duration: 3000,
+        panelClass: ['snackbar-success']
+      });
+      return;
+    }
+
     const productExistInCart = this.items?.find(({id}) => id === item.product.id);
     if (!productExistInCart) {
       this.addToCartIfNotExist(item);
@@ -35,7 +44,10 @@ export class CartService {
       }
     }
     this.saveCart();
-    alert("Product added to cart.");
+    this.snackBar.open('Added to cart!', 'Close', {
+      duration: 3000,
+      panelClass: ['snackbar-success']
+    });
   }
 
   addToCartIfNotExist(item : ICartItem){

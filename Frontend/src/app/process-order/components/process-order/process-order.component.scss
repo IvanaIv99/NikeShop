@@ -5,8 +5,6 @@ body {
 
 .card {
   margin-bottom: 24px;
-  -webkit-box-shadow: 0 2px 3px #e4e8f0;
-  box-shadow: 0 2px 3px #e4e8f0;
 }
 
 .card {
@@ -19,10 +17,10 @@ body {
   -ms-flex-direction: column;
   flex-direction: column;
   min-width: 0;
+  color:white;
   word-wrap: break-word;
-  //background-color: #fff;
+  background-color: #4a4a4a;
   background-clip: border-box;
-  border: 1px solid #eff0f2;
   border-radius: 1rem;
 }
 

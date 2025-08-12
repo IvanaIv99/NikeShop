@@ -1,4 +1,5 @@
 <div class="w-75 m-auto">
+  <button class="ph-cursor clearCart btn text-white mb-2" (click)="clearCart()">Clear all</button>
   <div *ngIf="cartProducts?.length == 0; then thenBlock else elseBlock"></div>
   <ng-template #thenBlock> <p class="emptyCart text-center"> Cart is empty. </p> </ng-template>
   <ng-template #elseBlock>
@@ -19,12 +20,15 @@
       <tr app-cart-item *ngFor="let item of cartProducts;let i = index"
           [cartItem]="item" [index]="i">
       </tr>
-      <h5 class="mt-5  fw-bold totalCart">Total: {{total}} $</h5>
       </tbody>
     </table>
 
-    <button class="btn-primary btn text-white mb-2 mr-2" routerLink="/process-order" >Process order</button>
-    <button class="clearCart btn text-white mb-2" (click)="clearCart()" > Clear</button>
+    <div class="mt-5 d-flex flex-row">
+      <p class="totalCart"> Total: </p>
+      <p class="fw-bold totalCart"> {{total}} $ </p>
+    </div>
+
+    <button class="btn-primary btn text-white mb-2 mr-2" routerLink="/process-order">Process order</button>
 
   </ng-template>
 </div>

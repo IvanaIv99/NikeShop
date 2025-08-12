@@ -21,7 +21,7 @@ export class ProcessOrderComponent {
     phone: new FormControl('',[Validators.required]),
     city: new FormControl('',[Validators.required]),
     country: new FormControl('',[Validators.required]),
-    zip: new FormControl('',[Validators.required]),
+    zip: new FormControl(null,[Validators.required, Validators.pattern(/^\d{5}(-\d{4})?$/)]),
     address: new FormControl('',[Validators.required]),
     paymentMethod: new FormControl('pay_on_delivery'),
     additional: new FormControl(''),
@@ -31,11 +31,9 @@ export class ProcessOrderComponent {
   subTotal: any = 0;
 
   countries = Country.getAllCountries();
-  states = null;
   cities = null;
 
   selectedCountry: any;
-  selectedState: any;
   selectedCity: any;
 
   constructor(
@@ -70,7 +68,7 @@ export class ProcessOrderComponent {
       email: formValue.email,
       phone: formValue.phone,
       country: this.selectedCountry.name,
-      zip: this.selectedState.name,
+      zip: formValue.zip,
       city: this.selectedCity.name,
       address: formValue.address,
       payment_method: formValue.paymentMethod,
