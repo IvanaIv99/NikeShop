@@ -19,11 +19,11 @@ export class ProcessOrderComponent {
     lastName: new FormControl('',[Validators.required, Validators.minLength(2)]),
     email: new FormControl('',[Validators.required, Validators.email]),
     phone: new FormControl('',[Validators.required]),
-    city: new FormControl('',[Validators.required]),
-    country: new FormControl('',[Validators.required]),
+    city: new FormControl(null,[Validators.required]),
+    country: new FormControl(null,[Validators.required]),
     zip: new FormControl(null,[Validators.required, Validators.pattern(/^\d{5}(-\d{4})?$/)]),
     address: new FormControl('',[Validators.required]),
-    paymentMethod: new FormControl('pay_on_delivery'),
+    paymentMethod: new FormControl('cash_on_delivery'),
     additional: new FormControl(''),
   });
 
@@ -34,7 +34,6 @@ export class ProcessOrderComponent {
   cities = null;
 
   selectedCountry: any;
-  selectedCity: any;
 
   constructor(
     private cartService: CartService,
@@ -69,7 +68,7 @@ export class ProcessOrderComponent {
       phone: formValue.phone,
       country: this.selectedCountry.name,
       zip: formValue.zip,
-      city: this.selectedCity.name,
+      city: formValue.city.name,
       address: formValue.address,
       payment_method: formValue.paymentMethod,
       additional:formValue.additional,
@@ -85,7 +84,8 @@ export class ProcessOrderComponent {
   }
 
   onCountryChange(): void {
-    this.cities = City.getCitiesOfCountry(this.selectedCountry.isoCode)
+    let selectedCountry = this.form.get('country').value;
+    this.selectedCountry = selectedCountry;
+    this.cities = City.getCitiesOfCountry(selectedCountry.isoCode)
   }
-
 }
