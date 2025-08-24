@@ -1,0 +1,42 @@
+.common-table {
+  font-size: 0.85rem;
+}
+
+.common-table th.mat-header-cell,
+.common-table td.mat-cell {
+  padding: 4px 8px;
+}
+
+.common-table .mat-row,
+.common-table .mat-header-row {
+  height: 36px;
+}
+
+.common-table .col-action {
+  width: 140px;
+  text-align: center;
+}
+
+.img-thumb {
+  width: 40px;
+  object-fit: cover; /* iseče sliku ako nije kvadratna */
+  border-radius: 4px; /* da izgleda lepše */
+}
+
+.common-table .col-image {
+  width: 60px;
+  text-align: center;
+}
+
+.img-thumb {
+  width: 40px;
+  border-radius: 4px;
+}
+
+.btn-danger-icon {
+  color: #dc3545 !important;
+}
+
+.btn-pencil-icon {
+  color: #337745 !important;
+}

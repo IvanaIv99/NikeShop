@@ -1,19 +1,17 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ProductService} from "../../../../shop/business-logic/product.service";
 import {BlProductsRequestService} from "../../bussiness-logic/requests/bl-products-request.service";
 import {IProduct} from "../../interfaces/i-product";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {ColumnType} from "../../../../shared/enums/column-type";
 import {BlProductsTableService} from "../../bussiness-logic/tables/bl-products-table.service";
-import {IOrder} from "../../../orders/interfaces/i-order";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {SnackbarService} from "../../../../shared/services/common/snackbar/SnackbarService";
 
 @Component({
   selector: 'app-products-table',
   templateUrl: './products-table.component.html',
-  // styleUrls: ['./products-table.component.scss']
+  styleUrls: ['./products-table.component.scss']
 })
 export class ProductsTableComponent implements OnInit{
 

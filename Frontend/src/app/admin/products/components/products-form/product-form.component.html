@@ -1,69 +1,72 @@
 <div class="form-container container mb-5">
-    <div class="">
-        <form [formGroup]="form" (ngSubmit)="onSubmit(this.id)" class="d-flex flex-column align-items-center">
-                <h1>{{title}}</h1>
-            <div id="addProductForm" >
-                <div class="row">
-                    <div class="col-6">
-                        <mat-form-field color="accent" class="full-width" appearance="fill">
-                            <mat-label>Name</mat-label>
-                            <input matInput formControlName="name">
-                        </mat-form-field>
-                    </div>
-                    <div class="col-6">
-                        <mat-form-field color="accent">
-                            <mat-label>Description</mat-label>
-                            <input matInput formControlName="description">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <mat-form-field color="accent">
-                            <mat-label>Price</mat-label>
-                            <input matInput placeholder="$" formControlName="price">
-                        </mat-form-field>
-                    </div>
-                    <div class="col-6">
-                        <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
-                        <div class="file-upload">
-                          {{ fileName || "No file uploaded yet."}}
-                          <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
-                          <mat-icon>attach_file</mat-icon></button>
-                        </div>
-                    </div>
-                    </div>
-                <div class="row">
-                    <div class="col-6">
-                        <mat-form-field color="accent">
-                            <mat-label>Categories</mat-label>
-                            <mat-select formControlName="categories" multiple>
-                                <mat-option *ngFor="let category of this.categoriesList" [value]="category.id" >{{category.name}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div class="col-6">
-                        <mat-form-field color="accent">
-                            <mat-label>Colors</mat-label>
-                            <mat-select formControlName="colors" multiple >
-                                <mat-option *ngFor="let color of this.colorsList" [value]="color.id">{{color.name}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
+  <form [formGroup]="form" (ngSubmit)="onSubmit(this.id)" class="product-form">
+    <h1 class="text-center mb-4">{{ title }}</h1>
 
-                    <div class="col-6">
-                        <mat-form-field color="accent">
-                            <mat-label>Sizes</mat-label>
-                            <mat-select formControlName="sizes" multiple >
-                                <mat-option *ngFor="let size of this.sizesList" [value]="size.id">{{size.size}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
+    <!-- Name & Description -->
+    <div class="form-row">
+      <mat-form-field appearance="fill" color="accent" class="flex-1 me-2">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
 
-                </div>
-                <button class="btn btn-primary" type="submit">Submit</button>
-              <button class="btn btn-danger m-2" type="button" routerLink="../../">Back</button>
-            </div>
-        </form>
+      <mat-form-field appearance="fill" color="accent" class="flex-1">
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="description">
+      </mat-form-field>
     </div>
+
+    <!-- Price & File Upload -->
+    <div class="form-row mt-3">
+      <mat-form-field appearance="fill" color="accent" class="flex-1 me-2">
+        <mat-label>Price</mat-label>
+        <input matInput placeholder="$" formControlName="price">
+      </mat-form-field>
+
+      <div class="file-upload-container flex-1">
+        <input type="file" hidden (change)="onFileSelected($event)" #fileUpload>
+        <div class="file-upload d-flex align-items-center justify-content-between">
+          <span>{{ fileName || 'No file uploaded yet.' }}</span>
+          <button mat-mini-fab color="primary" (click)="fileUpload.click()">
+            <mat-icon>attach_file</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Multi-selects: Categories, Colors, Sizes -->
+    <div class="form-row mt-3 flex-wrap">
+      <mat-form-field appearance="fill" color="accent" class="flex-1 me-2 mb-2">
+        <mat-label>Categories</mat-label>
+        <mat-select formControlName="categories" multiple>
+          <mat-option *ngFor="let category of categoriesList" [value]="category.id">
+            {{ category.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" color="accent" class="flex-1 me-2 mb-2">
+        <mat-label>Colors</mat-label>
+        <mat-select formControlName="colors" multiple>
+          <mat-option *ngFor="let color of colorsList" [value]="color.id">
+            {{ color.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" color="accent" class="flex-1 mb-2">
+        <mat-label>Sizes</mat-label>
+        <mat-select formControlName="sizes" multiple>
+          <mat-option *ngFor="let size of sizesList" [value]="size.id">
+            {{ size.size }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Buttons -->
+    <div class="form-actions mt-4 d-flex justify-content-center gap-2">
+      <button mat-raised-button color="primary" class="mr-2" type="submit">Submit</button>
+      <button mat-raised-button color="warn" routerLink="../../" type="button">Back</button>
+    </div>
+  </form>
 </div>

@@ -1,29 +1,28 @@
-<table mat-table [dataSource]="dataSource" class="common-table">
+<table mat-table [dataSource]="dataSource" class="common-table mat-elevation-z1">
   @for(column of tableService.columns; track column) {
-    <ng-container [matColumnDef]="column.index">
+    <ng-container [matColumnDef]="column.index" [class]="'col-' + column.type">
       <th mat-header-cell *matHeaderCellDef> {{ column.title }} </th>
       <td mat-cell *matCellDef="let element">
         @switch(column.type) {
-
           @case(columnTypeEnum.action) {
-            <button type="button" class="btn btn-primary editProduct" aria-label="Left Align" style="margin-right: 5px" (click)="doAction(element)"> Edit </button>
-            <button type="button" class="btn btn-danger deleteProduct" aria-label="Left Align"  (click)="delete(element)">Delete</button>
+            <button mat-icon-button class="btn-pencil-icon" (click)="doAction(element)" matTooltip="Edit">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="btn-danger-icon" (click)="delete(element)" matTooltip="Delete">
+              <mat-icon>delete</mat-icon>
+            </button>
           }
-
           @case(columnTypeEnum.date) {
             <span>{{element[column.index] | date: 'd MMM yyyy | HH:mm'}}</span>
           }
-
           @case(columnTypeEnum.image) {
-            <img style="width: 70px" src="{{element[column.index]}}" alt="nike-air-shoe" >
+            <img class="img-thumb" [src]="element[column.index]" alt="product">
           }
-
           @case(columnTypeEnum.list) {
             @for(item of element[column.index]; track item){
               {{item.size ?? item.name}}
             }
           }
-
           @default {
             {{element[column.index]}}
           }
@@ -34,5 +33,5 @@
   <tr mat-header-row *matHeaderRowDef="tableService.displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: tableService.displayedColumns;"></tr>
 </table>
-<mat-paginator [pageSizeOptions]="this.tableService.pageSizeOptions" showFirstLastButtons aria-label="Select page">
-</mat-paginator>
+
+<mat-paginator [pageSizeOptions]="tableService.pageSizeOptions" showFirstLastButtons></mat-paginator>
