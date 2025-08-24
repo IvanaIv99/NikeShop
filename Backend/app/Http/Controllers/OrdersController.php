@@ -13,8 +13,9 @@ class OrdersController extends Controller
 {
     public function create(Request $request): JsonResponse
     {
+
         //payment metod i status u enum
-        DB::transaction(function () use ($request) {
+        $order = DB::transaction(function () use ($request) {
             $orderItems = [];
 
             $order = new Order();
@@ -23,7 +24,6 @@ class OrdersController extends Controller
             $order->email = $request->get('email');
             $order->phone = $request->get('phone');
             $order->country = $request->get('country');
-            $order->state = $request->get('state');
             $order->city = $request->get('city');
             $order->address = $request->get('address');
             $order->additional = $request->get('additional');
@@ -37,7 +37,7 @@ class OrdersController extends Controller
             foreach ($request->get('items') as $item) {
                 $orderItems[] = [
                     'order_id' => $order->id,
-                    'product_id' => $item['product_id'],
+                    'product_id' => $item['product']['id'],
                     'size_id' => $item['size_id'],
                     'color_id' => $item['color_id'],
                     'quantity' => $item['quantity'],
@@ -46,9 +46,13 @@ class OrdersController extends Controller
             }
 
             OrderItem::query()->insert($orderItems);
+
+            return $order;
         });
 
-        return response()->json(['message' => 'Order created'], 201);
+        return response()->json([
+            'order_id' => $order->id,
+        ], 201);
     }
 
     public function get(Request $request): JsonResponse

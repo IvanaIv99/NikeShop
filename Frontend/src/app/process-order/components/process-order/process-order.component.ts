@@ -6,6 +6,7 @@ import {IOrderItem} from "../../interfaces/IOrderItem";
 import {BlProcessOrderRequestsService} from "../../business-logic/requests/bl-process-order-requests.service";
 import {Observable} from "rxjs";
 import { Country, State, City }  from 'country-state-city';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-orders',
@@ -37,7 +38,8 @@ export class ProcessOrderComponent {
 
   constructor(
     private cartService: CartService,
-    private requestsService: BlProcessOrderRequestsService
+    private requestsService: BlProcessOrderRequestsService,
+    private router: Router
   ) {
   }
 
@@ -51,7 +53,9 @@ export class ProcessOrderComponent {
     const dataToSend: IOrderRequest = this.getDataForSend();
     this.requestsService.insert(dataToSend).subscribe({
       next: (data) => {
-        alert("Order Created");
+        const orderId = data.order_id;
+        this.router.navigate(['process-order/success', orderId]);
+        this.cartService.clearCart();
       },
       error: (err) => {
         alert(err);

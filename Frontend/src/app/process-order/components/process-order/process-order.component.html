@@ -6,119 +6,139 @@
       <div class="col-xl-7">
 
         <!-- Shipping Info -->
-        <div class="card mb-4">
-          <div class="card-header d-flex align-items-center">
-            <i class="bx bxs-receipt text-primary me-2 fs-4"></i>
-            <h5 class="mb-0">Shipping Info</h5>
-          </div>
-          <div class="card-body">
+        <mat-card class="mb-4">
+          <mat-card-header class="mb-3">
+            <mat-icon color="primary" class="me-2">receipt</mat-icon>
+            <mat-card-title>Shipping Info</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
 
-            <!-- Name -->
+            <!-- First & Last Name -->
             <div class="row mb-3">
-              <div class="col-md-4">
-                <label class="form-label">First Name</label>
-                <input type="text" class="form-control" formControlName="firstName" placeholder="Enter First Name">
+              <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>First Name</mat-label>
+                  <input matInput formControlName="firstName" placeholder="Enter First Name" required>
+                  <mat-error *ngIf="form.get('firstName')?.hasError('required')">
+                    First Name is required
+                  </mat-error>
+                  <mat-error *ngIf="form.get('firstName')?.hasError('minlength')">
+                    Minimum 2 characters required
+                  </mat-error>
+                </mat-form-field>
               </div>
-              <div class="col-md-4">
-                <label class="form-label">Last Name</label>
-                <input type="text" class="form-control" formControlName="lastName" placeholder="Enter Last Name">
+
+              <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>Last Name</mat-label>
+                  <input matInput formControlName="lastName" placeholder="Enter Last Name" required>
+                </mat-form-field>
               </div>
             </div>
 
-            <!-- Contact -->
+            <!-- Email & Phone -->
             <div class="row mb-3">
-              <div class="col-md-4">
-                <label class="form-label">Email Address</label>
-                <input type="email" class="form-control" formControlName="email" placeholder="Enter email">
+              <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>Email Address</mat-label>
+                  <input matInput formControlName="email" placeholder="Enter Email" required>
+                </mat-form-field>
               </div>
-              <div class="col-md-4">
-                <label class="form-label">Phone</label>
-                <input type="text" class="form-control" formControlName="phone" placeholder="Enter phone no.">
+
+              <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>Phone</mat-label>
+                  <input matInput formControlName="phone" placeholder="Enter Phone Number" required>
+                </mat-form-field>
               </div>
             </div>
 
             <!-- Address -->
-            <div class="mb-3">
-              <label class="form-label">Address</label>
-              <input type="text" class="form-control" formControlName="address" placeholder="Enter full address">
-            </div>
+            <mat-form-field appearance="fill" class="w-100 mb-3">
+              <mat-label>Address</mat-label>
+              <input matInput formControlName="address" placeholder="Enter full address" required>
+            </mat-form-field>
 
-            <!-- Location -->
+            <!-- Location: Country, City, Zip -->
             <div class="row mb-3">
               <div class="col-md-4">
-                <label class="form-label">Country</label>
-                <select class="form-select"
-                        formControlName="country"
-                        (change)="onCountryChange()">
-                  <option value="">Select Country</option>
-                  <option *ngFor="let country of countries" [ngValue]="country">
-                    {{ country.name }}
-                  </option>
-                </select>
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>Country</mat-label>
+                  <mat-select formControlName="country" (selectionChange)="onCountryChange()">
+                    <mat-option [value]="null">Select Country</mat-option>
+                    <mat-option *ngFor="let country of countries" [value]="country">
+                      {{ country.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
               </div>
+
               <div class="col-md-4">
-                <label class="form-label">City</label>
-                <select class="form-select" formControlName="city">
-                  <option value="">Select City</option>
-                  <option *ngFor="let city of cities" [ngValue]="city">
-                    {{ city.name }}
-                  </option>
-                </select>
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>City</mat-label>
+                  <mat-select formControlName="city">
+                    <mat-option [value]="null">Select City</mat-option>
+                    <mat-option *ngFor="let city of cities" [value]="city">
+                      {{ city.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
               </div>
+
               <div class="col-md-4">
-                <label class="form-label">Zip / Postal Code</label>
-                <input type="text" class="form-control" formControlName="zip" placeholder="Enter postal code">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>Zip / Postal Code</mat-label>
+                  <input matInput formControlName="zip" placeholder="Enter postal code" required>
+                </mat-form-field>
               </div>
             </div>
 
-            <!-- Additional -->
-            <div class="mb-3">
-              <label class="form-label">Additional Information</label>
-              <textarea class="form-control" formControlName="additional" rows="3" placeholder="Additional information"></textarea>
-            </div>
-          </div>
-        </div>
+            <!-- Additional Info -->
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Additional Information</mat-label>
+              <textarea matInput formControlName="additional" rows="3" placeholder="Additional information"></textarea>
+            </mat-form-field>
+
+          </mat-card-content>
+        </mat-card>
 
         <!-- Payment Info -->
-        <div class="card">
-          <div class="card-header d-flex align-items-center">
-            <i class="bx bxs-wallet-alt text-primary me-2 fs-4"></i>
-            <h5 class="mb-0">Payment Info</h5>
-          </div>
-          <div class="card-body">
-            <h6 class="mb-3">Payment Method:</h6>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" value="cash_on_delivery" id="pay-cod" formControlName="paymentMethod" >
-              <label class="form-check-label" for="pay-cod">
-                <i class="bx bx-money me-1"></i> Cash on Delivery
-              </label>
-            </div>
-          </div>
-        </div>
+        <mat-card>
+          <mat-card-header class="mb-3">
+            <mat-icon color="primary" class="me-2">account_balance_wallet</mat-icon>
+            <mat-card-title>Payment Info</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-radio-group formControlName="paymentMethod">
+              <mat-radio-button value="cash_on_delivery" class="me-3">
+                <mat-icon>money</mat-icon> Cash on Delivery
+              </mat-radio-button>
+              <!-- Dodaj još opcija ako treba -->
+            </mat-radio-group>
+          </mat-card-content>
+        </mat-card>
 
       </div>
 
       <!-- RIGHT COLUMN: Order Summary -->
       <div class="col-xl-5">
-        <div class="card checkout-order-summary">
-          <div class="card-header">
-            <h5 class="mb-0">Order Summary</h5>
-          </div>
-          <div class="card-body">
+        <mat-card class="checkout-order-summary">
+          <mat-card-header class="mb-3">
+            <mat-card-title>Order Summary</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
 
-            <!-- Products -->
             <div *ngFor="let item of cartProducts" class="d-flex align-items-center mb-3">
               <img [src]="item.product.image" alt="product" class="img-thumbnail me-3" style="width:60px; height:60px; object-fit:cover;">
               <div>
                 <div>{{ item.product.name }}</div>
-                <small class="text-muted">${{ item.product.price }} × {{ item.quantity }}</small>
+                <small>${{ item.product.price }} × {{ item.quantity }}</small>
               </div>
               <div class="ms-auto fw-bold">${{ item.total }}</div>
             </div>
 
-            <hr>
+            <mat-divider class="mb-2"></mat-divider>
 
-            <!-- Totals -->
             <div class="d-flex justify-content-between mb-2">
               <span>Sub Total:</span>
               <strong>${{ subTotal }}</strong>
@@ -127,19 +147,20 @@
               <span>Shipping Charge:</span>
               <strong>$0</strong>
             </div>
-            <hr>
-            <div class="d-flex justify-content-between">
+
+            <mat-divider class="mb-3"></mat-divider>
+
+            <div class="d-flex justify-content-between fw-bold">
               <span>Total:</span>
               <strong>${{ subTotal }}</strong>
             </div>
 
-            <!-- Submit -->
-            <button type="submit" class="btn btn-success w-100 mt-3">
-              <i class="mdi mdi-cart-outline me-1"></i> Send Order
+            <button mat-raised-button color="primary" type="submit" class="w-100 mt-3" [disabled]="form.invalid">
+              <mat-icon class="me-1">shopping_cart</mat-icon> Send Order
             </button>
 
-          </div>
-        </div>
+          </mat-card-content>
+        </mat-card>
       </div>
 
     </div>
