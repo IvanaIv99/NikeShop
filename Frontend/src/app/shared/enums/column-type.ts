@@ -3,5 +3,6 @@ export enum ColumnType {
   action,
   date,
   image,
-  list
+  list,
+  concatText
 }

@@ -1,14 +1,15 @@
 <form [formGroup]="form" (ngSubmit)="submit()" class="pb-5">
-  <div class="container my-4">
-    <div class="row g-4">
+  <div class="container my-5">
+
+    <div class="row g-4 justify-content-center">
 
       <!-- LEFT COLUMN: Shipping & Payment -->
       <div class="col-xl-7">
 
         <!-- Shipping Info -->
-        <mat-card class="mb-4">
-          <mat-card-header class="mb-3">
-            <mat-icon color="primary" class="me-2">receipt</mat-icon>
+        <mat-card class="mb-4 bg-dark text-white rounded-3 p-4">
+          <mat-card-header class="mb-3 d-flex flex-row-reverse align-self-start">
+            <mat-icon class="me-2 color-primary">receipt</mat-icon>
             <mat-card-title>Shipping Info</mat-card-title>
           </mat-card-header>
           <mat-card-content>
@@ -16,18 +17,14 @@
             <!-- First & Last Name -->
             <div class="row mb-3">
               <div class="col-md-6">
-                <mat-form-field appearance="fill" class="w-100">
+                <mat-form-field appearance="fill" class="w-100 text-white">
                   <mat-label>First Name</mat-label>
                   <input matInput formControlName="firstName" placeholder="Enter First Name" required>
                   <mat-error *ngIf="form.get('firstName')?.hasError('required')">
                     First Name is required
                   </mat-error>
-                  <mat-error *ngIf="form.get('firstName')?.hasError('minlength')">
-                    Minimum 2 characters required
-                  </mat-error>
                 </mat-form-field>
               </div>
-
               <div class="col-md-6">
                 <mat-form-field appearance="fill" class="w-100">
                   <mat-label>Last Name</mat-label>
@@ -44,7 +41,6 @@
                   <input matInput formControlName="email" placeholder="Enter Email" required>
                 </mat-form-field>
               </div>
-
               <div class="col-md-6">
                 <mat-form-field appearance="fill" class="w-100">
                   <mat-label>Phone</mat-label>
@@ -59,7 +55,7 @@
               <input matInput formControlName="address" placeholder="Enter full address" required>
             </mat-form-field>
 
-            <!-- Location: Country, City, Zip -->
+            <!-- Country / City / Zip -->
             <div class="row mb-3">
               <div class="col-md-4">
                 <mat-form-field appearance="fill" class="w-100">
@@ -72,7 +68,6 @@
                   </mat-select>
                 </mat-form-field>
               </div>
-
               <div class="col-md-4">
                 <mat-form-field appearance="fill" class="w-100">
                   <mat-label>City</mat-label>
@@ -84,7 +79,6 @@
                   </mat-select>
                 </mat-form-field>
               </div>
-
               <div class="col-md-4">
                 <mat-form-field appearance="fill" class="w-100">
                   <mat-label>Zip / Postal Code</mat-label>
@@ -103,17 +97,16 @@
         </mat-card>
 
         <!-- Payment Info -->
-        <mat-card>
-          <mat-card-header class="mb-3">
-            <mat-icon color="primary" class="me-2">account_balance_wallet</mat-icon>
+        <mat-card class="bg-dark text-white rounded-3 p-4">
+          <mat-card-header class="mb-3 d-flex flex-row-reverse align-self-start">
+            <mat-icon class="color-primary me-2">account_balance_wallet</mat-icon>
             <mat-card-title>Payment Info</mat-card-title>
           </mat-card-header>
           <mat-card-content>
             <mat-radio-group formControlName="paymentMethod">
               <mat-radio-button value="cash_on_delivery" class="me-3">
-                <mat-icon>money</mat-icon> Cash on Delivery
+                <mat-icon>money</mat-icon><span class="mb-3">Cash on Delivery</span>
               </mat-radio-button>
-              <!-- Dodaj još opcija ako treba -->
             </mat-radio-group>
           </mat-card-content>
         </mat-card>
@@ -122,7 +115,7 @@
 
       <!-- RIGHT COLUMN: Order Summary -->
       <div class="col-xl-5">
-        <mat-card class="checkout-order-summary">
+        <mat-card class="checkout-order-summary bg-dark text-white rounded-3 p-4">
           <mat-card-header class="mb-3">
             <mat-card-title>Order Summary</mat-card-title>
           </mat-card-header>
@@ -131,7 +124,7 @@
             <div *ngFor="let item of cartProducts" class="d-flex align-items-center mb-3">
               <img [src]="item.product.image" alt="product" class="img-thumbnail me-3" style="width:60px; height:60px; object-fit:cover;">
               <div>
-                <div>{{ item.product.name }}</div>
+                <div>{{ item.product.name }} - {{item.color.name}}</div>
                 <small>${{ item.product.price }} × {{ item.quantity }}</small>
               </div>
               <div class="ms-auto fw-bold">${{ item.total }}</div>
@@ -155,7 +148,7 @@
               <strong>${{ subTotal }}</strong>
             </div>
 
-            <button mat-raised-button color="primary" type="submit" class="w-100 mt-3" [disabled]="form.invalid">
+            <button mat-raised-button type="submit" class="background-primary w-100 mt-3" [disabled]="form.invalid">
               <mat-icon class="me-1">shopping_cart</mat-icon> Send Order
             </button>
 

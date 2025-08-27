@@ -1,3 +1,6 @@
+@import "style-variables";
+
+
 .nav li{
   list-style-type: none;
 }
@@ -27,7 +30,7 @@
   z-index: 2;
   font-size: 11px;
   border-radius: 50%;
-  background: #d60b28;
+  background: $primary;
   width: 16px;
   height: 16px;
   line-height:16px;

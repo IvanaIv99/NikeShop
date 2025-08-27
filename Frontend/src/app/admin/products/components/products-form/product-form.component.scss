@@ -45,3 +45,29 @@
     }
   }
 }
+
+
+.product-card {
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.product-form .form-row {
+  display: flex;
+  gap: 12px;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.file-upload {
+  border: 1px dashed #ccc;
+  padding: 8px;
+  border-radius: 6px;
+}
+
+.mat-card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}

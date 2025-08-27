@@ -1,7 +1,50 @@
-<div class="container products-dashboard">
-  <div class="row">
-    <div class="col-sm-6">
-      <app-orders-table></app-orders-table>
+<div class="orders-page container py-4">
+  <!-- Filters + Actions Panel -->
+  <div class="filters-panel d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center mb-2">
+
+    <!-- Left: filters -->
+    <div class="d-flex flex-wrap gap-3 flex-grow-1 align-items-center">
+      <!-- Search -->
+      <mat-form-field appearance="outline" class="flex-grow-1">
+        <mat-label>Search</mat-label>
+        <input matInput placeholder="Order ID / Customer / Email" [(ngModel)]="search" (keyup)="applySearch(search)">
+        <button mat-icon-button matSuffix aria-label="clear search" *ngIf="search" (click)="clearSearch()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <!-- Status -->
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select [(value)]="filters.status" (selectionChange)="applyStatus($event.value)">
+          <mat-option [value]="null">All</mat-option>
+          <mat-option *ngFor="let s of statusOptions" [value]="s">{{ s }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Date Range -->
+      <mat-form-field appearance="outline">
+        <mat-label>Date range</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate placeholder="Start" [(ngModel)]="filters.dateFrom" (dateChange)="applyDateFrom($event.value)">
+          <input matEndDate placeholder="End" [(ngModel)]="filters.dateTo" (dateChange)="applyDateTo($event.value)">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+    </div>
+
+    <!-- Right: actions -->
+    <div class="d-flex ms-lg-auto mt-lg-0">
+      <button mat-flat-button color="warn" (click)="clearFilters()">
+        <mat-icon>filter_alt_off</mat-icon> Clear All
+      </button>
     </div>
   </div>
+
+  <app-orders-table
+    [filters]="filters"
+    (filterChange)="onTableFilterChange($event)">
+  ></app-orders-table>
+
 </div>

@@ -1,6 +1,4 @@
-// ============================
-//     header css start
-// ============================
+@import "style-variables";
 
 .pc-header {
   background: $header-background;
@@ -85,7 +83,7 @@
   }
 
   .pc-head-link {
-    color: $header-color;
+    color: white;
     margin: 0 16px;
     position: relative;
     font-weight: 500;

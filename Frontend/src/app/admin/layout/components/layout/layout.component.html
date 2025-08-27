@@ -1,5 +1,5 @@
 <app-navigation
-  class="coded-navbar pc-sidebar mid-black-background"
+  class="coded-navbar pc-sidebar black-background"
   [ngClass]="{
     'navbar-collapsed': navCollapsed,
     'mob-open': navCollapsedMob
@@ -7,11 +7,10 @@
   (NavCollapsedMob)="navMobClick()"
 ></app-navigation>
 <app-nav-bar class="black-background" (NavCollapse)="this.navCollapsed = !this.navCollapsed" (NavCollapsedMob)="navMobClick()"></app-nav-bar>
-<div class="pc-container black-background">
+<main class="pc-container mid-black-background">
   <div class="coded-wrapper">
     <div class="coded-content">
       <div class="coded-inner-content">
-<!--        <app-breadcrumbs></app-breadcrumbs>-->
         <div class="main-body">
           <div class="page-wrapper">
             <router-outlet></router-outlet>
@@ -20,5 +19,5 @@
       </div>
     </div>
   </div>
-  <div class="pc-menu-overlay" (click)="closeMenu()" (keydown)="handleKeyDown($event)" tabindex="0"></div>
-</div>
+</main>
+<app-footer></app-footer>

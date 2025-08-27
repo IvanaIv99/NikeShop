@@ -1,4 +1,5 @@
 import {IOrderItem} from "../../../process-order/interfaces/IOrderItem";
+import {OrderStatus} from "../enums/order-status";
 
 interface IOrderBase {
   first_name: string;
@@ -13,13 +14,13 @@ interface IOrderBase {
   additional: string,
   subtotal: number,
   created_at: string,
-  status: string,
+  status: OrderStatus,
   items: IOrderItem[]
 }
 
 export interface IOrder extends IOrderBase {
   id: number;
-  status: string;
+  status: OrderStatus;
   payment_method: string;
 }
 

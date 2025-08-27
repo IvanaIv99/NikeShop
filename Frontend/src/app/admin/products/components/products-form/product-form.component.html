@@ -1,72 +1,80 @@
-<div class="form-container container mb-5">
-  <form [formGroup]="form" (ngSubmit)="onSubmit(this.id)" class="product-form">
-    <h1 class="text-center mb-4">{{ title }}</h1>
+<div class="container mt-5">
+  <mat-card class="shadow-lg product-card mx-auto" style="max-width: 900px; border-radius: 16px;">
+    <mat-card-header>
+      <mat-card-title class="text-center">{{ title }}</mat-card-title>
+    </mat-card-header>
 
-    <!-- Name & Description -->
-    <div class="form-row">
-      <mat-form-field appearance="fill" color="accent" class="flex-1 me-2">
-        <mat-label>Name</mat-label>
-        <input matInput formControlName="name">
-      </mat-form-field>
+    <mat-card-content>
 
-      <mat-form-field appearance="fill" color="accent" class="flex-1">
-        <mat-label>Description</mat-label>
-        <input matInput formControlName="description">
-      </mat-form-field>
-    </div>
+      <!-- Section: Basic Info -->
+      <div class="form-section">
+        <h5 class="section-title">Basic Info</h5>
+        <div class="form-row d-flex gap-3">
+          <mat-form-field appearance="outline" class="flex-1">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name">
+          </mat-form-field>
 
-    <!-- Price & File Upload -->
-    <div class="form-row mt-3">
-      <mat-form-field appearance="fill" color="accent" class="flex-1 me-2">
-        <mat-label>Price</mat-label>
-        <input matInput placeholder="$" formControlName="price">
-      </mat-form-field>
-
-      <div class="file-upload-container flex-1">
-        <input type="file" hidden (change)="onFileSelected($event)" #fileUpload>
-        <div class="file-upload d-flex align-items-center justify-content-between">
-          <span>{{ fileName || 'No file uploaded yet.' }}</span>
-          <button mat-mini-fab color="primary" (click)="fileUpload.click()">
-            <mat-icon>attach_file</mat-icon>
-          </button>
+          <mat-form-field appearance="outline" class="flex-1">
+            <mat-label>Description</mat-label>
+            <input matInput formControlName="description">
+          </mat-form-field>
         </div>
       </div>
-    </div>
 
-    <!-- Multi-selects: Categories, Colors, Sizes -->
-    <div class="form-row mt-3 flex-wrap">
-      <mat-form-field appearance="fill" color="accent" class="flex-1 me-2 mb-2">
-        <mat-label>Categories</mat-label>
-        <mat-select formControlName="categories" multiple>
-          <mat-option *ngFor="let category of categoriesList" [value]="category.id">
-            {{ category.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <!-- Section: Pricing & File Upload -->
+      <div class="form-section mt-4">
+        <h5 class="section-title">Pricing & File</h5>
+        <div class="form-row d-flex gap-3">
+          <mat-form-field appearance="outline" class="flex-1">
+            <mat-label>Price</mat-label>
+            <input matInput placeholder="$" formControlName="price">
+          </mat-form-field>
 
-      <mat-form-field appearance="fill" color="accent" class="flex-1 me-2 mb-2">
-        <mat-label>Colors</mat-label>
-        <mat-select formControlName="colors" multiple>
-          <mat-option *ngFor="let color of colorsList" [value]="color.id">
-            {{ color.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+          <div class="file-upload-container flex-1">
+            <input type="file" hidden (change)="onFileSelected($event)" #fileUpload>
+            <div class="file-upload d-flex align-items-center justify-content-between">
+              <span>{{ fileName || 'No file uploaded' }}</span>
+              <button mat-mini-fab color="primary" (click)="fileUpload.click()">
+                <mat-icon>attach_file</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <mat-form-field appearance="fill" color="accent" class="flex-1 mb-2">
-        <mat-label>Sizes</mat-label>
-        <mat-select formControlName="sizes" multiple>
-          <mat-option *ngFor="let size of sizesList" [value]="size.id">
-            {{ size.size }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
+      <!-- Section: Categories, Colors, Sizes -->
+      <div class="form-section mt-4">
+        <h5 class="section-title">Attributes</h5>
+        <div class="form-row d-flex flex-wrap gap-3">
+          <mat-form-field appearance="outline" class="flex-1">
+            <mat-label>Categories</mat-label>
+            <mat-select formControlName="categories" multiple>
+              <mat-option *ngFor="let category of categoriesList" [value]="category.id">{{ category.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-    <!-- Buttons -->
-    <div class="form-actions mt-4 d-flex justify-content-center gap-2">
-      <button mat-raised-button color="primary" class="mr-2" type="submit">Submit</button>
+          <mat-form-field appearance="outline" class="flex-1">
+            <mat-label>Colors</mat-label>
+            <mat-select formControlName="colors" multiple>
+              <mat-option *ngFor="let color of colorsList" [value]="color.id">{{ color.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="flex-1">
+            <mat-label>Sizes</mat-label>
+            <mat-select formControlName="sizes" multiple>
+              <mat-option *ngFor="let size of sizesList" [value]="size.id">{{ size.size }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+    </mat-card-content>
+
+    <mat-card-actions class="d-flex justify-content-center mt-3">
+      <button mat-raised-button color="primary" type="submit">Submit</button>
       <button mat-raised-button color="warn" routerLink="../../" type="button">Back</button>
-    </div>
-  </form>
+    </mat-card-actions>
+  </mat-card>
 </div>

@@ -14,6 +14,9 @@ import {MatToolbarModule} from "@angular/material/toolbar";
     HeaderComponent,
     FooterComponent
   ],
+  exports: [
+    FooterComponent
+  ],
   imports: [
     CommonModule,
     RouterModule,

@@ -4,4 +4,5 @@ export interface IColumn {
     index: string;
     title: string;
     type?: ColumnType;
+    values?: string[];
 }

@@ -1,12 +1,12 @@
-<header class="pc-header coded-header mid-black-background">
+<header class="pc-header coded-header black-background">
   <div class="m-header">
-    <a [routerLink]="['/admin-panel/dashboard']" class="b-brand">
+    <a style="text-decoration: none !important;" [routerLink]="['/admin-panel/dashboard']" class="b-brand">
       <h1 class="small-logo"> NikeStore </h1>
     </a>
     <div class="pc-h-item">
       <a
         href="javascript:"
-        class="pc-head-link head-link-secondary m-0 mobile-menu"
+        class="m-0 mobile-menu header-toggle"
         [ngClass]="{ on: navCollapsed }"
         id="sidebar-hide mobile-collapse"
         (click)="navCollapse()"
@@ -21,7 +21,7 @@
         <li class="pc-h-item header-mobile-collapse">
           <a
             href="javascript:"
-            class="pc-head-link head-link-secondary ms-0 mobile-menu"
+            class="pc-head-link head-link-primary ms-0 mobile-menu"
             id="mobile-collapse mobile-collapse1"
             (click)="this.NavCollapsedMob.emit()"
           >
@@ -50,23 +50,13 @@
     <div class="ms-auto">
       <ul class="list-unstyled">
         <li>
-          <div class="dropdown pc-h-item header-user-profile" ngbDropdown>
-            <a class="pc-head-link head-link-primary dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="javascript:" ngbDropdownToggle>
-              <img src="assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar" />
-              <span>
-            <i class="ti ti-settings"></i>
-          </span>
+          <div class=" pc-h-item header-user-profile">
+            <a class="btn-logout arrow-none me-0" data-bs-toggle="dropdown" href="javascript:">
+              <a (click)="logout()" class="dropdown-item">
+                <span>Logout</span>
+                <i class="ti ti-logout"></i>
+              </a>
             </a>
-            <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown" style="width: 100px !important;" ngbDropdownMenu>
-              <div class="dropdown-header">
-                <ng-scrollbar visibility="hover">
-                  <a (click)="logout()" class="dropdown-item">
-                    <i class="ti ti-logout"></i>
-                    <span>Logout</span>
-                  </a>
-                </ng-scrollbar>
-              </div>
-            </div>
           </div>
         </li>
       </ul>

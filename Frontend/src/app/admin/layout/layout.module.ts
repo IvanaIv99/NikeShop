@@ -20,11 +20,15 @@ import {
 } from "./components/layout/components/navigation/nav-content/nav-collapse/nav-collapse.component";
 import {NavGroupComponent} from "./components/layout/components/navigation/nav-content/nav-group/nav-group.component";
 import {NavItemComponent} from "./components/layout/components/navigation/nav-content/nav-item/nav-item.component";
+import {MatNativeDateModule} from "@angular/material/core";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {FooterComponent} from "./components/layout/components/footer/footer.component";
 
 @NgModule({
   declarations: [
     LayoutComponent,
     NavBarComponent,
+    FooterComponent,
     NavigationComponent,
     NavContentComponent,
     NavCollapseComponent,
@@ -43,7 +47,9 @@ import {NavItemComponent} from "./components/layout/components/navigation/nav-co
     MatListModule,
     MatBadgeModule,
     MatMenuModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ]
 })
 export class LayoutModule { }

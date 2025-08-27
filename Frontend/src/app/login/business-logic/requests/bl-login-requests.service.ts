@@ -16,4 +16,8 @@ export class BlLoginRequestsService {
     return this.apiService.login(dataToSend);
   }
 
+  logout(): Observable<any> {
+    return this.apiService.logout();
+  }
+
 }

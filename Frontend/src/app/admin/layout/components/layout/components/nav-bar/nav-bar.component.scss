@@ -1,0 +1,39 @@
+@import "style-variables";
+
+.header-toggle{
+  background: none !important;
+  color: white;
+  text-decoration: none !important;
+  font-size: 25px;
+}
+
+.btn-logout {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #fff;
+  background: $primary; // crveno / “danger” boja
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  text-decoration: none !important;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background: $midBlack;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  i, mat-icon {
+    font-size: 18px;
+  }
+}

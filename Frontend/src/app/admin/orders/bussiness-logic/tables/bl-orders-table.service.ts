@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { ColumnType } from '../../../../shared/enums/column-type';
+import {Injectable} from '@angular/core';
+import {ColumnType} from '../../../../shared/enums/column-type';
 import {IColumn} from "../../../../shared/inferfaces/i-column";
 
 @Injectable({
@@ -11,6 +11,16 @@ export class BlOrdersTableService {
     {
       index: "id",
       title: "# ID"
+    },
+    {
+      index: "fullname",
+      title: "Customer",
+      type: ColumnType.concatText,
+      values: ['first_name', 'last_name']
+    },
+    {
+      index: "email",
+      title: "Email",
     },
     {
       index: "subtotal",
@@ -27,12 +37,12 @@ export class BlOrdersTableService {
     },
     {
       index: "Details",
-      title: "Actions",
+      title: "Details",
       type: ColumnType.action
     }
   ];
 
   displayedColumns: string[] = this.columns.map(x => x.index);
-  pageSizeOptions: number[] = [2, 5, 10, 20];
+  pageSizeOptions: number[] = [5, 10];
 
 }

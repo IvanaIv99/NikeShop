@@ -46,6 +46,7 @@ export class ProcessOrderComponent {
   ngOnInit() {
     this.cartService.loadCart();
     this.cartProducts = this.cartService.getCartItems();
+    console.log(this.cartProducts);
     this.subTotal = this.cartService.calcTotal();
   }
 

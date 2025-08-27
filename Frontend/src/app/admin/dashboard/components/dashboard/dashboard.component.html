@@ -1,1 +1,14 @@
-<p>Dashboard</p>
+<!-- Stats cards -->
+<div class="stats-row row g-3 mb-4">
+  <div class="col-sm-6 col-md-3" *ngFor="let card of stats">
+    <div class="stat-card p-3 rounded-3 d-flex align-items-center">
+      <div class="icon me-3">
+        <mat-icon class="stat-icon">{{ card.icon }}</mat-icon>
+      </div>
+      <div>
+        <div class="stat-value">{{ card.value }}</div>
+        <div class="stat-label text-muted small">{{ card.label }}</div>
+      </div>
+    </div>
+  </div>
+</div>

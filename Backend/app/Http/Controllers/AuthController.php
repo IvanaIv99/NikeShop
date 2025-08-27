@@ -6,6 +6,7 @@ use App\Models\Admin;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -27,6 +28,7 @@ class AuthController extends Controller
                 ], 401);
             }
 
+          //  dd(Hash::make('iloveash99'));
             if(!Auth::attempt($request->only(['email', 'password']))){
                 return response()->json([
                     'status' => false,
@@ -39,7 +41,12 @@ class AuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'User Logged In Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
+                'jwtToken' => $user->createToken("API TOKEN")->plainTextToken,
+                'user' => [
+                    'firstName' => $user->first_name,
+                    'lastName'=> $user->last_name,
+                    'email' => $user->email
+                ]
             ]);
 
         } catch (\Throwable $th) {
