@@ -1,6 +1,9 @@
 <div class="container-fluid py-4  text-white min-vh-100" >
+
   <div class="container">
     <!-- Header -->
+    <app-back-button [routerLink]="'/admin-panel/orders'"></app-back-button>
+
     <div class="d-flex flex-row justify-content-between align-items-center mb-4 border-bottom pb-2">
       <h2 class="h5 mb-0">Order #{{ order.id }}</h2>
     </div>

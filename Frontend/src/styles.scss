@@ -93,10 +93,8 @@ html::after {
   padding-left: 25px;
 }
 
-// 2️⃣ Import Bootstrap SCSS core (functions, variables, mixins, i bootstrap)
 @import "bootstrap/scss/bootstrap";
 
-// 3️⃣ Svi tvoji custom fajlovi i teme
 @import "assets/scss/settings/color-variables";
 @import "assets/scss/settings/theme-variables";
 @import "assets/scss/settings/bootstrap-variables";
@@ -111,7 +109,6 @@ html::after {
 @import "assets/scss/themes/customizer";
 @import "assets/scss/style-preset.scss";
 
-// 4️⃣ Fonts i ostalo
 @import url('assets/fonts/berry/berry-icons.css');
 @import 'assets/fonts/tabler-icons.min.css';
 @import 'assets/fonts/phosphor/duotone/style.css';

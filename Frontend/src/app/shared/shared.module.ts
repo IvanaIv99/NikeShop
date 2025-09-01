@@ -34,6 +34,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './auth.interceptor';
 import { AuthService } from './business-logic/auth.service';
+import {BackButtonComponent} from "./components/back-button/back-button.component";
 
 @NgModule({
   declarations: [

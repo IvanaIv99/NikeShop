@@ -82,7 +82,7 @@ export class ProductsTableComponent implements OnInit{
   }
 
   doAction(row: IProduct): void {
-    this.router.navigate(['/admin-panel/product/edit', row.id]);
+    this.router.navigate(['/admin-panel/products/edit', row.id]);
   }
 
   delete(row: IProduct): void {

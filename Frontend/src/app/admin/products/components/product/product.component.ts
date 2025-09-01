@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ProductService} from "../../../../shop/business-logic/product.service";
 import {SnackbarService} from "../../../../shared/services/common/snackbar/SnackbarService";
 import {ProductModel} from "../../../../shop/models/product.model";
+import {BlProductsRequestService} from "../../bussiness-logic/requests/bl-products-request.service";
 @Component({
   selector: 'tr[app-product-item]',
   templateUrl: './product.component.html',
@@ -13,7 +14,7 @@ export class ProductComponent implements OnInit  {
   @Input() index: number;
 
   constructor(
-    private productService: ProductService,
+    private productService: BlProductsRequestService,
     private snackbarService: SnackbarService
   ) {}
 
@@ -21,7 +22,7 @@ export class ProductComponent implements OnInit  {
 
   public deleteProduct(productId:any)
   {
-    this.productService.deleteProduct(productId).subscribe(
+    this.productService.delete(productId).subscribe(
       (response) => {
         this.snackbarService.showSuccess('Deleted.')
         window.location.reload();

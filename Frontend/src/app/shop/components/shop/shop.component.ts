@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { ICartItem } from '../../../cart/interfaces/i-cart-item';
 import {CartService} from "../../../cart/business-logic/cart.service";
 import {ProductService} from "../../business-logic/product.service";
+import {BlProductsApiService} from "../../../admin/products/bussiness-logic/api/bl-products-api.service";
 
 @Component({
   selector: 'app-shop',
@@ -13,7 +14,7 @@ export class ShopComponent implements OnInit {
   products: any;
 
   constructor(
-    public productService: ProductService,
+    public productService: BlProductsApiService,
     public cartService: CartService
   ) {
   }
@@ -37,7 +38,7 @@ export class ShopComponent implements OnInit {
   }
   private getProducts(): any
   {
-    this.productService.getProducts().subscribe({
+    this.productService.getAll().subscribe({
       next: (data) => {
         this.products = data['data'];
       },

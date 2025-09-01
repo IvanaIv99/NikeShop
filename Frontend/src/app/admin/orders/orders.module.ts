@@ -5,6 +5,7 @@ import {OrderComponent} from "./components/order/order.component";
 import {OrdersTableComponent} from "./components/orders-table/orders-table.component";
 import {SharedModule} from "../../shared/shared.module";
 import {OrdersComponent} from "./components/orders/orders.component";
+import {BackButtonComponent} from "../../shared/components/back-button/back-button.component";
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import {OrdersComponent} from "./components/orders/orders.component";
   imports: [
     CommonModule,
     OrdersRoutingModule,
-    SharedModule
+    SharedModule,
+    BackButtonComponent,
   ]
 })
 export class OrdersModule { }

@@ -1,11 +1,11 @@
 <div class="add-product-page container py-4">
   <!-- Title -->
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="mb-0"># Add product</h2>
+    <h2 class="mb-0"># {{title}}</h2>
   </div>
   <hr>
 
-  <form (ngSubmit)="onSubmit()">
+  <form [formGroup]="form"  (ngSubmit)="onSubmit()">
 
     <!-- Row 1: Name | Price | Upload -->
     <div class="row g-3 mb-3">

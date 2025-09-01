@@ -5,6 +5,7 @@ import {first, Observable} from "rxjs";
 import {ProductService} from "../../../../shop/business-logic/product.service";
 import {SnackbarService} from "../../../../shared/services/common/snackbar/SnackbarService";
 import {ProductModel} from "../../../../shop/models/product.model";
+import {BlProductsRequestService} from "../../bussiness-logic/requests/bl-products-request.service";
 
 @Component({
   selector: 'product-form',
@@ -29,8 +30,7 @@ export class ProductFormComponent implements OnInit {
   constructor(
       private formBuilder: FormBuilder,
       private route: ActivatedRoute,
-      private router: Router,
-      private productService: ProductService,
+      private productService: BlProductsRequestService,
       private snackbarService: SnackbarService
   ) {}
 
@@ -45,16 +45,16 @@ export class ProductFormComponent implements OnInit {
 
     if (this.id) {
      this.loading = true;
-      this.productService.getProducts(this.id)
-          .pipe(first())
-          .subscribe(product => {
+      this.productService.getOneProduct(this.id)
+          .subscribe(response => {
+            let product = response['data'];
             this.form.patchValue({
-              name: product[0].name,
-              description: product[0].description,
-              price: product[0].price,
-              categories: product[0].categories.map(category => category['pivot']['category_id']),
-              colors: product[0].colors.map(color => color['pivot']['color_id']),
-              sizes: product[0].sizes.map(size => size['pivot']['size_id'])
+              name: product.name,
+              description: product.description,
+              price: product.price,
+              categories: product.categories.map(category => category['pivot']['category_id']),
+              colors: product.colors.map(color => color['pivot']['color_id']),
+              sizes: product.sizes.map(size => size['pivot']['size_id'])
             });
 
             this.loading = false;
@@ -94,13 +94,13 @@ export class ProductFormComponent implements OnInit {
 
     console.log(this.form.value);
     return productId ?
-      this.productService.updateProduct(formData, productId) :
-      this.productService.addProduct(formData);
+      this.productService.update(formData, productId) :
+      this.productService.create(formData);
   }
 
   private getSizes(): any
   {
-    this.productService.getProductSizes().subscribe({
+    this.productService.getSizes().subscribe({
       next: (data) => {
         this.sizesList = data[0];
       },
@@ -110,7 +110,7 @@ export class ProductFormComponent implements OnInit {
 
   private getCategories(): any
   {
-    this.productService.getProductCategories().subscribe({
+    this.productService.getCategories().subscribe({
       next: (data) => {
         this.categoriesList = data[0];
       },
@@ -120,7 +120,7 @@ export class ProductFormComponent implements OnInit {
 
   private getColors(): any
   {
-    this.productService.getProductColors().subscribe({
+    this.productService.getColors().subscribe({
       next: (data) => {
         this.colorsList = data[0];
       },
@@ -141,7 +141,6 @@ export class ProductFormComponent implements OnInit {
       image: [null],
       categories: [null],
       colors: [null],
-      // sizes: [null, Validators.required]
       sizes: [null]
     });
   }
