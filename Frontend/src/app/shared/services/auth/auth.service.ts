@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import {environment} from "../../environment/environment";
 import {BlLoginRequestsService} from "../../../login/business-logic/requests/bl-login-requests.service";
 import {ICredentials} from "../../../login/interfaces/i-credentials";
+import {SnackbarService} from "../common/snackbar/SnackbarService";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class AuthService {
 
   constructor(
     public router: Router,
-    public loginRequestsService: BlLoginRequestsService
+    public loginRequestsService: BlLoginRequestsService,
+    public snackBarService: SnackbarService
   ) { }
 
   login(data: ICredentials): void {
@@ -23,8 +25,8 @@ export class AuthService {
         this.setJwtToken(data.jwtToken);
         this.router.navigateByUrl("/admin-panel/dashboard");
       },
-      error: (err) => {
-        console.log(err);
+      error: (resp) => {
+        this.snackBarService.showError(resp.error.message);
       }
     })
   }
@@ -36,7 +38,7 @@ export class AuthService {
         this.router.navigate(['login']);
       },
       error: (err) => {
-        console.log(err);
+        this.snackBarService.showError(err);
       }
     })
   }

@@ -7,6 +7,7 @@ import { LayoutModule } from './layout/layout.module';
 import {SharedModule} from "./shared/shared.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {AdminPanelModule} from "./admin/admin-panel.module";
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
 
 @NgModule({
 
@@ -23,6 +24,7 @@ import {AdminPanelModule} from "./admin/admin-panel.module";
     AdminPanelModule
   ],
   providers: [
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {color: 'accent'}}
   ],
   bootstrap: [AppComponent]
 })

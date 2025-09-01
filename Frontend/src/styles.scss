@@ -93,6 +93,25 @@ html::after {
   padding-left: 25px;
 }
 
+.error-snackbar {
+  --mdc-snackbar-container-color: #872c2c;
+  --mat-snack-bar-button-color: white;
+  --mat-snack-bar-button-background-color: white;
+  --mdc-snackbar-supporting-text-color: white;
+}
+
+.mat-mdc-button {
+  background-color: brown !important;
+}
+
+.success-snackbar{
+  --mdc-snackbar-container-color: #337745;
+  --mat-snack-bar-button-color: white;
+  --mat-snack-bar-button-background-color: white;
+  --mdc-snackbar-supporting-text-color: white;
+}
+
+
 @import "bootstrap/scss/bootstrap";
 
 @import "assets/scss/settings/color-variables";
@@ -112,3 +131,4 @@ html::after {
 @import url('assets/fonts/berry/berry-icons.css');
 @import 'assets/fonts/tabler-icons.min.css';
 @import 'assets/fonts/phosphor/duotone/style.css';
+

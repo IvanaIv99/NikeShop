@@ -1,8 +1,12 @@
 <mat-toolbar class="transparent" *ngIf="!authService.isLoggedIn()">
   <!--<mat-toolbar class="transparent" *ngIf="authService.isLoggedIn">-->
 
-  <button mat-icon-button aria-label="Home button" routerLink="/" *ngIf="!isHome()" >
+  <button mat-icon-button aria-label="Home button" routerLink="/" >
     <mat-icon [ngStyle]="{color:'white'}" >home</mat-icon>
+  </button>
+
+  <button mat-icon-button aria-label="Shop" routerLink="/shop" >
+    <mat-icon [ngStyle]="{color:'white'}" >shopping_bag</mat-icon>
   </button>
 
   <button routerLink="login" mat-icon-button class="button fancy-button">
