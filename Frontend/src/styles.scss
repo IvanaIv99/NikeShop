@@ -4,6 +4,11 @@
   color: $primary !important;
 }
 
+.background-grey-black {
+  background: $grey-black;
+}
+
+
 .background-primary {
   background-color: $primary !important;
 }
@@ -14,7 +19,7 @@
   font-weight: 600;
   font-size: 1rem;
   border: none;
-  border-radius: 50px; // potpuno zaobljen
+  border-radius: 50px;
   padding: 0.6rem 1.8rem;
   cursor: pointer;
   transition: all 0.3s ease;

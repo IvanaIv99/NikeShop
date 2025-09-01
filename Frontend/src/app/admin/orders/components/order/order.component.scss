@@ -1,3 +1,4 @@
+@import "style-variables";
 .card {
   position: relative;
   display: flex;
@@ -9,4 +10,28 @@
   border: 0 solid rgba(0,0,0,.125);
   border-radius: 1rem;
   color: white;
+}
+
+.card {
+  border-radius: 0.75rem;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(255,255,255,0.05);
+}
+
+.badge {
+  font-size: 0.75rem;
+  background: $primary;
+}
+
+@media (min-width: 992px) {
+  .col-lg-4 {
+    position: sticky;
+    top: 1rem;
+  }
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {BlProductsRequestService} from "../../bussiness-logic/requests/bl-products-request.service";
 import {IProduct} from "../../interfaces/i-product";
 import {MatTableDataSource} from "@angular/material/table";
@@ -15,7 +15,7 @@ import {SnackbarService} from "../../../../shared/services/common/snackbar/Snack
 })
 export class ProductsTableComponent implements OnInit{
 
-  products: IProduct[];
+  products: IProduct[] = [];
 
   constructor(
     public requestsService: BlProductsRequestService,
@@ -29,16 +29,53 @@ export class ProductsTableComponent implements OnInit{
   @ViewChild(MatPaginator) paginator: MatPaginator;
   columnTypeEnum = ColumnType;
 
+  @Input() filters: {
+    search?: string | null;
+  };
+
+  @Output() filterChange = new EventEmitter<{ total: number }>();
 
   ngOnInit() {
     this.getProducts();
   }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['filters'] && !changes['filters'].firstChange) {
+      this.applyFilters();
+    }
+  }
+
+  private applyFilters(): void {
+    let filtered = [...this.products];
+
+    if (this.filters.search) {
+      const search = this.filters.search.toLowerCase();
+      filtered = filtered.filter(o =>
+        o.id.toString().includes(search) ||
+        o.name.toLowerCase().includes(search)
+      );
+    }
+
+    this.dataSource.data = filtered;
+
+    if (this.paginator) {
+      this.paginator.firstPage();
+    }
+
+    this.filterChange.emit({ total: filtered.length });
+  }
+
 
   private getProducts(): any
   {
     this.requestsService.getAllProducts().subscribe({
       next: (response) => {
         this.dataSource.data = response['data'];
+        this.products = response['data'];
       },
       error: (e) => console.error(e)
     });

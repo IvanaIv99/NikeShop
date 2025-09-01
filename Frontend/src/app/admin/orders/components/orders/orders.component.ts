@@ -19,11 +19,6 @@ export class OrdersComponent implements OnInit {
 
   tableInfo = { total: 0 };
 
-  constructor(
-    // private ordersService: OrdersService,
-    // private exportService: ExportService
-  ) {}
-
   ngOnInit(): void {
   }
 

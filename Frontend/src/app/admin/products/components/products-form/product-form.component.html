@@ -1,80 +1,82 @@
-<div class="container mt-5">
-  <mat-card class="shadow-lg product-card mx-auto" style="max-width: 900px; border-radius: 16px;">
-    <mat-card-header>
-      <mat-card-title class="text-center">{{ title }}</mat-card-title>
-    </mat-card-header>
+<div class="add-product-page container py-4">
+  <!-- Title -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0"># Add product</h2>
+  </div>
+  <hr>
 
-    <mat-card-content>
+  <form (ngSubmit)="onSubmit()">
 
-      <!-- Section: Basic Info -->
-      <div class="form-section">
-        <h5 class="section-title">Basic Info</h5>
-        <div class="form-row d-flex gap-3">
-          <mat-form-field appearance="outline" class="flex-1">
-            <mat-label>Name</mat-label>
-            <input matInput formControlName="name">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline" class="flex-1">
-            <mat-label>Description</mat-label>
-            <input matInput formControlName="description">
-          </mat-form-field>
-        </div>
+    <!-- Row 1: Name | Price | Upload -->
+    <div class="row g-3 mb-3">
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100 compact-input">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name">
+        </mat-form-field>
       </div>
 
-      <!-- Section: Pricing & File Upload -->
-      <div class="form-section mt-4">
-        <h5 class="section-title">Pricing & File</h5>
-        <div class="form-row d-flex gap-3">
-          <mat-form-field appearance="outline" class="flex-1">
-            <mat-label>Price</mat-label>
-            <input matInput placeholder="$" formControlName="price">
-          </mat-form-field>
-
-          <div class="file-upload-container flex-1">
-            <input type="file" hidden (change)="onFileSelected($event)" #fileUpload>
-            <div class="file-upload d-flex align-items-center justify-content-between">
-              <span>{{ fileName || 'No file uploaded' }}</span>
-              <button mat-mini-fab color="primary" (click)="fileUpload.click()">
-                <mat-icon>attach_file</mat-icon>
-              </button>
-            </div>
-          </div>
-        </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100 compact-input">
+          <mat-label>Price</mat-label>
+          <input matInput type="number" placeholder="$" formControlName="price">
+        </mat-form-field>
       </div>
 
-      <!-- Section: Categories, Colors, Sizes -->
-      <div class="form-section mt-4">
-        <h5 class="section-title">Attributes</h5>
-        <div class="form-row d-flex flex-wrap gap-3">
-          <mat-form-field appearance="outline" class="flex-1">
-            <mat-label>Categories</mat-label>
-            <mat-select formControlName="categories" multiple>
-              <mat-option *ngFor="let category of categoriesList" [value]="category.id">{{ category.name }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline" class="flex-1">
-            <mat-label>Colors</mat-label>
-            <mat-select formControlName="colors" multiple>
-              <mat-option *ngFor="let color of colorsList" [value]="color.id">{{ color.name }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline" class="flex-1">
-            <mat-label>Sizes</mat-label>
-            <mat-select formControlName="sizes" multiple>
-              <mat-option *ngFor="let size of sizesList" [value]="size.id">{{ size.size }}</mat-option>
-            </mat-select>
-          </mat-form-field>
+      <div class="col-md-4 d-flex align-items-center">
+        <div class="file-dropzone text-center p-2 border rounded flex-grow-1 d-flex flex-column align-items-center justify-content-center"
+             (click)="fileUpload.click()">
+          <input type="file" hidden (change)="onFileSelected($event)" #fileUpload>
+          <mat-icon color="primary" class="mb-1">cloud_upload</mat-icon>
+          <span class="small">{{ fileName || 'Click to upload file' }}</span>
         </div>
       </div>
+    </div>
 
-    </mat-card-content>
+    <!-- Row 2: Categories | Colors | Sizes -->
+    <div class="row g-3 mb-3">
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100 compact-input">
+          <mat-label>Categories</mat-label>
+          <mat-select formControlName="categories" multiple>
+            <mat-option *ngFor="let category of categoriesList" [value]="category.id">{{ category.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
-    <mat-card-actions class="d-flex justify-content-center mt-3">
-      <button mat-raised-button color="primary" type="submit">Submit</button>
-      <button mat-raised-button color="warn" routerLink="../../" type="button">Back</button>
-    </mat-card-actions>
-  </mat-card>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100 compact-input">
+          <mat-label>Colors</mat-label>
+          <mat-select formControlName="colors" multiple>
+            <mat-option *ngFor="let color of colorsList" [value]="color.id">{{ color.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100 compact-input">
+          <mat-label>Sizes</mat-label>
+          <mat-select formControlName="sizes" multiple>
+            <mat-option *ngFor="let size of sizesList" [value]="size.id">{{ size.size }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Row 3: Description -->
+    <div class="row g-3 mb-3">
+      <div class="col-12">
+        <mat-form-field appearance="outline" class="w-100 compact-input">
+          <mat-label>Description</mat-label>
+          <textarea matInput rows="3" formControlName="description"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="d-flex justify-content-center">
+      <button mat-raised-button class="btn-custom background-primary" type="submit">Submit</button>
+    </div>
+
+  </form>
 </div>

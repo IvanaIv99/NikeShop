@@ -53,6 +53,6 @@ export class BlProductsTableService {
   ];
 
   displayedColumns: string[] = this.columns.map(x => x.index);
-  pageSizeOptions: number[] = [2, 5, 10, 20];
+  pageSizeOptions: number[] = [5, 10, 20];
 
 }

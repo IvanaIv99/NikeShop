@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('api')->group(function () {
 
+    // staviti sta trrba po auth token
+
     // Product
     Route::prefix('products')->group(function () {
         Route::get('/', [ProductController::class, 'get']);
@@ -36,6 +38,7 @@ Route::prefix('api')->group(function () {
         Route::get('/', [OrdersController::class, 'get']);
         Route::post('/create', [OrdersController::class, 'create']);
         Route::get('/{order}', [OrdersController::class, 'getOne']);
+        Route::post('/{order}/status', [OrdersController::class, 'changeStatus']);
     });
 
     // Payment Methods

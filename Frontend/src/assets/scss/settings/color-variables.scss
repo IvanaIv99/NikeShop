@@ -4,10 +4,10 @@
 
 $preset-colors: (
   preset-1: (
-    body: #e3f2fd,
-    primary: #252525,
-    primary-dark: #000000,
-    secondary: #20005e,
+    body: #000000,
+    primary: $primary,
+    primary-dark: $midBlack,
+    secondary: #6c757d,
     secondary-dark: #14012b
   )
 );

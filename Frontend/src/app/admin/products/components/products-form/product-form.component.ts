@@ -92,6 +92,7 @@ export class ProductFormComponent implements OnInit {
     formData.append('colors', this.form.value['colors'])
     formData.append('sizes', this.form.value['sizes'])
 
+    console.log(this.form.value);
     return productId ?
       this.productService.updateProduct(formData, productId) :
       this.productService.addProduct(formData);

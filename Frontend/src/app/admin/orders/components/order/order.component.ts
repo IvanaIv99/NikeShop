@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {BlOrdersRequestsService} from "../../bussiness-logic/requests/bl-orders-requests.service";
 import {ActivatedRoute} from "@angular/router";
 import {IOrder} from "../../interfaces/i-order";
+import {PaymentMethod} from "../../enums/payment-method";
+import {OrderStatus} from "../../enums/order-status";
+import {SnackbarService} from "../../../../shared/services/common/snackbar/SnackbarService";
 
 @Component({
   selector: 'app-order',
@@ -14,12 +17,28 @@ export class OrderComponent implements OnInit {
 
   constructor(
       public requestsService: BlOrdersRequestsService,
+      public snackbarService: SnackbarService,
       private route: ActivatedRoute,
   ) {
   }
   ngOnInit(): void {
     let id = this.route.snapshot.params['id'];
     this.getOrder(id);
+  }
+
+  statuses: string[] = Object.values(OrderStatus);
+  loading: boolean;
+  updateStatus() {
+    this.requestsService.changeStatus(this.order.id, this.order.status).subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.snackbarService.showSuccess('Saved.');
+      },
+      error: (error) => {
+        this.loading = false;
+        this.snackbarService.showError(error);
+      }
+    });
   }
 
   private getOrder(id: number): void
@@ -32,4 +51,6 @@ export class OrderComponent implements OnInit {
       error: (e) => console.error(e)
     });
   }
+
+  protected readonly PaymentMethod = PaymentMethod;
 }

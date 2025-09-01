@@ -19,4 +19,8 @@ export class BlOrdersRequestsService {
   getOneOrder(id: number): Observable<IOrder> {
     return this.apiService.getOne(id);
   }
+
+  changeStatus(id:number, status: string): Observable<IOrder> {
+    return this.apiService.changeStatus(id, status);
+  }
 }

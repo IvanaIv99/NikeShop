@@ -14,11 +14,11 @@ import {ProductsTableComponent} from "./components/products-table/products-table
     ProductsComponent,
     ProductsTableComponent
   ],
-  imports: [
-    CommonModule,
-    ProductsRoutingModule,
-    SharedModule,
-    NgOptimizedImage,
-  ]
+    imports: [
+        CommonModule,
+        ProductsRoutingModule,
+        SharedModule,
+        NgOptimizedImage,
+    ]
 })
 export class ProductsModule { }
