@@ -7,6 +7,7 @@ import {SizeModel} from "../../../../shop/models/size.model";
 import {ColorModel} from "../../../../shop/models/color.model";
 import {CategoryModel} from "../../../../shop/models/category.model";
 import {ProductModel} from "../../../../shop/models/product.model";
+import {ITopProduct} from "../../interfaces/i-top-product";
 
 @Injectable({
   providedIn: 'root'
@@ -46,19 +47,9 @@ export class BlProductsApiService {
     return this.http.get<SizeModel[]>(url);
   }
 
-  getProductSizes(id: any): Observable<SizeModel> {
-    let url = `${environment.apiUrl}/products/sizes?productId=${id}`;
-    return this.http.get<SizeModel>(url);
-  }
-
   getColors(): Observable<ColorModel[]> {
     let url = `${environment.apiUrl}/products/colors`;
     return this.http.get<ColorModel[]>(url);
-  }
-
-  getProductColors(id: any): Observable<ColorModel> {
-    let url = `${environment.apiUrl}/products/colors?productId=${id}`;
-    return this.http.get<ColorModel>(url);
   }
 
   getCategories(): Observable<CategoryModel[]> {
@@ -66,8 +57,11 @@ export class BlProductsApiService {
     return this.http.get<CategoryModel[]>(url);
   }
 
-  getProductCategories(id: any): Observable<CategoryModel> {
-    let url = `${environment.apiUrl}/products/categories?productId=${id}`;
-    return this.http.get<CategoryModel>(url);
+  getTopProducts(): Observable<ITopProduct[]> {
+    let url = `${environment.apiUrl}/products/stats`;
+    return this.http
+      .get<{ three_top_selling: ITopProduct[] }>(url)
+      .pipe(map(response => response.three_top_selling)
+    );
   }
 }

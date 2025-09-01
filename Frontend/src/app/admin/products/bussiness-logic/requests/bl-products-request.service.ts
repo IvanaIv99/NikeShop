@@ -7,6 +7,7 @@ import {environment} from "../../../../shared/environment/environment";
 import {ColorModel} from "../../../../shop/models/color.model";
 import {CategoryModel} from "../../../../shop/models/category.model";
 import {ProductModel} from "../../../../shop/models/product.model";
+import {ITopProduct} from "../../interfaces/i-top-product";
 
 
 @Injectable({
@@ -42,23 +43,15 @@ export class BlProductsRequestService {
     return this.apiService.getSizes();
   }
 
-  getProductSizes(id: any): Observable<SizeModel> {
-    return this.apiService.getProductSizes(id);
-  }
-
   getColors(): Observable<ColorModel[]> {
     return this.apiService.getColors();
-  }
-
-  getProductColors(id: any): Observable<ColorModel> {
-    return this.apiService.getProductColors(id);
   }
 
   getCategories(): Observable<CategoryModel[]> {
     return this.apiService.getCategories();
   }
 
-  getProductCategories(id: any): Observable<CategoryModel> {
-    return this.apiService.getProductCategories(id);
+  getTopProducts(): Observable<ITopProduct[]> {
+    return this.apiService.getTopProducts();
   }
 }

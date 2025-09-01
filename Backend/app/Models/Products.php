@@ -37,4 +37,9 @@ class Products extends Model
     {
         return $this->belongsToMany(Colors::class, 'products_colors', 'product_id', 'color_id');
     }
+
+    public function orders()
+    {
+        return $this->hasMany(OrderItem::class, 'product_id', 'id');
+    }
 }

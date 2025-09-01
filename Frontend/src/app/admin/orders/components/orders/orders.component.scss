@@ -21,24 +21,6 @@
     }
   }
 
-  .stats-row {
-    .stat-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border: 1px solid rgba(255,255,255,0.03);
-      min-height: 80px;
-      .stat-icon {
-        font-size: 28px;
-        color: #ff6600; /* primary */
-      }
-      .stat-value {
-        color: #fff;
-        font-weight: 700;
-        font-size: 1.15rem;
-      }
-      .stat-label { color: #bdbdbd; }
-    }
-  }
-
   .table-card {
     background: #1f1f1f;
     border-radius: 14px;

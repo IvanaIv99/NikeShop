@@ -52,6 +52,17 @@ class ProductController extends Controller
         ]);
     }
 
+    public function getStats(Request $request): JsonResponse
+    {
+        return response()->json([
+            'three_top_selling' => Products::query()
+                ->withCount('orders')
+                ->orderByDesc('orders_count')
+                ->take(3)
+                ->get(),
+        ]);
+    }
+
     public function create(Request $request): JsonResponse
     {
         $data = $request->all();

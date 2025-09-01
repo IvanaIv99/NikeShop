@@ -29,14 +29,17 @@ Route::prefix('api')->group(function () {
         Route::get('/categories', [ProductController::class, 'getCategories']);
         Route::get('/colors', [ProductController::class, 'getColors']);
         Route::post('/create', [ProductController::class, 'create']);
+        Route::get('/stats', [ProductController::class, 'getStats']);
         Route::post('/edit/{product}', [ProductController::class, 'edit']);
         Route::delete('/delete/{product}', [ProductController::class, 'delete']);
+
     });
 
     // Orders
     Route::prefix('orders')->group(function () {
         Route::get('/', [OrdersController::class, 'get']);
         Route::post('/create', [OrdersController::class, 'create']);
+        Route::get('/today-stats', [OrdersController::class, 'getTodayStats']);
         Route::get('/{order}', [OrdersController::class, 'getOne']);
         Route::post('/{order}/status', [OrdersController::class, 'changeStatus']);
     });

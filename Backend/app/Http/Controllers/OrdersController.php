@@ -72,4 +72,16 @@ class OrdersController extends Controller
         return response()->json(['data' => OrderResource::make($order->fresh()->load('orderItems.product'))]);
     }
 
+    public function getTodayStats(Request $request): JsonResponse
+    {
+        return response()->json([
+            'data' => [
+                'orders_count' => 10,
+                'revenue' => 100,
+                'shipped' => 10,
+                'pending' => 20,
+            ]
+        ]);
+    }
+
 }

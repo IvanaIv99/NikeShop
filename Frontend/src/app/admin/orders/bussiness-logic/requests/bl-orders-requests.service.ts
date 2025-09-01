@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, forkJoin } from 'rxjs';
 import {BlOrdersApiService} from "../api/bl-orders-api.service";
 import {IOrder} from "../../interfaces/i-order";
+import {ITodayStats} from "../../interfaces/i-today-stats";
 
 @Injectable({
   providedIn: 'root'
@@ -22,5 +23,9 @@ export class BlOrdersRequestsService {
 
   changeStatus(id:number, status: string): Observable<IOrder> {
     return this.apiService.changeStatus(id, status);
+  }
+
+  getTodayStats(): Observable<ITodayStats> {
+    return this.apiService.getTodayStats();
   }
 }
