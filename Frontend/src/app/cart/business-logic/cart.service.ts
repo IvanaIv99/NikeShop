@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import {ICartItem} from "../interfaces/i-cart-item";
 import {Subject} from "rxjs";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {SnackbarService} from "../../shared/services/common/snackbar/SnackbarService";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
 
-  constructor(private snackBar: MatSnackBar) { }
+  constructor(
+    private snackBarService: SnackbarService
+  ) {
+  }
 
   items = [];
 
@@ -21,10 +24,7 @@ export class CartService {
 
   addProductToCart(item : ICartItem) {
     if(!item.size || !item.color){
-      this.snackBar.open('Size and color are required.', 'Close', {
-        duration: 3000,
-        panelClass: ['snackbar-success']
-      });
+      this.snackBarService.showError('Size and color are required.');
       return;
     }
 
@@ -44,10 +44,7 @@ export class CartService {
       }
     }
     this.saveCart();
-    this.snackBar.open('Added to cart!', 'Close', {
-      duration: 3000,
-      panelClass: ['snackbar-success']
-    });
+    this.snackBarService.showSuccess('Added to cart.');
   }
 
   addToCartIfNotExist(item : ICartItem){

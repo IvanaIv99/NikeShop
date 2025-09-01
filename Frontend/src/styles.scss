@@ -98,10 +98,10 @@ html::after {
   --mat-snack-bar-button-color: white;
   --mat-snack-bar-button-background-color: white;
   --mdc-snackbar-supporting-text-color: white;
-}
+  .mat-mdc-button {
+    background-color: brown !important;
+  }
 
-.mat-mdc-button {
-  background-color: brown !important;
 }
 
 .success-snackbar{
@@ -109,6 +109,9 @@ html::after {
   --mat-snack-bar-button-color: white;
   --mat-snack-bar-button-background-color: white;
   --mdc-snackbar-supporting-text-color: white;
+  .mat-mdc-button {
+    background-color: #306e41 !important;
+  }
 }
 
 
