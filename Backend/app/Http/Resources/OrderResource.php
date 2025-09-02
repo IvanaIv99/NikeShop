@@ -18,7 +18,7 @@ class OrderResource extends JsonResource
             'state' => $this->state,
             'city' => $this->city,
             'address' => $this->address,
-            'additional' => $this->additional,
+            'additional' => $this->getAttribute('additional'),
             'payment_method' => $this->payment_method,
             'subtotal' => $this->subtotal,
             'status' => $this->status,

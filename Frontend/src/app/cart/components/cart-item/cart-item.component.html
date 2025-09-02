@@ -12,7 +12,6 @@
       type="number"
       value="{{cartItem.quantity }}"
       class="form-control cartQty"
-      (change)="changeSubtotal(cartItem ,index)"
     />
 
   </td>
@@ -21,7 +20,7 @@
     <button type="button"
             class="btn btn-danger deleteProduct"
             aria-label="Left Align"
-            (click)="removeProduct(cartItem)"
+            (click)="removeItem(cartItem)"
             > x
     </button>
   </td>

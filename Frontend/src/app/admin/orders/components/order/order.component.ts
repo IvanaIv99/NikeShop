@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {BlOrdersRequestsService} from "../../bussiness-logic/requests/bl-orders-requests.service";
 import {ActivatedRoute} from "@angular/router";
-import {IOrder} from "../../interfaces/i-order";
 import {PaymentMethod} from "../../enums/payment-method";
 import {OrderStatus} from "../../enums/order-status";
 import {SnackbarService} from "../../../../shared/services/common/snackbar/SnackbarService";
+import {IOrder} from "../../../../process-order/interfaces/i-order";
 
 @Component({
   selector: 'app-order',
@@ -45,7 +45,7 @@ export class OrderComponent implements OnInit {
   {
     this.requestsService.getOneOrder(id).subscribe({
       next: (response) => {
-        this.order = response['data'];
+        this.order = response;
         console.log(this.order);
       },
       error: (e) => console.error(e)

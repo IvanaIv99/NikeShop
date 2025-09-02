@@ -1,4 +1,4 @@
-export class ColorModel {
+export interface IColor {
   id: number;
   name: string;
 }

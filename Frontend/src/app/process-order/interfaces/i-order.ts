@@ -1,5 +1,6 @@
-import {IPaymentOption} from "../../shared/inferfaces/IPaymentOption";
-import {IOrderItem} from "./IOrderItem";
+import {IOrderItem} from "./i-order-item";
+import {PaymentMethod} from "../../admin/orders/enums/payment-method";
+import {OrderStatus} from "../../admin/orders/enums/order-status";
 
 interface IOrderBase {
   first_name: string;
@@ -7,10 +8,10 @@ interface IOrderBase {
   email: string;
   phone: string;
   country: string;
-  zip: number;
   city: string;
+  zip: number;
   address: string;
-  payment_method: string,
+  payment_method: PaymentMethod,
   additional: string,
   subtotal: number,
   items: IOrderItem[]
@@ -18,8 +19,8 @@ interface IOrderBase {
 
 export interface IOrder extends IOrderBase {
   id: number;
-  status: string;
-  payment_method: string;
+  created_at: string,
+  status: OrderStatus;
 }
 
 export interface IOrderRequest extends IOrderBase {

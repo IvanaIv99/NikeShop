@@ -1,4 +1,4 @@
-export class SizeModel {
+export interface ISize {
   id: number;
   size: number;
 }

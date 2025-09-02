@@ -11,8 +11,8 @@
         <h3>Size :</h3>
         <ul class="list-inline" >
           <li  class="list-inline-item" *ngFor="let size of product.sizes; let i = index" [value]="size" >
-            <a (click)="onSelectedAttribute(size,'size')">
-              <span [ngStyle]="{'background-color': activeSize?.id === size.id ? 'green' : 'white' }">{{size.size}}</span>
+            <a (click)="onSelectedAttribute('size', size)">
+              <span [ngStyle]="{'background-color': selectedAttributes.size?.id === size.id ? 'green' : 'white' }">{{size.size}}</span>
             </a>
           </li>
         </ul>
@@ -21,8 +21,8 @@
         <h3>Color :</h3>
         <ul class="list-inline" >
           <li  class="list-inline-item" *ngFor="let color of product.colors; let i = index" [value]="color" >
-            <a (click)="onSelectedAttribute(color, 'color')" >
-              <span [ngStyle]="{'background': color['code'], 'border': activeColor?.id ===  color.id ? '3px solid white' : 'none' }" ></span>
+            <a (click)="onSelectedAttribute('color', color)" >
+              <span [ngStyle]="{'background': color['code'], 'border': selectedAttributes.color?.id ===  color.id ? '3px solid white' : 'none' }" ></span>
             </a>
           </li>
         </ul>

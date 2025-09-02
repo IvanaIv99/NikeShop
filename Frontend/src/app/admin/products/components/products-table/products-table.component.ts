@@ -1,12 +1,12 @@
 import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {BlProductsRequestService} from "../../bussiness-logic/requests/bl-products-request.service";
-import {IProduct} from "../../interfaces/i-product";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {ColumnType} from "../../../../shared/enums/column-type";
 import {BlProductsTableService} from "../../bussiness-logic/tables/bl-products-table.service";
 import {Router} from "@angular/router";
 import {SnackbarService} from "../../../../shared/services/common/snackbar/SnackbarService";
+import {IProduct} from "../../../../shop/interfaces/i-product";
 
 @Component({
   selector: 'app-products-table',
@@ -74,8 +74,8 @@ export class ProductsTableComponent implements OnInit{
   {
     this.requestsService.getAllProducts().subscribe({
       next: (response) => {
-        this.dataSource.data = response['data'];
-        this.products = response['data'];
+        this.dataSource.data = response;
+        this.products = response;
       },
       error: (e) => console.error(e)
     });
@@ -87,7 +87,7 @@ export class ProductsTableComponent implements OnInit{
 
   delete(row: IProduct): void {
     this.requestsService.delete(row).subscribe(
-      (response) => {
+      () => {
         this.snackbarService.showSuccess('Deleted.')
         window.location.reload();
       },

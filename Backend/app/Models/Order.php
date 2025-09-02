@@ -9,7 +9,7 @@ class Order extends Model
 {
     protected $table = 'orders';
     protected $fillable = [
-        'first_name','last_name','country','city','address','subtotal','payment_method_id'
+        'first_name','last_name','country','city','address','subtotal','payment_method_id','additional'
     ];
 
     public function orderItems(): HasMany

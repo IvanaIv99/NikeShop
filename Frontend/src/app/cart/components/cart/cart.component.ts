@@ -1,6 +1,6 @@
-import { Component, OnInit, Input,  EventEmitter, Output } from '@angular/core';
-import {IProduct} from "../../../admin/products/interfaces/i-product";
-import {CartService} from "../../business-logic/cart.service";
+import { Component, OnInit } from '@angular/core';
+import { ICartItem } from "../../interfaces/i-cart-item";
+import { CartService } from "../../business-logic/services/cart.service";
 
 @Component({
   selector: 'app-cart',
@@ -8,28 +8,22 @@ import {CartService} from "../../business-logic/cart.service";
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
-  @Input() products: IProduct[];
-  @Output() productRemoved = new EventEmitter();
 
-  cartProducts = [];
+  cartItems: ICartItem[] = [];
 
-  constructor(
-    private cartService: CartService
-  ) {
-  }
+  constructor(private cartService: CartService) {}
 
   ngOnInit() {
-    this.cartService.loadCart();
-    this.cartProducts = this.cartService.getCartItems();
+    this.cartService.items$.subscribe(items => {
+      this.cartItems = items;
+    });
+  }
+
+  getTotal(): number {
+    return this.cartService.getTotal();
   }
 
   clearCart() {
     this.cartService.clearCart();
-    this.cartProducts = [...this.cartService.getCartItems()];
   }
-
-  get total() {
-    return this.cartService.calcTotal();
-  }
-
 }

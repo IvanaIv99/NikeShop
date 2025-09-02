@@ -1,10 +1,10 @@
-import {SizeModel} from "../../shop/models/size.model";
-import {ColorModel} from "../../shop/models/color.model";
-import {IProduct} from "../../admin/products/interfaces/i-product";
+import {ISize} from "../../shop/interfaces/i-size";
+import {IColor} from "../../shop/interfaces/i-color";
+import {IProduct} from "../../shop/interfaces/i-product";
 
 export interface ICartItem {
-  size: SizeModel;
-  color: ColorModel;
+  size: ISize;
+  color: IColor;
   total: number;
   quantity: number;
   product: IProduct

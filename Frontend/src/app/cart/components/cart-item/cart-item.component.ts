@@ -1,6 +1,6 @@
-import {Component, OnInit, Input, EventEmitter, Output, ViewChildren, QueryList, ElementRef} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {ICartItem} from "../../interfaces/i-cart-item";
-import {CartService} from "../../business-logic/cart.service";
+import {CartService} from "../../business-logic/services/cart.service";
 @Component({
   selector: 'tr[app-cart-item]',
   templateUrl: './cart-item.component.html',
@@ -12,21 +12,15 @@ export class CartItemComponent  implements OnInit {
   @Input() cartItem: ICartItem;
   @Input() index: number;
 
-  @Output() productRemoved = new EventEmitter();
-
-  @ViewChildren("subTotalWrap") subTotalItems: QueryList<ElementRef>;
-
   constructor(
     private cartService: CartService
   ) {}
 
-  removeProduct(cartItem: ICartItem) {
-    this.cartService.removeProduct(cartItem);
+  ngOnInit() {
+
   }
 
-  changeSubtotal(item, index) {
-    this.cartService.changeSubtotal(item,index, this.subTotalItems);
+  removeItem(cartItem: ICartItem) {
+    this.cartService.removeFromCart(cartItem);
   }
-
-  ngOnInit() {}
 }

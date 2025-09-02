@@ -1,8 +1,8 @@
 import {Component, OnInit, EventEmitter, Output, Input} from '@angular/core';
-import {ProductService} from "../../business-logic/product.service";
-import {ProductModel} from "../../models/product.model";
-import {SizeModel} from "../../models/size.model";
-import {ColorModel} from "../../models/color.model";
+import {ShopService} from "../../business-logic/services/shop.service";
+import {ISize} from "../../interfaces/i-size";
+import {IColor} from "../../interfaces/i-color";
+import {IProduct} from "../../interfaces/i-product";
 
 @Component({
   selector: 'app-product',
@@ -10,33 +10,32 @@ import {ColorModel} from "../../models/color.model";
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent  implements OnInit {
-  @Input() product: ProductModel;
+  @Input() product: IProduct;
   @Input() categoryString: string;
   @Output() productAdded = new EventEmitter();
 
-  public activeSize: SizeModel|null;
-  public activeColor: ColorModel|null;
+  protected selectedAttributes: {
+    size: ISize | null;
+    color: IColor | null;
+  } = {
+    size: null,
+    color: null
+  };
 
   constructor(
-    private productService: ProductService
+    private productService: ShopService
   ) {
   }
 
   ngOnInit(): void {
   }
 
-  addProductToCart(product: ProductModel) {
+  addProductToCart(product: IProduct) {
     this.productService.addProductToCart(product, this.productAdded);
   }
 
-  public onSelectedAttribute(value: any, attribute: string ): void {
+  onSelectedAttribute(attribute: string, value: any) {
     this.productService.onSelectedAttribute(value, attribute, this.product);
-    this.setActiveAttribute(value, attribute);
+    this.selectedAttributes[attribute] = value;
   }
-
-  public setActiveAttribute(value: any, attribute: string){
-    if(attribute == 'size') this.activeSize = value;
-    if(attribute == 'color') this.activeColor = value;
-  }
-
 }

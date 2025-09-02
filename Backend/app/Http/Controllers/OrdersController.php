@@ -56,12 +56,14 @@ class OrdersController extends Controller
 
     public function get(Request $request): JsonResponse
     {
-        return response()->json(['data' => Order::all()]);
+        $orders = Order::query()->orderBy('created_at', 'desc')->get();
+        return response()->json(['data' => $orders]);
     }
 
     public function getOne(Order $order, Request $request): JsonResponse
     {
-        return response()->json(['data' => OrderResource::make($order->load('orderItems.product'))]);
+        $order = $order->load('orderItems.product');
+        return response()->json(['data' => OrderResource::make($order)]);
     }
 
     public function changeStatus(Order $order,Request $request): JsonResponse
@@ -69,17 +71,21 @@ class OrdersController extends Controller
         $newStatus = $request->get('status');
         $order->status = $newStatus;
         $order->save();
-        return response()->json(['data' => OrderResource::make($order->fresh()->load('orderItems.product'))]);
+
+        $order = $order->fresh()->load('orderItems.product');
+        return response()->json(['data' => OrderResource::make($order) ]);
     }
 
     public function getTodayStats(Request $request): JsonResponse
     {
+        $orders = Order::query()->whereDay('created_at', '=', now())->get();
+
         return response()->json([
             'data' => [
-                'orders_count' => 10,
-                'revenue' => 100,
-                'shipped' => 10,
-                'pending' => 20,
+                'orders_count' => $orders->count(),
+                'revenue' => $orders->sum('subtotal'),
+                'shipped' => $orders->filter(fn (Order $order) => $order->status === 'shipped')->count(),
+                'received' => $orders->filter(fn (Order $order) => $order->status === 'received')->count(),
             ]
         ]);
     }

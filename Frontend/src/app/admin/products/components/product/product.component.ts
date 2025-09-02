@@ -1,8 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ProductService} from "../../../../shop/business-logic/product.service";
 import {SnackbarService} from "../../../../shared/services/common/snackbar/SnackbarService";
-import {ProductModel} from "../../../../shop/models/product.model";
 import {BlProductsRequestService} from "../../bussiness-logic/requests/bl-products-request.service";
+import {IProduct} from "../../../../shop/interfaces/i-product";
 @Component({
   selector: 'tr[app-product-item]',
   templateUrl: './product.component.html',
@@ -10,7 +9,7 @@ import {BlProductsRequestService} from "../../bussiness-logic/requests/bl-produc
 })
 export class ProductComponent implements OnInit  {
 
-  @Input() productItem: ProductModel;
+  @Input() productItem: IProduct;
   @Input() index: number;
 
   constructor(

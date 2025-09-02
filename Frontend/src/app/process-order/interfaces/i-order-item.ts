@@ -1,14 +1,14 @@
-import {IOrder} from "./IOrder";
-import {IProduct} from "../../admin/products/interfaces/i-product";
-import {SizeModel} from "../../shop/models/size.model";
-import {ColorModel} from "../../shop/models/color.model";
+import {ISize} from "../../shop/interfaces/i-size";
+import {IColor} from "../../shop/interfaces/i-color";
+import {IProduct} from "../../shop/interfaces/i-product";
+import {IOrder} from "./i-order";
 
 export interface IOrderItem {
   id: number;
   product: IProduct;
   quantity: number;
-  size: SizeModel;
-  color: ColorModel;
+  size: ISize;
+  color: IColor;
 }
 
 interface IOrderItemBase {

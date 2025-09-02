@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, forkJoin } from 'rxjs';
 import {BlOrdersApiService} from "../api/bl-orders-api.service";
-import {IOrder} from "../../interfaces/i-order";
 import {ITodayStats} from "../../interfaces/i-today-stats";
+import {IOrder} from "../../../../process-order/interfaces/i-order";
 
 @Injectable({
   providedIn: 'root'

@@ -1,4 +1,4 @@
-export class CategoryModel {
+export interface ICategory {
   id: number;
   name: string;
 }

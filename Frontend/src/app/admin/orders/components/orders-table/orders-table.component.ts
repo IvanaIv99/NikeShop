@@ -4,8 +4,8 @@ import { MatPaginator } from "@angular/material/paginator";
 import { ColumnType } from "../../../../shared/enums/column-type";
 import { BlOrdersTableService } from "../../bussiness-logic/tables/bl-orders-table.service";
 import { BlOrdersRequestsService } from "../../bussiness-logic/requests/bl-orders-requests.service";
-import { IOrder } from "../../interfaces/i-order";
 import { Router } from "@angular/router";
+import {IOrder} from "../../../../process-order/interfaces/i-order";
 
 @Component({
   selector: 'app-orders-table',

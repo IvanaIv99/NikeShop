@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from '@angular/router';
 import {AuthService} from "../../../../../shared/services/auth/auth.service";
 import {filter} from "rxjs";
-import {CartService} from "../../../../../cart/business-logic/cart.service";
+import {CartService} from "../../../../../cart/business-logic/services/cart.service";
 
 @Component({
   selector: 'app-header',
@@ -13,7 +13,7 @@ export class HeaderComponent {
 
   isLoggedIn: boolean = false;
   currentRoute: string = '';
-  countCart: any = this.cartService.count;
+  countCart: any = this.cartService.getCartItems().length;
 
   constructor(
     public authService: AuthService,
@@ -36,7 +36,7 @@ export class HeaderComponent {
       }
     });
 
-    this.cartService.countInCart().subscribe(count => {
+    this.cartService.count$.subscribe(count => {
         this.countCart = count
       }
     );

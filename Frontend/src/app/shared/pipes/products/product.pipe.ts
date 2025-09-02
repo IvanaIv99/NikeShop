@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {ProductModel} from "../../../shop/models/product.model";
+import {IProduct} from "../../../shop/interfaces/i-product";
 @Pipe({ name: 'filter' })
 export class ProductPipe implements PipeTransform{
-  transform(products : ProductModel[], searchTerm: any){
+  transform(products : IProduct[], searchTerm: any){
     let filteredList=[];
     if(searchTerm){
       let newSearchTerm=!isNaN(searchTerm)? searchTerm.toString(): searchTerm.toString().toUpperCase();

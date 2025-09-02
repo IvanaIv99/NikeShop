@@ -1,12 +1,13 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {CartService} from "../../../cart/business-logic/cart.service";
-import {IOrder, IOrderRequest} from "../../interfaces/IOrder";
-import {IOrderItem} from "../../interfaces/IOrderItem";
+import {CartService} from "../../../cart/business-logic/services/cart.service";
 import {BlProcessOrderRequestsService} from "../../business-logic/requests/bl-process-order-requests.service";
-import {Observable} from "rxjs";
-import { Country, State, City }  from 'country-state-city';
+import {City, Country} from 'country-state-city';
 import {Router} from "@angular/router";
+import {IOrderRequest} from "../../interfaces/i-order";
+import {IOrderItem} from "../../interfaces/i-order-item";
+import {PaymentMethod} from "../../../admin/orders/enums/payment-method";
+import {OrderStatus} from "../../../admin/orders/enums/order-status";
 
 @Component({
   selector: 'app-orders',
@@ -46,8 +47,7 @@ export class ProcessOrderComponent {
   ngOnInit() {
     this.cartService.loadCart();
     this.cartProducts = this.cartService.getCartItems();
-    console.log(this.cartProducts);
-    this.subTotal = this.cartService.calcTotal();
+    this.subTotal = this.cartService.getTotal();
   }
 
   submit(): void {
@@ -75,7 +75,7 @@ export class ProcessOrderComponent {
       zip: formValue.zip,
       city: formValue.city.name,
       address: formValue.address,
-      payment_method: formValue.paymentMethod,
+      payment_method: formValue.paymentMethod as PaymentMethod,
       additional:formValue.additional,
       subtotal: this.subTotal,
       items: this.cartService.getCartItems().map(item => ({

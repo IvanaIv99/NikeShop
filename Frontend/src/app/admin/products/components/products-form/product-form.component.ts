@@ -2,10 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {first, Observable} from "rxjs";
-import {ProductService} from "../../../../shop/business-logic/product.service";
 import {SnackbarService} from "../../../../shared/services/common/snackbar/SnackbarService";
-import {ProductModel} from "../../../../shop/models/product.model";
 import {BlProductsRequestService} from "../../bussiness-logic/requests/bl-products-request.service";
+import {IProduct} from "../../../../shop/interfaces/i-product";
 
 @Component({
   selector: 'product-form',
@@ -82,7 +81,7 @@ export class ProductFormComponent implements OnInit {
           }
         })
   }
-  private saveProduct(productId?: any): Observable<ProductModel> {
+  private saveProduct(productId?: any): Observable<IProduct> {
     const formData = new FormData();
     formData.append('name', this.form.value['name'])
     formData.append('description', this.form.value['description'])
@@ -92,7 +91,6 @@ export class ProductFormComponent implements OnInit {
     formData.append('colors', this.form.value['colors'])
     formData.append('sizes', this.form.value['sizes'])
 
-    console.log(this.form.value);
     return productId ?
       this.productService.update(formData, productId) :
       this.productService.create(formData);
