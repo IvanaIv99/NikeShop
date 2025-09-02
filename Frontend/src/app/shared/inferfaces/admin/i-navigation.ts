@@ -10,10 +10,10 @@ export interface NavigationItem {
   external?: boolean;
   target?: boolean;
   breadcrumbs?: boolean;
-  children?: Navigation[];
+  children?: INavigation[];
 }
 
-export interface Navigation extends NavigationItem {
+export interface INavigation extends NavigationItem {
   children?: NavigationItem[];
 }
 const NavigationItems = [

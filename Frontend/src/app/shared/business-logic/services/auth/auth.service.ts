@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import {environment} from "../../environment/environment";
-import {BlLoginRequestsService} from "../../../login/business-logic/requests/bl-login-requests.service";
-import {ICredentials} from "../../../login/interfaces/i-credentials";
+import {environment} from "../../../environment/environment";
+import {BlLoginRequestsService} from "../../../../login/business-logic/requests/bl-login-requests.service";
+import {ICredentials} from "../../../../login/interfaces/i-credentials";
 import {SnackbarService} from "../common/snackbar/SnackbarService";
 
 @Injectable({
@@ -55,7 +55,7 @@ export class AuthService {
     localStorage.removeItem("jwtToken");
   }
 
-  setCurrentUser(user: string): void {
-    localStorage.setItem('currentUser', user);
+  getJwtToken(): string {
+    return localStorage.getItem("jwtToken");
   }
 }

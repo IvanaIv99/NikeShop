@@ -9,6 +9,7 @@ use App\Models\Sizes;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -65,26 +66,27 @@ class ProductController extends Controller
 
     public function create(Request $request): JsonResponse
     {
-        $data = $request->all();
+        return DB::transaction(function () use ($request) {
+            $data = $request->all();
+            $product = new Products();
+            $product->name = $data['name'];
+            $product->description = $data['description'];
+            $product->price = $data['price'];
 
-        $product = new Products();
-        $product->name = $data['name'];
-        $product->description = $data['description'];
-        $product->price = $data['price'];
+            if ($data['image']){
+                $product->image = $this->handleImage($data['image']);
+            }
 
-        if ($data['image']){
-            $product->image = $this->handleImage($data['image']);
-        }
+            $product->save();
 
-        $product->save();
+            $product->colors()->attach(explode(',', $data['colors']));
+            $product->categories()->attach(explode(',', $data['categories']));
+            $product->sizes()->attach(explode(',', $data['sizes']));
 
-        $product->colors()->attach($data['colors']);
-        $product->categories()->attach($data['categories']);
-        $product->sizes()->attach($data['sizes']);
-
-        return response()->json([
-           "message" => 'Saved.'
-        ]);
+            return response()->json([
+                "message" => 'Saved.'
+            ]);
+        });
     }
 
     private function handleImage(UploadedFile $image): string

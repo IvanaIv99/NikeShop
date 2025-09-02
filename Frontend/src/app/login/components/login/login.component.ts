@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../shared/environment/environment";
-import {AuthService} from "../../../shared/services/auth/auth.service";
+import {AuthService} from "../../../shared/business-logic/services/auth/auth.service";
 import {of, tap} from "rxjs";
 import {ICredentials, ICredentialsResponse} from "../../interfaces/i-credentials";
 import {catchError} from "rxjs/internal/operators/catchError";

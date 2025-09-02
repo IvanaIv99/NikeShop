@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ICartItem } from "../../interfaces/i-cart-item";
 import { BehaviorSubject } from "rxjs";
-import { SnackbarService } from "../../../shared/services/common/snackbar/SnackbarService";
+import { SnackbarService } from "../../../shared/business-logic/services/common/snackbar/SnackbarService";
 
 @Injectable({
   providedIn: 'root'

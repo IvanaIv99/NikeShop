@@ -2,7 +2,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 // project import
-import { NavigationItem } from '../../../../../../../../shared/inferfaces/admin/navigation';
+import { NavigationItem } from '../../../../../../../../shared/inferfaces/admin/i-navigation';
 import { Location, LocationStrategy } from '@angular/common';
 
 @Component({

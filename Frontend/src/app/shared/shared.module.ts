@@ -33,8 +33,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './auth.interceptor';
-import { AuthService } from './business-logic/auth.service';
-import {BackButtonComponent} from "./components/back-button/back-button.component";
+import {AuthService} from "./business-logic/services/auth/auth.service";
 
 @NgModule({
   declarations: [
@@ -73,7 +72,7 @@ import {BackButtonComponent} from "./components/back-button/back-button.componen
     MatPaginatorModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   exports: [
     MatCheckboxModule,

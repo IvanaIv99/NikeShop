@@ -21,7 +21,7 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
     LayoutModule,
     SharedModule,
     BrowserAnimationsModule,
-    AdminPanelModule
+    AdminPanelModule,
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {color: 'accent'}}

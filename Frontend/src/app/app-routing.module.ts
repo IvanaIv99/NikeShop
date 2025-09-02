@@ -39,7 +39,7 @@ const appRoutes: Routes = [
   {
     path: "admin-panel",
     component: AdminLayoutComponent,
-    canActivateChild: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',

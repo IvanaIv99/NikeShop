@@ -1,7 +1,7 @@
 // Angular import
 import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 import { BerryConfig } from '../../../../../../app-config';
-import {AuthService} from "../../../../../../shared/services/auth/auth.service";
+import {AuthService} from "../../../../../../shared/business-logic/services/auth/auth.service";
 
 @Component({
   selector: 'app-nav-bar',

@@ -2,7 +2,7 @@
 import { Component, Input } from '@angular/core';
 
 // Project import
-import { NavigationItem } from '../../../../../../../../shared/inferfaces/admin/navigation';
+import { NavigationItem } from '../../../../../../../../shared/inferfaces/admin/i-navigation';
 
 @Component({
   selector: 'app-nav-item',

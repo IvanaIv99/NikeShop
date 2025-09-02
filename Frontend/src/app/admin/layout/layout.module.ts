@@ -15,9 +15,6 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {NavBarComponent} from "./components/layout/components/nav-bar/nav-bar.component";
 import {NavigationComponent} from "./components/layout/components/navigation/navigation.component";
 import {NavContentComponent} from "./components/layout/components/navigation/nav-content/nav-content.component";
-import {
-  NavCollapseComponent
-} from "./components/layout/components/navigation/nav-content/nav-collapse/nav-collapse.component";
 import {NavGroupComponent} from "./components/layout/components/navigation/nav-content/nav-group/nav-group.component";
 import {NavItemComponent} from "./components/layout/components/navigation/nav-content/nav-item/nav-item.component";
 import {MatNativeDateModule} from "@angular/material/core";
@@ -31,7 +28,6 @@ import {FooterComponent} from "./components/layout/components/footer/footer.comp
     FooterComponent,
     NavigationComponent,
     NavContentComponent,
-    NavCollapseComponent,
     NavGroupComponent,
     NavItemComponent
   ],

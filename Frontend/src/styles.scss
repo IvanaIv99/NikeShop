@@ -26,6 +26,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   display: inline-block;
   text-align: center;
+  text-decoration: none;
 
   &:hover {
     background-color: darken($primary, 8%);

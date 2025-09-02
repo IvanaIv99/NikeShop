@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from '@angular/router';
-import {AuthService} from "../../../../../shared/services/auth/auth.service";
+import {AuthService} from "../../../../../shared/business-logic/services/auth/auth.service";
 import {filter} from "rxjs";
 import {CartService} from "../../../../../cart/business-logic/services/cart.service";
 

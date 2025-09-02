@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, delay, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import {environment} from "../../../shared/environment/environment";
 import {IOrderRequest} from "../../interfaces/i-order";
 

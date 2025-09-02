@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {first, Observable} from "rxjs";
-import {SnackbarService} from "../../../../shared/services/common/snackbar/SnackbarService";
+import {SnackbarService} from "../../../../shared/business-logic/services/common/snackbar/SnackbarService";
 import {BlProductsRequestService} from "../../bussiness-logic/requests/bl-products-request.service";
 import {IProduct} from "../../../../shop/interfaces/i-product";
 

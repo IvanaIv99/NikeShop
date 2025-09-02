@@ -3,7 +3,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Location, LocationStrategy } from '@angular/common';
 
 // project import
-import { NavigationItem } from '../../../../../../../shared/inferfaces/admin/navigation';
+import { NavigationItem } from '../../../../../../../shared/inferfaces/admin/i-navigation';
 import {environment} from "../../../../../../../shared/environment/environment";
 
 @Component({
