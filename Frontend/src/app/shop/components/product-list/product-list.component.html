@@ -8,6 +8,6 @@
   </div>
 </div>
 <main class="container pb-5">
-  <app-product *ngFor="let product of products  | filter:searchTerm"  [product]="product" (productAdded)="addProductToCart($event)">
+  <app-product *ngFor="let product of products  | filter:searchTerm" [product]="product" (productAdded)="addProductToCart($event)">
   </app-product>
 </main>

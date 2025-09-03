@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Output, Input} from '@angular/core';
 import {ShopService} from "../../business-logic/services/shop.service";
 import {IProduct} from "../../interfaces/i-product";
 
@@ -13,13 +13,13 @@ export class ProductListComponent {
 
   @Output() productAdded = new EventEmitter();
   constructor(
-    private productService: ShopService
+    private shopService: ShopService
   ) {
   }
 
   searchTerm: string = '';
 
   addProductToCart(product: IProduct) {
-    this.productService.addProductToCart(product, this.productAdded);
+    this.shopService.addProductToCart(product, this.productAdded);
   }
 }

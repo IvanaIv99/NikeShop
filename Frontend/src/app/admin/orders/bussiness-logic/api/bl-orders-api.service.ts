@@ -25,7 +25,7 @@ export class BlOrdersApiService {
 
   changeStatus(id: number, status: string): Observable<IOrder> {
     let url = `${environment.apiUrl}/orders/${id}/status`;
-    return this.http.post<IOrder>(url, { status });
+    return this.http.patch<IOrder>(url, { status });
   }
 
   getTodayStats(): Observable<ITodayStats> {

@@ -39,7 +39,7 @@ export class BlProductsApiService {
 
   update(id: any, data: any): Observable<any> {
     let url = `${environment.apiUrl}/products/delete/${id}`;
-    return this.http.post(url, data);
+    return this.http.patch(url, data);
   }
 
   getSizes(): Observable<ISize[]> {

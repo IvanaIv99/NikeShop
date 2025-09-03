@@ -7,7 +7,6 @@ import {Router} from "@angular/router";
 import {IOrderRequest} from "../../interfaces/i-order";
 import {IOrderItem} from "../../interfaces/i-order-item";
 import {PaymentMethod} from "../../../admin/orders/enums/payment-method";
-import {OrderStatus} from "../../../admin/orders/enums/order-status";
 
 @Component({
   selector: 'app-orders',

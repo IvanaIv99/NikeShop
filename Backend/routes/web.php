@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrdersController;
-use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,7 +26,7 @@ Route::prefix('api')->group(function () {
         Route::middleware('auth:sanctum')->group(function (){
             Route::post('/create', [ProductController::class, 'create']);
             Route::get('/stats', [ProductController::class, 'getStats']);
-            Route::post('/edit/{product}', [ProductController::class, 'edit']);
+            Route::patch('/edit/{product}', [ProductController::class, 'edit']);
             Route::delete('/delete/{product}', [ProductController::class, 'delete']);
         });
     });
@@ -38,16 +37,9 @@ Route::prefix('api')->group(function () {
             Route::get('/', [OrdersController::class, 'get']);
             Route::get('/today-stats', [OrdersController::class, 'getTodayStats']);
             Route::get('/{order}', [OrdersController::class, 'getOne']);
-            Route::post('/{order}/status', [OrdersController::class, 'changeStatus']);
+            Route::patch('/{order}/status', [OrdersController::class, 'changeStatus']);
         });
         Route::post('/create', [OrdersController::class, 'create']);
-    });
-
-    Route::middleware('auth:sanctum')->group(function (){
-        // Payment Methods
-        Route::prefix('paymentMethods')->group(function () {
-            Route::get('/', [PaymentMethodController::class, 'get']);
-        });
     });
 
     // Auth

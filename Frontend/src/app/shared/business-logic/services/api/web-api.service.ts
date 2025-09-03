@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { catchError } from 'rxjs/internal/operators/catchError';
@@ -44,12 +44,11 @@ export class WebApiService {
       .pipe(
         map((response: any) => this.ReturnResponseData(response)),
         catchError(this.handleError)
-
       );
   }
 
   private ReturnResponseData(response: any) {
-    return response;
+    return response['data'];
   }
 
   private handleError(error: any) {
