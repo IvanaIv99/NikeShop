@@ -11,7 +11,6 @@ import {IProduct} from "../../interfaces/i-product";
 })
 export class ProductComponent  implements OnInit {
   @Input() product: IProduct;
-  @Input() categoryString: string;
   @Output() productAdded = new EventEmitter();
 
   protected selectedAttributes: {
@@ -37,5 +36,9 @@ export class ProductComponent  implements OnInit {
   onSelectedAttribute(attribute: string, value: any) {
     this.productService.onSelectedAttribute(value, attribute, this.product);
     this.selectedAttributes[attribute] = value;
+  }
+
+  get categoryString(): string {
+    return this.product.categories.map(c => c.name || c).join(' | ') || '';
   }
 }

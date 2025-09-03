@@ -1,4 +1,4 @@
-<div class="table-wrapper mat-elevation-z4 p-4 bg-dark text-white">
+<div class="table-wrapper mat-elevation-z4 bg-dark text-white">
 <table mat-table [dataSource]="dataSource" class="common-table mat-elevation-z1" style="background-color: transparent !important; ">
   @for(column of tableService.columns; track column) {
     <ng-container [matColumnDef]="column.index" [class]="'col-' + column.type">
