@@ -3,9 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Categories;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class CategorySeeder extends Seeder
 {
@@ -16,13 +14,13 @@ class CategorySeeder extends Seeder
     {
         Categories::query()->insert([
             [
-                'name' => 'Woman'
+                'name' => 'Woman',
             ],
             [
-                'name' => 'Man'
+                'name' => 'Man',
             ],
             [
-                'name' => 'Kids'
+                'name' => 'Kids',
             ]
         ]);
     }

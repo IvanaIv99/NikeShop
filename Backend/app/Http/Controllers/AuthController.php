@@ -28,7 +28,6 @@ class AuthController extends Controller
                 ], 401);
             }
 
-          //  dd(Hash::make('iloveash99'));
             if(!Auth::attempt($request->only(['email', 'password']))){
                 return response()->json([
                     'status' => false,

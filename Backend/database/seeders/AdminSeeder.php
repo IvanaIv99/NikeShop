@@ -7,6 +7,8 @@ use App\Models\Categories;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class AdminSeeder extends Seeder
 {
@@ -20,7 +22,10 @@ class AdminSeeder extends Seeder
                 'first_name' => 'Ivana',
                 'last_name' => 'Ivanovic',
                 'email' => 'ivana@gmail.com',
-                'password' => md5('ivana123')
+                'password' => Hash::make('ivana123'),
+                'remember_token' => Str::random(60),
+                'created_at' => now(),
+                'updated_at' => now(),
             ]
         ]);
     }

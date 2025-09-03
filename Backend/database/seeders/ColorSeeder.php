@@ -17,7 +17,7 @@ class ColorSeeder extends Seeder
             [
                 [
                     "name" => "red",
-                    "code" => "#B90000"
+                    "code" => "#B90000",
                 ],
                 [
                     "name" => "blue",

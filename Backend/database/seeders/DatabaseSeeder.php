@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -15,7 +14,6 @@ class DatabaseSeeder extends Seeder
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        DB::table('payment_methods')->truncate();
         DB::table('products_categories')->truncate();
         DB::table('products_sizes')->truncate();
         DB::table('products_colors')->truncate();
@@ -24,6 +22,8 @@ class DatabaseSeeder extends Seeder
         DB::table('colors')->truncate();
         DB::table('sizes')->truncate();
         DB::table('admins')->truncate();
+        DB::table('order_items')->truncate();
+        DB::table('orders')->truncate();
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
             ProductSizeSeeder::class,
             ProductColorSeeder::class,
             AdminSeeder::class,
-            PaymentMethodSeeder::class
+            OrderSeeder::class,
         ]);
     }
 }
