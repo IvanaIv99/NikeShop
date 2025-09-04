@@ -5,7 +5,7 @@ import { MatPaginator } from "@angular/material/paginator";
 import { ColumnType } from "../../../../shared/enums/column-type";
 import { BlProductsTableService } from "../../bussiness-logic/tables/bl-products-table.service";
 import { Router } from "@angular/router";
-import { SnackbarService } from "../../../../shared/business-logic/services/common/snackbar/SnackbarService";
+import { SnackbarService } from "../../../../shared/business-logic/services/common/snackbar/snackbar.service";
 import { IProduct } from "../../../../shop/interfaces/i-product";
 import { Subject, takeUntil } from 'rxjs';
 import {ConfirmDialogComponent} from "../../../../shared/components/confirm-dialog/confirm-dialog.component";

@@ -3,7 +3,7 @@ import {BlOrdersRequestsService} from "../../bussiness-logic/requests/bl-orders-
 import {ActivatedRoute} from "@angular/router";
 import {PaymentMethod} from "../../enums/payment-method";
 import {OrderStatus} from "../../enums/order-status";
-import {SnackbarService} from "../../../../shared/business-logic/services/common/snackbar/SnackbarService";
+import {SnackbarService} from "../../../../shared/business-logic/services/common/snackbar/snackbar.service";
 import {IOrder} from "../../../../process-order/interfaces/i-order";
 
 @Component({

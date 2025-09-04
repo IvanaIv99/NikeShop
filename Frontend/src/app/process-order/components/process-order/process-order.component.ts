@@ -7,7 +7,7 @@ import {Router} from "@angular/router";
 import {IOrderRequest} from "../../interfaces/i-order";
 import {IOrderItem} from "../../interfaces/i-order-item";
 import {PaymentMethod} from "../../../admin/orders/enums/payment-method";
-import {SnackbarService} from "../../../shared/business-logic/services/common/snackbar/SnackbarService";
+import {SnackbarService} from "../../../shared/business-logic/services/common/snackbar/snackbar.service";
 
 @Component({
   selector: 'app-orders',

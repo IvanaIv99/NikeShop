@@ -6,7 +6,7 @@ import { BlOrdersTableService } from "../../bussiness-logic/tables/bl-orders-tab
 import { BlOrdersRequestsService } from "../../bussiness-logic/requests/bl-orders-requests.service";
 import { Router } from "@angular/router";
 import {IOrder} from "../../../../process-order/interfaces/i-order";
-import {SnackbarService} from "../../../../shared/business-logic/services/common/snackbar/SnackbarService";
+import {SnackbarService} from "../../../../shared/business-logic/services/common/snackbar/snackbar.service";
 
 @Component({
   selector: 'app-orders-table',

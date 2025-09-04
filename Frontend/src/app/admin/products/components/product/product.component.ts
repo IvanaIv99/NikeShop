@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SnackbarService} from "../../../../shared/business-logic/services/common/snackbar/SnackbarService";
+import {SnackbarService} from "../../../../shared/business-logic/services/common/snackbar/snackbar.service";
 import {BlProductsRequestService} from "../../bussiness-logic/requests/bl-products-request.service";
 import {IProduct} from "../../../../shop/interfaces/i-product";
 @Component({

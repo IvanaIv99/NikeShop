@@ -1,12 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import { ICartItem } from '../../../cart/interfaces/i-cart-item';
 import {CartService} from "../../../cart/business-logic/services/cart.service";
-import {ShopService} from "../../business-logic/services/shop.service";
-import {BlProductsApiService} from "../../../admin/products/bussiness-logic/api/bl-products-api.service";
 import {IProduct} from "../../interfaces/i-product";
-import {Observable} from "rxjs";
 import {BlProductsRequestService} from "../../../admin/products/bussiness-logic/requests/bl-products-request.service";
-import {SnackbarService} from "../../../shared/business-logic/services/common/snackbar/SnackbarService";
+import {SnackbarService} from "../../../shared/business-logic/services/common/snackbar/snackbar.service";
 
 @Component({
   selector: 'app-shop',
