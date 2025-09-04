@@ -9,21 +9,7 @@ import { CartService } from "../../business-logic/services/cart.service";
 })
 export class CartComponent implements OnInit {
 
-  public cartItems: ICartItem[] = [];
-
-  constructor(private cartService: CartService) {}
-
-  ngOnInit() {
-    this.cartService.items$.subscribe(items => {
-      this.cartItems = items;
-    });
+  ngOnInit(): void {
   }
 
-  getTotal(): number {
-    return this.cartService.getTotal();
-  }
-
-  clearCart() {
-    this.cartService.clearCart();
-  }
 }

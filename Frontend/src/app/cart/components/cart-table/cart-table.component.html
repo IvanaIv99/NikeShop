@@ -1,0 +1,54 @@
+<div class="d-flex justify-content-center my-3">
+    <div class="cart-container p-4 rounded-3 bg-dark w-100" style="max-width: 900px;">
+        <div class="d-flex justify-content-end mb-3">
+            <button
+                    class="btn btn-pill btn-outline-light"
+                    (click)="clearCart()">
+                Clear All
+            </button>
+        </div>
+
+        <div *ngIf="cartItems?.length === 0; then emptyCartBlock else cartTableBlock"></div>
+
+        <ng-template #emptyCartBlock>
+            <p class="text-center text-white fs-5">Your cart is empty.</p>
+        </ng-template>
+
+        <ng-template #cartTableBlock>
+            <table class="table table-dark table-hover rounded">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Item</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Color</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total Price</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr
+                        app-cart-item
+                        *ngFor="let item of cartItems; let i = index"
+                        [cartItem]="item"
+                        [index]="i">
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-4 gap-3">
+                <div class="d-flex align-items-center gap-2">
+                    <p class="text-white mb-0 fs-5">Total:</p>
+                    <p class="text-white fw-bold mb-0 fs-5">{{ getTotal() }} $</p>
+                </div>
+                <button
+                        class="btn btn-pill btn-primary text-white"
+                        routerLink="/process-order">
+                    Process Order
+                </button>
+            </div>
+        </ng-template>
+    </div>
+</div>
