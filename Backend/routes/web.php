@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -24,11 +25,13 @@ Route::prefix('api')->group(function () {
         Route::get('/categories', [ProductController::class, 'getCategories']);
         Route::get('/colors', [ProductController::class, 'getColors']);
         Route::middleware('auth:sanctum')->group(function (){
-            Route::post('/create', [ProductController::class, 'create']);
+            Route::post('/', [ProductController::class, 'create']);
             Route::get('/stats', [ProductController::class, 'getStats']);
-            Route::patch('/edit/{product}', [ProductController::class, 'edit']);
-            Route::delete('/delete/{product}', [ProductController::class, 'delete']);
+            Route::post('/{product}', [ProductController::class, 'edit']);
+            Route::delete('/{product}', [ProductController::class, 'delete']);
         });
+        Route::get('/file/{filename}', [ProductController::class, 'getFileFromStorage']);
+
     });
 
     // Orders

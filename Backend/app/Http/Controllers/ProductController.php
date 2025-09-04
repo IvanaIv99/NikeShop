@@ -10,6 +10,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ProductController extends Controller
 {
@@ -17,12 +19,19 @@ class ProductController extends Controller
     {
         $productId = $request->get('productId');
 
-        $data = $productId ?
-            Products::query()->find($productId)->with(['categories:name', 'sizes:size', 'colors:name'])->first() :
-            Products::with('categories','sizes','colors')->get();
+        if ($productId) {
+            $product = Products::query()
+                ->where('id', $productId)
+                ->with(['categories:name', 'sizes:size', 'colors:name'])
+                ->first();
+
+            return response()->json([
+                'data' => $product,
+            ]);
+        }
 
         return response()->json([
-            'data' => $data,
+            'data' => Products::with('categories','sizes','colors')->get(),
         ]);
     }
 
@@ -79,9 +88,9 @@ class ProductController extends Controller
 
             $product->save();
 
-            $product->colors()->attach(explode(',', $data['colors']));
-            $product->categories()->attach(explode(',', $data['categories']));
-            $product->sizes()->attach(explode(',', $data['sizes']));
+            $product->colors()->sync($data['colors']);
+            $product->categories()->sync($data['categories']);
+            $product->sizes()->sync($data['sizes']);
 
             return response()->json([
                 "message" => 'Saved.'
@@ -101,17 +110,24 @@ class ProductController extends Controller
 
     public function edit(Request $request, Products $product): JsonResponse
     {
-        $data = $request->all();
-        $product->name = $request->get('name');
-        $product->description = $request->get('description');
-        $product->price = $request->get('price');
-        $product->colors()->sync($data['colors']);
-        $product->categories()->sync($data['categories']);
-        $product->sizes()->sync($data['sizes']);
+        return DB::transaction(function () use ($request, $product) {
+            $data = $request->all();
+            $product->name = $request->get('name');
+            $product->description = $request->get('description');
+            $product->price = $request->get('price');
 
-        return response()->json([
-            "result" => $product->save()
-        ]);
+            if (array_key_exists('image', $data)){
+                $product->image = $this->handleImage($data['image']);
+            }
+
+            $product->colors()->sync($data['colors']);
+            $product->categories()->sync($data['categories']);
+            $product->sizes()->sync($data['sizes']);
+
+            return response()->json([
+                "result" => $product->save()
+            ]);
+        });
     }
 
     public function delete(Request $request, Products $product): JsonResponse
@@ -119,5 +135,13 @@ class ProductController extends Controller
         return response()->json([
             "result" => $product->delete()
         ]);
+    }
+
+    public function getFileFromStorage(Request $request): BinaryFileResponse|JsonResponse
+    {
+        $fileName = $request->get('fileName');
+        $path = asset('storage/products/' . $fileName);
+        if (!File::exists($path)) return response()->json(['message' => 'File not found'], 404);
+        return response()->file($path);
     }
 }

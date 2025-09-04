@@ -13,7 +13,6 @@ class OrdersController extends Controller
 {
     public function create(Request $request): JsonResponse
     {
-        //payment metod i status u enum
         $order = DB::transaction(function () use ($request) {
             $orderItems = [];
 
