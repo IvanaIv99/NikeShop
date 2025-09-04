@@ -7,54 +7,54 @@ import {OrderStatus} from "../../enums/order-status";
   styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
-  filters: any = {
+  public filters: any = {
     status: null,
     dateFrom: null,
     dateTo: null,
     search: null
   };
 
-  search = '';
-  statusOptions = Object.values(OrderStatus);
+  public search = '';
+  public statusOptions = Object.values(OrderStatus);
 
-  tableInfo = { total: 0 };
+  public tableInfo = { total: 0 };
 
   ngOnInit(): void {
   }
 
-  applySearch(value: string) {
+  public applySearch(value: string) {
     this.filters = { ...this.filters, search: value || null };
   }
 
-  applyStatus(value: string) {
+  public applyStatus(value: string) {
     this.filters = { ...this.filters, status: value || null };
   }
 
-  applyDateFrom(value: Date | null) {
+  public applyDateFrom(value: Date | null) {
     this.filters = { ...this.filters, dateFrom: value ? value.toISOString() : null };
   }
 
-  applyDateTo(value: Date | null) {
+  public applyDateTo(value: Date | null) {
     this.filters = { ...this.filters, dateTo: value ? value.toISOString() : null };
   }
 
-  clearSearch() {
+  public clearSearch() {
     this.search = '';
     this.filters.search = null;
     this.onFiltersChange();
   }
 
-  onFiltersChange() {
+  public onFiltersChange() {
     console.log('Filters updated:', this.filters);
   }
 
-  clearFilters() {
+  public clearFilters() {
     this.filters = { status: null, dateFrom: null, dateTo: null, search: null };
     this.search = '';
     this.onFiltersChange();
   }
 
-  onTableFilterChange(e: any) {
+  public onTableFilterChange(e: any) {
     if (e.total !== undefined) {
       this.tableInfo.total = e.total;
     }

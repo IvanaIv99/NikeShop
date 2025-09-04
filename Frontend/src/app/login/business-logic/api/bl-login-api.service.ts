@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ICredentials, ICredentialsResponse } from '../../interfaces/i-credentials';
 import {environment} from "../../../shared/environment/environment";
+import {WebApiService} from "../../../shared/business-logic/services/api/web-api.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,19 +10,15 @@ import {environment} from "../../../shared/environment/environment";
 export class BlLoginApiService {
 
   constructor(
-    public http: HttpClient
+    public webApiService: WebApiService
   ) {}
 
-  login(dataToSend: ICredentials): Observable<ICredentialsResponse> {
-    return this.http.post<ICredentialsResponse>(`${environment.apiUrl}/auth/login`, dataToSend);
+  public login(dataToSend: ICredentials): Observable<ICredentialsResponse> {
+    return this.webApiService.post<ICredentialsResponse>(`${environment.apiUrl}/auth/login`, dataToSend);
   }
 
-  logout(): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/auth/logout`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`
-      }
-    });
+  public logout(): Observable<any> {
+    return this.webApiService.post(`${environment.apiUrl}/auth/logout`, []);
   }
 
 }

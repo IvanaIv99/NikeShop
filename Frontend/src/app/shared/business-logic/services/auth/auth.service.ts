@@ -14,48 +14,44 @@ import {SnackbarService} from "../common/snackbar/SnackbarService";
 export class AuthService {
 
   constructor(
-    public router: Router,
-    public loginRequestsService: BlLoginRequestsService,
-    public snackBarService: SnackbarService
+    private router: Router,
+    private loginRequestsService: BlLoginRequestsService,
+    private snackBarService: SnackbarService
   ) { }
 
-  login(data: ICredentials): void {
+  public login(data: ICredentials): void {
     this.loginRequestsService.login(data).subscribe({
       next: (data) => {
         this.setJwtToken(data.jwtToken);
         this.router.navigateByUrl("/admin-panel/dashboard");
       },
-      error: (resp) => {
-        this.snackBarService.showError(resp.error.message);
-      }
+      error: (resp) => this.snackBarService.showError(resp.error.message)
     })
   }
 
-  logout(): void {
+  public logout(): void {
     this.loginRequestsService.logout().subscribe({
       next: () => {
         this.removeJwtToken();
         this.router.navigate(['login']);
       },
-      error: (err) => {
-        this.snackBarService.showError(err);
-      }
+      error: (err) => this.snackBarService.showError(err)
     })
   }
 
-  isLoggedIn(): boolean {
+  public isLoggedIn(): boolean {
     return localStorage.getItem('jwtToken') !== null;
   }
 
-  setJwtToken(token: string): void {
+  public setJwtToken(token: string): void {
     localStorage.setItem("jwtToken", token);
   }
 
-  removeJwtToken(): void {
+  public removeJwtToken(): void {
     localStorage.removeItem("jwtToken");
   }
 
-  getJwtToken(): string {
+  public getJwtToken(): string {
     return localStorage.getItem("jwtToken");
   }
 }

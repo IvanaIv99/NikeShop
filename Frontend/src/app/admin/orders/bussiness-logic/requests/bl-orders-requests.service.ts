@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, forkJoin } from 'rxjs';
+import {Observable} from 'rxjs';
 import {BlOrdersApiService} from "../api/bl-orders-api.service";
 import {ITodayStats} from "../../interfaces/i-today-stats";
 import {IOrder} from "../../../../process-order/interfaces/i-order";
@@ -13,19 +13,19 @@ export class BlOrdersRequestsService {
     private apiService: BlOrdersApiService,
   ) { }
 
-  getAllOrders(): Observable<IOrder[]> {
+  public getAllOrders(): Observable<IOrder[]> {
     return this.apiService.getAll();
   }
 
-  getOneOrder(id: number): Observable<IOrder> {
+  public getOneOrder(id: number): Observable<IOrder> {
     return this.apiService.getOne(id);
   }
 
-  changeStatus(id:number, status: string): Observable<IOrder> {
+  public changeStatus(id:number, status: string): Observable<IOrder> {
     return this.apiService.changeStatus(id, status);
   }
 
-  getTodayStats(): Observable<ITodayStats> {
+  public getTodayStats(): Observable<ITodayStats> {
     return this.apiService.getTodayStats();
   }
 }

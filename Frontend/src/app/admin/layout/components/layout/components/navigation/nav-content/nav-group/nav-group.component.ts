@@ -1,7 +1,4 @@
-// Angular import
 import { Component, Input, OnInit } from '@angular/core';
-
-// project import
 import { NavigationItem } from '../../../../../../../../shared/inferfaces/admin/i-navigation';
 import { Location, LocationStrategy } from '@angular/common';
 
@@ -11,18 +8,14 @@ import { Location, LocationStrategy } from '@angular/common';
   styleUrls: ['./nav-group.component.scss']
 })
 export class NavGroupComponent implements OnInit {
-  // public props
   @Input() item!: NavigationItem;
 
-  // Constructor
   constructor(
     private location: Location,
     private locationStrategy: LocationStrategy
   ) {}
 
-  // Life cycle events
   ngOnInit() {
-    // at reload time active and trigger link
     let current_url = this.location.path();
     const baseHref = this.locationStrategy.getBaseHref();
     if (baseHref) {

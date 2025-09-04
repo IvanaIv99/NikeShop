@@ -16,11 +16,13 @@ export class CartService {
   private itemsSubject = new BehaviorSubject<ICartItem[]>([]);
   items$ = this.itemsSubject.asObservable();
 
-  constructor(private snackBarService: SnackbarService) {
+  constructor(
+    private snackBarService: SnackbarService
+  ) {
     this.loadCart();
   }
 
-  addToCart(item: ICartItem) {
+  public addToCart(item: ICartItem) {
     if (!item.size || !item.color) {
       this.snackBarService.showError('Size and color are required.');
       return;

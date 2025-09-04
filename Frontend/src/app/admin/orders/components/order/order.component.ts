@@ -13,11 +13,11 @@ import {IOrder} from "../../../../process-order/interfaces/i-order";
 })
 export class OrderComponent implements OnInit {
 
-  public order: IOrder;
+  protected order: IOrder;
 
   constructor(
-      public requestsService: BlOrdersRequestsService,
-      public snackbarService: SnackbarService,
+      private requestsService: BlOrdersRequestsService,
+      private snackbarService: SnackbarService,
       private route: ActivatedRoute,
   ) {
   }
@@ -26,29 +26,20 @@ export class OrderComponent implements OnInit {
     this.getOrder(id);
   }
 
-  statuses: string[] = Object.values(OrderStatus);
-  loading: boolean;
-  updateStatus() {
+  protected statuses: string[] = Object.values(OrderStatus);
+
+  protected updateStatus() {
     this.requestsService.changeStatus(this.order.id, this.order.status).subscribe({
-      next: (res) => {
-        this.loading = false;
-        this.snackbarService.showSuccess('Saved.');
-      },
-      error: (error) => {
-        this.loading = false;
-        this.snackbarService.showError(error);
-      }
+      next: () => this.snackbarService.showSuccess('Saved.'),
+      error: () => this.snackbarService.showError('Error saving order.')
     });
   }
 
   private getOrder(id: number): void
   {
     this.requestsService.getOneOrder(id).subscribe({
-      next: (response) => {
-        this.order = response;
-        console.log(this.order);
-      },
-      error: (e) => console.error(e)
+      next: (response: IOrder) => this.order = response,
+      error: () => this.snackbarService.showError("Error getting order")
     });
   }
 

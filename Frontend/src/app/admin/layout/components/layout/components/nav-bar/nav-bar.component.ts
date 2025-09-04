@@ -1,4 +1,3 @@
-// Angular import
 import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 import { BerryConfig } from '../../../../../../app-config';
 import {AuthService} from "../../../../../../shared/business-logic/services/auth/auth.service";
@@ -9,14 +8,13 @@ import {AuthService} from "../../../../../../shared/business-logic/services/auth
   styleUrls: ['./nav-bar.component.scss']
 })
 export class NavBarComponent {
-  // public props
   @Output() NavCollapse = new EventEmitter();
   @Output() NavCollapsedMob = new EventEmitter();
-  navCollapsed;
-  windowWidth: number;
-  navCollapsedMob;
 
-  // Constructor
+  public navCollapsed;
+  public windowWidth: number;
+  public navCollapsedMob;
+
   constructor(
     public authService: AuthService
   ) {
@@ -25,8 +23,7 @@ export class NavBarComponent {
     this.navCollapsedMob = false;
   }
 
-  // public method
-  navCollapse() {
+  public navCollapse() {
     if (this.windowWidth >= 1025) {
       this.navCollapsed = !this.navCollapsed;
       this.NavCollapse.emit();
@@ -34,19 +31,18 @@ export class NavBarComponent {
   }
 
   @HostListener('window:resize', ['$event'])
-  // eslint disable-next-line
-  onResize(event: any): void {
+  public onResize(event: any): void {
     this.windowWidth = event.target.innerWidth;
     this.navCollapseMob();
   }
 
-  navCollapseMob() {
+  public navCollapseMob() {
     if (this.windowWidth < 1025) {
       this.NavCollapsedMob.emit();
     }
   }
 
-  logout(): void {
+  public logout(): void {
     this.authService.logout();
   }
 }

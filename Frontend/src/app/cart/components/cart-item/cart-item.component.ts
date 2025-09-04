@@ -20,7 +20,7 @@ export class CartItemComponent  implements OnInit {
 
   }
 
-  removeItem(cartItem: ICartItem) {
+  public removeItem(cartItem: ICartItem) {
     this.cartService.removeFromCart(cartItem);
   }
 }

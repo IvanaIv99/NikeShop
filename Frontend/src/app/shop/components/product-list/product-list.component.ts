@@ -17,9 +17,9 @@ export class ProductListComponent {
   ) {
   }
 
-  searchTerm: string = '';
+  protected searchTerm: string = '';
 
-  addProductToCart(product: IProduct) {
+  protected addProductToCart(product: IProduct) {
     this.shopService.addProductToCart(product, this.productAdded);
   }
 }

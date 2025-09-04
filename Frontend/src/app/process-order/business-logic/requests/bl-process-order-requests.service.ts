@@ -12,7 +12,7 @@ export class BlProcessOrderRequestsService {
     private apiService: BlProcessOrderApiService,
   ) { }
 
-  insert(dataToSend: IOrderRequest): Observable<any> {
+  public insert(dataToSend: IOrderRequest): Observable<any> {
     return this.apiService.insert(dataToSend);
   }
 

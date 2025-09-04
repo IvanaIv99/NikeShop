@@ -13,7 +13,7 @@ export class BlProcessOrderApiService {
     public http: HttpClient
   ) {}
 
-  insert(dataToSend: IOrderRequest): Observable<any> {
+  public insert(dataToSend: IOrderRequest): Observable<any> {
     return this.http.post(`${environment.apiUrl}/orders/create`, dataToSend);
   }
 }

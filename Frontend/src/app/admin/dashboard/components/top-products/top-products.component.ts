@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BlOrdersRequestsService } from '../../../orders/bussiness-logic/requests/bl-orders-requests.service';
 import { BlProductsRequestService } from '../../../products/bussiness-logic/requests/bl-products-request.service';
-import {ITopProduct} from "../../../products/interfaces/i-top-product";
-import {IStatCard} from "../../../../shared/inferfaces/admin/i-stat-card";
+import {IProduct} from "../../../products/interfaces/i-top-product";
 
 @Component({
   selector: 'app-top-products',
@@ -11,7 +9,7 @@ import {IStatCard} from "../../../../shared/inferfaces/admin/i-stat-card";
 })
 export class TopProductsComponent implements OnInit {
 
-  topProducts: ITopProduct[];
+  public topSellingProducts: IProduct[];
 
   constructor(
     private productsRequestsService: BlProductsRequestService
@@ -21,9 +19,9 @@ export class TopProductsComponent implements OnInit {
     this.loadTopProducts();
   }
 
-  loadTopProducts() {
-    this.productsRequestsService.getTopProducts().subscribe(data => {
-      this.topProducts = data;
+  public loadTopProducts() {
+    this.productsRequestsService.getProductsStatistics().subscribe(data => {
+      this.topSellingProducts = data.three_top_selling
     });
   }
 }

@@ -9,7 +9,7 @@ import { CartService } from "../../business-logic/services/cart.service";
 })
 export class CartComponent implements OnInit {
 
-  cartItems: ICartItem[] = [];
+  public cartItems: ICartItem[] = [];
 
   constructor(private cartService: CartService) {}
 

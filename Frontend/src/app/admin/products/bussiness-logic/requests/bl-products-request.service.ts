@@ -4,7 +4,7 @@ import {BlProductsApiService} from "../api/bl-products-api.service";
 import {ISize} from "../../../../shop/interfaces/i-size";
 import {IColor} from "../../../../shop/interfaces/i-color";
 import {ICategory} from "../../../../shop/interfaces/i-category";
-import {ITopProduct} from "../../interfaces/i-top-product";
+import {IProductsStatistics} from "../../interfaces/i-top-product";
 import {IProduct} from "../../../../shop/interfaces/i-product";
 
 
@@ -49,7 +49,7 @@ export class BlProductsRequestService {
     return this.apiService.getCategories();
   }
 
-  getTopProducts(): Observable<ITopProduct[]> {
-    return this.apiService.getTopProducts();
+  getProductsStatistics(): Observable<IProductsStatistics> {
+    return this.apiService.getProductsStatistics();
   }
 }

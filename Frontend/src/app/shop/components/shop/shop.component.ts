@@ -6,6 +6,7 @@ import {BlProductsApiService} from "../../../admin/products/bussiness-logic/api/
 import {IProduct} from "../../interfaces/i-product";
 import {Observable} from "rxjs";
 import {BlProductsRequestService} from "../../../admin/products/bussiness-logic/requests/bl-products-request.service";
+import {SnackbarService} from "../../../shared/business-logic/services/common/snackbar/SnackbarService";
 
 @Component({
   selector: 'app-shop',
@@ -18,7 +19,8 @@ export class ShopComponent implements OnInit {
 
   constructor(
     public requestService: BlProductsRequestService,
-    public cartService: CartService
+    public cartService: CartService,
+    private snackbarService: SnackbarService
   ) {
   }
 
@@ -41,10 +43,8 @@ export class ShopComponent implements OnInit {
   private loadProducts(): void
   {
     this.requestService.getAllProducts().subscribe({
-      next: (products: IProduct[]) => {
-        this.products = products;
-      },
-      error: (err) => console.error(err)
+      next: (products: IProduct[]) => this.products = products,
+      error: (err) => this.snackbarService.showError("Error loading products.")
     });
   }
 

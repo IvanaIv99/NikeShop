@@ -12,12 +12,11 @@ export class BlLoginRequestsService {
     private apiService: BlLoginApiService
   ) { }
 
-  login(dataToSend: ICredentials): Observable<ICredentialsResponse> {
+  public login(dataToSend: ICredentials): Observable<ICredentialsResponse> {
     return this.apiService.login(dataToSend);
   }
 
-  logout(): Observable<any> {
+  public logout(): Observable<any> {
     return this.apiService.logout();
   }
-
 }

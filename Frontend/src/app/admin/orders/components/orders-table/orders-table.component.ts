@@ -6,6 +6,7 @@ import { BlOrdersTableService } from "../../bussiness-logic/tables/bl-orders-tab
 import { BlOrdersRequestsService } from "../../bussiness-logic/requests/bl-orders-requests.service";
 import { Router } from "@angular/router";
 import {IOrder} from "../../../../process-order/interfaces/i-order";
+import {SnackbarService} from "../../../../shared/business-logic/services/common/snackbar/SnackbarService";
 
 @Component({
   selector: 'app-orders-table',
@@ -33,7 +34,8 @@ export class OrdersTableComponent implements OnInit, OnChanges, AfterViewInit {
   constructor(
     private requestsService: BlOrdersRequestsService,
     public tableService: BlOrdersTableService,
-    private router: Router
+    private router: Router,
+    private snackbarService: SnackbarService
   ) {}
 
   ngOnInit(): void {
@@ -53,10 +55,10 @@ export class OrdersTableComponent implements OnInit, OnChanges, AfterViewInit {
   private loadOrders(): void {
     this.requestsService.getAllOrders().subscribe({
       next: (response) => {
-        this.allOrders = response['data'] || [];
+        this.allOrders = response;
         this.applyFilters();
       },
-      error: (e) => console.error('Error loading orders', e)
+      error: (e) => this.snackbarService.showError('Error getting orders.')
     });
   }
 

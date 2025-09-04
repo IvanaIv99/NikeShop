@@ -1,36 +1,36 @@
-import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {map, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {environment} from "../../../../shared/environment/environment";
 import {ITodayStats} from "../../interfaces/i-today-stats";
 import {IOrder} from "../../../../process-order/interfaces/i-order";
+import {WebApiService} from "../../../../shared/business-logic/services/api/web-api.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class BlOrdersApiService {
   constructor(
-    public http: HttpClient
+    public webApiService: WebApiService,
   ) {}
 
-  getAll(): Observable<IOrder[]> {
+  public getAll(): Observable<IOrder[]> {
     let url = `${environment.apiUrl}/orders`;
-    return this.http.get<IOrder[]>(url);
+    return this.webApiService.get<IOrder[]>(url);
   }
 
-  getOne(id: number): Observable<IOrder> {
+  public getOne(id: number): Observable<IOrder> {
     let url = `${environment.apiUrl}/orders/`+id;
-    return this.http.get<IOrder>(url).pipe(map(response => response['data']));
+    return this.webApiService.get<IOrder>(url);
   }
 
-  changeStatus(id: number, status: string): Observable<IOrder> {
+  public changeStatus(id: number, status: string): Observable<IOrder> {
     let url = `${environment.apiUrl}/orders/${id}/status`;
-    return this.http.patch<IOrder>(url, { status });
+    return this.webApiService.patch<IOrder>(url, { status });
   }
 
-  getTodayStats(): Observable<ITodayStats> {
+  public getTodayStats(): Observable<ITodayStats> {
     let url = `${environment.apiUrl}/orders/today-stats`;
-    return this.http.get<ITodayStats>(url);
+    return this.webApiService.get<ITodayStats>(url);
   }
 
 }

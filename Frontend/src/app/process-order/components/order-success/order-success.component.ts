@@ -8,7 +8,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class OrderSuccessComponent {
 
-  orderId!: string;
+  public orderId!: string;
 
   constructor(
     private route: ActivatedRoute

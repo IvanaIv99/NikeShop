@@ -6,13 +6,13 @@ import {IProduct} from "../../interfaces/i-product";
 })
 export class ShopService {
 
-  products: IProduct[];
+  protected products: IProduct[];
 
-  addProductToCart(product: IProduct, event) {
+  public addProductToCart(product: IProduct, event) {
     event.emit(product);
   }
 
-  onSelectedAttribute(value, attribute, product) {
+  public onSelectedAttribute(value, attribute, product) {
     if(attribute == 'size')  product.selectedSize = value;
     if(attribute == 'color')  product.selectedColor = value;
   }

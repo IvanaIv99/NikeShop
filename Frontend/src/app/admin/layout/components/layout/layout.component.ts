@@ -1,8 +1,5 @@
-// Angular import
 import { Component } from '@angular/core';
 import { Location, LocationStrategy } from '@angular/common';
-
-// Project import
 import { BerryConfig } from '../../../../app-config';
 
 @Component({
@@ -12,13 +9,11 @@ import { BerryConfig } from '../../../../app-config';
 })
 
 export class LayoutComponent {
-  // public props
-  berryConfig;
-  navCollapsed: boolean;
-  navCollapsedMob = false;
-  windowWidth: number;
+  public berryConfig;
+  public navCollapsed: boolean;
+  public navCollapsedMob = false;
+  public windowWidth: number;
 
-  // Constructor
   constructor(
     private location: Location,
     private locationStrategy: LocationStrategy
@@ -39,8 +34,7 @@ export class LayoutComponent {
     this.navCollapsed = this.windowWidth >= 1025 ? BerryConfig.isCollapse_menu : false;
   }
 
-  // public method
-  navMobClick() {
+  public navMobClick() {
     if (this.navCollapsedMob && !document.querySelector('app-navigation.coded-navbar')?.classList.contains('mob-open')) {
       this.navCollapsedMob = !this.navCollapsedMob;
       setTimeout(() => {
@@ -54,13 +48,13 @@ export class LayoutComponent {
     }
   }
 
-  handleKeyDown(event: KeyboardEvent): void {
+  public handleKeyDown(event: KeyboardEvent): void {
     if (event.key === 'Escape') {
       this.closeMenu();
     }
   }
 
-  closeMenu() {
+  public closeMenu() {
     if (document.querySelector('app-navigation.pc-sidebar')?.classList.contains('mob-open')) {
       document.querySelector('app-navigation.pc-sidebar')?.classList.remove('mob-open');
     }

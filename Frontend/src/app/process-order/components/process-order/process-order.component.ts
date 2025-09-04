@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 import {IOrderRequest} from "../../interfaces/i-order";
 import {IOrderItem} from "../../interfaces/i-order-item";
 import {PaymentMethod} from "../../../admin/orders/enums/payment-method";
+import {SnackbarService} from "../../../shared/business-logic/services/common/snackbar/SnackbarService";
 
 @Component({
   selector: 'app-orders',
@@ -24,22 +25,23 @@ export class ProcessOrderComponent {
     country: new FormControl(null,[Validators.required]),
     zip: new FormControl(null,[Validators.required, Validators.pattern(/^\d{5}(-\d{4})?$/)]),
     address: new FormControl('',[Validators.required]),
-    paymentMethod: new FormControl('cash_on_delivery'),
+    paymentMethod: new FormControl(PaymentMethod.pay_on_delivery),
     additional: new FormControl(''),
   });
 
-  cartProducts = [];
-  subTotal: any = 0;
+  protected cartProducts = [];
+  protected subTotal: any = 0;
 
-  countries = Country.getAllCountries();
-  cities = null;
+  protected countries = Country.getAllCountries();
+  protected cities = null;
 
-  selectedCountry: any;
+  protected selectedCountry: any;
 
   constructor(
     private cartService: CartService,
     private requestsService: BlProcessOrderRequestsService,
-    private router: Router
+    private router: Router,
+    private snackbarService: SnackbarService
   ) {
   }
 
@@ -49,7 +51,7 @@ export class ProcessOrderComponent {
     this.subTotal = this.cartService.getTotal();
   }
 
-  submit(): void {
+  protected submit(): void {
     const dataToSend: IOrderRequest = this.getDataForSend();
     this.requestsService.insert(dataToSend).subscribe({
       next: (data) => {
@@ -57,13 +59,11 @@ export class ProcessOrderComponent {
         this.router.navigate(['process-order/success', orderId]);
         this.cartService.clearCart();
       },
-      error: (err) => {
-        alert(err);
-      }
+      error: (err) => this.snackbarService.showError('Error processing order.')
     })
   }
 
-  getDataForSend(): IOrderRequest {
+  private getDataForSend(): IOrderRequest {
     let formValue = this.form.getRawValue();
     return {
       first_name: formValue.firstName,
@@ -87,7 +87,7 @@ export class ProcessOrderComponent {
     }
   }
 
-  onCountryChange(): void {
+  protected onCountryChange(): void {
     let selectedCountry = this.form.get('country').value;
     this.selectedCountry = selectedCountry;
     this.cities = City.getCitiesOfCountry(selectedCountry.isoCode)

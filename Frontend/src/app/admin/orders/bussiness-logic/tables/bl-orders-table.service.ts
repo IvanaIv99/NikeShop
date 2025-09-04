@@ -7,7 +7,7 @@ import {IColumn} from "../../../../shared/inferfaces/i-column";
 })
 export class BlOrdersTableService {
 
-  columns: IColumn[] = [
+  public columns: IColumn[] = [
     {
       index: "id",
       title: "# ID"

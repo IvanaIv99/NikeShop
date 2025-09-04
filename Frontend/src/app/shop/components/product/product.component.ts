@@ -22,23 +22,23 @@ export class ProductComponent  implements OnInit {
   };
 
   constructor(
-    private productService: ShopService
+    private shopService: ShopService
   ) {
   }
 
   ngOnInit(): void {
   }
 
-  addProductToCart(product: IProduct) {
-    this.productService.addProductToCart(product, this.productAdded);
+  protected addProductToCart(product: IProduct) {
+    this.shopService.addProductToCart(product, this.productAdded);
   }
 
-  onSelectedAttribute(attribute: string, value: any) {
-    this.productService.onSelectedAttribute(value, attribute, this.product);
+  protected onSelectedAttribute(attribute: string, value: any) {
+    this.shopService.onSelectedAttribute(value, attribute, this.product);
     this.selectedAttributes[attribute] = value;
   }
 
-  get categoryString(): string {
+  protected get categoryString(): string {
     return this.product.categories.map(c => c.name || c).join(' | ') || '';
   }
 }

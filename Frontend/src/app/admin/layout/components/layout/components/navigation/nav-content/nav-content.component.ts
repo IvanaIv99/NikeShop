@@ -1,10 +1,6 @@
-// Angular import
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Location, LocationStrategy } from '@angular/common';
-
-// project import
 import { NavigationItem } from '../../../../../../../shared/inferfaces/admin/i-navigation';
-import {environment} from "../../../../../../../shared/environment/environment";
 
 @Component({
   selector: 'app-nav-content',
@@ -12,16 +8,11 @@ import {environment} from "../../../../../../../shared/environment/environment";
   styleUrls: ['./nav-content.component.scss']
 })
 export class NavContentComponent implements OnInit {
-  // public props
   @Output() NavCollapsedMob: EventEmitter<any> = new EventEmitter();
 
-  // version
-  currentApplicationVersion = environment.appVersion;
-
-  navigation: any;
+  public navigation: any;
   windowWidth = window.innerWidth;
 
-  // Constructor
   constructor(
     public nav: NavigationItem,
     private location: Location,
@@ -30,14 +21,13 @@ export class NavContentComponent implements OnInit {
     this.navigation = this.nav.get();
   }
 
-  // Life cycle events
   ngOnInit() {
     if (this.windowWidth < 1025) {
       (document.querySelector('.coded-navbar') as HTMLDivElement).classList.add('menupos-static');
     }
   }
 
-  fireOutClick() {
+  public fireOutClick() {
     let current_url = this.location.path();
     const baseHref = this.locationStrategy.getBaseHref();
     if (baseHref) {
@@ -62,7 +52,7 @@ export class NavContentComponent implements OnInit {
     }
   }
 
-  navMob() {
+  public navMob() {
     if (this.windowWidth < 1025 && document.querySelector('app-navigation.coded-navbar').classList.contains('mob-open')) {
       this.NavCollapsedMob.emit();
     }
