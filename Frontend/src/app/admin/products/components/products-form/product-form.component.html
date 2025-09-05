@@ -1,13 +1,10 @@
 <div class="add-product-page container py-4">
-  <!-- Title -->
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2 class="mb-0"># {{title}}</h2>
   </div>
   <hr>
 
   <form [formGroup]="form"  (ngSubmit)="onSubmit()">
-
-    <!-- Row 1: Name | Price | Upload -->
     <div class="row g-3 mb-3">
       <div class="col-md-4">
         <mat-form-field appearance="outline" class="w-100 compact-input">
@@ -26,6 +23,7 @@
       <div class="col-md-4 d-flex align-items-center">
         <div class="file-dropzone text-center p-2 border rounded flex-grow-1 d-flex flex-column align-items-center justify-content-center"
              (click)="fileUpload.click()">
+          <img class="w-25" *ngIf="!this.image" src="{{fileName}}" alt="photo"/>
           <input type="file" hidden (change)="onFileSelected($event)" #fileUpload>
           <mat-icon color="primary" class="mb-1">cloud_upload</mat-icon>
           <span class="small">{{ fileName || 'Click to upload file' }}</span>
@@ -33,7 +31,6 @@
       </div>
     </div>
 
-    <!-- Row 2: Categories | Colors | Sizes -->
     <div class="row g-3 mb-3">
       <div class="col-md-4">
         <mat-form-field appearance="outline" class="w-100 compact-input">
@@ -63,7 +60,6 @@
       </div>
     </div>
 
-    <!-- Row 3: Description -->
     <div class="row g-3 mb-3">
       <div class="col-12">
         <mat-form-field appearance="outline" class="w-100 compact-input">
@@ -73,7 +69,6 @@
       </div>
     </div>
 
-    <!-- Actions -->
     <div class="d-flex justify-content-center">
       <button mat-raised-button class="btn-custom background-primary" type="submit">Submit</button>
     </div>

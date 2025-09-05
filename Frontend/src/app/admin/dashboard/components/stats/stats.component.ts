@@ -25,12 +25,11 @@ export class StatsComponent implements OnInit {
 
   public loadTodaysOrderStatistics() {
     this.ordersRequestsService.getTodayStats().subscribe(res => {
-      let data = res['data'];
       this.stats = [
-        { icon: 'inventory_2', label: 'New Orders Today', value: data.orders_count },
-        { icon: 'paid', label: 'Revenue Today', value: `$ ${data.revenue}` },
-        { icon: 'hourglass_top', label: 'Received', value: data.received },
-        { icon: 'local_shipping', label: 'Shipped', value: data.shipped }
+        { icon: 'inventory_2', label: 'New Orders Today', value: res.orders_count },
+        { icon: 'paid', label: 'Revenue Today', value: `$ ${res.revenue}` },
+        { icon: 'hourglass_top', label: 'Received', value: res.received },
+        { icon: 'local_shipping', label: 'Shipped', value: res.shipped }
       ];
     });
   }

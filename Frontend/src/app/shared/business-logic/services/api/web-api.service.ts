@@ -26,7 +26,16 @@ export class WebApiService {
   }
 
   public post<T>(url: string, model: any): Observable<T> {
-    return this.httpClient.post<T>(url, model, this.httpOptions).pipe(
+    let options = this.httpOptions;
+
+    if (model instanceof FormData) {
+      options = {
+        ...this.httpOptions,
+        headers: new HttpHeaders(),
+      };
+    }
+
+    return this.httpClient.post<T>(url, model, options).pipe(
       map((response: HttpResponse<T>) => this.ReturnResponseData<T>(response)),
       catchError(this.handleError)
     );

@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, ViewChildren, QueryList, ElementRef} from '@angular/core';
 import {ICartItem} from "../../interfaces/i-cart-item";
 import {CartService} from "../../business-logic/services/cart.service";
 @Component({
@@ -22,5 +22,13 @@ export class CartItemComponent  implements OnInit {
 
   public removeItem(cartItem: ICartItem) {
     this.cartService.removeFromCart(cartItem);
+  }
+
+  updateItemTotal() {
+    let total = this.cartItem.product.price * this.cartItem.quantity;
+    this.cartItem.total = total;
+    this.cartService.saveCart();
+
+    return total;
   }
 }

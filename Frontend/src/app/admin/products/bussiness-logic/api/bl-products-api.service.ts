@@ -27,18 +27,18 @@ export class BlProductsApiService {
   }
 
   delete(product: IProduct): Observable<any> {
-    let url = `${environment.apiUrl}/products/delete/${product['id']}`;
+    let url = `${environment.apiUrl}/products/${product['id']}`;
     return this.webApiService.delete(url);
   }
 
   create(data: any): Observable<IProduct> {
-    let url = `${environment.apiUrl}/products/create`;
+    let url = `${environment.apiUrl}/products`;
     return this.webApiService.post<IProduct>(url, data);
   }
 
   update(id: any, data: any): Observable<any> {
-    let url = `${environment.apiUrl}/products/delete/${id}`;
-    return this.webApiService.patch(url, data);
+    let url = `${environment.apiUrl}/products/${id}`;
+    return this.webApiService.post(url, data);
   }
 
   getSizes(): Observable<ISize[]> {

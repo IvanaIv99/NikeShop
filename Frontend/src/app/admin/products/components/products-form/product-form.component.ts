@@ -45,8 +45,7 @@ export class ProductFormComponent implements OnInit {
     if (this.id) {
      this.loading = true;
       this.productService.getOneProduct(this.id)
-          .subscribe(response => {
-            let product = response['data'];
+          .subscribe(async product => {
             this.form.patchValue({
               name: product.name,
               description: product.description,
@@ -56,12 +55,13 @@ export class ProductFormComponent implements OnInit {
               sizes: product.sizes.map(size => size['pivot']['size_id'])
             });
 
+            this.fileName = product.image;
             this.loading = false;
           });
     }
   }
 
-  onSubmit(productId?: any) {
+  onSubmit() {
     this.submitted = true;
     if (this.form.invalid) {
       return;
@@ -69,7 +69,7 @@ export class ProductFormComponent implements OnInit {
 
     this.submitting = true;
 
-    this.saveProduct(productId)
+    this.saveProduct(this.id)
         .pipe(first())
         .subscribe({
           next: () => {
@@ -86,10 +86,12 @@ export class ProductFormComponent implements OnInit {
     formData.append('name', this.form.value['name'])
     formData.append('description', this.form.value['description'])
     formData.append('price', this.form.value['price'])
-    formData.append('image', this.image, this.image.name)
-    formData.append('categories', this.form.value['categories'])
-    formData.append('colors', this.form.value['colors'])
-    formData.append('sizes', this.form.value['sizes'])
+    if (this.image) {
+      formData.append('image', this.image, this.image.name)
+    }
+    this.form.value.categories.forEach(c => formData.append('categories[]', c));
+    this.form.value.colors.forEach(c => formData.append('colors[]', c));
+    this.form.value.sizes.forEach(s => formData.append('sizes[]', s));
 
     return productId ?
       this.productService.update(formData, productId) :
