@@ -4,12 +4,13 @@
   </div>
   <hr>
 
-  <form [formGroup]="form"  (ngSubmit)="onSubmit()">
+  <form [formGroup]="form" *ngIf="form"  (ngSubmit)="onSubmit()">
     <div class="row g-3 mb-3">
       <div class="col-md-4">
         <mat-form-field appearance="outline" class="w-100 compact-input">
           <mat-label>Name</mat-label>
           <input matInput formControlName="name">
+          <mat-error *ngFor="let error of getFormErrors('name')">{{ error }}</mat-error>
         </mat-form-field>
       </div>
 
@@ -17,16 +18,18 @@
         <mat-form-field appearance="outline" class="w-100 compact-input">
           <mat-label>Price</mat-label>
           <input matInput type="number" placeholder="$" formControlName="price">
+          <mat-error *ngFor="let error of getFormErrors('price')">{{ error }}</mat-error>
         </mat-form-field>
       </div>
 
       <div class="col-md-4 d-flex align-items-center">
         <div class="file-dropzone text-center p-2 border rounded flex-grow-1 d-flex flex-column align-items-center justify-content-center"
              (click)="fileUpload.click()">
-          <img class="w-25" *ngIf="!this.image" src="{{fileName}}" alt="photo"/>
+          <img class="w-25" *ngIf="this.id" src="{{fileName}}" alt="photo"/>
           <input type="file" hidden (change)="onFileSelected($event)" #fileUpload>
           <mat-icon color="primary" class="mb-1">cloud_upload</mat-icon>
           <span class="small">{{ fileName || 'Click to upload file' }}</span>
+          <mat-error *ngFor="let error of getFormErrors('image')">{{ error }}</mat-error>
         </div>
       </div>
     </div>
@@ -38,6 +41,7 @@
           <mat-select formControlName="categories" multiple>
             <mat-option *ngFor="let category of categoriesList" [value]="category.id">{{ category.name }}</mat-option>
           </mat-select>
+          <mat-error *ngFor="let error of getFormErrors('categories')">{{ error }}</mat-error>
         </mat-form-field>
       </div>
 
@@ -47,6 +51,7 @@
           <mat-select formControlName="colors" multiple>
             <mat-option *ngFor="let color of colorsList" [value]="color.id">{{ color.name }}</mat-option>
           </mat-select>
+          <mat-error *ngFor="let error of getFormErrors('colors')">{{ error }}</mat-error>
         </mat-form-field>
       </div>
 
@@ -56,6 +61,7 @@
           <mat-select formControlName="sizes" multiple>
             <mat-option *ngFor="let size of sizesList" [value]="size.id">{{ size.size }}</mat-option>
           </mat-select>
+          <mat-error *ngFor="let error of getFormErrors('sizes')">{{ error }}</mat-error>
         </mat-form-field>
       </div>
     </div>
@@ -65,6 +71,7 @@
         <mat-form-field appearance="outline" class="w-100 compact-input">
           <mat-label>Description</mat-label>
           <textarea matInput rows="3" formControlName="description"></textarea>
+          <mat-error *ngFor="let error of getFormErrors('description')">{{ error }}</mat-error>
         </mat-form-field>
       </div>
     </div>

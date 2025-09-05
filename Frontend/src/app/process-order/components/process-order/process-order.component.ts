@@ -1,83 +1,101 @@
-import {Component} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {CartService} from "../../../cart/business-logic/services/cart.service";
-import {BlProcessOrderRequestsService} from "../../business-logic/requests/bl-process-order-requests.service";
-import {City, Country} from 'country-state-city';
-import {Router} from "@angular/router";
-import {IOrderRequest} from "../../interfaces/i-order";
-import {IOrderItem} from "../../interfaces/i-order-item";
-import {PaymentMethod} from "../../../admin/orders/enums/payment-method";
-import {SnackbarService} from "../../../shared/business-logic/services/common/snackbar/snackbar.service";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { CartService } from "../../../cart/business-logic/services/cart.service";
+import { BlProcessOrderRequestsService } from "../../business-logic/requests/bl-process-order-requests.service";
+import { City, Country } from 'country-state-city';
+import { Router } from "@angular/router";
+import { IOrderRequest } from "../../interfaces/i-order";
+import { IOrderItem } from "../../interfaces/i-order-item";
+import { SnackbarService } from "../../../shared/business-logic/services/common/snackbar/snackbar.service";
 
 @Component({
   selector: 'app-orders',
   templateUrl: './process-order.component.html',
   styleUrls: ['./process-order.component.scss']
 })
-export class ProcessOrderComponent {
+export class ProcessOrderComponent implements OnInit {
 
-  form = new FormGroup({
-    firstName: new FormControl('', [Validators.required, Validators.minLength(2)]),
-    lastName: new FormControl('',[Validators.required, Validators.minLength(2)]),
-    email: new FormControl('',[Validators.required, Validators.email]),
-    phone: new FormControl('',[Validators.required]),
-    city: new FormControl(null,[Validators.required]),
-    country: new FormControl(null,[Validators.required]),
-    zip: new FormControl(null,[Validators.required, Validators.pattern(/^\d{5}(-\d{4})?$/)]),
-    address: new FormControl('',[Validators.required]),
-    paymentMethod: new FormControl(PaymentMethod.pay_on_delivery),
-    additional: new FormControl(''),
-  });
+  form!: FormGroup;
+  submitted = false;
 
   protected cartProducts = [];
   protected subTotal: any = 0;
-
   protected countries = Country.getAllCountries();
-  protected cities = null;
-
+  protected cities = [];
   protected selectedCountry: any;
 
   constructor(
+    private fb: FormBuilder,
     private cartService: CartService,
     private requestsService: BlProcessOrderRequestsService,
     private router: Router,
     private snackbarService: SnackbarService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
+    this.initForm();
+    this.loadCart();
   }
 
-  ngOnInit() {
+  private initForm(): void {
+    this.form = this.fb.group({
+      firstName: ['', [Validators.required, Validators.minLength(2)]],
+      lastName: ['', [Validators.required, Validators.minLength(2)]],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required]],
+      country: [null, [Validators.required]],
+      city: [null, [Validators.required]],
+      zip: [null, [Validators.required, Validators.pattern(/^\d{5}(-\d{4})?$/)]],
+      address: ['', [Validators.required, Validators.minLength(2)]],
+      paymentMethod: ['', [Validators.required]],
+      additional: ['']
+    });
+  }
+
+  private loadCart(): void {
     this.cartService.loadCart();
     this.cartProducts = this.cartService.getCartItems();
     this.subTotal = this.cartService.getTotal();
   }
 
+  protected onCountryChange(): void {
+    this.selectedCountry = this.form.get('country')!.value;
+    this.cities = City.getCitiesOfCountry(this.selectedCountry.isoCode);
+  }
+
   protected submit(): void {
+    this.submitted = true;
+
+    if (!this.form || this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
     const dataToSend: IOrderRequest = this.getDataForSend();
     this.requestsService.insert(dataToSend).subscribe({
       next: (data) => {
-        const orderId = data.order_id;
-        this.router.navigate(['process-order/success', orderId]);
+        this.router.navigate(['process-order/success', data.order_id]);
         this.cartService.clearCart();
       },
-      error: (err) => this.snackbarService.showError('Error processing order.')
-    })
+      error: () => this.snackbarService.showError('Error processing order.')
+    });
   }
 
   private getDataForSend(): IOrderRequest {
-    let formValue = this.form.getRawValue();
+    const formValue = this.form.getRawValue();
     return {
       first_name: formValue.firstName,
       last_name: formValue.lastName,
       email: formValue.email,
       phone: formValue.phone,
       country: this.selectedCountry.name,
-      zip: formValue.zip,
       city: formValue.city.name,
+      zip: formValue.zip,
       address: formValue.address,
-      payment_method: formValue.paymentMethod as PaymentMethod,
-      additional:formValue.additional,
+      payment_method: formValue.paymentMethod,
+      additional: formValue.additional,
       subtotal: this.subTotal,
-      items: this.cartService.getCartItems().map(item => ({
+      items: this.cartProducts.map(item => ({
         product: item.product,
         quantity: item.quantity,
         size_id: item.size.id,
@@ -87,9 +105,19 @@ export class ProcessOrderComponent {
     }
   }
 
-  protected onCountryChange(): void {
-    let selectedCountry = this.form.get('country').value;
-    this.selectedCountry = selectedCountry;
-    this.cities = City.getCitiesOfCountry(selectedCountry.isoCode)
+  getFormErrors(controlName: string): string[] {
+    const control = this.form.get(controlName);
+    if (!control || !control.errors || (!control.touched && !this.submitted)) return [];
+
+    return Object.keys(control.errors).map(error => {
+      switch (error) {
+        case 'required': return 'This field is required';
+        case 'minlength': return `Minimum ${control.errors['minlength'].requiredLength} characters`;
+        case 'maxlength': return `Maximum ${control.errors['maxlength'].requiredLength} characters`;
+        case 'email': return 'Invalid email format';
+        case 'pattern': return 'Invalid format';
+        default: return 'Invalid value';
+      }
+    });
   }
 }

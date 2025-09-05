@@ -1,12 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="submit()" class="pb-5">
   <div class="container my-5">
-
     <div class="row g-4 justify-content-center">
-
-      <!-- LEFT COLUMN: Shipping & Payment -->
       <div class="col-xl-7">
-
-        <!-- Shipping Info -->
         <mat-card class="mb-4 bg-dark text-white rounded-3 p-4">
           <mat-card-header class="mb-3 d-flex flex-row-reverse align-self-start">
             <mat-icon class="me-2 color-primary">receipt</mat-icon>
@@ -14,48 +9,46 @@
           </mat-card-header>
           <mat-card-content>
 
-            <!-- First & Last Name -->
             <div class="row mb-3">
               <div class="col-md-6">
                 <mat-form-field appearance="fill" class="w-100 text-white">
                   <mat-label>First Name</mat-label>
                   <input matInput formControlName="firstName" placeholder="Enter First Name" required>
-                  <mat-error *ngIf="form.get('firstName')?.hasError('required')">
-                    First Name is required
-                  </mat-error>
+                  <mat-error *ngFor="let error of getFormErrors('firstName')">{{ error }}</mat-error>
                 </mat-form-field>
               </div>
               <div class="col-md-6">
                 <mat-form-field appearance="fill" class="w-100">
                   <mat-label>Last Name</mat-label>
                   <input matInput formControlName="lastName" placeholder="Enter Last Name" required>
+                  <mat-error *ngFor="let error of getFormErrors('lastName')">{{ error }}</mat-error>
                 </mat-form-field>
               </div>
             </div>
 
-            <!-- Email & Phone -->
             <div class="row mb-3">
               <div class="col-md-6">
                 <mat-form-field appearance="fill" class="w-100">
                   <mat-label>Email Address</mat-label>
                   <input matInput formControlName="email" placeholder="Enter Email" required>
+                  <mat-error *ngFor="let error of getFormErrors('email')">{{ error }}</mat-error>
                 </mat-form-field>
               </div>
               <div class="col-md-6">
                 <mat-form-field appearance="fill" class="w-100">
                   <mat-label>Phone</mat-label>
                   <input matInput formControlName="phone" placeholder="Enter Phone Number" required>
+                  <mat-error *ngFor="let error of getFormErrors('phone')">{{ error }}</mat-error>
                 </mat-form-field>
               </div>
             </div>
 
-            <!-- Address -->
             <mat-form-field appearance="fill" class="w-100 mb-3">
               <mat-label>Address</mat-label>
               <input matInput formControlName="address" placeholder="Enter full address" required>
+              <mat-error *ngFor="let error of getFormErrors('address')">{{ error }}</mat-error>
             </mat-form-field>
 
-            <!-- Country / City / Zip -->
             <div class="row mb-3">
               <div class="col-md-4">
                 <mat-form-field appearance="fill" class="w-100">
@@ -66,6 +59,7 @@
                       {{ country.name }}
                     </mat-option>
                   </mat-select>
+                  <mat-error *ngFor="let error of getFormErrors('country')">{{ error }}</mat-error>
                 </mat-form-field>
               </div>
               <div class="col-md-4">
@@ -77,17 +71,18 @@
                       {{ city.name }}
                     </mat-option>
                   </mat-select>
+                  <mat-error *ngFor="let error of getFormErrors('city')">{{ error }}</mat-error>
                 </mat-form-field>
               </div>
               <div class="col-md-4">
                 <mat-form-field appearance="fill" class="w-100">
                   <mat-label>Zip / Postal Code</mat-label>
                   <input matInput formControlName="zip" placeholder="Enter postal code" required>
+                  <mat-error *ngFor="let error of getFormErrors('zip')">{{ error }}</mat-error>
                 </mat-form-field>
               </div>
             </div>
 
-            <!-- Additional Info -->
             <mat-form-field appearance="fill" class="w-100">
               <mat-label>Additional Information</mat-label>
               <textarea matInput formControlName="additional" rows="3" placeholder="Additional information"></textarea>
@@ -96,7 +91,6 @@
           </mat-card-content>
         </mat-card>
 
-        <!-- Payment Info -->
         <mat-card class="bg-dark text-white rounded-3 p-4">
           <mat-card-header class="mb-3 d-flex flex-row-reverse align-self-start">
             <mat-icon class="color-primary me-2">account_balance_wallet</mat-icon>
@@ -109,11 +103,11 @@
               </mat-radio-button>
             </mat-radio-group>
           </mat-card-content>
+          <mat-error *ngFor="let error of getFormErrors('paymentMethod')">{{ error }}</mat-error>
         </mat-card>
 
       </div>
 
-      <!-- RIGHT COLUMN: Order Summary -->
       <div class="col-xl-5">
         <mat-card class="checkout-order-summary bg-dark text-white rounded-3 p-4">
           <mat-card-header class="mb-3">
@@ -148,7 +142,7 @@
               <strong>${{ subTotal }}</strong>
             </div>
 
-            <button mat-raised-button type="submit" class="background-primary w-100 mt-3" [disabled]="form.invalid">
+            <button mat-raised-button type="submit" class="background-primary w-100 mt-3">
               <mat-icon class="me-1">shopping_cart</mat-icon> Send Order
             </button>
 

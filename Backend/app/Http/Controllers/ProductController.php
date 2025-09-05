@@ -40,7 +40,7 @@ class ProductController extends Controller
         $productId = $request->get('productId');
 
         return response()->json([
-            $productId ? Products::query()->find($productId)->sizes()->pluck('size')->all() : Sizes::all()
+            'data' => $productId ? Products::query()->find($productId)->sizes()->pluck('size')->all() : Sizes::all()
         ]);
     }
 
@@ -49,7 +49,7 @@ class ProductController extends Controller
         $productId = $request->get('productId');
 
         return response()->json([
-            $productId ? Products::query()->find($productId)->categories()->pluck('name')->all() : Categories::all()
+            'data' => $productId ? Products::query()->find($productId)->categories()->pluck('name')->all() : Categories::all()
         ]);
     }
 
@@ -58,7 +58,7 @@ class ProductController extends Controller
         $productId = $request->get('productId');
 
         return response()->json([
-            $productId ? Products::query()->find($productId)->colors()->pluck('name')->all() : Colors::all()
+            'data' => $productId ? Products::query()->find($productId)->colors()->pluck('name')->all() : Colors::all()
         ]);
     }
 
@@ -81,10 +81,7 @@ class ProductController extends Controller
             $product->name = $data['name'];
             $product->description = $data['description'];
             $product->price = $data['price'];
-
-            if ($data['image']){
-                $product->image = $this->handleImage($data['image']);
-            }
+            $product->image = $this->handleImage($data['image']);
 
             $product->save();
 
