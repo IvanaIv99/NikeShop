@@ -9,13 +9,15 @@
           <div class="col-6">
             <mat-form-field color="accent">
               <mat-label>Enter your email</mat-label>
-              <input matInput placeholder="pat@example.com" [formControl]="form.controls.email">
+              <input matInput formControlName="email" >
+              <mat-error *ngFor="let error of getFormErrors('email')">{{ error }}</mat-error>
             </mat-form-field>
           </div>
           <div class="col-6">
             <mat-form-field color="accent">
               <mat-label>Password</mat-label>
-              <input matInput type="password" [formControl]="form.controls.password">
+              <input matInput formControlName="password" type="password" >
+              <mat-error *ngFor="let error of getFormErrors('password')">{{ error }}</mat-error>
             </mat-form-field>
           </div>
         </div>

@@ -24,6 +24,8 @@ export class ProcessOrderComponent implements OnInit {
   protected cities = [];
   protected selectedCountry: any;
 
+  protected readonly SHIPPING_CHARGE = 20;
+
   constructor(
     private fb: FormBuilder,
     private cartService: CartService,
@@ -55,7 +57,7 @@ export class ProcessOrderComponent implements OnInit {
   private loadCart(): void {
     this.cartService.loadCart();
     this.cartProducts = this.cartService.getCartItems();
-    this.subTotal = this.cartService.getTotal();
+    this.subTotal = this.cartService.getTotal() + this.SHIPPING_CHARGE;
   }
 
   protected onCountryChange(): void {
