@@ -6,6 +6,8 @@ use App\Models\Products;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class ProductSeeder extends Seeder
 {
@@ -14,6 +16,24 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
+        $images = [
+            'IMG_999.png',
+            'IMG_4767.png',
+            'IMG_4769.png',
+            'IMG_4771.png',
+            'IMG_4770.png',
+            'IMG_123.png',
+            'transparent.png',
+            'IMG_456.png',
+        ];
+
+        File::makeDirectory(storage_path('app/public/products'), 0755, true);
+        foreach ($images as $image) {
+            $source = __DIR__.'/img/' . $image;
+            $destination = storage_path('app/public/products/' . $image);
+            copy($source, $destination);
+        }
+
         $now = Carbon::now();
 
         Products::query()->insert([
