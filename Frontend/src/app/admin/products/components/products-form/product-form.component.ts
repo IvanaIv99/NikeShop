@@ -13,6 +13,12 @@ import {
   allowedFormValuesValidator,
 } from "../../../../shared/validators/allowed-form-values.validator";
 
+interface VariantInput {
+  sizeId: number;
+  colorId: number;
+  stock: number;
+}
+
 @Component({
   selector: 'product-form',
   templateUrl: './product-form.component.html',
@@ -32,6 +38,10 @@ export class ProductFormComponent implements OnInit {
   categoriesList: ICategory[] = [];
   sizesList: ISize[] = [];
   colorsList: IColor[] = [];
+
+  selectedSizeIds: number[] = [];
+  selectedColorIds: number[] = [];
+  stockMatrix: Record<string, number> = {};
 
   constructor(
     private fb: FormBuilder,
@@ -53,7 +63,7 @@ export class ProductFormComponent implements OnInit {
       colors: this.productService.getColors(),
       sizes: this.productService.getSizes()
     }).subscribe({
-      next: ({ categories, colors, sizes }) => {
+      next: ({categories, colors, sizes}) => {
         this.categoriesList = categories;
         this.colorsList = colors;
         this.sizesList = sizes;
@@ -77,9 +87,15 @@ export class ProductFormComponent implements OnInit {
         description: product.description,
         price: product.price,
         categories: product.categories.map(c => c['id']),
-        colors: product.colors.map(c => c['id']),
-        sizes: product.sizes.map(s => s['id'])
       });
+
+      this.selectedSizeIds = Array.from(new Set(product.variants.map(v => v.size.id)));
+      this.selectedColorIds = Array.from(new Set(product.variants.map(v => v.color.id)));
+      this.stockMatrix = {};
+      for (const v of product.variants) {
+        this.stockMatrix[this.cellKey(v.size.id, v.color.id)] = v.stock;
+      }
+
       this.fileName = product.image;
       this.loading = false;
     });
@@ -93,9 +109,58 @@ export class ProductFormComponent implements OnInit {
       price: [null, [Validators.required, Validators.min(1)]],
       image: [null, imageValidator],
       categories: [[], [Validators.required, allowedFormValuesValidator(this.categoriesList.map(c => c.id))]],
-      colors: [[], [Validators.required, allowedFormValuesValidator(this.colorsList.map(c => c.id))]],
-      sizes: [[], [Validators.required, allowedFormValuesValidator(this.sizesList.map(s => s.id))]]
     });
+  }
+
+  cellKey(sizeId: number, colorId: number): string {
+    return `${sizeId}:${colorId}`;
+  }
+
+  isSizeSelected(sizeId: number): boolean {
+    return this.selectedSizeIds.includes(sizeId);
+  }
+
+  isColorSelected(colorId: number): boolean {
+    return this.selectedColorIds.includes(colorId);
+  }
+
+  sizeLabel(sizeId: number): string | number {
+    return this.sizesList.find(s => s.id === sizeId)?.size ?? sizeId;
+  }
+
+  colorLabel(colorId: number): string {
+    return this.colorsList.find(c => c.id === colorId)?.name ?? String(colorId);
+  }
+
+  toggleSize(sizeId: number, checked: boolean): void {
+    this.selectedSizeIds = checked
+      ? [...this.selectedSizeIds, sizeId]
+      : this.selectedSizeIds.filter(id => id !== sizeId);
+  }
+
+  toggleColor(colorId: number, checked: boolean): void {
+    this.selectedColorIds = checked
+      ? [...this.selectedColorIds, colorId]
+      : this.selectedColorIds.filter(id => id !== colorId);
+  }
+
+  onStockChange(sizeId: number, colorId: number, value: any): void {
+    const n = parseInt(value, 10);
+    this.stockMatrix[this.cellKey(sizeId, colorId)] = isNaN(n) || n < 0 ? 0 : n;
+  }
+
+  getStock(sizeId: number, colorId: number): number {
+    return this.stockMatrix[this.cellKey(sizeId, colorId)] ?? 0;
+  }
+
+  private buildVariants(): VariantInput[] {
+    const out: VariantInput[] = [];
+    for (const sizeId of this.selectedSizeIds) {
+      for (const colorId of this.selectedColorIds) {
+        out.push({sizeId, colorId, stock: this.getStock(sizeId, colorId)});
+      }
+    }
+    return out;
   }
 
   onFileSelected(event: any): void {
@@ -111,6 +176,10 @@ export class ProductFormComponent implements OnInit {
     this.submitted = true;
     if (!this.form || this.form.invalid) {
       this.form.markAllAsTouched();
+      return;
+    }
+    if (this.selectedSizeIds.length === 0 || this.selectedColorIds.length === 0) {
+      this.snackbar.showError('Pick at least one size and one color.');
       return;
     }
 
@@ -132,12 +201,16 @@ export class ProductFormComponent implements OnInit {
     formData.append('price', this.form.value.price);
     if (this.image) formData.append('image', this.image, this.image.name);
     this.form.value.categories.forEach((c: any) => formData.append('categories[]', c));
-    this.form.value.colors.forEach((c: any) => formData.append('colors[]', c));
-    this.form.value.sizes.forEach((s: any) => formData.append('sizes[]', s));
 
-    return productId ?
-      this.productService.update(formData, productId) :
-      this.productService.create(formData);
+    this.buildVariants().forEach((v, i) => {
+      formData.append(`variants[${i}][sizeId]`, String(v.sizeId));
+      formData.append(`variants[${i}][colorId]`, String(v.colorId));
+      formData.append(`variants[${i}][stock]`, String(v.stock));
+    });
+
+    return productId
+      ? this.productService.update(formData, productId)
+      : this.productService.create(formData);
   }
 
   getFormErrors(controlName: string): string[] {

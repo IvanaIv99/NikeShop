@@ -4,13 +4,12 @@ namespace Database\Seeders;
 
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Product;
+use App\Models\ProductVariant;
 use Illuminate\Database\Seeder;
 
 class OrderSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         Order::query()->insert([
@@ -91,77 +90,46 @@ class OrderSeeder extends Seeder
             ]
         ]);
 
-        OrderItem::query()->insert([
-            [
-                'order_id' => 1,
-                'product_id' => 1,
-                'size_id' => 2,
-                'color_id' => 1,
-                'quantity' => 2,
-                'total' => 1998.00,
+        $rows = [
+            ['order_id' => 1, 'product_id' => 1, 'quantity' => 2],
+            ['order_id' => 1, 'product_id' => 2, 'quantity' => 1],
+            ['order_id' => 2, 'product_id' => 3, 'quantity' => 1],
+            ['order_id' => 3, 'product_id' => 4, 'quantity' => 3],
+            ['order_id' => 3, 'product_id' => 5, 'quantity' => 2],
+            ['order_id' => 4, 'product_id' => 5, 'quantity' => 2],
+            ['order_id' => 5, 'product_id' => 1, 'quantity' => 2],
+        ];
+
+        $orderItems = [];
+
+        foreach ($rows as $row) {
+            $variant = ProductVariant::query()
+                ->where('product_id', $row['product_id'])
+                ->with(['product', 'size', 'color'])
+                ->first();
+
+            if ($variant === null) {
+                continue;
+            }
+
+            $product = $variant->product;
+            $unitPrice = $product->price;
+
+            $orderItems[] = [
+                'order_id' => $row['order_id'],
+                'variant_id' => $variant->id,
+                'product_name' => $product->name,
+                'product_image' => $product->getRawOriginal('image'),
+                'size_value' => (string) $variant->size->size,
+                'color_name' => $variant->color->name,
+                'unit_price' => $unitPrice,
+                'quantity' => $row['quantity'],
+                'total' => $unitPrice * $row['quantity'],
                 'created_at' => now(),
                 'updated_at' => now(),
-            ],
-            [
-                'order_id' => 1,
-                'product_id' => 2,
-                'size_id' => 1,
-                'color_id' => 3,
-                'quantity' => 1,
-                'total' => 1250.00,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'order_id' => 2,
-                'product_id' => 3,
-                'size_id' => 2,
-                'color_id' => 2,
-                'quantity' => 1,
-                'total' => 999.00,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'order_id' => 3,
-                'product_id' => 4,
-                'size_id' => 1,
-                'color_id' => 4,
-                'quantity' => 3,
-                'total' => 1680.00,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'order_id' => 3,
-                'product_id' => 5,
-                'size_id' => 1,
-                'color_id' => 3,
-                'quantity' => 2,
-                'total' => 2000.00,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'order_id' => 4,
-                'product_id' => 5,
-                'size_id' => 1,
-                'color_id' => 3,
-                'quantity' => 2,
-                'total' => 2000.00,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'order_id' => 5,
-                'product_id' => 1,
-                'size_id' => 1,
-                'color_id' => 2,
-                'quantity' => 2,
-                'total' => 2000.00,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+            ];
+        }
+
+        OrderItem::query()->insert($orderItems);
     }
 }

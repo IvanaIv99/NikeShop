@@ -7,16 +7,12 @@ use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
         DB::table('products_categories')->truncate();
-        DB::table('products_sizes')->truncate();
-        DB::table('products_colors')->truncate();
+        DB::table('product_variants')->truncate();
         DB::table('products')->truncate();
         DB::table('categories')->truncate();
         DB::table('colors')->truncate();
@@ -33,8 +29,7 @@ class DatabaseSeeder extends Seeder
             ColorSeeder::class,
             SizeSeeder::class,
             ProductCategorySeeder::class,
-            ProductSizeSeeder::class,
-            ProductColorSeeder::class,
+            ProductVariantSeeder::class,
             AdminSeeder::class,
             OrderSeeder::class,
         ]);

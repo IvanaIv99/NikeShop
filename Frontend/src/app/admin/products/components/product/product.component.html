@@ -3,13 +3,13 @@
 <td><img style="width: 70px" src="{{productItem.image}}" alt="nike-air-shoe" ></td>
 <td>{{productItem.name}}</td>
 <td>
-    <span *ngFor="let size of this.productItem.sizes">{{size.size}},</span>
+    <span *ngFor="let s of distinctSizes()">{{s}} </span>
 </td>
 <td>
     <span *ngFor="let category of this.productItem.categories">{{category.name}},</span>
 </td>
 <td>
-    <span *ngFor="let color of this.productItem.colors">{{color.name}},</span>
+    <span *ngFor="let c of distinctColors()">{{c}} </span>
 </td>
 <td>{{productItem.price}}$</td>
 <td>{{productItem.created_at}}</td>

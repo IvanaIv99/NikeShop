@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @mixin IdeHelperColor
@@ -15,8 +15,8 @@ class Color extends Model
         'name','code'
     ];
 
-    public function products(): BelongsToMany
+    public function variants(): HasMany
     {
-        return $this->belongsToMany(Product::class, 'product_colors', 'color_id', 'product_id');
+        return $this->hasMany(ProductVariant::class);
     }
 }

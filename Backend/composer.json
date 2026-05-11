@@ -68,6 +68,13 @@
         ],
         "test" : [
             "php vendor/bin/pest --compact"
+        ],
+        "idehelper": [
+            "@php artisan clear-compiled",
+            "@php artisan ide-helper:eloquent",
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta",
+            "@php artisan ide-helper:models --write-mixin"
         ]
     },
     "extra": {

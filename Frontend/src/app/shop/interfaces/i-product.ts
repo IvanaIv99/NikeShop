@@ -1,15 +1,13 @@
-import {ISize} from "./i-size";
-import {IColor} from "./i-color";
 import {ICategory} from "./i-category";
+import {IProductVariant} from "./i-product-variant";
 
 export interface IProduct {
   id: number;
   name: string;
-  categories:  ICategory[];
+  categories: ICategory[];
   description: string;
   price: number;
   image: string;
-  sizes: ISize[];
-  colors: IColor[];
-  created_at: number;
+  variants: IProductVariant[];
+  created_at?: number;
 }

@@ -98,10 +98,8 @@ export class ProcessOrderComponent implements OnInit {
       additional: formValue.additional,
       subtotal: this.subTotal,
       orderItems: this.cartProducts.map(item => ({
-        productId: item.product.id,
+        variantId: item.variantId,
         quantity: item.quantity,
-        sizeId: item.size.id,
-        colorId: item.color.id,
         total: item.total
       })) as IOrderItem[]
     }

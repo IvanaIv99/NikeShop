@@ -7,6 +7,9 @@ namespace App\Domains\Auth\Tokens;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Laravel\Sanctum\PersonalAccessToken;
 
+/**
+ * @mixin IdeHelperAccessToken
+ */
 final class AccessToken extends PersonalAccessToken implements TokenInterface
 {
     use HasUuids;

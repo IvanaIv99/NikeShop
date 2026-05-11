@@ -19,6 +19,32 @@ export class ProductComponent implements OnInit  {
 
   ngOnInit() {}
 
+  public distinctSizes(): (string | number)[] {
+    if (!this.productItem?.variants) return [];
+    const seen = new Set<number>();
+    const out: (string | number)[] = [];
+    for (const v of this.productItem.variants) {
+      if (!seen.has(v.size.id)) {
+        seen.add(v.size.id);
+        out.push(v.size.size);
+      }
+    }
+    return out;
+  }
+
+  public distinctColors(): string[] {
+    if (!this.productItem?.variants) return [];
+    const seen = new Set<number>();
+    const out: string[] = [];
+    for (const v of this.productItem.variants) {
+      if (!seen.has(v.color.id)) {
+        seen.add(v.color.id);
+        out.push(v.color.name);
+      }
+    }
+    return out;
+  }
+
   public deleteProduct(productId:any)
   {
     this.productService.delete(productId).subscribe(

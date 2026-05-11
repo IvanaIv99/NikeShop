@@ -9,10 +9,8 @@ use App\Http\Data\BaseData;
 final class SingleOrderItemDto extends BaseData
 {
     public function __construct(
-        public readonly string $productId,
-        public readonly string $sizeId,
-        public readonly string $colorId,
-        public readonly string $quantity,
+        public readonly int $variantId,
+        public readonly int $quantity,
         public readonly string $total,
     ) {
     }
@@ -20,9 +18,7 @@ final class SingleOrderItemDto extends BaseData
     public static function rules(): array
     {
         return [
-            'productId' => ['required', 'integer', 'exists:products,id'],
-            'sizeId' => ['required', 'integer', 'exists:sizes,id'],
-            'colorId' => ['required', 'integer', 'exists:colors,id'],
+            'variantId' => ['required', 'integer', 'exists:product_variants,id'],
             'quantity' => ['required', 'integer', 'min:1'],
             'total' => ['required', 'numeric', 'min:0'],
         ];

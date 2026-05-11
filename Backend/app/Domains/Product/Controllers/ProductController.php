@@ -56,6 +56,8 @@ final class ProductController extends Controller
 
     public function stats(): JsonResponse
     {
-        return $this->sendResponse($this->service->stats());
+        return $this->sendResponse(
+            $this->service->stats()
+        );
     }
 }

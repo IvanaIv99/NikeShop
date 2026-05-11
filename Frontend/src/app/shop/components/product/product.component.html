@@ -10,20 +10,33 @@
       <h5 class="text-white">{{categoryString}}</h5>
       <div class="size">
         <h3>Size :</h3>
-        <ul class="list-inline" >
-          <li  class="list-inline-item" *ngFor="let size of product.sizes; let i = index" [value]="size" >
-            <a (click)="onSelectedAttribute('size', size)">
-              <span [ngStyle]="{'background-color': selectedAttributes.size?.id === size.id ? 'green' : 'white' }">{{size.size}}</span>
+        <ul class="list-inline">
+          <li class="list-inline-item"
+              *ngFor="let size of availableSizes; let i = index"
+              [class.disabled]="isSizeDisabled(size)">
+            <a (click)="!isSizeDisabled(size) && onSelectedAttribute('size', size)">
+              <span [ngStyle]="{
+                      'background-color': selectedAttributes.size?.id === size.id ? 'green' : 'white',
+                      'opacity': isSizeDisabled(size) ? 0.35 : 1,
+                      'cursor': isSizeDisabled(size) ? 'not-allowed' : 'pointer'
+                    }">{{size.size}}</span>
             </a>
           </li>
         </ul>
       </div>
       <div class="color">
         <h3>Color :</h3>
-        <ul class="list-inline" >
-          <li  class="list-inline-item" *ngFor="let color of product.colors; let i = index" [value]="color" >
-            <a (click)="onSelectedAttribute('color', color)" >
-              <span [ngStyle]="{'background': color['code'], 'border': selectedAttributes.color?.id ===  color.id ? '3px solid white' : 'none' }" ></span>
+        <ul class="list-inline">
+          <li class="list-inline-item"
+              *ngFor="let color of availableColors; let i = index"
+              [class.disabled]="isColorDisabled(color)">
+            <a (click)="!isColorDisabled(color) && onSelectedAttribute('color', color)">
+              <span [ngStyle]="{
+                      'background': color['code'],
+                      'border': selectedAttributes.color?.id === color.id ? '3px solid white' : 'none',
+                      'opacity': isColorDisabled(color) ? 0.35 : 1,
+                      'cursor': isColorDisabled(color) ? 'not-allowed' : 'pointer'
+                    }"></span>
             </a>
           </li>
         </ul>
@@ -32,7 +45,12 @@
         <h3>${{product.price}}</h3>
       </div>
       <div class="buyNow">
-        <button class="btn-custom" style="cursor: pointer;" id="{{product.id}}" (click)="addProductToCart(product)">Add to cart</button>
+        <button class="btn-custom"
+                [disabled]="!canAddToCart()"
+                [style.cursor]="canAddToCart() ? 'pointer' : 'not-allowed'"
+                [style.opacity]="canAddToCart() ? 1 : 0.5"
+                id="{{product.id}}"
+                (click)="addProductToCart(product)">Add to cart</button>
       </div>
     </div>
   </div>

@@ -18,10 +18,8 @@ final class ProductResource extends BaseData
         public readonly string $image,
         #[DataCollectionOf(CategoryResource::class)]
         public readonly DataCollection $categories,
-        #[DataCollectionOf(SizeResource::class)]
-        public readonly DataCollection $sizes,
-        #[DataCollectionOf(ColorResource::class)]
-        public readonly DataCollection $colors,
+        #[DataCollectionOf(ProductVariantResource::class)]
+        public readonly DataCollection $variants,
     ) {
     }
 }

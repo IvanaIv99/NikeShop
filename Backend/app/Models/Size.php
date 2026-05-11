@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @mixin IdeHelperSize
@@ -14,8 +15,8 @@ class Size extends Model
         'size'
     ];
 
-    public function products()
+    public function variants(): HasMany
     {
-        return $this->belongsToMany(Product::class, 'products_sizes', 'size_id', 'product_id');
+        return $this->hasMany(ProductVariant::class);
     }
 }

@@ -26,12 +26,28 @@ export class ShopComponent implements OnInit {
   }
 
   protected addProductToCart(product: any) {
+    const size = product.selectedSize;
+    const color = product.selectedColor;
+    if (!size || !color) {
+      this.snackbarService.showError('Pick a size and a color.');
+      return;
+    }
+
+    const variant = product.variants?.find(
+      (v: any) => v.size.id === size.id && v.color.id === color.id
+    );
+    if (!variant || variant.stock <= 0) {
+      this.snackbarService.showError('Selected combination is out of stock.');
+      return;
+    }
+
     let item: ICartItem = {
+      variantId: variant.id,
       product: product,
       quantity: 1,
       total: product.price,
-      size: product.selectedSize,
-      color: product.selectedColor
+      size,
+      color,
     };
 
     this.cartService.addToCart(item);
