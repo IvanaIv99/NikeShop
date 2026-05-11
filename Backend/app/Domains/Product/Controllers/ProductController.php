@@ -39,7 +39,7 @@ final class ProductController extends Controller
     {
         $product = $this->service->create(CreateProductDto::from($request));
 
-        return $this->sendResponse(ProductResource::from($product), Response::HTTP_CREATED);
+        return $this->sendResponse(ProductResource::from($product));
     }
 
     public function update(Request $request, Product $product): JsonResponse

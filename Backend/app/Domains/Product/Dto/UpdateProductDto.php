@@ -23,4 +23,20 @@ final class UpdateProductDto extends BaseData
         public readonly array $sizes,
     ) {
     }
+
+    public static function rules(): array
+    {
+        return [
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string', 'max:2000'],
+            'price' => ['required', 'numeric', 'min:0'],
+            'image' => ['sometimes', 'image', 'mimes:jpeg,jpg,png,webp', 'max:5120'],
+            'colors' => ['required', 'array', 'min:1'],
+            'colors.*' => ['integer', 'exists:colors,id'],
+            'categories' => ['required', 'array', 'min:1'],
+            'categories.*' => ['integer', 'exists:categories,id'],
+            'sizes' => ['required', 'array', 'min:1'],
+            'sizes.*' => ['integer', 'exists:sizes,id'],
+        ];
+    }
 }

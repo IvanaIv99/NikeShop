@@ -18,12 +18,30 @@ final class CreateOrderDto extends BaseData
         public readonly string $country,
         public readonly string $city,
         public readonly string $address,
-        public readonly string $additional,
+        public readonly ?string $additional,
         public readonly string $paymentMethod,
         public readonly string $subtotal,
         public readonly string $total,
         #[DataCollectionOf(SingleOrderItemDto::class)]
         public readonly DataCollection $orderItems
     ) {
+    }
+
+    public static function rules(): array
+    {
+        return [
+            'firstName' => ['required', 'string', 'max:100'],
+            'lastName' => ['required', 'string', 'max:100'],
+            'email' => ['required', 'email', 'max:255'],
+            'phone' => ['required', 'string', 'max:30'],
+            'country' => ['required', 'string', 'max:100'],
+            'city' => ['required', 'string', 'max:100'],
+            'address' => ['required', 'string', 'max:255'],
+            'additional' => ['nullable', 'string', 'max:1000'],
+            'paymentMethod' => ['required', 'string', 'max:50'],
+            'subtotal' => ['required', 'numeric', 'min:0'],
+            'total' => ['required', 'numeric', 'min:0'],
+            'orderItems' => ['required', 'array', 'min:1'],
+        ];
     }
 }

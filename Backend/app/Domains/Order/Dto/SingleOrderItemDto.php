@@ -16,4 +16,15 @@ final class SingleOrderItemDto extends BaseData
         public readonly string $total,
     ) {
     }
+
+    public static function rules(): array
+    {
+        return [
+            'productId' => ['required', 'integer', 'exists:products,id'],
+            'sizeId' => ['required', 'integer', 'exists:sizes,id'],
+            'colorId' => ['required', 'integer', 'exists:colors,id'],
+            'quantity' => ['required', 'integer', 'min:1'],
+            'total' => ['required', 'numeric', 'min:0'],
+        ];
+    }
 }
