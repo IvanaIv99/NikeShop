@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 /**
  * @mixin IdeHelperColor
  */
-class Colors extends Model
+class Color extends Model
 {
     protected $table = 'colors';
     protected $fillable = [
@@ -17,6 +17,6 @@ class Colors extends Model
 
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Products::class, 'product_colors', 'color_id', 'product_id');
+        return $this->belongsToMany(Product::class, 'product_colors', 'color_id', 'product_id');
     }
 }

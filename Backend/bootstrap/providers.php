@@ -2,6 +2,7 @@
 
 use App\Domains\Auth\Providers\AuthDomainServiceProvider;
 use App\Domains\Order\Providers\OrderDomainServiceProvider;
+use App\Domains\Product\Providers\ProductDomainServiceProvider;
 use App\Providers\AppServiceProvider;
 
 return [
@@ -9,5 +10,6 @@ return [
 
     // Domains
     AuthDomainServiceProvider::class,
-    OrderDomainServiceProvider::class
+    OrderDomainServiceProvider::class,
+    ProductDomainServiceProvider::class,
 ];

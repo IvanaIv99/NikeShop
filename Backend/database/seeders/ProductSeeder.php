@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Products;
+use App\Models\Product;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
@@ -34,7 +34,7 @@ class ProductSeeder extends Seeder
 
         $now = Carbon::now();
 
-        Products::query()->insert([
+        Product::query()->insert([
             [
                 'name' => 'SNike X OFF-white',
                 'description' => 'The 10: Air Jordan 1 off-white - Chicago',

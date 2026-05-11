@@ -19,7 +19,7 @@ final class OrderResource extends BaseData
         public readonly string $country,
         public readonly string $city,
         public readonly string $address,
-        public readonly string $additional,
+        public readonly ?string $additional,
         public readonly string $paymentMethod,
         public readonly string $subtotal,
         public readonly string $status,

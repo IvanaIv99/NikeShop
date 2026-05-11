@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @mixin IdeHelperProduct
+ * @mixin IdeHelperPaymentMethod
  */
-class PaymentMethods extends Model
+class PaymentMethod extends Model
 {
     protected $table = 'payment_methods';
 }

@@ -32,7 +32,13 @@ class OrderController extends Controller
 
     public function getOne(Order $order, Request $request): JsonResponse
     {
-        $order = $order->load('orderItems.product');
+        $order = $order->load([
+            'orderItems.product.categories',
+            'orderItems.product.sizes',
+            'orderItems.product.colors',
+            'orderItems.size',
+            'orderItems.color',
+        ]);
         return response()->json(['data' => OrderResource::from($order)]);
     }
 
@@ -42,7 +48,13 @@ class OrderController extends Controller
         $order->status = $newStatus;
         $order->save();
 
-        $order = $order->fresh()->load('orderItems.product');
+        $order = $order->fresh()->load([
+            'orderItems.product.categories',
+            'orderItems.product.sizes',
+            'orderItems.product.colors',
+            'orderItems.size',
+            'orderItems.color',
+        ]);
         return response()->json(['data' => OrderResource::from($order) ]);
     }
 

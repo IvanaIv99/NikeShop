@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Colors;
+use App\Models\Color;
 use Illuminate\Database\Seeder;
 
 class ColorSeeder extends Seeder
@@ -12,7 +12,7 @@ class ColorSeeder extends Seeder
      */
     public function run(): void
     {
-        Colors::query()->insert(
+        Color::query()->insert(
             [
                 [
                     "name" => "red",

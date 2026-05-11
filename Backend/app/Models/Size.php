@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @mixin IdeHelperSize
  */
-class Sizes extends Model
+class Size extends Model
 {
     protected $table = 'sizes';
     protected $fillable = [
@@ -16,6 +16,6 @@ class Sizes extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Products::class, 'products_sizes', 'size_id', 'product_id');
+        return $this->belongsToMany(Product::class, 'products_sizes', 'size_id', 'product_id');
     }
 }

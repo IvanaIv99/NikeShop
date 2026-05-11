@@ -45,7 +45,13 @@ final readonly class OrderService
 
             OrderItem::query()->insert($orderItems);
 
-            return $order->load('orderItems.product');
+            return $order->load([
+                'orderItems.product.categories',
+                'orderItems.product.sizes',
+                'orderItems.product.colors',
+                'orderItems.size',
+                'orderItems.color',
+            ]);
         });
     }
 }

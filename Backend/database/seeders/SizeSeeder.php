@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Sizes;
+use App\Models\Size;
 use Illuminate\Database\Seeder;
 
 class SizeSeeder extends Seeder
@@ -12,7 +12,7 @@ class SizeSeeder extends Seeder
      */
     public function run(): void
     {
-        Sizes::query()->insert([
+        Size::query()->insert([
             [
                 'size' => 32
             ],
