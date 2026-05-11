@@ -180,9 +180,30 @@
       <path value="$PROJECT_DIR$/Backend/vendor/vlucas/phpdotenv" />
       <path value="$PROJECT_DIR$/Backend/vendor/voku/portable-ascii" />
       <path value="$PROJECT_DIR$/Backend/vendor/webmozart/assert" />
+      <path value="$PROJECT_DIR$/Backend/vendor/spatie/error-solutions" />
+      <path value="$PROJECT_DIR$/Backend/vendor/phpdocumentor/reflection-docblock" />
+      <path value="$PROJECT_DIR$/Backend/vendor/phpdocumentor/reflection" />
+      <path value="$PROJECT_DIR$/Backend/vendor/spatie/php-structure-discoverer" />
+      <path value="$PROJECT_DIR$/Backend/vendor/spatie/laravel-package-tools" />
+      <path value="$PROJECT_DIR$/Backend/vendor/spatie/laravel-data" />
+      <path value="$PROJECT_DIR$/Backend/vendor/symfony/polyfill-php84" />
+      <path value="$PROJECT_DIR$/Backend/vendor/symfony/clock" />
+      <path value="$PROJECT_DIR$/Backend/vendor/league/uri-interfaces" />
+      <path value="$PROJECT_DIR$/Backend/vendor/league/uri" />
+      <path value="$PROJECT_DIR$/Backend/vendor/symfony/polyfill-php85" />
+      <path value="$PROJECT_DIR$/Backend/vendor/staabm/side-effects-detector" />
+      <path value="$PROJECT_DIR$/Backend/vendor/rector/rector" />
+      <path value="$PROJECT_DIR$/Backend/vendor/phpstan/phpstan" />
+      <path value="$PROJECT_DIR$/Backend/vendor/larastan/larastan" />
+      <path value="$PROJECT_DIR$/Backend/vendor/iamcal/sql-parser" />
     </include_path>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.3" />
+  <component name="PhpStan">
+    <PhpStan_settings>
+      <PhpStanConfiguration tool_path="$PROJECT_DIR$/Backend/vendor/bin/phpstan" />
+    </PhpStan_settings>
+  </component>
   <component name="PhpStanOptionsConfiguration">
     <option name="transferred" value="true" />
   </component>

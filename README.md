@@ -2,7 +2,7 @@
 
 1. (terminal 1) `cd Frontend `
    - `npm install npm install --legacy-peer-deps`
-   - `ng serve`
+   - `npx ng serve`
    
 2. (terminal 2) `cd Backend`
    -` cp .env.example .env`

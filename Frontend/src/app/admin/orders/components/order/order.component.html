@@ -22,7 +22,7 @@
             </div>
             <table class="mat-table w-100 text-white mb-0">
               <tbody>
-              <tr *ngFor="let item of order.items" class="align-middle">
+              <tr *ngFor="let item of order.orderItems" class="align-middle">
                 <td>
                   <div class="d-flex align-items-center gap-3">
                     <img [src]="item.product.image" alt="" class="img-fluid rounded" style="width:50px;">
@@ -53,7 +53,7 @@
               <div class="col-lg-6">
                 <h2>Payment Method</h2>
                 <p>
-                  <span class="badge rounded-pill">{{ PaymentMethod[order.payment_method]}}</span>
+                  <span class="badge rounded-pill">{{ PaymentMethod[order.paymentMethod]}}</span>
                 </p>
                 <p>Total: <span class="fw-bold">${{ order.subtotal }}</span> </p>
               </div>
@@ -98,7 +98,7 @@
           <div class="card-body">
             <h2>Shipping Address</h2>
             <address>
-              <strong>{{order.first_name}} {{order.last_name}}</strong><br>
+              <strong>{{order.firstName}} {{order.lastName}}</strong><br>
               {{ order.address }}<br>
               {{ order.city }}, {{ order.country }}<br>
               P: {{ order.phone }}

@@ -21,7 +21,7 @@ export class TopProductsComponent implements OnInit {
 
   public loadTopProducts() {
     this.productsRequestsService.getProductsStatistics().subscribe(data => {
-      this.topSellingProducts = data.three_top_selling
+      this.topSellingProducts = data.topSelling
     });
   }
 }

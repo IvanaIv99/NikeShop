@@ -12,10 +12,10 @@ export interface IOrderItem {
 }
 
 interface IOrderItemBase {
-  product: IProduct;
+  productId: IProduct;
   quantity: number;
-  size_id: number;
-  color_id: number;
+  sizeId: number;
+  colorId: number;
   total: number;
 }
 

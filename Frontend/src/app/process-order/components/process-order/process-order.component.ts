@@ -86,22 +86,22 @@ export class ProcessOrderComponent implements OnInit {
   private getDataForSend(): IOrderRequest {
     const formValue = this.form.getRawValue();
     return {
-      first_name: formValue.firstName,
-      last_name: formValue.lastName,
+      firstName: formValue.firstName,
+      lastName: formValue.lastName,
       email: formValue.email,
       phone: formValue.phone,
       country: this.selectedCountry.name,
       city: formValue.city.name,
       zip: formValue.zip,
       address: formValue.address,
-      payment_method: formValue.paymentMethod,
+      paymentMethod: formValue.paymentMethod,
       additional: formValue.additional,
       subtotal: this.subTotal,
-      items: this.cartProducts.map(item => ({
-        product: item.product,
+      orderItems: this.cartProducts.map(item => ({
+        productId: item.product.id,
         quantity: item.quantity,
-        size_id: item.size.id,
-        color_id: item.color.id,
+        sizeId: item.size.id,
+        colorId: item.color.id,
         total: item.total
       })) as IOrderItem[]
     }

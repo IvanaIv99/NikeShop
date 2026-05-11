@@ -3,18 +3,18 @@ import {PaymentMethod} from "../../admin/orders/enums/payment-method";
 import {OrderStatus} from "../../admin/orders/enums/order-status";
 
 interface IOrderBase {
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   phone: string;
   country: string;
   city: string;
   zip: number;
   address: string;
-  payment_method: PaymentMethod,
+  paymentMethod: PaymentMethod,
   additional: string,
   subtotal: number,
-  items: IOrderItem[]
+  orderItems: IOrderItem[]
 }
 
 export interface IOrder extends IOrderBase {

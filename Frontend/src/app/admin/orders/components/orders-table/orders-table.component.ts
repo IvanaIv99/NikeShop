@@ -73,8 +73,8 @@ export class OrdersTableComponent implements OnInit, OnChanges, AfterViewInit {
       const search = this.filters.search.toLowerCase();
       filtered = filtered.filter(o =>
         o.id.toString().includes(search) ||
-        o.first_name.toLowerCase().includes(search) ||
-        o.last_name.toLowerCase().includes(search) ||
+        o.firstName.toLowerCase().includes(search) ||
+        o.lastName.toLowerCase().includes(search) ||
         o.email.toLowerCase().includes(search)
       );
     }

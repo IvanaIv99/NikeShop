@@ -41,8 +41,10 @@
     "datatables.net": "^1.11.3",
     "datatables.net-bs5": "^1.11.3",
     "datatables.net-dt": "^1.11.3",
+    "install": "^0.13.0",
     "jquery": "^3.6.0",
     "ngx-scrollbar": "^16.1.1",
+    "npm": "^11.10.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"

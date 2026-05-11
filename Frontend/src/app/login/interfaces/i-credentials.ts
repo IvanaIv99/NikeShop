@@ -4,5 +4,5 @@ export interface ICredentials {
 }
 
 export interface ICredentialsResponse {
-    jwtToken: string;
+    token: string;
 }

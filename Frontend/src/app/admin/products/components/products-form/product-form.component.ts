@@ -76,9 +76,9 @@ export class ProductFormComponent implements OnInit {
         name: product.name,
         description: product.description,
         price: product.price,
-        categories: product.categories.map(c => c['pivot']['category_id']),
-        colors: product.colors.map(c => c['pivot']['color_id']),
-        sizes: product.sizes.map(s => s['pivot']['size_id'])
+        categories: product.categories.map(c => c['id']),
+        colors: product.colors.map(c => c['id']),
+        sizes: product.sizes.map(s => s['id'])
       });
       this.fileName = product.image;
       this.loading = false;

@@ -18,7 +18,7 @@ export class AuthService {
   public login(data: ICredentials): void {
     this.loginRequestsService.login(data).subscribe({
       next: (data) => {
-        this.setJwtToken(data.jwtToken);
+        this.setJwtToken(data.token);
         this.router.navigateByUrl("/admin-panel/dashboard");
       },
       error: (resp) => this.snackBarService.showError(resp.error.message)

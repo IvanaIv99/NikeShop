@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {map, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {environment} from "../../../../shared/environment/environment";
 import {ISize} from "../../../../shop/interfaces/i-size";
 import {IColor} from "../../../../shop/interfaces/i-color";
@@ -22,7 +22,7 @@ export class BlProductsApiService {
   }
 
   getOne(id: any): Observable<IProduct> {
-    let url = `${environment.apiUrl}/products?productId=${id}`;
+    let url = `${environment.apiUrl}/products/${id}`;
     return this.webApiService.get<IProduct>(url);
   }
 
@@ -38,21 +38,25 @@ export class BlProductsApiService {
 
   update(id: any, data: any): Observable<any> {
     let url = `${environment.apiUrl}/products/${id}`;
-    return this.webApiService.post(url, data);
+    if (data instanceof FormData) {
+      data.append('_method', 'PUT');
+      return this.webApiService.post(url, data);
+    }
+    return this.webApiService.put(url, data);
   }
 
   getSizes(): Observable<ISize[]> {
-    let url = `${environment.apiUrl}/products/sizes`;
+    let url = `${environment.apiUrl}/sizes`;
     return this.webApiService.get<ISize[]>(url);
   }
 
   getColors(): Observable<IColor[]> {
-    let url = `${environment.apiUrl}/products/colors`;
+    let url = `${environment.apiUrl}/colors`;
     return this.webApiService.get<IColor[]>(url);
   }
 
   getCategories(): Observable<ICategory[]> {
-    let url = `${environment.apiUrl}/products/categories`;
+    let url = `${environment.apiUrl}/categories`;
     return this.webApiService.get<ICategory[]>(url);
   }
 

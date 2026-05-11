@@ -48,6 +48,13 @@ export class WebApiService {
     );
   }
 
+  public put<T>(url: string, model: any): Observable<T> {
+    return this.httpClient.put<T>(url, model, this.httpOptions).pipe(
+      map((response: HttpResponse<T>) => this.ReturnResponseData<T>(response)),
+      catchError(this.handleError)
+    );
+  }
+
   public delete<T>(url: string): Observable<T> {
     return this.httpClient.delete<T>(url, this.httpOptions).pipe(
       map((response: HttpResponse<T>) => this.ReturnResponseData<T>(response)),

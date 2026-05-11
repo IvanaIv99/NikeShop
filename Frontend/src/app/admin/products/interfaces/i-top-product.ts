@@ -1,5 +1,5 @@
 export interface IProductsStatistics {
-  three_top_selling: IProduct[];
+  topSelling: IProduct[];
 }
 
 export interface IProduct {
