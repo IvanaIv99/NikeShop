@@ -31,7 +31,7 @@ class ProductController extends Controller
         }
 
         return response()->json([
-            'data' => Products::with('categories','sizes','colors')->get(),
+            'data' => Products::with('categories', 'sizes', 'colors')->get(),
         ]);
     }
 
@@ -113,7 +113,7 @@ class ProductController extends Controller
             $product->description = $request->get('description');
             $product->price = $request->get('price');
 
-            if (array_key_exists('image', $data)){
+            if (array_key_exists('image', $data)) {
                 $product->image = $this->handleImage($data['image']);
             }
 
@@ -138,7 +138,9 @@ class ProductController extends Controller
     {
         $fileName = $request->get('fileName');
         $path = asset('storage/products/' . $fileName);
-        if (!File::exists($path)) return response()->json(['message' => 'File not found'], 404);
+        if (!File::exists($path)) {
+            return response()->json(['message' => 'File not found'], 404);
+        }
         return response()->file($path);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -18,6 +17,6 @@ class Colors extends Model
 
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Products::class, 'product_colors', 'color_id','product_id');
+        return $this->belongsToMany(Products::class, 'product_colors', 'color_id', 'product_id');
     }
 }

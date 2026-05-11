@@ -3,11 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Products;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 
 class ProductSeeder extends Seeder
 {
@@ -27,7 +25,7 @@ class ProductSeeder extends Seeder
             'IMG_456.png',
         ];
 
-        File::makeDirectory(storage_path('app/public/products'), 0755, true);
+        File::makeDirectory(storage_path('app/public/products'), 0755, true, true);
         foreach ($images as $image) {
             $source = __DIR__.'/img/' . $image;
             $destination = storage_path('app/public/products/' . $image);

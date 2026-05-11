@@ -4,9 +4,29 @@ namespace App\Http\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
-class Controller extends BaseController
+abstract class Controller
 {
-    use AuthorizesRequests, ValidatesRequests;
+    use AuthorizesRequests;
+    use ValidatesRequests;
+
+    protected function sendResponse(mixed $data, int $responseCode = Response::HTTP_OK): JsonResponse
+    {
+        return response()->json([
+            'data' => $data,
+            'version' => config('app.version'),
+        ], $responseCode);
+    }
+
+    protected function sendBadResponse(
+        string $message,
+        int $responseCode = Response::HTTP_BAD_REQUEST
+    ): JsonResponse {
+        return $this->sendResponse([
+            'message' => $message,
+            'error' => $message,
+        ], $responseCode);
+    }
 }

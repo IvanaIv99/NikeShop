@@ -1,0 +1,32 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    noModelMake: false
+    checkOctaneCompatibility: true
+    checkModelProperties: true
+
+    scanFiles:
+      - _ide_helper_models.php
+
+    paths:
+        - app/
+
+    # Level 9 is the highest level
+    level: 8
+
+    ignoreErrors:
+        - "#Method [a-zA-Z0-9\\_\\\\:\\(\\)]+ has parameter \\$[a-zA-Z0-9_]+ with no value type specified in iterable type array#"
+        # we should expand this one to only do this for the Request classes
+        - "#Method [a-zA-Z0-9\\_\\\\:\\(\\)]+ never returns null so it can be removed from the return type.#"
+        - "#Method [a-zA-Z0-9\\_\\\\:\\(\\)]+ has parameter \\$[a-zA-Z0-9_]+ with no value type specified in iterable type iterable#"
+        - "#Method [a-zA-Z0-9\\_\\\\:\\(\\)]+ return type has no value type specified in iterable type array#"
+        - "#Property [a-zA-Z0-9\\$\\_\\\\:\\(\\)]+ type has no value type specified in iterable type array#"
+        - "#PHPDoc tag @var for variable [a-zA-Z0-9\\$\\_\\\\:\\(\\)]+ has no value type specified in iterable type array#"
+        - "#Unable to resolve the template type [a-zA-Z0-9\\_]+ in call to [a-zA-Z0-9\\_]+#"
+        - identifier: missingType.generics
+        - identifier: larastan.noEnvCallsOutsideOfConfig
+        - identifier: varTag.nativeType
+#
+#
+#    checkMissingIterableValueType: false
