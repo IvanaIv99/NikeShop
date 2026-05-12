@@ -1,117 +1,170 @@
-<div class="add-product-page container py-4">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="mb-0"># {{title}}</h2>
+<div class="tm-body">
+  <div class="tm-pgh">
+    <div>
+      <h1>{{ title }}</h1>
+      <div class="meta">
+        <span class="live"><span class="pulse"></span>{{ id ? 'editing #' + id : 'new product' }}</span>
+        <span>·</span>
+        <span>products / {{ id ? id : 'new' }}</span>
+      </div>
+    </div>
+    <a class="tm-btn" [routerLink]="['/admin-panel/products']">
+      <mat-icon style="font-size:14px;width:14px;height:14px;line-height:14px">arrow_back</mat-icon>
+      <span>Back</span>
+    </a>
   </div>
-  <hr>
 
-  <form [formGroup]="form" *ngIf="form"  (ngSubmit)="onSubmit()">
-    <div class="row g-3 mb-3">
-      <div class="col-md-4">
-        <mat-form-field appearance="outline" class="w-100 compact-input">
-          <mat-label>Name</mat-label>
-          <input matInput formControlName="name">
-          <mat-error *ngFor="let error of getFormErrors('name')">{{ error }}</mat-error>
-        </mat-form-field>
-      </div>
+  <form [formGroup]="form" *ngIf="form" (ngSubmit)="onSubmit()">
+    <div class="tm-form-wrap">
+      <div class="tm-form">
+        <h4>{{ title }}</h4>
+        <div class="crumb">products / {{ id ? id : 'new' }} — {{ submitted && form.valid ? 'ready' : 'draft' }}</div>
 
-      <div class="col-md-4">
-        <mat-form-field appearance="outline" class="w-100 compact-input">
-          <mat-label>Price</mat-label>
-          <input matInput type="number" placeholder="$" formControlName="price">
-          <mat-error *ngFor="let error of getFormErrors('price')">{{ error }}</mat-error>
-        </mat-form-field>
-      </div>
+        <div class="sect">
+          <div class="st"><span>01 · Identity</span><b>required</b></div>
+          <div class="grid">
+            <mat-form-field appearance="outline">
+              <mat-label>Title</mat-label>
+              <input matInput formControlName="name">
+              <mat-error *ngFor="let err of getFormErrors('name')">{{ err }}</mat-error>
+            </mat-form-field>
 
-      <div class="col-md-4 d-flex align-items-center">
-        <div class="file-dropzone text-center p-2 border rounded flex-grow-1 d-flex flex-column align-items-center justify-content-center"
-             (click)="fileUpload.click()">
-          <img class="w-25" *ngIf="this.id" src="{{fileName}}" alt="photo"/>
-          <input type="file" hidden (change)="onFileSelected($event)" #fileUpload>
-          <mat-icon color="primary" class="mb-1">cloud_upload</mat-icon>
-          <span class="small">{{ fileName || 'Click to upload file' }}</span>
-          <mat-error *ngFor="let error of getFormErrors('image')">{{ error }}</mat-error>
+            <mat-form-field appearance="outline">
+              <mat-label>Categories</mat-label>
+              <mat-select formControlName="categories" multiple>
+                <mat-option *ngFor="let category of categoriesList" [value]="category.id">
+                  {{ category.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngFor="let err of getFormErrors('categories')">{{ err }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="grid-column:1 / -1">
+              <mat-label>Description</mat-label>
+              <textarea matInput rows="3" formControlName="description"></textarea>
+              <mat-error *ngFor="let err of getFormErrors('description')">{{ err }}</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="sect">
+          <div class="st"><span>02 · Pricing &amp; image</span><b>required</b></div>
+          <div class="grid">
+            <mat-form-field appearance="outline">
+              <mat-label>Price · USD</mat-label>
+              <input matInput type="number" placeholder="$" formControlName="price">
+              <mat-error *ngFor="let err of getFormErrors('price')">{{ err }}</mat-error>
+            </mat-form-field>
+
+            <div class="tm-dropzone" (click)="fileUpload.click()">
+              <img *ngIf="id && fileName" [src]="fileName" alt="preview">
+              <input type="file" hidden (change)="onFileSelected($event)" #fileUpload>
+              <mat-icon>cloud_upload</mat-icon>
+              <div class="label">{{ fileName || 'Click to upload product image' }}</div>
+              <div class="hint">JPG · PNG · max 5MB</div>
+              <mat-error *ngFor="let err of getFormErrors('image')">{{ err }}</mat-error>
+            </div>
+          </div>
+        </div>
+
+        <div class="sect">
+          <div class="st">
+            <span>03 · Variants</span>
+            <b>{{ selectedColorIds.length }} × {{ selectedSizeIds.length }}</b>
+          </div>
+
+          <div class="field-label">Sizes</div>
+          <div class="tm-chip-row" style="margin-bottom:18px">
+            <mat-checkbox
+              *ngFor="let size of sizesList"
+              [checked]="isSizeSelected(size.id)"
+              (change)="toggleSize(size.id, $event.checked)">
+              {{ size.size }}
+            </mat-checkbox>
+          </div>
+
+          <div class="field-label">Colours</div>
+          <div class="tm-chip-row" style="margin-bottom:18px">
+            <mat-checkbox
+              *ngFor="let color of colorsList"
+              [checked]="isColorSelected(color.id)"
+              (change)="toggleColor(color.id, $event.checked)">
+              {{ color.name }}
+            </mat-checkbox>
+          </div>
+
+          <div *ngIf="selectedSizeIds.length && selectedColorIds.length">
+            <div class="field-label">Stock per variant</div>
+            <table class="tm-variant-table">
+              <thead>
+                <tr>
+                  <th>size \ colour</th>
+                  <th *ngFor="let colorId of selectedColorIds">{{ colorLabel(colorId) }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let sizeId of selectedSizeIds">
+                  <th>{{ sizeLabel(sizeId) }}</th>
+                  <td *ngFor="let colorId of selectedColorIds">
+                    <input
+                      type="number"
+                      min="0"
+                      [value]="getStock(sizeId, colorId)"
+                      (input)="onStockChange(sizeId, colorId, $any($event.target).value)">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="tm-actions-row">
+          <button class="tm-btn pri" type="submit" [disabled]="submitting">
+            <span>{{ id ? 'Save changes' : 'Publish product' }}</span>
+            <span class="kbd">⌘↵</span>
+          </button>
+          <a class="tm-btn" [routerLink]="['/admin-panel/products']">Cancel</a>
+          <span style="margin-left:auto;font-family:'Geist Mono',monospace;font-size:10.5px;color:#5a5d61;letter-spacing:.12em;text-transform:uppercase">
+            {{ submitting ? 'saving…' : (form.dirty ? 'unsaved changes' : 'all changes saved') }}
+          </span>
         </div>
       </div>
-    </div>
 
-    <div class="row g-3 mb-3">
-      <div class="col-12">
-        <mat-form-field appearance="outline" class="w-100 compact-input">
-          <mat-label>Categories</mat-label>
-          <mat-select formControlName="categories" multiple>
-            <mat-option *ngFor="let category of categoriesList" [value]="category.id">{{ category.name }}</mat-option>
-          </mat-select>
-          <mat-error *ngFor="let error of getFormErrors('categories')">{{ error }}</mat-error>
-        </mat-form-field>
-      </div>
-    </div>
-
-    <div class="row g-3 mb-3">
-      <div class="col-md-6">
-        <label class="form-label fw-bold">Sizes</label>
-        <div class="d-flex flex-wrap gap-2">
-          <mat-checkbox *ngFor="let size of sizesList"
-                        [checked]="isSizeSelected(size.id)"
-                        (change)="toggleSize(size.id, $event.checked)">
-            {{ size.size }}
-          </mat-checkbox>
+      <aside class="tm-side-pnl">
+        <div class="card">
+          <h5>Summary <small>auto</small></h5>
+          <div class="ln"><span class="k">title</span><span class="v">{{ form.value.name || '—' }}</span></div>
+          <div class="ln"><span class="k">price</span><span class="v acc">{{ form.value.price ? '$' + form.value.price : '—' }}</span></div>
+          <div class="ln"><span class="k">categories</span><span class="v">{{ form.value.categories?.length || 0 }}</span></div>
+          <div class="ln"><span class="k">colours</span><span class="v">{{ selectedColorIds.length }}</span></div>
+          <div class="ln"><span class="k">sizes</span><span class="v">{{ selectedSizeIds.length }}</span></div>
+          <div class="ln"><span class="k">variants</span><span class="v acc">{{ selectedColorIds.length * selectedSizeIds.length }}</span></div>
         </div>
-      </div>
 
-      <div class="col-md-6">
-        <label class="form-label fw-bold">Colors</label>
-        <div class="d-flex flex-wrap gap-2">
-          <mat-checkbox *ngFor="let color of colorsList"
-                        [checked]="isColorSelected(color.id)"
-                        (change)="toggleColor(color.id, $event.checked)">
-            {{ color.name }}
-          </mat-checkbox>
+        <div class="card">
+          <h5>Pre-publish <small>checks</small></h5>
+          <div class="ln" style="border:0;padding:4px 0;display:flex;align-items:center;gap:8px">
+            <mat-icon [style.color]="form.get('name')?.valid ? '#03a68b' : '#5a5d61'" style="font-size:14px;width:14px;height:14px">{{ form.get('name')?.valid ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon>
+            <span style="font-size:11.5px;color:#dcdcdc">Title present</span>
+          </div>
+          <div class="ln" style="border:0;padding:4px 0;display:flex;align-items:center;gap:8px">
+            <mat-icon [style.color]="form.get('description')?.valid ? '#03a68b' : '#5a5d61'" style="font-size:14px;width:14px;height:14px">{{ form.get('description')?.valid ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon>
+            <span style="font-size:11.5px;color:#dcdcdc">Description ≥ 5 chars</span>
+          </div>
+          <div class="ln" style="border:0;padding:4px 0;display:flex;align-items:center;gap:8px">
+            <mat-icon [style.color]="form.get('price')?.valid ? '#03a68b' : '#5a5d61'" style="font-size:14px;width:14px;height:14px">{{ form.get('price')?.valid ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon>
+            <span style="font-size:11.5px;color:#dcdcdc">Price set</span>
+          </div>
+          <div class="ln" style="border:0;padding:4px 0;display:flex;align-items:center;gap:8px">
+            <mat-icon [style.color]="form.get('categories')?.valid ? '#03a68b' : '#5a5d61'" style="font-size:14px;width:14px;height:14px">{{ form.get('categories')?.valid ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon>
+            <span style="font-size:11.5px;color:#dcdcdc">Categories chosen</span>
+          </div>
+          <div class="ln" style="border:0;padding:4px 0;display:flex;align-items:center;gap:8px">
+            <mat-icon [style.color]="(selectedColorIds.length && selectedSizeIds.length) ? '#03a68b' : '#5a5d61'" style="font-size:14px;width:14px;height:14px">{{ (selectedColorIds.length && selectedSizeIds.length) ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon>
+            <span style="font-size:11.5px;color:#dcdcdc">≥ 1 colour &amp; size</span>
+          </div>
         </div>
-      </div>
+      </aside>
     </div>
-
-    <div class="row g-3 mb-3" *ngIf="selectedSizeIds.length && selectedColorIds.length">
-      <div class="col-12">
-        <label class="form-label fw-bold">Stock per variant</label>
-        <div class="table-responsive">
-          <table class="table table-bordered table-sm align-middle">
-            <thead>
-            <tr>
-              <th>Size \ Color</th>
-              <th *ngFor="let colorId of selectedColorIds">
-                {{ colorLabel(colorId) }}
-              </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let sizeId of selectedSizeIds">
-              <th>{{ sizeLabel(sizeId) }}</th>
-              <td *ngFor="let colorId of selectedColorIds">
-                <input type="number" min="0"
-                       class="form-control form-control-sm"
-                       [value]="getStock(sizeId, colorId)"
-                       (input)="onStockChange(sizeId, colorId, $any($event.target).value)">
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <div class="row g-3 mb-3">
-      <div class="col-12">
-        <mat-form-field appearance="outline" class="w-100 compact-input">
-          <mat-label>Description</mat-label>
-          <textarea matInput rows="3" formControlName="description"></textarea>
-          <mat-error *ngFor="let error of getFormErrors('description')">{{ error }}</mat-error>
-        </mat-form-field>
-      </div>
-    </div>
-
-    <div class="d-flex justify-content-center">
-      <button mat-raised-button class="btn-custom background-primary" type="submit">Submit</button>
-    </div>
-
   </form>
 </div>

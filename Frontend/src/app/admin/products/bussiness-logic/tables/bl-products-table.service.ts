@@ -22,16 +22,6 @@ export class BlProductsTableService {
       title: "Name"
     },
     {
-      index: "colors",
-      title: "Colors",
-      type: ColumnType.list
-    },
-    {
-      index: "sizes",
-      title: "Sizes",
-      type: ColumnType.list
-    },
-    {
       index: "categories",
       title: "Categories",
       type: ColumnType.list

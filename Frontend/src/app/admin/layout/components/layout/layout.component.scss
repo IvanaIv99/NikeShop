@@ -1,7 +1,5 @@
-.coded-wrapper
-{
-  padding-bottom: 5%;
-}
-main {
-  flex: 1; /* glavni sadržaj raste da popuni prostor */
+// Layout is fully handled by .tm-app in global terminal stylesheet.
+:host {
+  display: block;
+  min-height: 100vh;
 }

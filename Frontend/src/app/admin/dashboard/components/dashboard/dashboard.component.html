@@ -1,4 +1,116 @@
-<div class="dashboard-page container py-4">
+<div class="tm-body">
+  <div class="tm-pgh">
+    <div>
+      <h1>Dashboard</h1>
+      <div class="meta">
+        <span class="live"><span class="pulse"></span>Live</span>
+        <span>·</span>
+        <span>Today's snapshot</span>
+        <span>·</span>
+        <span style="font-family:'Geist Mono',monospace">total 12w: {{ formatMoney(chartTotal) }}</span>
+      </div>
+    </div>
+    <div class="tm-seg">
+      <span [class.on]="range === '24h'" (click)="setRange('24h')">24h</span>
+      <span [class.on]="range === '12w'" (click)="setRange('12w')">12w</span>
+      <span [class.on]="range === 'ytd'" (click)="setRange('ytd')">YTD</span>
+    </div>
+  </div>
+
   <app-stats></app-stats>
+
+  <div class="tm-rowgrid">
+    <section class="tm-panel">
+      <header class="tm-panel-head">
+        <h3>Revenue</h3>
+        <span class="sub">{{ rangeLabel }}</span>
+        <div class="right">
+          <span class="tab on">Revenue</span>
+        </div>
+      </header>
+
+      <div class="body tm-chart" *ngIf="hasOrders; else emptyChart">
+        <svg viewBox="0 0 780 240" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="tmDashFill" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#03a68b" stop-opacity=".28"/>
+              <stop offset="100%" stop-color="#03a68b" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <g stroke="#1a1d20" stroke-dasharray="2 3" fill="none">
+            <line *ngFor="let g of chartGridLines" [attr.x1]="0" [attr.y1]="g" [attr.x2]="780" [attr.y2]="g"/>
+          </g>
+          <path [attr.d]="chartFillPath" fill="url(#tmDashFill)"/>
+          <path [attr.d]="chartLinePath" stroke="#03a68b" stroke-width="1.5" fill="none"/>
+
+          <g fill="#5a5d61" font-family="Geist Mono, monospace" font-size="10">
+            <text *ngFor="let lbl of yAxisLabels" [attr.x]="2" [attr.y]="lbl.y - 6">{{ lbl.label }}</text>
+          </g>
+
+          <g fill="#5a5d61" font-family="Geist Mono, monospace" font-size="10">
+            <text *ngFor="let p of chartPoints; let i = index"
+                  [attr.x]="p.x - 12"
+                  [attr.y]="226"
+                  [style.display]="p.label ? null : 'none'">
+              {{ p.label }}
+            </text>
+          </g>
+
+          <ng-container *ngIf="chartPoints.length">
+            <line [attr.x1]="chartPoints[chartPoints.length-1].x"
+                  [attr.y1]="0"
+                  [attr.x2]="chartPoints[chartPoints.length-1].x"
+                  [attr.y2]="200"
+                  stroke="#03a68b" stroke-width="1" stroke-dasharray="2 3" opacity=".7"/>
+            <circle [attr.cx]="chartPoints[chartPoints.length-1].x"
+                    [attr.cy]="chartPoints[chartPoints.length-1].y"
+                    r="3.5" fill="#03a68b" stroke="#0e0f10" stroke-width="2"/>
+          </ng-container>
+        </svg>
+      </div>
+
+      <ng-template #emptyChart>
+        <div class="body" style="padding:40px;text-align:center;color:#6a6d72;font-family:'Geist Mono',monospace;font-size:11.5px;letter-spacing:.04em">
+          <div>no orders yet</div>
+          <small style="display:block;margin-top:6px;color:#5a5d61">revenue chart appears once orders come in</small>
+        </div>
+      </ng-template>
+
+      <div class="tm-acts">
+        <div class="help">
+          <span *ngIf="hasOrders">peak</span>
+          <span *ngIf="hasOrders" style="margin-left:8px;color:#dcdcdc">{{ formatMoney(chartMax) }} / {{ rangeBucketWord }}</span>
+        </div>
+        <div class="tm-chartlegend">
+          <span><i></i>this {{ range === '24h' ? 'day' : range === 'ytd' ? 'year' : 'season' }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="tm-panel tm-feed">
+      <header class="tm-panel-head">
+        <h3>Activity</h3>
+        <span class="sub">{{ activity.length ? 'most recent ' + activity.length : 'no events' }}</span>
+        <div class="right">
+          <a class="tab tab-link" [routerLink]="['/admin-panel/orders']">View all<span class="arrow">→</span></a>
+        </div>
+      </header>
+      <div class="body" style="padding:0">
+        <div class="ev" *ngFor="let ev of activity">
+          <div class="ts">{{ ev.ts }}</div>
+          <div class="ttl">{{ ev.title }}<small>{{ ev.subtitle }}</small></div>
+          <div class="tag" [class.warn]="ev.tag === 'received'" [class.info]="ev.tag === 'shipped' || ev.tag === 'refunded' || ev.tag === 'cancelled'">
+            {{ ev.tag }}
+          </div>
+        </div>
+        <div class="ev" *ngIf="!loading && !activity.length">
+          <div class="ts">—</div>
+          <div class="ttl">No activity yet<small>orders will appear here as they come in</small></div>
+          <div class="tag info">idle</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
   <app-top-products></app-top-products>
 </div>

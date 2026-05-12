@@ -1,36 +1,46 @@
-<div class="products-page container py-4">
-  <!-- Title -->
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="mb-0"># Products</h2>
-    <button class="btn-custom" [routerLink]="['/admin-panel/products/add']">
-      Add Product
-    </button>
-  </div>
-  <hr>
-
-  <!-- Filters + Actions Panel -->
-  <div class="filters-panel d-flex w-50 flex-row gap-3 align-items-start align-items-lg-center mb-2">
-    <!-- Left: filters -->
-    <div class="d-flex flex-wrap gap-3 flex-grow-1 align-items-center">
-      <!-- Search -->
-      <mat-form-field appearance="outline" color="accent" class="flex-grow-1">
-        <mat-label>Search...</mat-label>
-        <input matInput placeholder="Order ID / Name" [(ngModel)]="search" (keyup)="applySearch(search)">
-        <button mat-icon-button matSuffix aria-label="clear search" *ngIf="search" (click)="clearSearch()">
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
+<div class="tm-body">
+  <div class="tm-pgh">
+    <div>
+      <h1>Products</h1>
+      <div class="meta">
+        <span class="live"><span class="pulse"></span>{{ tableInfo.total || 0 }} products</span>
+        <span>·</span>
+      </div>
     </div>
+    <a class="tm-btn pri" [routerLink]="['/admin-panel/products/add']">
+      <span>+ New product</span>
+      <span class="kbd">N</span>
+    </a>
+  </div>
 
-    <!-- Right: actions -->
-    <div class="d-flex ms-lg-auto mt-lg-0">
-      <button mat-flat-button class="btn-custom" style="margin-bottom:20px !important;" (click)="clearFilters()">
-        <mat-icon>filter_alt_off</mat-icon> Clear
+  <div class="tm-bar">
+    <label class="tm-bar-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>
+      <input
+        type="text"
+        placeholder="Search by ID or name…"
+        [(ngModel)]="search"
+        (keyup)="applySearch(search)"
+      >
+    </label>
+    <span class="chip on">All</span>
+    <span class="chip">Lifestyle</span>
+    <span class="chip">Running</span>
+    <span class="chip">Basketball</span>
+    <span class="chip">Skate</span>
+    <span class="sep"></span>
+    <span class="chip">status: <b>live</b></span>
+    <span class="chip">stock: <b>any</b></span>
+    <div class="right">
+      <button class="tm-btn" type="button" (click)="clearFilters()" *ngIf="search">
+        <mat-icon style="font-size:14px;width:14px;height:14px;line-height:14px">filter_alt_off</mat-icon>
+        Clear
       </button>
     </div>
   </div>
+
   <app-products-table
     [filters]="filters"
-    (filterChange)="onTableFilterChange($event)"
-  ></app-products-table>
+    (filterChange)="onTableFilterChange($event)">
+  </app-products-table>
 </div>

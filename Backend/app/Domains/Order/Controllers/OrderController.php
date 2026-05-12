@@ -7,8 +7,10 @@ use App\Domains\Order\Resources\OrderResource;
 use App\Domains\Order\Services\OrderService;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class OrderController extends Controller
 {
@@ -44,6 +46,24 @@ class OrderController extends Controller
 
         $order = $order->fresh()->load('orderItems');
         return response()->json(['data' => OrderResource::from($order)]);
+    }
+
+    public function slip(Order $order, Request $request): Response
+    {
+        $order->load('orderItems');
+
+        $pdf = Pdf::loadView('orders.slip', [
+            'order' => $order,
+            'paymentMethod' => $order->payment_method ?? 'n/a',
+        ])->setPaper('a4');
+
+        $filename = 'order-' . $order->id . '-slip.pdf';
+        $disposition = $request->boolean('download', true) ? 'attachment' : 'inline';
+
+        return response($pdf->output(), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => $disposition . '; filename="' . $filename . '"',
+        ]);
     }
 
     public function getTodayStats(Request $request): JsonResponse

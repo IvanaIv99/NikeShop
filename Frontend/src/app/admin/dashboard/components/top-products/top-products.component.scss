@@ -1,1 +1,5 @@
-@import "style-variables";
+:host { display: block }
+
+::ng-deep .tm-prowrap.tm-prowrap-tight {
+  grid-template-columns: 28px 36px 1fr auto;
+}

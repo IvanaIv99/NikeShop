@@ -44,4 +44,29 @@ export class OrderComponent implements OnInit {
   }
 
   protected readonly PaymentMethod = PaymentMethod;
+
+  protected downloadingPdf = false;
+
+  protected downloadPdf(): void {
+    if (this.downloadingPdf || !this.order) return;
+    this.downloadingPdf = true;
+
+    this.requestsService.downloadSlip(this.order.id).subscribe({
+      next: (blob) => {
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = `order-${this.order.id}-slip.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(blobUrl);
+        this.downloadingPdf = false;
+      },
+      error: () => {
+        this.snackbarService.showError('Could not generate PDF.');
+        this.downloadingPdf = false;
+      }
+    });
+  }
 }

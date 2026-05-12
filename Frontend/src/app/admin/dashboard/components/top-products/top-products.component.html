@@ -1,22 +1,29 @@
-<div class="row g-3 mb-4">
-  <div class="card p-3 rounded-3 mb-4 black-background">
-    <h2 class="mb-3 text-white">🔥 Top Products</h2>
-    <ul class="list-group list-group-flush">
-      <li *ngFor="let product of topSellingProducts; let i = index"
-          class="list-group-item d-flex align-items-center black-background text-white">
+<section class="tm-panel">
+  <header class="tm-panel-head">
+    <h3>Top sellers</h3>
+    <span class="sub">by units sold</span>
+    <div class="right">
+      <span class="tab on">Units</span>
+    </div>
+  </header>
+  <div class="tm-topprods">
+    <div class="tm-prowrap tm-prowrap-tight" *ngFor="let product of topSellingProducts; let i = index">
+      <span class="rk">{{ '0' + (i + 1) | slice:-2 }}</span>
+      <div class="ph">
+        <img *ngIf="product.image" [src]="product.image" [alt]="product.name">
+      </div>
+      <div class="nm">
+        {{ product.name }}
+        <small>#{{ product.id }}</small>
+      </div>
+      <span class="pr">{{ product.orders_count }} sales</span>
+    </div>
 
-        <img [src]="product.image"
-             [alt]="product.name"
-             class="rounded me-3"
-             style="width: 50px; height: 50px; object-fit: contain;">
-
-        <div class="flex-grow-1">
-          <div class="fw-bold">{{ product.name }}</div>
-          <small style="color: #7b7b7b">{{ product.orders_count }} sales</small>
-        </div>
-
-        <span class="badge bg-primary rounded-pill" style="font-size: 1rem; padding: 0.6em 1em;">#{{ i + 1 }}</span>
-      </li>
-    </ul>
+    <div class="tm-prowrap tm-prowrap-tight" *ngIf="!topSellingProducts?.length">
+      <span class="rk">—</span>
+      <div class="ph"></div>
+      <div class="nm">No data yet<small>top sellers will appear here</small></div>
+      <span class="pr">—</span>
+    </div>
   </div>
-</div>
+</section>

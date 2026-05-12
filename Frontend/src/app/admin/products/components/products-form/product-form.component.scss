@@ -1,73 +1,22 @@
-.image-preview {
-  max-width: 200px;
-  max-height: 200px;
-  margin-top: 10px;
+// Form styled globally via .tm-form / .tm-form-wrap / .tm-side-pnl
+:host { display: block }
+
+// Material checkbox tints inside the form
+:host ::ng-deep .tm-form .mat-mdc-checkbox {
+  --mdc-checkbox-selected-icon-color: #03a68b;
+  --mdc-checkbox-selected-focus-icon-color: #03a68b;
+  --mdc-checkbox-selected-hover-icon-color: #03a68b;
+  --mdc-checkbox-selected-pressed-icon-color: #03a68b;
+  --mdc-checkbox-unselected-icon-color: #2a2d31;
+  --mdc-checkbox-unselected-hover-icon-color: #3a3d41;
+  --mdc-form-field-label-text-color: #dcdcdc;
+  margin: 0;
+
+  .mdc-form-field { font-family: 'Geist', sans-serif; font-size: 12px; letter-spacing: -.003em }
+  label { color: #dcdcdc !important }
 }
 
-.file-input{
-  display: none;
-}
+:host ::ng-deep .tm-form .mat-mdc-select-trigger,
+:host ::ng-deep .tm-form .mat-mdc-select-value { color: #fafafa }
 
-.product-form {
-  max-width: 900px;
-  width: 100%;
-  margin: auto;
-
-  .form-row {
-    display: flex;
-    gap: 10px;
-
-    &.flex-wrap {
-      flex-wrap: wrap;
-    }
-
-    .flex-1 {
-      flex: 1 1 0;
-    }
-  }
-
-  .file-upload-container {
-    .file-upload {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border: 1px solid #ccc;
-      padding: 6px 10px;
-      border-radius: 4px;
-      height: 56px; // match mat-input height
-      cursor: pointer;
-    }
-  }
-
-  .form-actions {
-    button {
-      min-width: 120px;
-    }
-  }
-}
-
-
-.product-card {
-  border-radius: 12px;
-  padding: 16px;
-}
-
-.product-form .form-row {
-  display: flex;
-  gap: 12px;
-}
-
-.flex-1 {
-  flex: 1;
-}
-
-.file-upload {
-  border: 1px dashed #ccc;
-  padding: 8px;
-  border-radius: 6px;
-}
-
-.mat-card-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-}
+:host ::ng-deep .tm-form .mat-mdc-form-field-error { font-family: 'Geist Mono', monospace; font-size: 10px; color: #e0667a; letter-spacing: .04em }

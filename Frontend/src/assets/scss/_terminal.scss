@@ -1,0 +1,1602 @@
+// ============================================================
+//  Operator Terminal — global stylesheet for the admin panel
+//  Geist + JetBrains Mono. Dense, keyboard-driven, teal accent.
+// ============================================================
+
+$tm-bg:        #070708;
+$tm-surface:   #0e0f10;
+$tm-surface-2: #0a0b0c;
+$tm-line:      #181a1c;
+$tm-line-2:    #131517;
+$tm-text:      #fafafa;
+$tm-text-2:    #dcdcdc;
+$tm-muted:     #a8abb0;
+$tm-muted-2:   #6a6d72;
+$tm-muted-3:   #5a5d61;
+$tm-accent:    #03a68b;
+$tm-danger:    #e0667a;
+$tm-warn:      #e0a866;
+
+$tm-sans: 'Geist', system-ui, -apple-system, sans-serif;
+$tm-mono: 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
+
+// ------------------------------------------------------------
+//  Admin-scoped resets — only apply inside the admin layout
+// ------------------------------------------------------------
+body.tm-admin {
+  background: $tm-bg !important;
+  font-family: $tm-sans !important;
+  color: $tm-text-2 !important;
+  font-feature-settings: 'ss01', 'cv11';
+  -webkit-font-smoothing: antialiased;
+}
+
+body.tm-admin .tm-mono,
+body.tm-admin .tm-tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+// ------------------------------------------------------------
+//  Layout shell
+// ------------------------------------------------------------
+.tm-app {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+  background: $tm-bg;
+  font-feature-settings: 'ss01', 'cv11';
+}
+
+// ------------------------------------------------------------
+//  Sidebar
+// ------------------------------------------------------------
+.tm-side {
+  background: $tm-surface;
+  border-right: 1px solid $tm-line;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 10px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar { width: 4px }
+  &::-webkit-scrollbar-thumb { background: $tm-line }
+}
+
+.tm-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px 14px;
+  border-bottom: 1px solid $tm-line;
+  margin-bottom: 10px;
+  text-decoration: none !important;
+  color: inherit;
+
+  .sq {
+    width: 22px;
+    height: 22px;
+    background: $tm-accent;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-family: $tm-mono;
+    font-weight: 600;
+    font-size: 12px;
+  }
+  .nm {
+    font-family: $tm-sans;
+    font-weight: 600;
+    font-size: 13.5px;
+    color: $tm-text;
+    letter-spacing: -.005em;
+    line-height: 1.1;
+    small {
+      display: block;
+      font-family: $tm-mono;
+      font-size: 9.5px;
+      color: $tm-muted-3;
+      letter-spacing: .06em;
+      font-weight: 400;
+      margin-top: 2px;
+    }
+  }
+  .env {
+    margin-left: auto;
+    font-family: $tm-mono;
+    font-size: 9.5px;
+    color: $tm-accent;
+    background: rgba($tm-accent, .1);
+    padding: 3px 7px;
+    border-radius: 4px;
+    letter-spacing: .06em;
+    border: 1px solid rgba($tm-accent, .22);
+  }
+}
+
+.tm-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border: 1px solid $tm-line;
+  border-radius: 6px;
+  background: $tm-surface-2;
+  margin: 6px 0 12px;
+  color: $tm-muted-2;
+  font-size: 12.5px;
+
+  svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 1.6; fill: none; flex-shrink: 0 }
+  input { flex: 1; background: transparent; border: 0; outline: none; color: $tm-text; font-family: inherit; font-size: inherit; padding: 0; min-width: 0 }
+  input::placeholder { color: $tm-muted-2 }
+  .kbd {
+    margin-left: auto;
+    font-family: $tm-mono;
+    font-size: 10px;
+    color: $tm-muted-2;
+    border: 1px solid $tm-line;
+    padding: 2px 5px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+}
+
+.tm-side .sec {
+  font-family: $tm-mono;
+  font-size: 9.5px;
+  letter-spacing: .18em;
+  color: $tm-muted-3;
+  text-transform: uppercase;
+  padding: 14px 10px 6px;
+}
+
+// Nav items — used by nav-item.component
+.tm-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  color: $tm-muted;
+  font-size: 12.5px;
+  border-radius: 5px;
+  letter-spacing: -.003em;
+  position: relative;
+  margin: 1px 0;
+  text-decoration: none !important;
+  transition: background .14s, color .14s;
+  cursor: pointer;
+
+  i, svg { width: 14px; height: 14px; stroke-width: 1.6; opacity: .8; flex-shrink: 0; line-height: 1; font-size: 14px }
+  .ct {
+    margin-left: auto;
+    font-family: $tm-mono;
+    font-size: 10px;
+    color: $tm-muted-3;
+  }
+
+  &:hover { background: $tm-line-2; color: $tm-text }
+
+  &.active {
+    background: $tm-line-2;
+    color: $tm-text;
+    &::before {
+      content: '';
+      position: absolute;
+      left: -10px;
+      top: 6px;
+      bottom: 6px;
+      width: 2px;
+      background: $tm-accent;
+      border-radius: 2px;
+    }
+    i, svg { color: $tm-accent; opacity: 1 }
+  }
+}
+
+// Nav group label
+.tm-nav-group {
+  font-family: $tm-mono;
+  font-size: 9.5px;
+  letter-spacing: .18em;
+  color: $tm-muted-3;
+  text-transform: uppercase;
+  padding: 14px 10px 6px;
+  display: block;
+}
+
+.tm-side-foot {
+  margin-top: auto;
+  padding: 10px;
+  border-top: 1px solid $tm-line;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  color: $tm-muted;
+
+  .av {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $tm-accent, #024d40);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-weight: 600;
+    font-size: 11px;
+    font-family: $tm-sans;
+  }
+  small {
+    display: block;
+    font-family: $tm-mono;
+    font-size: 9.5px;
+    color: $tm-muted-3;
+    letter-spacing: .04em;
+  }
+  .dot {
+    margin-left: auto;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: $tm-accent;
+    box-shadow: 0 0 0 2px rgba($tm-accent, .18);
+  }
+}
+
+// ------------------------------------------------------------
+//  Topbar
+// ------------------------------------------------------------
+.tm-main {
+  background: $tm-bg;
+  min-width: 0; // allow children to shrink
+  display: flex;
+  flex-direction: column;
+}
+
+.tm-top {
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  height: 48px;
+  border-bottom: 1px solid $tm-line;
+  gap: 14px;
+  font-size: 12.5px;
+  position: sticky;
+  top: 0;
+  background: rgba($tm-bg, .92);
+  backdrop-filter: blur(8px);
+  z-index: 20;
+}
+
+.tm-bread {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: $tm-muted-2;
+  font-family: $tm-mono;
+  font-size: 11px;
+  letter-spacing: .02em;
+
+  b { color: $tm-text; font-weight: 500; font-family: $tm-sans; font-size: 12.5px; letter-spacing: -.005em }
+  .sl { color: #3a3d41 }
+}
+
+.tm-cmd {
+  flex: 1;
+  max-width: 520px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  background: $tm-surface;
+  border: 1px solid $tm-line;
+  border-radius: 6px;
+  color: $tm-muted-2;
+  font-size: 12.5px;
+
+  svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 1.6; fill: none; flex-shrink: 0 }
+  input { flex: 1; background: transparent; border: 0; outline: none; color: $tm-text; font-family: inherit; font-size: inherit; padding: 0; min-width: 0 }
+  input::placeholder { color: $tm-muted-2 }
+  .kbd {
+    margin-left: auto;
+    font-family: $tm-mono;
+    font-size: 10px;
+    color: $tm-muted-2;
+    border: 1px solid $tm-line;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: $tm-surface-2;
+    flex-shrink: 0;
+  }
+}
+
+.tm-top-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tm-deploy {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: $tm-mono;
+  font-size: 11px;
+  color: $tm-muted;
+  .d {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: $tm-accent;
+    box-shadow: 0 0 0 2.5px rgba($tm-accent, .16);
+  }
+}
+
+.tm-iconbtn {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $tm-line;
+  border-radius: 5px;
+  background: $tm-surface;
+  color: $tm-muted;
+  position: relative;
+  text-decoration: none !important;
+  cursor: pointer;
+
+  svg, i { width: 14px; height: 14px; stroke-width: 1.6; fill: none; stroke: currentColor; font-size: 14px; line-height: 1 }
+  &:hover { color: $tm-text; border-color: #2a2d31 }
+
+  .nd {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    background: $tm-accent;
+    color: #000;
+    font-family: $tm-mono;
+    font-size: 9px;
+    font-weight: 600;
+    padding: 1px 4px;
+    border-radius: 6px;
+    border: 1.5px solid $tm-bg;
+  }
+}
+
+.tm-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $tm-accent, #024d40);
+  color: #000;
+  font-weight: 600;
+  font-size: 11px;
+  font-family: $tm-sans;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none !important;
+}
+
+.tm-pill-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: $tm-sans;
+  font-size: 12px;
+  color: $tm-text;
+  background: $tm-surface;
+  border: 1px solid $tm-line;
+  padding: 6px 11px;
+  border-radius: 5px;
+  text-decoration: none !important;
+  letter-spacing: -.003em;
+
+  &:hover { border-color: rgba($tm-accent, .32); color: $tm-text }
+  i, svg { font-size: 13px; width: 13px; height: 13px; stroke-width: 1.6; fill: none; stroke: currentColor }
+  .kbd { font-family: $tm-mono; font-size: 9.5px; color: $tm-muted-2; border: 1px solid $tm-line; padding: 1px 4px; border-radius: 3px; margin-left: 4px }
+}
+
+// ------------------------------------------------------------
+//  Page body
+// ------------------------------------------------------------
+.tm-body {
+  padding: 22px 22px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex: 1;
+}
+
+.tm-pgh {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+
+  h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+    color: $tm-text;
+    letter-spacing: -.015em;
+  }
+  .meta {
+    font-family: $tm-mono;
+    font-size: 11px;
+    color: $tm-muted-2;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+  }
+  .meta .live { display: flex; align-items: center; gap: 6px; color: $tm-accent }
+  .meta .live .pulse {
+    width: 6px; height: 6px; border-radius: 50%; background: $tm-accent;
+    animation: tmpulse 1.8s ease-in-out infinite;
+  }
+}
+@keyframes tmpulse {
+  50% { box-shadow: 0 0 0 6px rgba($tm-accent, 0) }
+  0%, 100% { box-shadow: 0 0 0 0 rgba($tm-accent, .5) }
+}
+
+.tm-seg {
+  display: flex;
+  border: 1px solid $tm-line;
+  border-radius: 6px;
+  overflow: hidden;
+  background: $tm-surface;
+
+  span {
+    padding: 5px 11px;
+    font-family: $tm-mono;
+    font-size: 10.5px;
+    color: $tm-muted;
+    border-right: 1px solid $tm-line;
+    letter-spacing: .04em;
+    cursor: pointer;
+    &:last-child { border-right: 0 }
+    &.on { background: $tm-line; color: $tm-text }
+    &:hover:not(.on) { color: $tm-text }
+  }
+}
+
+// ------------------------------------------------------------
+//  Stat tiles with sparklines
+// ------------------------------------------------------------
+.tm-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.tm-stat {
+  background: $tm-surface;
+  border: 1px solid $tm-line;
+  border-radius: 8px;
+  padding: 14px 16px;
+  position: relative;
+  overflow: hidden;
+
+  .k {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: $tm-mono;
+    font-size: 10.5px;
+    letter-spacing: .06em;
+    color: $tm-muted-2;
+    text-transform: uppercase;
+  }
+  .pill {
+    font-family: $tm-mono;
+    font-size: 10px;
+    color: $tm-accent;
+    background: rgba($tm-accent, .1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0;
+    text-transform: none;
+    border: 1px solid rgba($tm-accent, .22);
+    &.down { color: $tm-danger; background: rgba($tm-danger, .08); border-color: rgba($tm-danger, .18) }
+  }
+  .v {
+    font-family: $tm-sans;
+    font-size: 26px;
+    font-weight: 600;
+    color: $tm-text;
+    letter-spacing: -.02em;
+    margin: 8px 0 6px;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+
+    small {
+      font-family: $tm-mono;
+      font-size: 11px;
+      color: $tm-muted-2;
+      font-weight: 400;
+      margin-left: 4px;
+    }
+
+    mat-icon {
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
+      vertical-align: -4px;
+      color: $tm-accent;
+      margin-right: 6px;
+      opacity: .9;
+    }
+  }
+  .spark {
+    width: 100%;
+    height: 32px;
+    display: block;
+  }
+  .sub {
+    display: flex;
+    justify-content: space-between;
+    font-family: $tm-mono;
+    font-size: 10px;
+    color: $tm-muted-2;
+    margin-top: 4px;
+    letter-spacing: .02em;
+  }
+}
+
+// ------------------------------------------------------------
+//  Generic panel
+// ------------------------------------------------------------
+.tm-panel {
+  background: $tm-surface;
+  border: 1px solid $tm-line;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.tm-panel-head {
+  display: flex;
+  align-items: center;
+  padding: 11px 14px;
+  border-bottom: 1px solid $tm-line;
+  gap: 10px;
+
+  h3 { margin: 0; font-size: 13px; font-weight: 600; color: $tm-text; letter-spacing: -.005em }
+  .sub { font-family: $tm-mono; font-size: 10.5px; color: $tm-muted-2; letter-spacing: .02em }
+  .right { margin-left: auto; display: flex; align-items: center; gap: 8px; font-family: $tm-mono; font-size: 10.5px; color: $tm-muted }
+  .tab {
+    padding: 3px 8px;
+    border: 1px solid $tm-line;
+    border-radius: 4px;
+    background: $tm-surface-2;
+    color: $tm-muted;
+    cursor: pointer;
+    &.on { color: $tm-accent; border-color: rgba($tm-accent, .32); background: rgba($tm-accent, .08) }
+    &:hover:not(.on) { color: $tm-text }
+  }
+
+  // "Go to full view" action — reads as a link, not a selected state
+  .tab-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none !important;
+    color: $tm-muted;
+    background: transparent;
+    border-color: transparent;
+    padding: 3px 4px;
+
+    .arrow { transition: transform .16s ease }
+    &:hover { color: $tm-accent }
+    &:hover .arrow { transform: translateX(3px) }
+  }
+}
+
+.tm-panel .body { padding: 14px }
+
+.tm-rowgrid {
+  display: grid;
+  grid-template-columns: 1.55fr 1fr;
+  gap: 14px;
+}
+
+.tm-chart svg { width: 100%; height: 240px; display: block }
+
+.tm-chartlegend {
+  display: flex;
+  gap: 18px;
+  font-family: $tm-mono;
+  font-size: 10.5px;
+  color: $tm-muted;
+
+  i {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: $tm-accent;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+  .alt i { background: #3a3d41 }
+}
+
+.tm-acts {
+  padding: 14px;
+  border-top: 1px solid $tm-line;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: $tm-surface-2;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  .help { font-family: $tm-mono; font-size: 10.5px; color: $tm-muted-2 }
+  .help span { color: $tm-muted; border: 1px solid $tm-line; padding: 1px 5px; border-radius: 3px; background: $tm-surface; margin-right: 4px }
+}
+
+// ------------------------------------------------------------
+//  Top products dense list
+// ------------------------------------------------------------
+.tm-topprods { padding: 6px 0 }
+
+.tm-prowrap {
+  display: grid;
+  grid-template-columns: 18px 36px 1fr 84px 76px 56px;
+  gap: 10px;
+  align-items: center;
+  padding: 9px 14px;
+  border-bottom: 1px solid $tm-line-2;
+  font-size: 12.5px;
+  &:last-child { border-bottom: 0 }
+
+  .rk { font-family: $tm-mono; font-size: 11px; color: $tm-muted-3; text-align: right }
+  .ph {
+    width: 36px;
+    height: 28px;
+    background: $tm-line;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    img { max-width: 32px; max-height: 24px; object-fit: contain }
+    svg { width: 28px; height: 16px; stroke: $tm-muted; stroke-width: 1.2; fill: none }
+  }
+  .nm {
+    color: $tm-text;
+    font-weight: 500;
+    letter-spacing: -.005em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    small {
+      display: block;
+      font-family: $tm-mono;
+      font-size: 10px;
+      color: $tm-muted-2;
+      font-weight: 400;
+      margin-top: 2px;
+      letter-spacing: .02em;
+    }
+  }
+  .sk { width: 84px; height: 22px }
+  .pr {
+    font-family: $tm-mono;
+    font-size: 11.5px;
+    color: $tm-text-2;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .ch {
+    font-family: $tm-mono;
+    font-size: 10.5px;
+    color: $tm-accent;
+    text-align: right;
+    &.dn { color: $tm-danger }
+  }
+}
+
+// ------------------------------------------------------------
+//  Activity feed
+// ------------------------------------------------------------
+.tm-feed .ev {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 10px;
+  align-items: start;
+  padding: 10px 14px;
+  border-bottom: 1px solid $tm-line-2;
+  font-size: 12.5px;
+  &:last-child { border-bottom: 0 }
+
+  .ts { font-family: $tm-mono; font-size: 10.5px; color: $tm-muted-2; letter-spacing: .02em; padding-top: 1px }
+  .ttl {
+    color: $tm-text;
+    letter-spacing: -.003em;
+    small {
+      display: block;
+      font-family: $tm-mono;
+      font-size: 10px;
+      color: $tm-muted-2;
+      margin-top: 2px;
+      font-weight: 400;
+    }
+  }
+  .tag {
+    font-family: $tm-mono;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: $tm-accent;
+    background: rgba($tm-accent, .1);
+    border: 1px solid rgba($tm-accent, .22);
+    align-self: center;
+    &.warn { color: $tm-warn; background: rgba($tm-warn, .08); border-color: rgba($tm-warn, .2) }
+    &.info { color: $tm-muted; background: $tm-line-2; border-color: $tm-line }
+  }
+}
+
+// ------------------------------------------------------------
+//  Command bar (used on products/orders pages)
+// ------------------------------------------------------------
+.tm-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 1px solid $tm-line;
+  border-radius: 8px;
+  background: $tm-surface-2;
+  flex-wrap: wrap;
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: $tm-mono;
+    font-size: 10.5px;
+    color: $tm-muted;
+    padding: 5px 9px;
+    border: 1px solid $tm-line;
+    border-radius: 4px;
+    background: $tm-surface;
+    cursor: pointer;
+    line-height: 1.2;
+    &.on { color: $tm-accent; border-color: rgba($tm-accent, .32); background: rgba($tm-accent, .08) }
+    svg, i { width: 11px; height: 11px; stroke: currentColor; stroke-width: 1.6; fill: none; font-size: 11px }
+    b { color: $tm-text; font-weight: 600 }
+  }
+  .sep { width: 1px; height: 18px; background: $tm-line; margin: 0 4px }
+  .right { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-wrap: wrap }
+
+  .new {
+    padding: 6px 12px;
+    font-family: $tm-sans;
+    font-size: 12px;
+    color: #000;
+    background: $tm-accent;
+    border: 1px solid $tm-accent;
+    border-radius: 4px;
+    font-weight: 600;
+    letter-spacing: -.003em;
+    cursor: pointer;
+    text-decoration: none !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    .kbd { font-family: $tm-mono; font-size: 9.5px; border: 1px solid rgba(0,0,0,.25); background: rgba(0,0,0,.12); color: #0a4a3d; padding: 1px 4px; border-radius: 3px }
+  }
+}
+
+.tm-bar-search {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 1px solid $tm-line;
+  border-radius: 4px;
+  background: $tm-surface;
+  font-family: $tm-mono;
+  font-size: 11px;
+  color: $tm-muted;
+  min-width: 280px;
+  flex: 1;
+  max-width: 420px;
+
+  svg { width: 12px; height: 12px; stroke: currentColor; stroke-width: 1.6; fill: none; flex-shrink: 0 }
+  input { flex: 1; background: transparent; border: 0; outline: none; color: $tm-text; font: inherit; padding: 0; min-width: 0 }
+  input::placeholder { color: $tm-muted-2 }
+}
+
+// ------------------------------------------------------------
+//  Tables (overrides for mat-table)
+// ------------------------------------------------------------
+.tm-table-wrap {
+  border: 1px solid $tm-line;
+  border-radius: 8px;
+  background: $tm-surface;
+  overflow: hidden;
+  margin-top: 14px;
+}
+
+.tm-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: $tm-mono;
+  font-size: 10.5px;
+  color: $tm-text-2;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+
+  &::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: $tm-accent;
+    box-shadow: 0 0 0 2px rgba($tm-accent, .18);
+  }
+  &.draft::before { background: $tm-muted-2; box-shadow: 0 0 0 2px rgba($tm-muted-2, .18) }
+  &.off::before, &.danger::before { background: $tm-danger; box-shadow: 0 0 0 2px rgba($tm-danger, .18) }
+  &.warn::before { background: $tm-warn; box-shadow: 0 0 0 2px rgba($tm-warn, .18) }
+}
+
+// Mat-table re-skin — needs ::ng-deep-free global override
+.tm-table-wrap table.mat-mdc-table,
+.tm-table-wrap .mat-mdc-table {
+  background: $tm-surface !important;
+  width: 100%;
+}
+
+.tm-table-wrap .mat-mdc-header-row {
+  background: $tm-surface-2 !important;
+  border-bottom: 1px solid $tm-line !important;
+  min-height: 38px !important;
+  height: 38px !important;
+}
+
+.tm-table-wrap .mat-mdc-header-cell {
+  font-family: $tm-mono !important;
+  font-size: 10px !important;
+  letter-spacing: .06em !important;
+  color: $tm-muted-2 !important;
+  text-transform: uppercase !important;
+  font-weight: 500 !important;
+  border-bottom: 0 !important;
+  padding: 0 14px !important;
+}
+
+.tm-table-wrap .mat-mdc-row {
+  background: transparent !important;
+  min-height: 48px !important;
+  border-bottom: 1px solid $tm-line-2 !important;
+
+  &:hover { background: $tm-line-2 !important }
+  &:last-child { border-bottom: 0 !important }
+}
+
+.tm-table-wrap .mat-mdc-cell {
+  color: $tm-text-2 !important;
+  border-bottom: 0 !important;
+  font-family: $tm-sans !important;
+  font-size: 12.5px !important;
+  padding: 0 14px !important;
+  letter-spacing: -.003em;
+}
+
+.tm-table-wrap .mat-mdc-paginator {
+  background: $tm-surface-2 !important;
+  color: $tm-muted !important;
+  border-top: 1px solid $tm-line !important;
+  font-family: $tm-mono !important;
+  font-size: 11px !important;
+}
+.tm-table-wrap .mat-mdc-paginator .mat-mdc-select-value,
+.tm-table-wrap .mat-mdc-paginator .mat-mdc-select-arrow,
+.tm-table-wrap .mat-mdc-paginator .mat-mdc-icon-button { color: $tm-muted !important }
+
+// product image inside a table cell
+.tm-table-pc {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+
+  .ph {
+    width: 38px;
+    height: 28px;
+    background: $tm-line;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+    img { max-width: 34px; max-height: 24px; object-fit: contain }
+  }
+  .col { min-width: 0 }
+  .nm {
+    color: $tm-text;
+    font-weight: 500;
+    letter-spacing: -.003em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  small {
+    display: block;
+    font-family: $tm-mono;
+    font-size: 10px;
+    color: $tm-muted-2;
+    font-weight: 400;
+    margin-top: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.tm-mono-cell { font-family: $tm-mono !important; font-size: 11.5px !important; color: $tm-muted !important; letter-spacing: .02em }
+.tm-num-cell  { font-family: $tm-mono !important; font-size: 12px !important; color: $tm-text !important; font-variant-numeric: tabular-nums; text-align: right }
+
+// action icon buttons in tables
+.tm-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.tm-icon-btn {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $tm-line;
+  border-radius: 4px;
+  background: $tm-surface;
+  color: $tm-muted !important;
+  cursor: pointer;
+  padding: 0;
+
+  mat-icon, i, svg {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    line-height: 14px;
+    color: currentColor !important;
+  }
+
+  &:hover { color: $tm-text !important; border-color: #2a2d31 }
+  &.danger:hover { color: $tm-danger !important; border-color: rgba($tm-danger, .4) }
+}
+
+// ------------------------------------------------------------
+//  Form
+// ------------------------------------------------------------
+.tm-form-wrap {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  border: 1px solid $tm-line;
+  border-radius: 8px;
+  background: $tm-surface;
+  overflow: hidden;
+}
+
+.tm-form {
+  padding: 22px 26px;
+  border-right: 1px solid $tm-line;
+
+  h4 { margin: 0 0 4px; font-size: 15px; color: $tm-text; font-weight: 600; letter-spacing: -.005em }
+  .crumb { font-family: $tm-mono; font-size: 10.5px; color: $tm-muted-2; margin-bottom: 22px; letter-spacing: .02em }
+
+  .sect {
+    padding: 18px 0;
+    border-top: 1px solid $tm-line-2;
+    &:first-of-type { border-top: 0; padding-top: 0 }
+  }
+  .st {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: $tm-mono;
+    font-size: 10px;
+    letter-spacing: .1em;
+    color: $tm-muted-2;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    b { color: $tm-accent; font-weight: 500 }
+  }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px }
+}
+
+// Override mat-form-field inside admin form
+.tm-form .mat-mdc-form-field { width: 100%; --mdc-outlined-text-field-outline-color: #{$tm-line}; --mdc-outlined-text-field-hover-outline-color: #2a2d31; --mdc-outlined-text-field-focus-outline-color: #{$tm-accent} }
+.tm-form .mat-mdc-form-field .mdc-text-field--outlined { background: $tm-surface-2; border-radius: 6px }
+.tm-form .mat-mdc-form-field .mdc-floating-label,
+.tm-form .mat-mdc-form-field .mat-mdc-form-field-label { color: $tm-muted !important; font-family: $tm-sans !important; font-size: 12px !important; letter-spacing: -.003em }
+.tm-form .mat-mdc-form-field input.mat-mdc-input-element,
+.tm-form .mat-mdc-form-field .mat-mdc-form-field-input-control,
+.tm-form .mat-mdc-form-field textarea { color: $tm-text !important; font-family: $tm-sans !important; font-size: 13px !important; caret-color: $tm-accent }
+.tm-form .mat-mdc-form-field .mdc-text-field__input::placeholder { color: $tm-muted-2 !important }
+.tm-form .mat-mdc-form-field .mat-mdc-select-value-text,
+.tm-form .mat-mdc-form-field .mat-mdc-select-arrow { color: $tm-text !important }
+
+.tm-form .field-label {
+  display: block;
+  font-family: $tm-mono;
+  font-size: 10px;
+  color: $tm-muted-2;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.tm-chip-row { display: flex; flex-wrap: wrap; gap: 6px }
+.tm-form .tm-chip-row .mat-mdc-checkbox { margin: 0 }
+
+.tm-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 18px;
+  border-top: 1px solid $tm-line-2;
+  margin-top: 8px;
+}
+
+.tm-btn {
+  font-family: $tm-sans;
+  font-size: 12px;
+  padding: 9px 16px;
+  border-radius: 5px;
+  border: 1px solid $tm-line;
+  background: $tm-surface;
+  color: $tm-text-2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  letter-spacing: -.003em;
+  cursor: pointer;
+  text-decoration: none !important;
+
+  .kbd { font-family: $tm-mono; font-size: 9.5px; color: $tm-muted-2; border: 1px solid $tm-line; padding: 1px 4px; border-radius: 3px; background: $tm-surface-2 }
+  &:hover { border-color: #2a2d31; color: $tm-text }
+  &:disabled { opacity: .5; cursor: not-allowed }
+
+  &.pri {
+    background: $tm-accent;
+    color: #000;
+    border-color: $tm-accent;
+    font-weight: 600;
+    .kbd { color: #0a4a3d; border-color: rgba(0,0,0,.25); background: rgba(0,0,0,.12) }
+    &:hover { background: darken($tm-accent, 4%); border-color: darken($tm-accent, 4%); color: #000 }
+  }
+  &.danger {
+    color: $tm-danger;
+    border-color: rgba($tm-danger, .3);
+    &:hover { background: rgba($tm-danger, .08); border-color: rgba($tm-danger, .5) }
+  }
+}
+
+// File dropzone
+.tm-dropzone {
+  border: 1.5px dashed $tm-line;
+  background: $tm-surface-2;
+  border-radius: 6px;
+  padding: 18px;
+  text-align: center;
+  color: $tm-muted;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: border-color .14s;
+
+  &:hover { border-color: $tm-accent; color: $tm-text-2 }
+  mat-icon { color: $tm-accent }
+  img { max-width: 64px; max-height: 64px; object-fit: contain; margin-bottom: 4px }
+  .label { font-size: 11.5px; letter-spacing: -.003em }
+  .hint { font-family: $tm-mono; font-size: 10px; color: $tm-muted-3; letter-spacing: .04em; text-transform: uppercase }
+}
+
+// Variant stock table
+.tm-variant-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: $tm-surface-2;
+  border: 1px solid $tm-line;
+  border-radius: 6px;
+  overflow: hidden;
+  font-size: 12px;
+
+  th, td {
+    padding: 8px 10px;
+    border-right: 1px solid $tm-line;
+    border-bottom: 1px solid $tm-line-2;
+    text-align: center;
+    font-family: $tm-mono;
+    color: $tm-text-2;
+    letter-spacing: .02em;
+  }
+  th { background: $tm-surface; color: $tm-muted-2; font-weight: 500; text-transform: uppercase; font-size: 10px; letter-spacing: .1em }
+  th:first-child, td:first-child { text-align: left; color: $tm-muted }
+  tr:last-child td { border-bottom: 0 }
+  th:last-child, td:last-child { border-right: 0 }
+
+  input {
+    background: transparent;
+    border: 1px solid $tm-line;
+    color: $tm-text;
+    padding: 4px 6px;
+    width: 64px;
+    border-radius: 3px;
+    text-align: center;
+    font-family: $tm-mono;
+    font-size: 12px;
+    outline: none;
+    &:focus { border-color: $tm-accent }
+  }
+}
+
+// ------------------------------------------------------------
+//  Side panel (form summary)
+// ------------------------------------------------------------
+.tm-side-pnl {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: $tm-surface-2;
+
+  .card {
+    background: $tm-surface;
+    border: 1px solid $tm-line;
+    border-radius: 7px;
+    padding: 14px 16px;
+  }
+  h5 {
+    margin: 0 0 10px;
+    font-size: 11.5px;
+    color: $tm-muted;
+    font-weight: 500;
+    letter-spacing: -.003em;
+    display: flex;
+    justify-content: space-between;
+    small { font-family: $tm-mono; font-size: 10px; color: $tm-muted-2; font-weight: 400 }
+  }
+  .ln {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    font-size: 11.5px;
+    color: $tm-text-2;
+    border-bottom: 1px dashed $tm-line;
+    &:last-child { border-bottom: 0 }
+    .k { color: $tm-muted-2; font-family: $tm-mono; font-size: 11px }
+    .v { font-family: $tm-mono; font-size: 11px; color: $tm-text }
+    .v.acc { color: $tm-accent }
+  }
+}
+
+// ------------------------------------------------------------
+//  Order detail
+// ------------------------------------------------------------
+.tm-order-detail {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  border: 1px solid $tm-line;
+  border-radius: 8px;
+  background: $tm-surface;
+  overflow: hidden;
+}
+
+.tm-od-left {
+  padding: 22px 26px;
+  border-right: 1px solid $tm-line;
+
+  h3 {
+    margin: 0 0 4px;
+    font-size: 16px;
+    color: $tm-text;
+    font-weight: 600;
+    letter-spacing: -.01em;
+    .id { font-family: $tm-mono; font-size: 13px; color: $tm-accent; margin-left: 8px }
+  }
+  .who { font-family: $tm-mono; font-size: 11px; color: $tm-muted-2; margin-bottom: 22px }
+  .who span { color: $tm-muted }
+}
+
+.tm-tl {
+  position: relative;
+  padding-left: 18px;
+  border-left: 1px solid $tm-line;
+  margin-bottom: 8px;
+
+  .pt {
+    position: relative;
+    padding: 8px 0 10px;
+    &::before {
+      content: '';
+      position: absolute;
+      left: -22px;
+      top: 13px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: $tm-line;
+      border: 1.5px solid $tm-surface;
+    }
+    &.cur::before { background: $tm-accent; box-shadow: 0 0 0 3px rgba($tm-accent, .18) }
+    .ts { font-family: $tm-mono; font-size: 10.5px; color: $tm-muted-2; letter-spacing: .02em }
+    .ev {
+      font-size: 12.5px;
+      color: $tm-text;
+      letter-spacing: -.003em;
+      margin-top: 2px;
+      small { display: block; color: $tm-muted; font-size: 11.5px; margin-top: 2px; font-weight: 400 }
+    }
+  }
+}
+
+.tm-od-right {
+  padding: 22px 26px;
+  display: flex;
+  flex-direction: column;
+
+  .lh {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin-bottom: 14px;
+    h4 { margin: 0; font-size: 13px; color: $tm-text; font-weight: 600; letter-spacing: -.005em }
+    small { font-family: $tm-mono; font-size: 10.5px; color: $tm-muted-2 }
+  }
+
+  .li {
+    display: grid;
+    grid-template-columns: 38px 1fr auto auto;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed $tm-line-2;
+    font-size: 12.5px;
+    &:last-of-type { border-bottom: 0 }
+
+    .ph {
+      width: 38px;
+      height: 28px;
+      background: $tm-line;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      img { max-width: 34px; max-height: 24px; object-fit: contain }
+    }
+    .nm {
+      color: $tm-text;
+      letter-spacing: -.003em;
+      small { display: block; font-family: $tm-mono; font-size: 10px; color: $tm-muted-2; margin-top: 2px }
+    }
+    .q { font-family: $tm-mono; font-size: 11px; color: $tm-muted; padding: 0 6px }
+    .p { font-family: $tm-mono; font-size: 11.5px; color: $tm-text; font-variant-numeric: tabular-nums }
+  }
+
+  .tot {
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid $tm-line;
+
+    .ln {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      font-family: $tm-mono;
+      font-size: 11.5px;
+      color: $tm-muted;
+      .v { color: $tm-text }
+
+      &.grand {
+        padding-top: 12px;
+        margin-top: 6px;
+        border-top: 1px solid $tm-line;
+        font-family: $tm-sans;
+        font-size: 16px;
+        font-weight: 600;
+        color: $tm-text;
+        letter-spacing: -.012em;
+        .v { font-variant-numeric: tabular-nums }
+      }
+    }
+  }
+
+  .od-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+  }
+}
+
+// Order header card (above the split)
+.tm-order-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 12px;
+
+  h2 { margin: 0; font-size: 22px; color: $tm-text; font-weight: 600; letter-spacing: -.015em }
+  .meta { font-family: $tm-mono; font-size: 11px; color: $tm-muted-2; display: flex; gap: 14px; margin-top: 6px }
+  .meta b { color: $tm-text; font-weight: 500 }
+}
+
+// Status row for status-only column rendering
+.tm-status-cell { display: inline-flex }
+
+// ------------------------------------------------------------
+//  Helpers
+// ------------------------------------------------------------
+.tm-grow { flex: 1 }
+.tm-hidden-sm { @media (max-width: 900px) { display: none } }
+
+// Hide leftover berry/coded chrome classes inside admin scope
+body.tm-admin .pc-container { padding: 0 !important; margin-left: 0 !important; background: $tm-bg !important }
+body.tm-admin .coded-wrapper,
+body.tm-admin .coded-content,
+body.tm-admin .coded-inner-content,
+body.tm-admin .main-body,
+body.tm-admin .page-wrapper { padding: 0; margin: 0; background: transparent }
+
+// ------------------------------------------------------------
+//  Overlay components (mat-menu / mat-datepicker) rendered at body root
+// ------------------------------------------------------------
+
+// Mat-menu — terminal "tm-menu" panel
+.mat-mdc-menu-panel.tm-menu {
+  background: $tm-surface !important;
+  border: 1px solid $tm-line !important;
+  border-radius: 6px !important;
+  box-shadow: 0 16px 40px -16px rgba(0, 0, 0, .8), 0 0 0 1px rgba(255, 255, 255, .02) inset !important;
+  min-width: 160px !important;
+  padding: 4px !important;
+
+  .mat-mdc-menu-content { padding: 0 }
+
+  .mat-mdc-menu-item {
+    min-height: 30px !important;
+    height: 30px;
+    padding: 0 10px !important;
+    font-family: $tm-mono !important;
+    font-size: 11.5px !important;
+    color: $tm-muted !important;
+    letter-spacing: .02em;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: lowercase;
+
+    .mdc-list-item__primary-text {
+      color: inherit !important;
+      font-family: inherit !important;
+      font-size: inherit !important;
+      letter-spacing: inherit !important;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: $tm-accent;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 2px rgba($tm-accent, .18);
+    }
+    .dot.any { background: $tm-muted-2; box-shadow: 0 0 0 2px rgba($tm-muted-2, .18) }
+    .dot[data-status="cancelled"], .dot[data-status="refunded"] { background: $tm-danger; box-shadow: 0 0 0 2px rgba($tm-danger, .18) }
+    .dot[data-status="shipped"] { background: $tm-warn; box-shadow: 0 0 0 2px rgba($tm-warn, .18) }
+    .dot[data-status="received"] { background: $tm-muted-2; box-shadow: 0 0 0 2px rgba($tm-muted-2, .18) }
+
+    &:hover { background: $tm-line-2 !important; color: $tm-text !important }
+    &.on { color: $tm-accent !important; background: rgba($tm-accent, .06) !important }
+  }
+}
+
+// Mat-datepicker calendar — terminal palette
+.mat-datepicker-popup .mat-datepicker-content,
+.mat-datepicker-content {
+  background: $tm-surface !important;
+  border: 1px solid $tm-line !important;
+  border-radius: 8px !important;
+  box-shadow: 0 16px 40px -16px rgba(0, 0, 0, .8) !important;
+  color: $tm-text !important;
+  font-family: $tm-sans !important;
+
+  .mat-calendar { color: $tm-text }
+  .mat-calendar-header,
+  .mat-calendar-controls { background: $tm-surface-2; border-bottom: 1px solid $tm-line }
+  .mat-calendar-period-button,
+  .mat-calendar-previous-button,
+  .mat-calendar-next-button { color: $tm-text !important }
+
+  .mat-calendar-table-header,
+  .mat-calendar-table-header th,
+  .mat-calendar-body-label { color: $tm-muted-2 !important; font-family: $tm-mono; font-size: 10px; letter-spacing: .08em; text-transform: uppercase }
+
+  .mat-calendar-body-cell-content {
+    color: $tm-text-2 !important;
+    font-family: $tm-mono;
+    font-size: 12px;
+    border-color: transparent !important;
+  }
+  .mat-calendar-body-cell:hover .mat-calendar-body-cell-content:not(.mat-calendar-body-selected) {
+    background: $tm-line-2 !important;
+  }
+  .mat-calendar-body-today:not(.mat-calendar-body-selected) {
+    border-color: $tm-accent !important;
+  }
+  .mat-calendar-body-selected {
+    background: $tm-accent !important;
+    color: #000 !important;
+  }
+  .mat-calendar-body-in-range::before {
+    background: rgba($tm-accent, .14) !important;
+  }
+  .mat-calendar-body-comparison-identical,
+  .mat-calendar-body-in-comparison-range::before {
+    background: rgba($tm-accent, .08) !important;
+  }
+  .mat-calendar-body-preview-start .mat-calendar-body-cell-preview,
+  .mat-calendar-body-preview-end .mat-calendar-body-cell-preview,
+  .mat-calendar-body-in-preview .mat-calendar-body-cell-preview {
+    border-color: $tm-accent !important;
+  }
+  .mat-calendar-arrow { fill: $tm-text !important }
+
+  .mat-datepicker-actions,
+  .mat-datepicker-content-container { background: $tm-surface !important; color: $tm-text !important }
+}
+
+// MDC backdrop tint (subtle)
+.cdk-overlay-dark-backdrop { background: rgba(0, 0, 0, .45) }
+
+// ------------------------------------------------------------
+//  Print — packing slip mode
+// ------------------------------------------------------------
+
+// Print-only packing slip header inside order detail
+.print-slip-head { display: none }
+
+@media print {
+  // White paper, dark ink
+  body.tm-admin,
+  html,
+  body { background: #fff !important; color: #000 !important; font-family: $tm-sans !important }
+
+  // Hide admin chrome
+  app-navigation,
+  app-nav-bar,
+  .tm-side,
+  .tm-top,
+  app-footer { display: none !important }
+
+  // Single column, full bleed
+  .tm-app { display: block !important; min-height: 0 !important }
+  .tm-main { display: block !important; background: #fff !important }
+  .tm-body { padding: 0 !important; gap: 16px !important }
+
+  // Hide screen-only navigation + actions in the order page
+  .tm-body > .tm-pgh,        // screen page header (with Back-to-orders button)
+  .tm-tl,                     // event timeline
+  .od-actions,                // status-change form + screen action buttons
+  .tm-feed,                   // (just in case)
+  .tm-seg { display: none !important }
+
+  // Reveal the print-only packing slip header
+  .print-slip-head {
+    display: block !important;
+    padding: 0 0 14px;
+    border-bottom: 1.5px solid #000;
+    margin-bottom: 14px;
+
+    .ps-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+      margin-bottom: 18px;
+    }
+    .ps-brand { font-size: 22px; font-weight: 700; letter-spacing: .04em }
+    .ps-sub { font-family: $tm-mono; font-size: 12px; color: #444; margin-top: 4px; letter-spacing: .02em }
+    .ps-meta { font-family: $tm-mono; font-size: 11px; color: #000; text-align: right; line-height: 1.7 }
+    .ps-meta b { display: inline-block; min-width: 64px; color: #666; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; font-size: 10px; margin-right: 4px }
+
+    .ps-addr {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .ps-label { font-family: $tm-mono; font-size: 10px; text-transform: uppercase; letter-spacing: .12em; color: #666; margin-bottom: 6px }
+    .ps-name { font-weight: 600; margin-bottom: 2px }
+    .ps-note { font-style: italic; color: #333 }
+  }
+
+  // Strip dark-theme styling from the order detail block
+  .tm-order-detail {
+    display: block !important;
+    border: 0 !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    overflow: visible;
+  }
+  .tm-od-right,
+  .tm-od-left { padding: 0 !important; border: 0 !important; background: transparent !important; color: #000 !important }
+
+  .tm-od-right .lh {
+    border: 0 !important;
+    margin-bottom: 8px;
+    h4 { color: #000 !important; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em }
+    small { color: #666 !important }
+  }
+
+  .tm-od-right .li {
+    border-bottom: 1px solid #ccc !important;
+    color: #000 !important;
+    padding: 10px 0 !important;
+    .nm { color: #000 !important; font-weight: 500 }
+    .nm small { color: #555 !important }
+    .q, .p { color: #000 !important; font-family: $tm-mono }
+    .ph { background: #f3f3f3 !important; border: 1px solid #ddd; img { filter: contrast(1.1) } }
+  }
+
+  .tm-od-right .tot {
+    border-top: 1.5px solid #000 !important;
+    margin-top: 10px;
+    padding-top: 10px !important;
+    .ln { color: #000 !important; font-family: $tm-mono; padding: 3px 0 !important;
+      .v { color: #000 !important }
+    }
+    .ln.grand {
+      border-top: 1px solid #000 !important;
+      color: #000 !important;
+      font-family: $tm-sans !important;
+      font-size: 17px !important;
+      font-weight: 700 !important;
+    }
+  }
+
+  // Status pill: render as plain text on paper
+  .tm-status {
+    color: #000 !important;
+    font-family: $tm-mono !important;
+    &::before { display: none !important }
+  }
+
+  // Page setup
+  @page { size: A4; margin: 14mm 14mm 18mm }
+
+  // Page-break hints
+  .tm-order-detail { page-break-inside: avoid }
+  .tm-od-right .li { page-break-inside: avoid }
+
+  a, a:visited { color: #000 !important; text-decoration: none !important }
+}

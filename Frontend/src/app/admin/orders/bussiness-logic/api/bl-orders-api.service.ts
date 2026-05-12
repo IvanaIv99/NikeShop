@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
 import {environment} from "../../../../shared/environment/environment";
 import {ITodayStats} from "../../interfaces/i-today-stats";
 import {IOrder} from "../../../../process-order/interfaces/i-order";
@@ -11,6 +12,7 @@ import {WebApiService} from "../../../../shared/business-logic/services/api/web-
 export class BlOrdersApiService {
   constructor(
     public webApiService: WebApiService,
+    private http: HttpClient,
   ) {}
 
   public getAll(): Observable<IOrder[]> {
@@ -31,6 +33,11 @@ export class BlOrdersApiService {
   public getTodayStats(): Observable<ITodayStats> {
     let url = `${environment.apiUrl}/orders/today-stats`;
     return this.webApiService.get<ITodayStats>(url);
+  }
+
+  public downloadSlip(id: number): Observable<Blob> {
+    let url = `${environment.apiUrl}/orders/${id}/slip`;
+    return this.http.get(url, { responseType: 'blob' });
   }
 
 }

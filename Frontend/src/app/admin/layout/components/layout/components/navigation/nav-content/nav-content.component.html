@@ -1,14 +1,10 @@
-<ng-scrollbar style="height: calc(100vh - 70px)" visibility="hover">
-  <div class="navbar-content">
-    <ul class="nav coded-inner-navbar" (clickOutside)="fireOutClick()" (mouseleave)="navMob()">
-      @for (item of navigation; track item) {
-        @if (item.type == 'group') {
-          <app-nav-group [item]="item"></app-nav-group>
-        }
-        @if (item.type == 'item') {
-          <app-nav-item [item]="item"></app-nav-item>
-        }
-      }
-    </ul>
-  </div>
-</ng-scrollbar>
+<div class="tm-nav-list" (mouseleave)="navMob()">
+  @for (item of navigation; track item) {
+    @if (item.type == 'group') {
+      <app-nav-group [item]="item"></app-nav-group>
+    }
+    @if (item.type == 'item') {
+      <app-nav-item [item]="item"></app-nav-item>
+    }
+  }
+</div>

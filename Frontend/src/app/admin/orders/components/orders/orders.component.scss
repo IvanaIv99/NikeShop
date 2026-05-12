@@ -1,46 +1,95 @@
-.orders-page {
-  .page-header {
-    h2 { color: #fff; }
-    p { color: #bdbdbd; }
-  }
+:host { display: block }
 
-  .filters-panel {
-    .filter-field {
-      min-width: 220px;
-      max-width: 360px;
-      background: #252525;
-      border-radius: 10px;
+// Chip-styled button that opens the status menu
+:host ::ng-deep .tm-chip-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Geist Mono', 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  text-transform: lowercase;
+  padding: 6px 9px 6px 10px;
+  line-height: 1.2;
 
-      .mat-form-field-infix { color: #fff; }
-      .mat-input-element { color: #fff; }
-      .mat-select-value { color: #fff; }
-    }
+  .lbl { color: #6a6d72 }
+  b { color: #fafafa; font-weight: 600 }
+  svg { width: 11px; height: 11px; stroke: #6a6d72 }
 
-    button {
-      height: 40px;
-    }
-  }
-
-  .table-card {
-    background: #1f1f1f;
-    border-radius: 14px;
-    padding: 18px;
-    border: 1px solid rgba(255,255,255,0.03);
-
-    .table-toolbar {
-      .left .text-white { color: #fff; }
-      .right { color: #9e9e9e; }
-    }
-
-    .app-table {
-    }
+  &.on {
+    color: #03a68b !important;
+    border-color: rgba(3, 166, 139, .32) !important;
+    background: rgba(3, 166, 139, .08) !important;
+    b { color: #03a68b }
+    svg { stroke: #03a68b }
   }
 }
 
+// Chip-shaped wrapper around mat-date-range-input
+:host ::ng-deep .tm-chip-daterange {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px 4px 10px;
+  font-family: 'Geist Mono', 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  line-height: 1.2;
 
-/* Responsive: stack filters on mobile */
-@media (max-width: 767px) {
-  .filters-panel { flex-direction: column; align-items: stretch; }
-  .filters-panel .filter-field { width: 100%; max-width: none; }
-  .stats-row .stat-card { min-height: 72px; }
+  .lbl { color: #6a6d72 }
+
+  // Strip Material chrome from mat-date-range-input
+  .mat-date-range-input,
+  .mat-date-range-input-container {
+    display: inline-flex !important;
+    align-items: center !important;
+    background: transparent !important;
+    border: 0 !important;
+    padding: 0 !important;
+  }
+  .mat-date-range-input-mirror { display: none !important }
+  .mat-date-range-input-separator { display: none !important } // Hide built-in "–", we use our own
+
+  input.mat-start-date,
+  input.mat-end-date {
+    background: transparent !important;
+    border: 0 !important;
+    outline: none !important;
+    color: #fafafa !important;
+    font-family: 'Geist Mono', 'JetBrains Mono', monospace !important;
+    font-size: 10.5px !important;
+    letter-spacing: .02em;
+    padding: 0 !important;
+    width: 64px;
+    text-align: center;
+
+    &::placeholder { color: #6a6d72 }
+  }
+
+  .dash {
+    color: #3a3d41;
+    font-family: 'Geist Mono', monospace;
+    font-size: 10.5px;
+    padding: 0 2px;
+  }
+
+  .trig {
+    background: transparent;
+    border: 0;
+    color: #6a6d72;
+    cursor: pointer;
+    padding: 2px;
+    display: inline-flex;
+    align-items: center;
+    margin-left: 2px;
+    svg { width: 12px; height: 12px; stroke: currentColor }
+    &:hover { color: #fafafa }
+  }
+
+  &.on {
+    color: #03a68b !important;
+    border-color: rgba(3, 166, 139, .32) !important;
+    background: rgba(3, 166, 139, .08) !important;
+    input.mat-start-date,
+    input.mat-end-date { color: #03a68b !important }
+    .trig { color: #03a68b }
+  }
 }

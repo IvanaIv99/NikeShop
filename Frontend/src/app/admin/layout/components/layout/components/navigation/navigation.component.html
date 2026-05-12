@@ -1,10 +1,18 @@
-<nav>
-  <div class="navbar-wrapper">
-    <div class="m-header">
-      <a [routerLink]="['/admin-panel/dashboard']" class="b-brand" style="text-decoration: none !important;">
-        <h1 class="small-logo"> NikeStore </h1>
-      </a>
-    </div>
-    <app-nav-content (NavCollapsedMob)="navCollapseMob()" class="scroll-div w-100"></app-nav-content>
-  </div>
-</nav>
+<a class="tm-brand" [routerLink]="['/admin-panel/dashboard']">
+  <div class="sq">N</div>
+  <div class="nm">NikeStore</div>
+</a>
+
+<label class="tm-search">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>
+  <input type="text" placeholder="Search…">
+  <span class="kbd">⌘K</span>
+</label>
+
+<app-nav-content (NavCollapsedMob)="navCollapseMob()"></app-nav-content>
+
+<div class="tm-side-foot">
+  <div class="av">N</div>
+  <div>NikeStore</div>
+  <span class="dot" title="online"></span>
+</div>

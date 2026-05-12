@@ -1,37 +1,11 @@
-@import "style-variables";
-.card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  word-wrap: break-word;
-  background-color: rgba(255, 255, 255, 0.13);
-  background-clip: border-box;
-  border: 0 solid rgba(0,0,0,.125);
-  border-radius: 1rem;
-  color: white;
-}
+:host { display: block }
 
-.card {
-  border-radius: 0.75rem;
-}
-
-.card-body {
-  padding: 1.5rem;
-}
-
-.table tbody tr:hover {
-  background-color: rgba(255,255,255,0.05);
-}
-
-.badge {
-  font-size: 0.75rem;
-  background: $primary;
-}
-
-@media (min-width: 992px) {
-  .col-lg-4 {
-    position: sticky;
-    top: 1rem;
-  }
-}
+// Mat-select inside the actions row
+:host ::ng-deep .od-actions .mat-mdc-form-field { font-size: 12px }
+:host ::ng-deep .od-actions .mat-mdc-form-field-infix { min-height: 36px; padding-top: 8px; padding-bottom: 8px }
+:host ::ng-deep .od-actions .mdc-text-field--outlined { background: #0e0f10; border-radius: 5px }
+:host ::ng-deep .od-actions .mat-mdc-form-field-flex { padding: 0 10px }
+:host ::ng-deep .od-actions .mdc-floating-label,
+:host ::ng-deep .od-actions .mat-mdc-form-field-label { color: #a8abb0 !important; font-size: 11.5px !important }
+:host ::ng-deep .od-actions .mat-mdc-select-value-text { color: #fafafa !important; font-family: 'Geist Mono', monospace; font-size: 11.5px }
+:host ::ng-deep .od-actions .mat-mdc-select-arrow { color: #a8abb0 !important }

@@ -1,13 +1,14 @@
-<div class="row g-3 mb-4">
-  <div class="col-sm-6 col-md-3" *ngFor="let card of stats">
-    <div class="p-3 rounded-3 d-flex align-items-center">
-      <div class="icon me-3">
-        <mat-icon class="color-primary">{{ card.icon }}</mat-icon>
-      </div>
-      <div>
-        <div class="fw-bold">{{ card.value }}</div>
-        <div class="small" style="color: #7b7b7b">{{ card.label }}</div>
-      </div>
+<div class="tm-stats">
+  <div class="tm-stat" *ngFor="let card of stats">
+    <div class="k">
+      <span>{{ card.label }}</span>
+      <span class="pill" style="background:transparent;border-color:transparent;color:#6a6d72;font-family:'Geist Mono',monospace">today</span>
+    </div>
+    <div class="v">
+      <mat-icon>{{ card.icon }}</mat-icon>{{ card.value }}
+    </div>
+    <div class="sub">
+      <span>from today's orders</span>
     </div>
   </div>
 </div>

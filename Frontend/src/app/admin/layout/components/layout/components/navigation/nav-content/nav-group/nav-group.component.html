@@ -1,11 +1,9 @@
-<li class="nav-item coded-menu-caption">
-  <label>{{ item.title }}</label>
-</li>
-@for (item of item.children; track item) {
-  @if (item.type == 'group') {
-    <app-nav-group [item]="item"></app-nav-group>
+<div class="tm-nav-group">{{ item.title }}</div>
+@for (child of item.children; track child) {
+  @if (child.type == 'group') {
+    <app-nav-group [item]="child"></app-nav-group>
   }
-  @if (item.type == 'item') {
-    <app-nav-item [item]="item"></app-nav-item>
+  @if (child.type == 'item') {
+    <app-nav-item [item]="child"></app-nav-item>
   }
 }

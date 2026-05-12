@@ -28,4 +28,8 @@ export class BlOrdersRequestsService {
   public getTodayStats(): Observable<ITodayStats> {
     return this.apiService.getTodayStats();
   }
+
+  public downloadSlip(id: number): Observable<Blob> {
+    return this.apiService.downloadSlip(id);
+  }
 }

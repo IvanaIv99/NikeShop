@@ -1,3 +1,2 @@
-.card {
-  background: #252525;
-}
+/* Layout for products page handled by global terminal stylesheet. */
+:host { display: block }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Location, LocationStrategy } from '@angular/common';
 import { BerryConfig } from '../../../../app-config';
 
@@ -8,7 +8,7 @@ import { BerryConfig } from '../../../../app-config';
   styleUrls: ['./layout.component.scss']
 })
 
-export class LayoutComponent {
+export class LayoutComponent implements OnDestroy {
   public berryConfig;
   public navCollapsed: boolean;
   public navCollapsedMob = false;
@@ -18,6 +18,7 @@ export class LayoutComponent {
     private location: Location,
     private locationStrategy: LocationStrategy
   ) {
+    document.body.classList.add('tm-admin');
     this.berryConfig = BerryConfig;
 
     let current_url = this.location.path();
@@ -58,5 +59,9 @@ export class LayoutComponent {
     if (document.querySelector('app-navigation.pc-sidebar')?.classList.contains('mob-open')) {
       document.querySelector('app-navigation.pc-sidebar')?.classList.remove('mob-open');
     }
+  }
+
+  ngOnDestroy(): void {
+    document.body.classList.remove('tm-admin');
   }
 }

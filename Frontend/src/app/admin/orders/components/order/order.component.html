@@ -1,112 +1,149 @@
-<div class="container-fluid py-4  text-white min-vh-100" >
+<div class="tm-body" *ngIf="order">
+  <!-- print-only packing slip header: hidden on screen, shown when printed -->
+  <section class="print-slip-head">
+    <div class="ps-row">
+      <div>
+        <div class="ps-brand">NIKESTORE</div>
+        <div class="ps-sub">Packing slip · {{ order.id ? '#ORD-' + order.id : '' }}</div>
+      </div>
+      <div class="ps-meta">
+        <div><b>Date</b> {{ order.created_at | date: 'd MMM yyyy · HH:mm' }}</div>
+        <div><b>Status</b> {{ order.status }}</div>
+        <div><b>Payment</b> {{ PaymentMethod[order.paymentMethod] }}</div>
+      </div>
+    </div>
+    <div class="ps-addr">
+      <div>
+        <div class="ps-label">Ship to</div>
+        <div class="ps-name">{{ order.firstName }} {{ order.lastName }}</div>
+        <div>{{ order.address }}</div>
+        <div>{{ order.city }}, {{ order.country }}</div>
+        <div>Phone: {{ order.phone }}</div>
+        <div>Email: {{ order.email }}</div>
+      </div>
+      <div *ngIf="order.additional">
+        <div class="ps-label">Customer note</div>
+        <div class="ps-note">{{ order.additional }}</div>
+      </div>
+    </div>
+  </section>
 
-  <div class="container">
-    <!-- Header -->
-    <app-back-button [routerLink]="'/admin-panel/orders'"></app-back-button>
+  <div class="tm-pgh">
+    <div>
+      <h1>Order detail</h1>
+      <div class="meta">
+        <span class="live"><span class="pulse"></span>live</span>
+        <span>·</span>
+        <span style="font-family:'Geist Mono',monospace;color:#03a68b">#ORD-{{ order.id }}</span>
+        <span>·</span>
+        <span>{{ order.created_at | date: 'd MMM yyyy · HH:mm' }}</span>
+      </div>
+    </div>
+    <a class="tm-btn" [routerLink]="['/admin-panel/orders']">
+      <mat-icon style="font-size:14px;width:14px;height:14px;line-height:14px">arrow_back</mat-icon>
+      <span>Back to orders</span>
+    </a>
+  </div>
 
-    <div class="d-flex flex-row justify-content-between align-items-center mb-4 border-bottom pb-2">
-      <h2 class="h5 mb-0">Order #{{ order.id }}</h2>
+  <div class="tm-order-detail">
+    <div class="tm-od-left">
+      <h3>
+        For {{ order.firstName }} {{ order.lastName }}
+        <span class="id">#ORD-{{ order.id }}</span>
+      </h3>
+      <div class="who">
+        <span>{{ order.email }}</span>
+        · {{ order.address }} · {{ order.city }} · {{ order.country }}
+        · phone {{ order.phone }}
+      </div>
+
+      <div class="tm-tl">
+        <div class="pt cur">
+          <div class="ts">{{ order.created_at | date: 'yyyy-MM-dd · HH:mm:ss' }}</div>
+          <div class="ev">
+            Order received
+            <small>{{ order.orderItems?.length || 0 }} items · {{ PaymentMethod[order.paymentMethod] }}</small>
+          </div>
+        </div>
+        <div class="pt cur">
+          <div class="ts">{{ order.created_at | date: 'yyyy-MM-dd · HH:mm:ss' }}</div>
+          <div class="ev">
+            Payment captured
+            <small>method: {{ PaymentMethod[order.paymentMethod] }} · amount: ${{ order.subtotal }}</small>
+          </div>
+        </div>
+        <div class="pt" [class.cur]="order.status === 'shipped' || order.status === 'done'">
+          <div class="ts">{{ (order.status === 'shipped' || order.status === 'done') ? 'shipped' : '— pending' }}</div>
+          <div class="ev">Shipped<small>tracking handed to carrier</small></div>
+        </div>
+        <div class="pt" [class.cur]="order.status === 'done'">
+          <div class="ts">{{ order.status === 'done' ? 'delivered' : '— ETA' }}</div>
+          <div class="ev">Delivered &amp; closed<small>customer receipt confirmed</small></div>
+        </div>
+        <div class="pt" *ngIf="order.status === 'cancelled' || order.status === 'refunded'" [class.cur]="true">
+          <div class="ts">{{ order.status }}</div>
+          <div class="ev">{{ order.status === 'cancelled' ? 'Cancelled' : 'Refunded' }}<small>{{ order.status === 'refunded' ? 'amount returned to original method' : 'no further action required' }}</small></div>
+        </div>
+      </div>
+
+      <div style="margin-top:24px;padding-top:18px;border-top:1px solid #181a1c">
+        <div class="field-label" style="font-family:'Geist Mono',monospace;font-size:10px;color:#6a6d72;letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px">// customer notes</div>
+        <div style="font-size:12.5px;color:#dcdcdc;line-height:1.55;font-family:'Geist',sans-serif;letter-spacing:-.003em">
+          {{ order.additional || '— no note left at checkout —' }}
+        </div>
+      </div>
     </div>
 
-    <div class="row">
-      <!-- Main Content -->
-      <div class="col-lg-8">
-        <!-- Order Items Card -->
-        <div class="card mb-4 background-grey-black text-white border-0 shadow-sm">
-          <div class="card-body">
-            <div class="d-flex justify-content-between mb-3">
-              <div class="d-flex gap-3">
-                <span>{{ order.created_at | date: 'd MMM yyyy | HH:mm'}}</span>
-                <span class="badge rounded-pill">{{ order.status }}</span>
-              </div>
-            </div>
-            <table class="mat-table w-100 text-white mb-0">
-              <tbody>
-              <tr *ngFor="let item of order.orderItems" class="align-middle">
-                <td>
-                  <div class="d-flex align-items-center gap-3">
-                    <img [src]="item.productImage" alt="" class="img-fluid rounded" style="width:50px;">
-                    <div>
-                      <h5 class="mb-0">{{ item.productName }}</h5>
-                      <h6>Size : {{ item.sizeValue }} &middot; Color : {{ item.colorName }}</h6>
-                      <small class="text-muted">${{ item.unitPrice }} each</small>
-                    </div>
-                  </div>
-                </td>
-                <td> x {{ item.quantity }}</td>
-                <td class="text-end">${{ item.total }}</td>
-              </tr>
-              </tbody>
-              <tfoot class="border-top">
-              <tr >
-                <td colspan="2">Subtotal</td>
-                <td class="text-end">${{ order.subtotal }}</td>
-              </tr>
-              </tfoot>
-            </table>
-          </div>
-        </div>
-
-        <!-- Payment & Billing -->
-        <div class="card mb-4 background-grey-black text-white border-0 shadow-sm">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-lg-6">
-                <h2>Payment Method</h2>
-                <p>
-                  <span class="badge rounded-pill">{{ PaymentMethod[order.paymentMethod]}}</span>
-                </p>
-                <p>Total: <span class="fw-bold">${{ order.subtotal }}</span> </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card mb-4 background-grey-black text-white border-0 shadow-sm">
-          <div class="card-body">
-            <div class="col-lg-6">
-              <h2>Change Status</h2>
-              <form (ngSubmit)="updateStatus()"  #statusForm="ngForm" class="d-flex gap-2 align-self-start">
-                <mat-select
-                  class="form-select bg-dark text-white border-secondary"
-                  [(ngModel)]="order.status"
-                  name="status"
-                  required>
-                  <mat-option *ngFor="let s of statuses" [value]="s">{{ s }}</mat-option>
-                </mat-select>
-                <button
-                  type="submit"
-                  class="btn-custom btn-sm"
-                  [disabled]="statusForm.invalid">
-                  Save
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-
+    <div class="tm-od-right">
+      <div class="lh">
+        <h4>Line items</h4>
+        <small>{{ order.orderItems?.length || 0 }} items</small>
       </div>
 
-      <!-- Sidebar -->
-      <div class="col-lg-4">
-        <div class="card mb-4 background-grey-black text-white border-0 shadow-sm">
-          <div class="card-body">
-            <h2>Customer Notes</h2>
-            <p>{{order.additional}}</p>
-          </div>
+      <div class="li" *ngFor="let item of order.orderItems">
+        <div class="ph">
+          <img *ngIf="item.productImage" [src]="item.productImage" [alt]="item.productName">
         </div>
-        <div class="card mb-4 background-grey-black text-white border-0 shadow-sm">
-          <div class="card-body">
-            <h2>Shipping Address</h2>
-            <address>
-              <strong>{{order.firstName}} {{order.lastName}}</strong><br>
-              {{ order.address }}<br>
-              {{ order.city }}, {{ order.country }}<br>
-              P: {{ order.phone }}
-            </address>
-          </div>
+        <div class="nm">
+          {{ item.productName }}
+          <small>size {{ item.sizeValue }} · colour {{ item.colorName }}</small>
         </div>
+        <span class="q">×{{ item.quantity }}</span>
+        <span class="p">${{ item.total }}</span>
       </div>
+
+      <div class="tot">
+        <div class="ln"><span>subtotal</span><span class="v">${{ order.subtotal }}</span></div>
+        <div class="ln"><span>payment</span><span class="v">{{ PaymentMethod[order.paymentMethod] }}</span></div>
+        <div class="ln"><span>status</span>
+          <span class="v">
+            <span class="tm-status"
+                  [class.draft]="order.status === 'received'"
+                  [class.off]="order.status === 'cancelled' || order.status === 'refunded'"
+                  [class.warn]="order.status === 'shipped'">
+              {{ order.status }}
+            </span>
+          </span>
+        </div>
+        <div class="ln grand"><span>total</span><span class="v">${{ order.subtotal }}</span></div>
+      </div>
+
+      <form (ngSubmit)="updateStatus()" #statusForm="ngForm" class="od-actions">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" style="flex:1 1 200px;min-width:160px">
+          <mat-label>Change status</mat-label>
+          <mat-select [(ngModel)]="order.status" name="status" required>
+            <mat-option *ngFor="let s of statuses" [value]="s">{{ s }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button class="tm-btn pri" type="submit" [disabled]="statusForm.invalid">
+          <span>Save</span>
+          <span class="kbd">⌘S</span>
+        </button>
+        <button class="tm-btn" type="button" (click)="downloadPdf()" [disabled]="downloadingPdf">
+          <mat-icon style="font-size:14px;width:14px;height:14px;line-height:14px">picture_as_pdf</mat-icon>
+          <span>{{ downloadingPdf ? 'Generating…' : 'Download PDF' }}</span>
+        </button>
+      </form>
     </div>
   </div>
 </div>
