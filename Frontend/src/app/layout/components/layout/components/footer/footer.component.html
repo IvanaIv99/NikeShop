@@ -1,3 +1,63 @@
-<div class="footer row bg-black">
-  <p class="text-center p-3 mt-2">(c) Ivana Ivanovic 49/18</p>
-</div>
+<footer class="cu-foot">
+  <div class="cu-foot-signup">
+    <div class="sl">
+      <div class="mlabel">// stay in the loop</div>
+      <h4>Drops, restocks, and the occasional secret pair.</h4>
+    </div>
+    <div class="form">
+      <input type="email" placeholder="you@youremail.com" [(ngModel)]="signupEmail">
+      <button class="go" type="button" (click)="signupEmail = ''">
+        Join
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="cu-foot-cols">
+    <div class="brand">
+      <div class="sq"><span class="nike-swoosh" aria-label="Nike swoosh"></span></div>
+      <div class="desc">NikeStore — independent sneaker outpost. Built for runners, painters, hoopers, and anyone who walks a lot.</div>
+    </div>
+    <div class="col">
+      <h5>Shop</h5>
+      <ul>
+        <li><a [routerLink]="['/shop']">New drops</a></li>
+        <li><a [routerLink]="['/shop']">Lifestyle</a></li>
+        <li><a [routerLink]="['/shop']">Running</a></li>
+        <li><a [routerLink]="['/shop']">Basketball</a></li>
+        <li><a [routerLink]="['/shop']">Skate</a></li>
+      </ul>
+    </div>
+    <div class="col">
+      <h5>Support</h5>
+      <ul>
+        <li><a>Order tracking</a></li>
+        <li><a>Returns &amp; exchanges</a></li>
+        <li><a>Sizing guide</a></li>
+        <li><a>Shipping</a></li>
+        <li><a>FAQ</a></li>
+      </ul>
+    </div>
+    <div class="col">
+      <h5>Account</h5>
+      <ul>
+        <li><a [routerLink]="['/cart']">Bag</a></li>
+        <li><a>Wishlist</a></li>
+        <li><a>Gift cards</a></li>
+        <li><a>Stores</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cu-foot-bot">
+    <div class="left">
+      <span>© <b>{{ year }} NIKESTORE</b> — all rights reserved</span>
+    </div>
+    <div class="right">
+      <a>Privacy</a>
+      <a>Terms</a>
+      <a>Cookies</a>
+      <a>Accessibility</a>
+    </div>
+  </div>
+</footer>

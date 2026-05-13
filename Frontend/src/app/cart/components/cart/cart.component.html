@@ -1,4 +1,11 @@
-<div class="text-center my-4">
-  <h1 class="text-white display-5 fw-bold">Shopping Cart</h1>
-</div>
+<header class="cu-cart-head">
+  <div>
+    <div class="mlabel">// your bag</div>
+    <h1>Cart <span class="count" *ngIf="cartItems.length">· {{ cartItems.length }} item{{ cartItems.length === 1 ? '' : 's' }}</span></h1>
+  </div>
+  <div class="actions" *ngIf="cartItems.length">
+    <button class="cu-btn" type="button" (click)="clearCart()">Clear bag</button>
+  </div>
+</header>
+
 <app-cart-table></app-cart-table>

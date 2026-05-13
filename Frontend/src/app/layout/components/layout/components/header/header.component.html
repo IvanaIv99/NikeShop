@@ -1,34 +1,28 @@
-<mat-toolbar class="transparent">
-  <button mat-icon-button aria-label="Home button" routerLink="/" >
-    <mat-icon [ngStyle]="{color:'white'}" >home</mat-icon>
-  </button>
+<nav class="cu-nav">
+  <a class="brand" [routerLink]="['/home']">
+    <div class="sq"><span class="nike-swoosh" aria-label="Nike swoosh"></span></div>
+    <div class="nm">NikeStore<small>est. 1972</small></div>
+  </a>
 
-  <button mat-icon-button aria-label="Shop" routerLink="/shop" >
-    <mat-icon [ngStyle]="{color:'white'}" >shopping_bag</mat-icon>
-  </button>
+  <div class="links">
+    <a [routerLink]="['/home']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
+    <a [routerLink]="['/shop']" routerLinkActive="active">Shop</a>
+  </div>
 
-  <button routerLink="login" *ngIf="!authService.isLoggedIn()" mat-icon-button class="button fancy-button">
-    <mat-icon>account_circle</mat-icon>
-  </button>
+  <div class="right">
+    <a class="iconbtn" *ngIf="!authService.isLoggedIn()" [routerLink]="['/login']" title="Sign in">
+      <mat-icon>account_circle</mat-icon>
+    </a>
+    <a class="iconbtn" *ngIf="authService.isLoggedIn()" [routerLink]="['/admin-panel/dashboard']" title="Account">
+      <mat-icon>account_circle</mat-icon>
+    </a>
+    <button class="iconbtn" *ngIf="authService.isLoggedIn()" type="button" (click)="logout()" title="Logout">
+      <mat-icon>logout</mat-icon>
+    </button>
 
-  <button routerLink="admin-panel/dashboard" *ngIf="authService.isLoggedIn()" mat-icon-button class="button fancy-button">
-    <mat-icon>account_circle</mat-icon>
-  </button>
-
-  <span class="spacer"></span>
-
-  <mat-toolbar class="transparent" *ngIf="authService.isLoggedIn()">
-    <span class="spacer"></span>
-    <button mat-button  color="accent" (click)="logout()"> Logout </button>
-  </mat-toolbar>
-
-  <button routerLink="/cart" mat-icon-button aria-label="Checkout button" class="button fancy-button" >
-    <mat-icon [ngStyle]="{color:'white'}">shopping_cart</mat-icon>
-    <span class="count">{{countCart}}</span>
-  </button>
-
-</mat-toolbar>
-
-<div class="text-center center">
-  <h1 class="logo"> NikeStore </h1>
-</div>
+    <a class="iconbtn bag" [routerLink]="['/cart']" title="Bag">
+      <mat-icon>shopping_bag</mat-icon>
+      <span class="ct" *ngIf="countCart > 0">{{ countCart }}</span>
+    </a>
+  </div>
+</nav>

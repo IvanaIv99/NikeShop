@@ -1,30 +1,63 @@
-<div class="form-container container mt-3 mb-5">
-  <div class="loginForm">
-    <form [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column align-items-center">
-      <div class="title mb-2">
-        <h2>Admin Panel</h2>
+<section class="cu-login">
+  <div class="cu-login-card">
+    <div class="cu-login-card__bar">
+      <span class="dot d1"></span>
+      <span class="dot d2"></span>
+      <span class="dot d3"></span>
+      <span class="cu-login-card__title">auth.session // admin</span>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="cu-login-form" novalidate>
+
+      <div class="cu-login-form__intro">
+        <div class="cu-mtag"><span class="pulse"></span>// ADMIN PANEL</div>
+        <h2>Sign in</h2>
       </div>
-      <div id="loginForm" >
-        <div class="row flex-column align-items-center">
-          <div class="col-6">
-            <mat-form-field color="accent">
-              <mat-label>Enter your email</mat-label>
-              <input matInput formControlName="email" >
-              <mat-error *ngFor="let error of getFormErrors('email')">{{ error }}</mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col-6">
-            <mat-form-field color="accent">
-              <mat-label>Password</mat-label>
-              <input matInput formControlName="password" type="password" >
-              <mat-error *ngFor="let error of getFormErrors('password')">{{ error }}</mat-error>
-            </mat-form-field>
-          </div>
+
+      <label class="cu-field" [class.is-error]="hasErrors('email')">
+        <div class="cu-field__top">
+          <span class="cu-field__lbl">// email</span>
         </div>
-      </div>
-      <button class="btn-custom" type="submit">Login</button>
+        <div class="cu-field__wrap">
+          <input
+            type="email"
+            autocomplete="email"
+            spellcheck="false"
+            placeholder="admin@nikestore.com"
+            formControlName="email">
+        </div>
+        <div class="cu-field__err" *ngIf="hasErrors('email')">
+          <span *ngFor="let error of getFormErrors('email')">// {{ error }}</span>
+        </div>
+      </label>
+
+      <label class="cu-field" [class.is-error]="hasErrors('password')">
+        <div class="cu-field__top">
+          <span class="cu-field__lbl">// password</span>
+        </div>
+        <div class="cu-field__wrap">
+          <input
+            [type]="showPass ? 'text' : 'password'"
+            autocomplete="current-password"
+            placeholder="••••••••••••"
+            formControlName="password">
+          <button
+            type="button"
+            class="cu-field__toggle"
+            (click)="showPass = !showPass">
+            {{ showPass ? 'hide' : 'show' }}
+          </button>
+        </div>
+        <div class="cu-field__err" *ngIf="hasErrors('password')">
+          <span *ngFor="let error of getFormErrors('password')">// {{ error }}</span>
+        </div>
+      </label>
+
+      <button class="cu-login-submit" type="submit">
+        <span>Login</span>
+        <span class="kbd">↵ ENTER</span>
+      </button>
+
     </form>
   </div>
-</div>
-
-
+</section>

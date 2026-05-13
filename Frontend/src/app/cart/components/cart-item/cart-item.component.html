@@ -1,26 +1,22 @@
-
-  <th scope="row">{{index + 1}}</th>
-  <td> {{cartItem.product.name}}</td>
-  <td> {{cartItem.size.size}}</td>
-  <td> {{cartItem.color.name}}</td>
-  <td>{{cartItem.product.price}} $</td>
-  <td>
-    <input
-      [(ngModel)]="cartItem.quantity"
-      [ngModelOptions]="{standalone: true}"
-      min="1"
-      type="number"
-      value="{{cartItem.quantity }}"
-      class="form-control cartQty"
-    />
-
-  </td>
-  <td >{{updateItemTotal()}}$</td>
-  <td>
-    <button type="button"
-            class="btn btn-danger deleteProduct"
-            aria-label="Left Align"
-            (click)="removeItem(cartItem)"
-            > x
-    </button>
-  </td>
+<div class="cu-cart-row">
+  <div class="thumb">
+    <img [src]="cartItem.product.image" [alt]="cartItem.product.name">
+  </div>
+  <div class="meta">
+    <div class="nm">{{ cartItem.product.name }}</div>
+    <div class="var">
+      <span>size <b>{{ cartItem.size.size }}</b></span>
+      <span>colour <b>{{ cartItem.color.name }}</b></span>
+    </div>
+  </div>
+  <div class="cu-qstep">
+    <button class="qbtn" type="button" (click)="decrement()" [disabled]="cartItem.quantity <= 1">−</button>
+    <span class="qval">{{ cartItem.quantity }}</span>
+    <button class="qbtn" type="button" (click)="increment()">+</button>
+  </div>
+  <div class="unit">${{ cartItem.product.price }}</div>
+  <div class="ttl">${{ itemTotal() | number:'1.2-2' }}</div>
+  <button class="x" type="button" (click)="removeItem(cartItem)" title="Remove">
+    <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+</div>

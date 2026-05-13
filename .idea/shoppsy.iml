@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/Backend/app" isTestSource="false" packagePrefix="App\" />
       <sourceFolder url="file://$MODULE_DIR$/Backend/database/factories" isTestSource="false" packagePrefix="Database\Factories\" />
       <sourceFolder url="file://$MODULE_DIR$/Backend/database/seeders" isTestSource="false" packagePrefix="Database\Seeders\" />
+      <sourceFolder url="file://$MODULE_DIR$/Backend/spec" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/dist" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/barryvdh/laravel-ide-helper" />
@@ -185,6 +186,13 @@
       <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/symfony/clock" />
       <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/symfony/polyfill-php84" />
       <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/symfony/polyfill-php85" />
+      <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/barryvdh/laravel-dompdf" />
+      <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/dompdf/dompdf" />
+      <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/dompdf/php-font-lib" />
+      <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/dompdf/php-svg-lib" />
+      <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/masterminds/html5" />
+      <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/sabberworm/php-css-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/Backend/vendor/thecodingmachine/safe" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

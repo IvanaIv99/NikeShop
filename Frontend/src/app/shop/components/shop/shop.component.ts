@@ -12,7 +12,8 @@ import {SnackbarService} from "../../../shared/business-logic/services/common/sn
 })
 export class ShopComponent implements OnInit {
 
-  protected products: IProduct[];
+  protected products: IProduct[] = [];
+  protected searchTerm: string = '';
 
   constructor(
     public requestService: BlProductsRequestService,

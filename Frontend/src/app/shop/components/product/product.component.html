@@ -1,57 +1,61 @@
+<div class="cu-pcard">
+  <div class="stage">
+    <span class="ribbon" *ngIf="hasAnyStock(); else outRibbon">// in stock</span>
+    <ng-template #outRibbon><span class="ribbon" style="color:#5a5d61;background:#131517;border-color:#181a1c">sold out</span></ng-template>
+    <img [src]="product.image" [alt]="product.name">
+    <div class="hover-hint"><span class="kbd">↵</span> pick &amp; add</div>
+  </div>
 
-<div class="container mb-3">
-  <div class="card">
-    <div class="imgBx">
-      <img src="{{product.image}}" alt="nike-air-shoe">
+  <div class="info">
+    <div class="sku">#{{ product.id }}</div>
+    <div class="row1">
+      <div class="nm">
+        {{ product.name }}
+        <small *ngIf="categoryString">{{ categoryString }}</small>
+      </div>
+      <div class="price">${{ product.price }}</div>
     </div>
-    <div class="contentBx">
-      <h2>{{product.name}}</h2>
-      <p class="text-secondary">{{product.description}}</p>
-      <h5 class="text-white">{{categoryString}}</h5>
-      <div class="size">
-        <h3>Size :</h3>
-        <ul class="list-inline">
-          <li class="list-inline-item"
-              *ngFor="let size of availableSizes; let i = index"
-              [class.disabled]="isSizeDisabled(size)">
-            <a (click)="!isSizeDisabled(size) && onSelectedAttribute('size', size)">
-              <span [ngStyle]="{
-                      'background-color': selectedAttributes.size?.id === size.id ? 'green' : 'white',
-                      'opacity': isSizeDisabled(size) ? 0.35 : 1,
-                      'cursor': isSizeDisabled(size) ? 'not-allowed' : 'pointer'
-                    }">{{size.size}}</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="color">
-        <h3>Color :</h3>
-        <ul class="list-inline">
-          <li class="list-inline-item"
-              *ngFor="let color of availableColors; let i = index"
-              [class.disabled]="isColorDisabled(color)">
-            <a (click)="!isColorDisabled(color) && onSelectedAttribute('color', color)">
-              <span [ngStyle]="{
-                      'background': color['code'],
-                      'border': selectedAttributes.color?.id === color.id ? '3px solid white' : 'none',
-                      'opacity': isColorDisabled(color) ? 0.35 : 1,
-                      'cursor': isColorDisabled(color) ? 'not-allowed' : 'pointer'
-                    }"></span>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="price">
-        <h3>${{product.price}}</h3>
-      </div>
-      <div class="buyNow">
-        <button class="btn-custom"
-                [disabled]="!canAddToCart()"
-                [style.cursor]="canAddToCart() ? 'pointer' : 'not-allowed'"
-                [style.opacity]="canAddToCart() ? 1 : 0.5"
-                id="{{product.id}}"
-                (click)="addProductToCart(product)">Add to cart</button>
+    <div class="row2">
+      <span class="cu-stockdot" *ngIf="hasAnyStock()">in stock</span>
+      <span class="cu-stockdot out" *ngIf="!hasAnyStock()">sold out</span>
+    </div>
+  </div>
+
+  <div class="cu-pcard-pickers">
+    <div class="group">
+      <span class="lbl">size</span>
+      <div class="opts">
+        <button type="button"
+                class="size-pill"
+                *ngFor="let size of availableSizes"
+                [class.on]="selectedAttributes.size?.id === size.id"
+                [class.disabled]="isSizeDisabled(size)"
+                (click)="!isSizeDisabled(size) && onSelectedAttribute('size', size)">
+          {{ size.size }}
+        </button>
       </div>
     </div>
+    <div class="group">
+      <span class="lbl">colour</span>
+      <div class="opts">
+        <span class="color-dot"
+              *ngFor="let color of availableColors"
+              [class.on]="selectedAttributes.color?.id === color.id"
+              [class.disabled]="isColorDisabled(color)"
+              [style.background]="color['code'] || '#444'"
+              [title]="color.name"
+              (click)="!isColorDisabled(color) && onSelectedAttribute('color', color)">
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cu-pcard-cta">
+    <button class="add"
+            type="button"
+            [disabled]="!canAddToCart()"
+            (click)="addProductToCart(product)">
+      {{ canAddToCart() ? 'Add to bag' : (hasAnyStock() ? 'Pick size & colour' : 'Sold out') }}
+    </button>
   </div>
 </div>

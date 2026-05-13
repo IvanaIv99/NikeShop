@@ -1,0 +1,25 @@
+:host { display: block; }
+
+// Single-column centered hero on the home page
+:host ::ng-deep .cu-hero {
+  text-align: center;
+  padding: 96px 32px 112px;
+}
+
+:host ::ng-deep .cu-hero-text {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+:host ::ng-deep .cu-hero-text h1 {
+  margin: 24px auto 22px;
+  max-width: none;
+}
+
+:host ::ng-deep .cu-hero-text .tagline {
+  margin: 0 auto 36px;
+}
+
+:host ::ng-deep .cu-hero-text .actions {
+  justify-content: center;
+}

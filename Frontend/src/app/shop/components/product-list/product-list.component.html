@@ -1,13 +1,12 @@
-<div class="row">
-  <div class="col-lg-12 mb-5 d-flex flex-row justify-content-center">
-      <div class="search">
-        <div>
-          <input type="text" [(ngModel)]="searchTerm" class="form-control" placeholder="Search . . ." required>
-        </div>
-      </div>
-  </div>
-</div>
-<main class="container pb-5">
-  <app-product *ngFor="let product of products  | filter:searchTerm" [product]="product" (productAdded)="addProductToCart($event)">
+<div class="cu-shop-grid">
+  <app-product
+    *ngFor="let product of products | filter:searchTerm"
+    [product]="product"
+    (productAdded)="addProductToCart($event)">
   </app-product>
-</main>
+</div>
+
+<div *ngIf="!(products | filter:searchTerm)?.length"
+     style="padding:64px 32px;text-align:center;font-family:'Geist Mono',monospace;font-size:12px;color:#6a6d72;letter-spacing:.06em;text-transform:uppercase">
+  No products match.
+</div>

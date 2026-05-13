@@ -12,6 +12,8 @@ export class LoginComponent implements OnInit {
 
   form!: FormGroup;
   submitted = false;
+  showPass = false;
+  remember = true;
 
   constructor(
     private fb: FormBuilder,
@@ -41,6 +43,10 @@ export class LoginComponent implements OnInit {
     this.authService.login(dataToSend);
   }
 
+  hasErrors(controlName: string): boolean {
+    return this.getFormErrors(controlName).length > 0;
+  }
+
   getFormErrors(controlName: string): string[] {
     const control = this.form.get(controlName);
     if (!control || !control.errors || (!control.touched && !this.submitted)) return [];
@@ -49,7 +55,7 @@ export class LoginComponent implements OnInit {
       switch (error) {
         case 'required': return 'This field is required';
         case 'email': return 'Invalid email format';
-        case 'minlength': return `Minimum ${control.errors['minlength'].requiredLength} characters`;
+        case 'minlength': return `Minimum ${control.errors!['minlength'].requiredLength} characters`;
         default: return 'Invalid value';
       }
     });

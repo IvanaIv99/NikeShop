@@ -1,34 +1,229 @@
-h2{
-  font-size: 30px;
-  margin-bottom: 5%;
+// ============================================================
+//  Login — centered admin panel card
+// ============================================================
+
+:host {
+  display: block;
+  font-family: 'Geist', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: #dcdcdc;
 }
 
-#loginForm{
-  width: 50%;
-  mat-form-field{
-    width: 100%;
-  }
-
-  button{
-    width: 100%;
-    margin-top: 10px;
-    padding: 10px;
-    border: none;
-    border-radius: 30px;
-    background: #52ad9c;
-    color: #fff;
-    font-size: 15px;
-    font-weight: bold;
-  }
-  button:hover{
-    cursor: pointer;
-    background: #428a7d;
-  }
+.cu-login {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
 }
 
-div.input-container {
+.cu-login-card {
   width: 100%;
-  margin: 25px 0px;
-  padding-top: 10px
+  max-width: 440px;
+  background: #0e0f10;
+  border: 1px solid #181a1c;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, .02) inset,
+    0 30px 80px -40px rgba(0, 0, 0, .9);
+
+  &__bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 11px 16px;
+    background: #0a0b0c;
+    border-bottom: 1px solid #181a1c;
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      &.d1 { background: #e0667a; }
+      &.d2 { background: #e0a866; }
+      &.d3 { background: #03a68b; }
+    }
+  }
+  &__title {
+    margin-left: 10px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 10.5px;
+    color: #a8abb0;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
 }
 
+.cu-login-form {
+  padding: 28px 26px 26px;
+
+  &__intro {
+    margin-bottom: 22px;
+
+    .cu-mtag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      letter-spacing: .16em;
+      color: #03a68b;
+      text-transform: uppercase;
+      padding: 6px 11px;
+      background: rgba(3, 166, 139, .16);
+      border: 1px solid rgba(3, 166, 139, .32);
+      border-radius: 999px;
+      margin-bottom: 14px;
+
+      .pulse {
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background: #03a68b;
+        box-shadow: 0 0 0 3px rgba(3, 166, 139, .18);
+        animation: cu-login-pulse 1.8s ease-in-out infinite;
+      }
+    }
+
+    h2 {
+      font-family: 'Geist', sans-serif;
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: -.018em;
+      color: #fafafa;
+      margin: 0;
+      line-height: 1.1;
+    }
+  }
+}
+
+.cu-field {
+  display: block;
+  margin-bottom: 16px;
+
+  &__top {
+    margin-bottom: 7px;
+  }
+  &__lbl {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10.5px;
+    color: #a8abb0;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  &__wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    border: 1px solid #181a1c;
+    border-radius: 7px;
+    background: #0a0b0c;
+    height: 46px;
+    transition: .16s;
+
+    &:hover { border-color: #2a2d31; }
+    &:focus-within {
+      border-color: #03a68b;
+      box-shadow: 0 0 0 3px rgba(3, 166, 139, .12);
+      background: #0c0d0e;
+    }
+
+    input {
+      flex: 1;
+      background: transparent;
+      border: 0;
+      outline: none;
+      color: #fafafa;
+      font-family: 'Geist', sans-serif;
+      font-size: 14px;
+      letter-spacing: -.003em;
+      padding: 0;
+      min-width: 0;
+
+      &::placeholder {
+        color: #5a5d61;
+        font-family: 'Geist Mono', monospace;
+        font-size: 13px;
+        letter-spacing: .02em;
+      }
+    }
+  }
+
+  &__toggle {
+    background: transparent;
+    border: 1px solid #181a1c;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    color: #a8abb0;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: .16s;
+    &:hover { color: #fafafa; border-color: #2a2d31; }
+  }
+
+  &__err {
+    margin-top: 7px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    span {
+      font-family: 'Geist Mono', monospace;
+      font-size: 10.5px;
+      color: #e0667a;
+      letter-spacing: .04em;
+      text-transform: lowercase;
+    }
+  }
+
+  &.is-error .cu-field__wrap {
+    border-color: rgba(224, 102, 122, .4);
+    background: rgba(224, 102, 122, .04);
+  }
+}
+
+.cu-login-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 15px 18px;
+  margin-top: 6px;
+  background: #03a68b;
+  color: #000;
+  border: 0;
+  border-radius: 8px;
+  font-family: 'Geist', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: -.003em;
+  cursor: pointer;
+  transition: .16s;
+
+  &:hover { background: #04bb9d; }
+  &:active { transform: scale(.99); }
+  &:disabled { opacity: .55; cursor: not-allowed; }
+
+  .kbd {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10.5px;
+    color: #0a4a3d;
+    border: 1px solid rgba(0, 0, 0, .25);
+    background: rgba(0, 0, 0, .12);
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-weight: 500;
+    letter-spacing: .08em;
+  }
+}
+
+@keyframes cu-login-pulse {
+  50%      { box-shadow: 0 0 0 7px rgba(3, 166, 139, 0); }
+  0%, 100% { box-shadow: 0 0 0 0   rgba(3, 166, 139, .5); }
+}

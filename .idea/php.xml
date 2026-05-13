@@ -196,6 +196,13 @@
       <path value="$PROJECT_DIR$/Backend/vendor/phpstan/phpstan" />
       <path value="$PROJECT_DIR$/Backend/vendor/larastan/larastan" />
       <path value="$PROJECT_DIR$/Backend/vendor/iamcal/sql-parser" />
+      <path value="$PROJECT_DIR$/Backend/vendor/thecodingmachine/safe" />
+      <path value="$PROJECT_DIR$/Backend/vendor/masterminds/html5" />
+      <path value="$PROJECT_DIR$/Backend/vendor/barryvdh/laravel-dompdf" />
+      <path value="$PROJECT_DIR$/Backend/vendor/dompdf/php-svg-lib" />
+      <path value="$PROJECT_DIR$/Backend/vendor/dompdf/php-font-lib" />
+      <path value="$PROJECT_DIR$/Backend/vendor/dompdf/dompdf" />
+      <path value="$PROJECT_DIR$/Backend/vendor/sabberworm/php-css-parser" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.3" />

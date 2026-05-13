@@ -1,7 +1,48 @@
-<ng-container>
-  <div class="text-center w-50 m-auto" >
-    <h1>Step Into Comfort, Style and Performance</h1>
-    <h4 class="opacity-50">Discover the perfect pair that moves with you. Whether you're hitting the streets, the gym, or simply enjoying your day, our sneakers are designed to keep you comfortable and looking great. Find your next favorite pair today!</h4>
-    <button mat-flat-button class="mt-4 p-4 fs-5" routerLink="/shop">SHOP NOW</button>
+<section class="cu-hero">
+  <div class="">
+    <div class="cu-hero-text">
+      <div class="cu-mtag"><span class="pulse"></span>// DROP 014 — FRIDAY 10:00 PDT</div>
+      <h1>
+        Re-engineered<br>
+        for the <span class="accent">next mile.</span>
+      </h1>
+      <p class="tagline">A complete overhaul of the Air Max platform. Lighter foam, refined silhouette, the same gravity that started it all.</p>
+      <div class="actions">
+        <a class="cu-btn pri" [routerLink]="['/shop']">
+          Shop the drop <span class="kbd">↵</span>
+        </a>
+        <a class="cu-ghost" [routerLink]="['/shop']">View lookbook <span class="arrow">→</span></a>
+      </div>
+    </div>
   </div>
-</ng-container>
+</section>
+
+<section class="cu-strip" *ngIf="featured.length">
+  <header class="cu-strip-head">
+    <div>
+      <div class="mlabel">// this week</div>
+      <h2>Most-loved silhouettes.</h2>
+    </div>
+    <a class="more" [routerLink]="['/shop']">All best-sellers <span class="arrow">→</span></a>
+  </header>
+
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:18px">
+    <a class="cu-pcard" *ngFor="let p of featured" [routerLink]="['/shop']">
+      <div class="stage">
+        <span class="ribbon">// featured</span>
+        <img [src]="p.image" [alt]="p.name">
+        <div class="hover-hint"><span class="kbd">↵</span> shop</div>
+      </div>
+      <div class="info">
+        <div class="sku">#{{ p.id }}</div>
+        <div class="row1">
+          <div class="nm">{{ p.name }}</div>
+          <div class="price">${{ p.price }}</div>
+        </div>
+        <div class="row2">
+          <span class="cu-stockdot">in stock</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>

@@ -1,54 +1,58 @@
-<div class="d-flex justify-content-center my-3" style="padding-bottom: 8rem !important;">
-    <div class="cart-container p-4 rounded-3 bg-dark w-100" style="max-width: 900px;">
-        <div class="d-flex justify-content-end mb-3">
-            <button
-                    class="btn btn-pill btn-outline-light"
-                    (click)="clearCart()">
-                Clear All
-            </button>
-        </div>
+<div class="cu-cart-grid">
 
-        <div *ngIf="cartItems?.length === 0; then emptyCartBlock else cartTableBlock"></div>
-
-        <ng-template #emptyCartBlock>
-            <p class="text-center text-white fs-5">Your cart is empty.</p>
-        </ng-template>
-
-        <ng-template #cartTableBlock>
-            <table class="table table-dark table-hover rounded">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Item</th>
-                    <th scope="col">Size</th>
-                    <th scope="col">Color</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Total Price</th>
-                    <th scope="col">Delete</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr
-                        app-cart-item
-                        *ngFor="let item of cartItems; let i = index"
-                        [cartItem]="item"
-                        [index]="i">
-                </tr>
-                </tbody>
-            </table>
-
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-4 gap-3">
-                <div class="d-flex align-items-center gap-2">
-                    <p class="text-white mb-0 fs-5">Total:</p>
-                    <p class="text-white fw-bold mb-0 fs-5">{{ getTotal() }} $</p>
-                </div>
-                <button
-                        class="btn btn-pill btn-primary text-white"
-                        routerLink="/process-order">
-                    Process Order
-                </button>
-            </div>
-        </ng-template>
+  <div class="cu-cart-items">
+    <div class="head" *ngIf="cartItems?.length">
+      <span></span>
+      <span>Item</span>
+      <span>Quantity</span>
+      <span style="text-align:right">Unit</span>
+      <span style="text-align:right">Total</span>
+      <span></span>
     </div>
+
+    <div class="empty" *ngIf="!cartItems?.length">
+      Your bag is empty.<br>
+      <a [routerLink]="['/shop']" style="display:inline-block;margin-top:10px;color:#03a68b">Browse the shop →</a>
+    </div>
+
+    <ng-container *ngFor="let item of cartItems; let i = index">
+      <app-cart-item [cartItem]="item" [index]="i"></app-cart-item>
+    </ng-container>
+  </div>
+
+  <aside class="cu-cart-summary" *ngIf="cartItems?.length">
+    <div class="shead">
+      <span class="lbl">order summary</span>
+      <span class="est">estimated</span>
+    </div>
+
+    <div class="ln">
+      <span class="k">Subtotal <small>{{ cartItems.length }} item{{ cartItems.length === 1 ? '' : 's' }}</small></span>
+      <span class="v">${{ subtotal | number:'1.2-2' }}</span>
+    </div>
+    <div class="ln">
+      <span class="k">Shipping <small>{{ subtotal >= 150 ? 'free · 2-day' : 'standard' }}</small></span>
+      <span class="v" [class.free]="subtotal >= 150">{{ subtotal >= 150 ? 'FREE' : '$9.95' }}</span>
+    </div>
+    <div class="ln">
+      <span class="k">Tax <small>estimated</small></span>
+      <span class="v">${{ taxEstimate | number:'1.2-2' }}</span>
+    </div>
+
+    <div class="grand">
+      <div class="k">Total<small>USD · incl. tax</small></div>
+      <div class="v"><sup>$</sup>{{ grandTotal | number:'1.2-2' }}</div>
+    </div>
+
+    <a class="checkout" [routerLink]="['/process-order']">
+      Continue to checkout
+      <span class="kbd">⌘↵</span>
+    </a>
+
+    <div class="trust">
+      <div class="t"><svg viewBox="0 0 24 24"><path d="M3 12l5 5L21 4"/></svg><b>Free</b>returns</div>
+      <div class="t"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3 8-8 9-5-1-8-4-8-9V7l8-4z"/></svg><b>Secure</b>checkout</div>
+    </div>
+  </aside>
+
 </div>

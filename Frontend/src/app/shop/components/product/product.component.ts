@@ -42,6 +42,10 @@ export class ProductComponent implements OnInit {
     return this.stockFor(this.selectedAttributes.size.id, this.selectedAttributes.color.id) > 0;
   }
 
+  protected hasAnyStock(): boolean {
+    return this.product.variants?.some(v => v.stock > 0) ?? false;
+  }
+
   protected onSelectedAttribute(attribute: 'size' | 'color', value: any): void {
     this.shopService.onSelectedAttribute(value, attribute, this.product);
     this.selectedAttributes[attribute] = value;
