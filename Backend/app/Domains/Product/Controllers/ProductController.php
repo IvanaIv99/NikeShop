@@ -23,41 +23,45 @@ final class ProductController extends Controller
 
     public function index(): JsonResponse
     {
+        $response = $this->service->all();
         return $this->sendResponse(
-            ProductResource::collect($this->service->all())
+            ProductResource::collect($response)
         );
     }
 
     public function show(Product $product): JsonResponse
     {
+        $response = $this->service->loadFull($product);
         return $this->sendResponse(
-            ProductResource::from($this->service->find($product))
+            ProductResource::from($response)
         );
     }
 
     public function store(Request $request): JsonResponse
     {
-        $product = $this->service->create(CreateProductDto::from($request));
-
-        return $this->sendResponse(ProductResource::from($product));
+        $response = $this->service->create(CreateProductDto::from($request));
+        return $this->sendResponse(
+            ProductResource::from($response)
+        );
     }
 
     public function update(Request $request, Product $product): JsonResponse
     {
-        $product = $this->service->update($product, UpdateProductDto::from($request));
-
-        return $this->sendResponse(ProductResource::from($product));
+        $response = $this->service->update($product, UpdateProductDto::from($request));
+        return $this->sendResponse(
+            ProductResource::from($response)
+        );
     }
 
     public function destroy(Product $product): JsonResponse
     {
-        return $this->sendResponse($this->service->delete($product));
+        $response = $this->service->delete($product);
+        return $this->sendResponse($response);
     }
 
     public function stats(): JsonResponse
     {
-        return $this->sendResponse(
-            $this->service->stats()
-        );
+        $response = $this->service->stats();
+        return $this->sendResponse($response);
     }
 }

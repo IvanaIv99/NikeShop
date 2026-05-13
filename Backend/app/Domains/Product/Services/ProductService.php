@@ -9,9 +9,12 @@ use App\Domains\Product\Dto\ProductVariantDto;
 use App\Domains\Product\Dto\UpdateProductDto;
 use App\Models\Product;
 use App\Models\ProductVariant;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\Optional;
 
@@ -22,7 +25,12 @@ final readonly class ProductService
         return Product::with('categories', 'variants.size', 'variants.color')->get();
     }
 
-    public function find(Product $product): Product
+    public function paginate(int $perPage = 24): LengthAwarePaginator
+    {
+        return Product::with('categories', 'variants.size', 'variants.color')->paginate($perPage);
+    }
+
+    public function loadFull(Product $product): Product
     {
         return $product->load('categories', 'variants.size', 'variants.color');
     }
@@ -46,33 +54,52 @@ final readonly class ProductService
 
     public function update(Product $product, UpdateProductDto $dto): Product
     {
-        return DB::transaction(function () use ($product, $dto): Product {
-            $product->name = $dto->name;
-            $product->description = $dto->description;
-            $product->price = $dto->price;
+        $oldImage = null;
+        $result = DB::transaction(function () use ($product, $dto, &$oldImage): Product {
+            $locked = Product::query()->lockForUpdate()->findOrFail($product->id);
+
+            $locked->name = $dto->name;
+            $locked->description = $dto->description;
+            $locked->price = $dto->price;
 
             if (! $dto->image instanceof Optional) {
-                $product->image = $this->storeImage($dto->image);
+                $oldImage = $locked->getRawOriginal('image');
+                $locked->image = $this->storeImage($dto->image);
             }
 
-            $product->save();
+            $locked->save();
+            $locked->categories()->sync($dto->categories);
+            $this->replaceVariants($locked, $dto->variants);
 
-            $product->categories()->sync($dto->categories);
-            $this->replaceVariants($product, $dto->variants);
-
-            return $product->fresh(['categories', 'variants.size', 'variants.color']);
+            return $locked->fresh(['categories', 'variants.size', 'variants.color']);
         });
+
+        if ($oldImage !== null && $oldImage !== '') {
+            $this->deleteImage($oldImage);
+        }
+
+        return $result;
     }
 
     public function delete(Product $product): bool
     {
-        return (bool) $product->delete();
+        $image = $product->getRawOriginal('image');
+
+        $deleted = DB::transaction(static fn (): bool => (bool) $product->delete());
+
+        if ($deleted && $image !== null && $image !== '') {
+            $this->deleteImage($image);
+        }
+
+        return $deleted;
     }
 
-    public function stats(int $limit = 3): array
+    public function stats(int $limit = 3, int $windowDays = 30): array
     {
+        $since = now()->subDays($windowDays);
+
         $topSelling = Product::query()
-            ->withCount('orders')
+            ->withCount(['orders as orders_count' => fn ($q) => $q->where('order_items.created_at', '>=', $since)])
             ->orderByDesc('orders_count')
             ->take($limit)
             ->get();
@@ -85,44 +112,64 @@ final readonly class ProductService
      */
     private function replaceVariants(Product $product, DataCollection $variants): void
     {
-        $incoming = collect($variants->toCollection())->keyBy(
-            fn (ProductVariantDto $v) => sprintf("%d:%d", $v->sizeId, $v->colorId)
-        );
+        $existingAll = $product->variants()
+            ->withTrashed()
+            ->lockForUpdate()
+            ->get();
 
-        $idsToDelete = [];
+        $existingActive = $existingAll
+            ->whereNull('deleted_at')
+            ->keyBy(fn (ProductVariant $v) => sprintf('%d:%d', $v->size_id, $v->color_id));
 
-        foreach ($product->variants as $existing) {
-            $key =  sprintf("%d:%d", $existing->size_id, $existing->color_id);
+        $now = now();
 
-            if ($incoming->has($key)) {
-                /** @var ProductVariantDto $dto */
-                $dto = $incoming->pull($key);
-                $existing->update(['stock' => $dto->stock, 'sku' => $dto->sku]);
-            } else {
-                $idsToDelete[] = $existing->id;
-            }
+        $rows = collect($variants->toCollection())
+            ->map(fn (ProductVariantDto $v): array => [
+                'product_id' => $product->id,
+                'size_id'    => $v->sizeId,
+                'color_id'   => $v->colorId,
+                'stock'      => $v->stock,
+                'sku'        => $v->sku,
+                'is_active'  => true,
+                'deleted_at' => null,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ])
+            ->all();
+
+        $incomingKeys = collect($rows)
+            ->map(fn (array $r): string => sprintf('%d:%d', $r['size_id'], $r['color_id']))
+            ->all();
+
+        if ($rows !== []) {
+            ProductVariant::query()->upsert(
+                $rows,
+                ['product_id', 'size_id', 'color_id'],
+                ['stock', 'sku', 'is_active', 'deleted_at', 'updated_at']
+            );
         }
 
-        foreach ($incoming as $dto) {
-            $product->variants()->create([
-                'size_id' => $dto->sizeId,
-                'color_id' => $dto->colorId,
-                'stock' => $dto->stock,
-                'sku' => $dto->sku,
-            ]);
-        }
+        $toSoftDelete = $existingActive
+            ->reject(fn (ProductVariant $v, string $key): bool => in_array($key, $incomingKeys, true))
+            ->pluck('id')
+            ->all();
 
-        ProductVariant::destroy($idsToDelete);
+        if ($toSoftDelete !== []) {
+            ProductVariant::query()->whereIn('id', $toSoftDelete)->delete();
+        }
     }
 
     private function storeImage(UploadedFile $image): string
     {
-        $completeFileName = $image->getClientOriginalName();
-        $fileNameOnly = pathinfo($completeFileName, PATHINFO_FILENAME);
         $extension = $image->getClientOriginalExtension();
-        $newName = sprintf('%s_%s.%s', now()->timestamp, $fileNameOnly, $extension);
+        $newName = sprintf('%s_%s.%s', now()->timestamp, Str::random(16), $extension);
         $image->storeAs('public/products', $newName);
 
         return $newName;
+    }
+
+    private function deleteImage(string $filename): void
+    {
+        Storage::disk('public')->delete('products/' . $filename);
     }
 }

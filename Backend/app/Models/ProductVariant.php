@@ -4,12 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @mixin IdeHelperProductVariant
  */
 class ProductVariant extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'product_variants';
 
     protected $fillable = [
@@ -18,11 +21,18 @@ class ProductVariant extends Model
         'color_id',
         'stock',
         'sku',
+        'is_active',
     ];
 
     protected $casts = [
-        'stock' => 'integer',
+        'stock'     => 'integer',
+        'is_active' => 'boolean',
     ];
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
 
     public function product(): BelongsTo
     {

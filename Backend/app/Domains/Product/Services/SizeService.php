@@ -21,9 +21,4 @@ final readonly class SizeService
             fn (): Collection => Size::all()
         );
     }
-
-    public function flush(): void
-    {
-        Cache::forget(self::CACHE_KEY);
-    }
 }

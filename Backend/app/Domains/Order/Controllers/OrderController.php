@@ -22,7 +22,6 @@ class OrderController extends Controller
     public function create(Request $request): JsonResponse
     {
         $response = $this->orderService->create(CreateOrderDto::from($request));
-
         return $this->sendResponse(OrderResource::from($response));
     }
 

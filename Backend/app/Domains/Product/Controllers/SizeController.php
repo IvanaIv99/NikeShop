@@ -18,6 +18,9 @@ final class SizeController extends Controller
 
     public function index(): JsonResponse
     {
-        return $this->sendResponse(SizeResource::collect($this->service->all()));
+        $response = $this->service->all();
+        return $this->sendResponse(
+            SizeResource::collect($response)
+        );
     }
 }
