@@ -1,0 +1,1383 @@
+// ============================================================
+//  Customer storefront — Home / Shop / Cart
+//  Uses the same Operator Terminal tokens, adapted for retail.
+// ============================================================
+
+:root {
+  --c-bg:        #070708;
+  --c-surface:   #0e0f10;
+  --c-surface-2: #0a0b0c;
+  --c-line:      #181a1c;
+  --c-line-2:    #131517;
+  --c-text:      #fafafa;
+  --c-text-2:    #dcdcdc;
+  --c-muted:     #a8abb0;
+  --c-muted-2:   #6a6d72;
+  --c-muted-3:   #5a5d61;
+  --c-accent:    #03a68b;
+  --c-accent-glow: rgba(3, 166, 139, .16);
+  --c-danger:    #e0667a;
+  --c-warn:      #e0a866;
+}
+
+// ------------------------------------------------------------
+//  Body scope — only apply inside the customer layout
+// ------------------------------------------------------------
+body.tm-customer {
+  background: var(--c-bg) !important;
+  color: var(--c-text-2) !important;
+  font-family: 'Geist', system-ui, -apple-system, sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'ss01', 'cv11';
+}
+
+body.tm-customer html::after { display: none !important; } // hide the leftover #19191a banner from the base shell
+
+// ------------------------------------------------------------
+//  Nike swoosh — CSS-only, two rotated rounded shapes
+// ------------------------------------------------------------
+.nike-swoosh {
+  --sw-fg: currentColor;
+  --sw-bg: var(--c-bg);
+  position: relative;
+  display: inline-block;
+  width: 70px;
+  aspect-ratio: 14 / 5;
+  overflow: hidden;
+  vertical-align: middle;
+
+  &::before, &::after { content: ""; position: absolute; }
+
+  &::before {
+    background: var(--sw-fg);
+    width: 37%; height: 550%;
+    bottom: -134%; left: 70.5%;
+    border-top-left-radius: 48% 17%;
+    border-top-right-radius: 120% 40%;
+    transform: rotate(-113deg);
+    z-index: 1;
+  }
+  &::after {
+    background: var(--sw-bg);
+    width: 30%; height: 400%;
+    bottom: -73%; left: 64%;
+    border-top-left-radius: 64% 14%;
+    border-top-right-radius: 125% 46%;
+    transform: rotate(-105deg);
+    z-index: 2;
+  }
+}
+
+// ------------------------------------------------------------
+//  Top nav (customer)
+// ------------------------------------------------------------
+.cu-nav {
+  display: flex;
+  align-items: center;
+  padding: 16px 32px;
+  border-bottom: 1px solid var(--c-line);
+  gap: 28px;
+  background: rgba(7, 7, 8, .92);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none !important;
+    color: inherit;
+
+    .sq {
+      width: 30px;
+      height: 30px;
+      background: var(--c-accent);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .sq .nike-swoosh { width: 20px; --sw-fg: #000; --sw-bg: var(--c-accent); }
+
+    .nm {
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: -.01em;
+      color: var(--c-text);
+      line-height: 1.1;
+      small {
+        display: block;
+        font-family: 'Geist Mono', monospace;
+        font-size: 9.5px;
+        color: var(--c-muted-2);
+        letter-spacing: .16em;
+        font-weight: 400;
+        text-transform: uppercase;
+        margin-top: 2px;
+      }
+    }
+  }
+
+  .links {
+    display: flex;
+    gap: 4px;
+    margin-left: 12px;
+
+    a {
+      padding: 8px 14px;
+      font-size: 13px;
+      color: var(--c-muted);
+      letter-spacing: -.003em;
+      border-radius: 5px;
+      transition: .16s;
+      position: relative;
+      text-decoration: none !important;
+
+      &:hover { color: var(--c-text); }
+      &.active { color: var(--c-text); }
+      &.active::after {
+        content: "";
+        position: absolute;
+        left: 14px; right: 14px;
+        bottom: 2px;
+        height: 1px;
+        background: var(--c-accent);
+      }
+    }
+  }
+
+  .right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 11px;
+    border: 1px solid var(--c-line);
+    border-radius: 6px;
+    background: var(--c-surface);
+    color: var(--c-muted-2);
+    font-size: 12px;
+    cursor: pointer;
+    transition: .16s;
+    min-width: 240px;
+
+    &:hover { border-color: #2a2d31; color: var(--c-muted); }
+    svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 1.6; fill: none; }
+    .kbd {
+      margin-left: auto;
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      color: var(--c-muted-2);
+      border: 1px solid var(--c-line);
+      padding: 1px 5px;
+      border-radius: 3px;
+      background: var(--c-surface-2);
+    }
+  }
+
+  .iconbtn {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--c-line);
+    border-radius: 6px;
+    background: var(--c-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--c-muted);
+    position: relative;
+    cursor: pointer;
+    text-decoration: none !important;
+    transition: .16s;
+
+    svg, mat-icon { font-size: 16px; width: 16px; height: 16px; line-height: 16px; }
+    svg { stroke: currentColor; stroke-width: 1.6; fill: none; }
+    &:hover { color: var(--c-text); border-color: #2a2d31; }
+
+    &.bag .ct {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 5px;
+      background: var(--c-accent);
+      color: #000;
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--c-bg);
+    }
+  }
+}
+
+// ------------------------------------------------------------
+//  Buttons / mtag / chips
+// ------------------------------------------------------------
+.cu-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Geist', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 13px 22px;
+  border: 1px solid var(--c-line);
+  border-radius: 6px;
+  background: var(--c-surface);
+  color: var(--c-text);
+  letter-spacing: -.003em;
+  text-decoration: none !important;
+  transition: .16s;
+  cursor: pointer;
+
+  &:hover { border-color: #2a2d31; }
+  &.pri {
+    background: var(--c-accent);
+    color: #000;
+    border-color: var(--c-accent);
+    font-weight: 600;
+    &:hover { background: darken(#03a68b, 4%); border-color: darken(#03a68b, 4%); color: #000; }
+  }
+  &:disabled { opacity: .55; cursor: not-allowed; }
+
+  .kbd {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    color: var(--c-muted-2);
+    border: 1px solid var(--c-line);
+    padding: 1px 5px;
+    border-radius: 3px;
+    background: var(--c-surface-2);
+  }
+  &.pri .kbd { color: #0a4a3d; border-color: rgba(0, 0, 0, .25); background: rgba(0, 0, 0, .12); }
+}
+
+.cu-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--c-text-2);
+  padding: 13px 4px;
+  font-family: 'Geist', sans-serif;
+  letter-spacing: -.003em;
+  transition: .16s;
+  cursor: pointer;
+  text-decoration: none !important;
+
+  .arrow { transition: transform .18s; }
+  &:hover { color: var(--c-accent); }
+  &:hover .arrow { transform: translateX(4px); }
+}
+
+.cu-mtag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .16em;
+  color: var(--c-accent);
+  text-transform: uppercase;
+  padding: 6px 11px;
+  background: var(--c-accent-glow);
+  border: 1px solid rgba(3, 166, 139, .32);
+  border-radius: 999px;
+
+  .pulse {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--c-accent);
+    box-shadow: 0 0 0 3px rgba(3, 166, 139, .18);
+    animation: cu-pulse 1.8s ease-in-out infinite;
+  }
+}
+@keyframes cu-pulse {
+  50%      { box-shadow: 0 0 0 7px rgba(3, 166, 139, 0); }
+  0%, 100% { box-shadow: 0 0 0 0   rgba(3, 166, 139, .5); }
+}
+
+.cu-stockdot {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 10.5px;
+  color: var(--c-muted);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+
+  &::before {
+    content: "";
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--c-accent);
+    box-shadow: 0 0 0 2px rgba(3, 166, 139, .2);
+  }
+  &.low::before { background: var(--c-warn); box-shadow: 0 0 0 2px rgba(224, 168, 102, .22); }
+  &.out::before { background: var(--c-muted-3); box-shadow: 0 0 0 2px rgba(90, 93, 97, .22); }
+  &.out { color: var(--c-muted-3); }
+}
+
+// ------------------------------------------------------------
+//  Home — hero + featured strip
+// ------------------------------------------------------------
+.cu-hero {
+  padding: 64px 56px 88px;
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: -80px; top: 80px;
+    width: 280px; height: 280px;
+    background: radial-gradient(circle, rgba(255, 255, 255, .03), transparent 65%);
+    pointer-events: none;
+  }
+}
+
+.cu-hero-bg-swoosh {
+  position: absolute;
+  right: -40px; top: -20px;
+  width: 620px;
+  transform: rotate(-12deg);
+  opacity: .18;
+  pointer-events: none;
+  z-index: 0;
+  --sw-fg: var(--c-accent);
+  --sw-bg: var(--c-bg);
+}
+
+.cu-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 56px;
+  align-items: center;
+  max-width: 1340px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.cu-hero-text {
+  h1 {
+    font-family: 'Geist', sans-serif;
+    font-size: 64px;
+    font-weight: 600;
+    line-height: .98;
+    letter-spacing: -.024em;
+    color: var(--c-text);
+    margin: 22px 0 22px;
+    max-width: 560px;
+
+    .accent { color: var(--c-accent); font-weight: 500; }
+    .cu-sw-stamp {
+      display: inline-block;
+      width: 96px;
+      margin-left: 14px;
+      vertical-align: -6px;
+      --sw-fg: var(--c-accent);
+      --sw-bg: var(--c-bg);
+    }
+  }
+  .tagline {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--c-muted);
+    max-width: 480px;
+    margin: 0 0 32px;
+    letter-spacing: -.003em;
+  }
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+}
+
+.cu-hero-stage {
+  position: relative;
+  aspect-ratio: 1.05 / 1;
+  background: radial-gradient(ellipse at 50% 38%, #161718 0%, #0a0b0c 55%, var(--c-bg) 100%);
+  border: 1px solid var(--c-line);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 8%; right: 8%;
+    bottom: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--c-line) 30%, var(--c-line) 70%, transparent);
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    left: 50%; top: 42%;
+    transform: translate(-50%, -50%);
+    width: 78%; height: 46%;
+    background: radial-gradient(ellipse, rgba(3, 166, 139, .06), transparent 65%);
+    pointer-events: none;
+  }
+
+  img, svg {
+    width: 78%;
+    height: auto;
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.cu-strip {
+  padding: 24px 56px 64px;
+  max-width: 1340px;
+  margin: 0 auto;
+}
+.cu-strip-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  margin-bottom: 24px;
+
+  .mlabel {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .2em;
+    color: var(--c-accent);
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  h2 {
+    font-family: 'Geist', sans-serif;
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: -.018em;
+    color: var(--c-text);
+    margin: 0;
+    line-height: 1;
+  }
+  .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: var(--c-muted);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    text-decoration: none !important;
+
+    .arrow { transition: transform .18s; }
+    &:hover { color: var(--c-accent); }
+    &:hover .arrow { transform: translateX(4px); }
+  }
+}
+
+// ------------------------------------------------------------
+//  Product card (used on home + shop)
+// ------------------------------------------------------------
+.cu-pcard {
+  background: var(--c-surface);
+  border: 1px solid var(--c-line);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: .2s ease;
+  position: relative;
+  text-decoration: none !important;
+  color: inherit;
+
+  &:hover { border-color: #2a2d31; transform: translateY(-3px); }
+
+  .stage {
+    aspect-ratio: 5 / 4;
+    background: radial-gradient(ellipse at 50% 38%, #161718 0%, #0a0b0c 55%, var(--c-surface-2) 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--c-line);
+    overflow: hidden;
+    padding: 14px;
+
+    img {
+      max-width: 76%;
+      max-height: 78%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    .ribbon {
+      position: absolute;
+      top: 12px; left: 12px;
+      font-family: 'Geist Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: .18em;
+      color: var(--c-accent);
+      text-transform: uppercase;
+      background: var(--c-accent-glow);
+      border: 1px solid rgba(3, 166, 139, .32);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .hover-hint {
+      position: absolute;
+      right: 12px; bottom: 12px;
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      color: var(--c-muted-2);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      border: 1px solid var(--c-line);
+      background: rgba(10, 11, 12, .78);
+      padding: 4px 9px;
+      border-radius: 4px;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: .2s;
+
+      .kbd { font-weight: 600; color: var(--c-accent); }
+    }
+  }
+  &:hover .stage .hover-hint { opacity: 1; transform: translateY(0); }
+
+  .info {
+    padding: 14px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    .sku {
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      color: var(--c-muted-2);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .row1 {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 14px;
+    }
+    .nm {
+      font-family: 'Geist', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--c-text);
+      letter-spacing: -.005em;
+      line-height: 1.3;
+
+      small {
+        display: block;
+        color: var(--c-muted-2);
+        font-weight: 400;
+        font-size: 12px;
+        margin-top: 2px;
+        letter-spacing: -.003em;
+      }
+    }
+    .price {
+      font-family: 'Geist Mono', monospace;
+      font-size: 14px;
+      color: var(--c-text);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .row2 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+      padding-top: 10px;
+      border-top: 1px solid var(--c-line-2);
+    }
+    .colors {
+      display: flex;
+      gap: 5px;
+      i {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, .16);
+      }
+    }
+  }
+}
+
+// ------------------------------------------------------------
+//  Shop — page header + filter bar + grid + pagination
+// ------------------------------------------------------------
+.cu-shop-head {
+  padding: 36px 32px 18px;
+  border-bottom: 1px solid var(--c-line);
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 28px;
+
+  .mlabel {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .2em;
+    color: var(--c-accent);
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-family: 'Geist', sans-serif;
+    font-size: 34px;
+    font-weight: 500;
+    letter-spacing: -.02em;
+    color: var(--c-text);
+    margin: 0;
+    line-height: 1;
+
+    .count {
+      font-family: 'Geist Mono', monospace;
+      font-size: 14px;
+      color: var(--c-muted);
+      letter-spacing: .04em;
+      font-weight: 400;
+      margin-left: 14px;
+      vertical-align: 5px;
+    }
+  }
+  .sort {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: var(--c-muted);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    b { color: var(--c-text); font-weight: 500; }
+  }
+}
+
+.cu-shop-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border-bottom: 1px solid var(--c-line);
+  background: var(--c-surface-2);
+  flex-wrap: wrap;
+
+  .lbl {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .18em;
+    color: var(--c-muted-3);
+    text-transform: uppercase;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: 4px;
+    &::before { content: "//"; color: var(--c-accent); }
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 10.5px;
+    color: var(--c-muted);
+    padding: 6px 11px;
+    border: 1px solid var(--c-line);
+    border-radius: 4px;
+    background: var(--c-surface);
+    cursor: pointer;
+    text-transform: lowercase;
+    letter-spacing: .02em;
+    transition: .16s;
+
+    &:hover { color: var(--c-text); border-color: #2a2d31; }
+    &.on {
+      color: var(--c-accent);
+      border-color: rgba(3, 166, 139, .32);
+      background: var(--c-accent-glow);
+    }
+    b { color: var(--c-text); font-weight: 600; }
+    &.on b { color: var(--c-accent); }
+  }
+
+  .sep { width: 1px; height: 18px; background: var(--c-line); margin: 0 6px; }
+
+  .right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .cu-search-input {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border: 1px solid var(--c-line);
+    border-radius: 4px;
+    background: var(--c-surface);
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: var(--c-muted);
+    min-width: 240px;
+
+    svg { width: 12px; height: 12px; stroke: currentColor; stroke-width: 1.6; fill: none; flex-shrink: 0; }
+    input {
+      flex: 1;
+      background: transparent;
+      border: 0;
+      outline: none;
+      color: var(--c-text);
+      font: inherit;
+      padding: 0;
+      min-width: 0;
+    }
+    input::placeholder { color: var(--c-muted-2); }
+  }
+}
+
+.cu-shop-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  padding: 24px 32px 32px;
+
+  @media (max-width: 1100px) { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 820px)  { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 560px)  { grid-template-columns: 1fr; }
+}
+
+// ------------------------------------------------------------
+//  Product card variant picker (used inside expanded card / detail)
+// ------------------------------------------------------------
+.cu-pcard-pickers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0 16px 14px;
+  border-top: 1px solid var(--c-line-2);
+  margin-top: 6px;
+  padding-top: 12px;
+
+  .group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .lbl {
+      font-family: 'Geist Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: .14em;
+      color: var(--c-muted-2);
+      text-transform: uppercase;
+    }
+    .opts { display: flex; flex-wrap: wrap; gap: 5px; }
+
+    .size-pill {
+      font-family: 'Geist Mono', monospace;
+      font-size: 10.5px;
+      letter-spacing: .04em;
+      color: var(--c-text-2);
+      padding: 4px 8px;
+      border: 1px solid var(--c-line);
+      border-radius: 4px;
+      background: var(--c-surface-2);
+      cursor: pointer;
+      &:hover { border-color: #2a2d31; }
+      &.on { color: #000; background: var(--c-accent); border-color: var(--c-accent); font-weight: 600; }
+      &.disabled { opacity: .35; cursor: not-allowed; pointer-events: none; }
+    }
+    .color-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, .18);
+      cursor: pointer;
+      transition: outline .12s;
+      &.on { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+      &.disabled { opacity: .35; cursor: not-allowed; pointer-events: none; }
+    }
+  }
+}
+
+.cu-pcard-cta {
+  padding: 0 16px 16px;
+  display: flex;
+  gap: 10px;
+
+  .add {
+    flex: 1;
+    background: var(--c-accent);
+    color: #000;
+    font-family: 'Geist', sans-serif;
+    font-weight: 600;
+    font-size: 12.5px;
+    padding: 9px;
+    border-radius: 5px;
+    letter-spacing: -.003em;
+    cursor: pointer;
+    border: 0;
+    transition: .16s;
+
+    &:hover:not(:disabled) { background: #04bb9d; }
+    &:disabled { background: var(--c-line); color: var(--c-muted-2); cursor: not-allowed; }
+  }
+}
+
+// ------------------------------------------------------------
+//  Cart — items list + sticky summary
+// ------------------------------------------------------------
+.cu-cart-head {
+  padding: 32px 32px 18px;
+  border-bottom: 1px solid var(--c-line);
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+
+  .mlabel {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .2em;
+    color: var(--c-accent);
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-family: 'Geist', sans-serif;
+    font-size: 34px;
+    font-weight: 500;
+    letter-spacing: -.02em;
+    color: var(--c-text);
+    margin: 0;
+    line-height: 1;
+    .count {
+      font-family: 'Geist Mono', monospace;
+      font-size: 14px;
+      color: var(--c-muted);
+      letter-spacing: .04em;
+      font-weight: 400;
+      margin-left: 14px;
+      vertical-align: 5px;
+    }
+  }
+  .actions { display: flex; gap: 10px; }
+}
+
+.cu-cart-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 24px;
+  padding: 24px 32px 56px;
+  align-items: start;
+
+  @media (max-width: 1000px) { grid-template-columns: 1fr; }
+}
+
+.cu-cart-items {
+  background: var(--c-surface);
+  border: 1px solid var(--c-line);
+  border-radius: 10px;
+  overflow: hidden;
+
+  .head {
+    display: grid;
+    grid-template-columns: 80px 1.4fr 100px 90px 78px 32px;
+    align-items: center;
+    padding: 12px 18px;
+    background: var(--c-surface-2);
+    border-bottom: 1px solid var(--c-line);
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .16em;
+    color: var(--c-muted-2);
+    text-transform: uppercase;
+    font-weight: 500;
+    gap: 14px;
+  }
+
+  .empty {
+    padding: 64px 24px;
+    text-align: center;
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    color: var(--c-muted-2);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    a { color: var(--c-accent); text-decoration: none; }
+  }
+}
+
+.cu-cart-row {
+  display: grid;
+  grid-template-columns: 80px 1.4fr 100px 90px 78px 32px;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  border-bottom: 1px solid var(--c-line-2);
+
+  &:hover { background: var(--c-line-2); }
+  &:last-of-type { border-bottom: 0; }
+
+  .thumb {
+    aspect-ratio: 1.05 / 1;
+    background: radial-gradient(ellipse at 50% 40%, #161718, var(--c-surface-2));
+    border: 1px solid var(--c-line);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 6px;
+
+    img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  }
+  .meta {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+
+    .nm {
+      font-family: 'Geist', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--c-text);
+      letter-spacing: -.005em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .var {
+      display: flex;
+      gap: 14px;
+      font-family: 'Geist Mono', monospace;
+      font-size: 10.5px;
+      letter-spacing: .04em;
+      color: var(--c-muted);
+      b { color: var(--c-text); font-weight: 500; margin-left: 4px; }
+    }
+    .unit-sm {
+      display: none;
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      color: var(--c-muted);
+      margin-top: 2px;
+    }
+  }
+  .unit {
+    font-family: 'Geist Mono', monospace;
+    font-size: 12.5px;
+    color: var(--c-muted);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+  .ttl {
+    font-family: 'Geist Mono', monospace;
+    font-size: 13.5px;
+    color: var(--c-text);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    font-weight: 500;
+  }
+  .x {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 5px;
+    color: var(--c-muted-3);
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    &:hover { background: var(--c-line-2); color: var(--c-danger); }
+    svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 1.8; fill: none; }
+  }
+}
+
+.cu-qstep {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--c-line);
+  border-radius: 6px;
+  background: var(--c-surface-2);
+  height: 32px;
+  overflow: hidden;
+
+  .qbtn {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--c-muted);
+    cursor: pointer;
+    font-family: 'Geist Mono', monospace;
+    font-size: 14px;
+    background: transparent;
+    border: 0;
+    &:hover { color: var(--c-text); background: var(--c-line-2); }
+    &:disabled { color: var(--c-muted-3); cursor: not-allowed; }
+  }
+  .qval {
+    width: 36px;
+    text-align: center;
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    color: var(--c-text);
+    font-variant-numeric: tabular-nums;
+    border-left: 1px solid var(--c-line);
+    border-right: 1px solid var(--c-line);
+    line-height: 30px;
+    height: 30px;
+  }
+}
+
+.cu-cart-summary {
+  background: var(--c-surface);
+  border: 1px solid var(--c-line);
+  border-radius: 10px;
+  padding: 22px;
+  position: sticky;
+  top: 96px;
+
+  .shead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--c-line);
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+
+    .lbl {
+      font-family: 'Geist Mono', monospace;
+      font-size: 10.5px;
+      letter-spacing: .2em;
+      color: var(--c-accent);
+      text-transform: uppercase;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      &::before { content: "//"; color: var(--c-accent); }
+    }
+    .est {
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      color: var(--c-muted-2);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+  }
+
+  .ln {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    color: var(--c-muted);
+    letter-spacing: .02em;
+
+    .k small {
+      font-family: 'Geist Mono', monospace;
+      font-size: 9.5px;
+      color: var(--c-muted-3);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-left: 6px;
+    }
+    .v { color: var(--c-text); font-variant-numeric: tabular-nums; }
+    .v.free { color: var(--c-accent); }
+  }
+
+  .grand {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    padding: 18px 0 8px;
+    border-top: 1px solid var(--c-line);
+    margin-top: 14px;
+
+    .k {
+      font-family: 'Geist', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--c-text);
+      letter-spacing: -.005em;
+      small {
+        display: block;
+        font-family: 'Geist Mono', monospace;
+        font-size: 9.5px;
+        color: var(--c-muted-2);
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        font-weight: 400;
+        margin-top: 2px;
+      }
+    }
+    .v {
+      font-family: 'Geist', sans-serif;
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--c-text);
+      letter-spacing: -.022em;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      sup {
+        font-family: 'Geist Mono', monospace;
+        font-size: 14px;
+        color: var(--c-accent);
+        vertical-align: top;
+        font-weight: 500;
+        position: relative;
+        top: 4px;
+        margin-right: 2px;
+        letter-spacing: 0;
+      }
+    }
+  }
+
+  .checkout {
+    width: 100%;
+    background: var(--c-accent);
+    color: #000;
+    font-family: 'Geist', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 16px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 18px;
+    cursor: pointer;
+    letter-spacing: -.003em;
+    transition: .16s;
+    border: 0;
+    text-decoration: none !important;
+
+    &:hover { background: #04bb9d; }
+    &:disabled { opacity: .55; cursor: not-allowed; }
+    .kbd {
+      font-family: 'Geist Mono', monospace;
+      font-size: 10.5px;
+      color: #0a4a3d;
+      border: 1px solid rgba(0, 0, 0, .25);
+      background: rgba(0, 0, 0, .12);
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-weight: 500;
+    }
+  }
+
+  .trust {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 16px;
+
+    .t {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border: 1px solid var(--c-line);
+      border-radius: 5px;
+      background: var(--c-surface-2);
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      color: var(--c-muted);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+
+      svg { width: 12px; height: 12px; stroke: var(--c-accent); stroke-width: 1.6; fill: none; flex-shrink: 0; }
+      b { color: var(--c-text); font-weight: 500; margin-right: 3px; }
+    }
+  }
+}
+
+// ------------------------------------------------------------
+//  Footer
+// ------------------------------------------------------------
+.cu-foot {
+  background: var(--c-surface-2);
+  border-top: 1px solid var(--c-line);
+  padding: 0;
+  margin-top: 24px;
+}
+
+.cu-foot-signup {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 32px;
+  border-bottom: 1px solid var(--c-line);
+
+  .sl { max-width: 480px; }
+  .mlabel {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .22em;
+    color: var(--c-accent);
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  h4 {
+    font-family: 'Geist', sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -.014em;
+    color: var(--c-text);
+    margin: 0 0 6px;
+    line-height: 1.2;
+  }
+  p {
+    font-size: 13px;
+    color: var(--c-muted);
+    margin: 0;
+    letter-spacing: -.003em;
+  }
+
+  .form { display: flex; gap: 8px; flex: 0 0 360px; }
+  input {
+    flex: 1;
+    background: var(--c-surface);
+    border: 1px solid var(--c-line);
+    border-radius: 6px;
+    padding: 12px 14px;
+    font-family: 'Geist', sans-serif;
+    font-size: 13px;
+    color: var(--c-text);
+    outline: none;
+    letter-spacing: -.003em;
+    &::placeholder { color: var(--c-muted-2); }
+    &:focus { border-color: var(--c-accent); box-shadow: 0 0 0 3px rgba(3, 166, 139, .12); }
+  }
+  .go {
+    padding: 0 18px;
+    background: var(--c-accent);
+    color: #000;
+    border: 0;
+    border-radius: 6px;
+    font-family: 'Geist', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    &:hover { background: #04bb9d; }
+    svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 2; fill: none; }
+  }
+}
+
+.cu-foot-cols {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding: 42px 32px;
+  align-items: start;
+
+  .brand {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    .sq {
+      width: 42px;
+      height: 42px;
+      background: var(--c-accent);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .sq .nike-swoosh { width: 28px; --sw-fg: #000; --sw-bg: var(--c-accent); }
+    .desc {
+      font-size: 13px;
+      color: var(--c-muted);
+      line-height: 1.6;
+      max-width: 280px;
+    }
+  }
+
+  .col h5 {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: .22em;
+    color: var(--c-muted-2);
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: 0 0 18px;
+  }
+  .col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .col a {
+    font-size: 13px;
+    color: var(--c-text-2);
+    letter-spacing: -.003em;
+    text-decoration: none;
+    cursor: pointer;
+    &:hover { color: var(--c-accent); }
+  }
+}
+
+.cu-foot-bot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 32px;
+  border-top: 1px solid var(--c-line);
+  font-family: 'Geist Mono', monospace;
+  font-size: 10.5px;
+  color: var(--c-muted-2);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+
+  .left { display: flex; align-items: center; gap: 18px; b { color: var(--c-text); font-weight: 500; } }
+  .right { display: flex; gap: 18px; a { text-decoration: none; cursor: pointer; &:hover { color: var(--c-accent); } } }
+}
