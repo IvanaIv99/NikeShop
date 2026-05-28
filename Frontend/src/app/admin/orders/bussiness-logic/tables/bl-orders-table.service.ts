@@ -16,7 +16,7 @@ export class BlOrdersTableService {
       index: "fullname",
       title: "Customer",
       type: ColumnType.concatText,
-      values: ['first_name', 'last_name']
+      values: ['firstName', 'lastName']
     },
     {
       index: "email",
@@ -31,7 +31,7 @@ export class BlOrdersTableService {
       title: "Status"
     },
     {
-      index: "created_at",
+      index: "createdAt",
       title: "Created",
       type: ColumnType.date
     },

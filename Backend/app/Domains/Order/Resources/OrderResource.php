@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domains\Order\Resources;
 
+use App\Domains\Order\Enums\OrderStatus;
 use App\Http\Data\BaseData;
 use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\DataCollection;
@@ -22,7 +23,7 @@ final class OrderResource extends BaseData
         public readonly ?string $additional,
         public readonly string $paymentMethod,
         public readonly string $subtotal,
-        public readonly string $status,
+        public readonly OrderStatus $status,
         public readonly string $createdAt,
         public readonly string $updatedAt,
         #[DataCollectionOf(OrderItemResource::class)]

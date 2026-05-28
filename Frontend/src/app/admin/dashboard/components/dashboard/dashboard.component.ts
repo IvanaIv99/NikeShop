@@ -91,7 +91,7 @@ export class DashboardComponent implements OnInit {
         : this.bucketsByWeek(12);
 
     for (const o of this.orders) {
-      const placed = new Date(o.created_at);
+      const placed = new Date(o.createdAt);
       if (isNaN(placed.getTime())) continue;
       const idx = this.findBucketIndex(buckets, placed);
       if (idx >= 0) {
@@ -207,15 +207,14 @@ export class DashboardComponent implements OnInit {
   }
 
   private buildActivity(orders: IOrder[]): void {
-    const sorted = [...orders].sort((a, b) => +new Date(b.created_at) - +new Date(a.created_at));
+    const sorted = [...orders].sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));
     this.activity = sorted.slice(0, 6).map(o => {
-      const raw = o as any;
-      const first = raw.firstName ?? raw.first_name ?? '';
-      const last = raw.lastName ?? raw.last_name ?? '';
-      const subtotal = raw.subtotal ?? '0';
-      const customer = (first || last) ? `${first} ${last}`.trim() : (raw.email ?? 'customer');
+      const first = o.firstName ?? '';
+      const last = o.lastName ?? '';
+      const subtotal = o.subtotal ?? '0';
+      const customer = (first || last) ? `${first} ${last}`.trim() : (o.email ?? 'customer');
       return {
-        ts: this.formatActivityTime(new Date(o.created_at)),
+        ts: this.formatActivityTime(new Date(o.createdAt)),
         title: `Order #ORD-${o.id} · ${customer}`,
         subtitle: `$${subtotal} · ${o.status}`,
         tag: this.tagFor(o.status as unknown as string)

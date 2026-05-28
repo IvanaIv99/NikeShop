@@ -1,82 +1,60 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domains\Order\Controllers;
 
+use App\Domains\Order\Dto\ChangeOrderStatusDto;
 use App\Domains\Order\Dto\CreateOrderDto;
 use App\Domains\Order\Resources\OrderResource;
 use App\Domains\Order\Services\OrderService;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class OrderController extends Controller
+final class OrderController extends Controller
 {
     public function __construct(
-        public readonly OrderService $orderService
+        private readonly OrderService $orderService
     ) {
     }
 
-    public function create(Request $request): JsonResponse
+    public function index(): JsonResponse
+    {
+        $response = $this->orderService->list();
+        return $this->sendResponse(
+            OrderResource::collect($response)
+        );
+    }
+
+    public function show(Order $order): JsonResponse
+    {
+        $response = $this->orderService->find($order);
+        return $this->sendResponse(OrderResource::from($response));
+    }
+
+    public function store(Request $request): JsonResponse
     {
         $response = $this->orderService->create(CreateOrderDto::from($request));
         return $this->sendResponse(OrderResource::from($response));
     }
 
-    public function get(Request $request): JsonResponse
+    public function changeStatus(Order $order, ChangeOrderStatusDto $dto): JsonResponse
     {
-        $orders = Order::query()->orderBy('created_at', 'desc')->get();
-        return response()->json(['data' => $orders]);
+        $response = $this->orderService->changeStatus($order, $dto);
+        return $this->sendResponse(OrderResource::from($response));
     }
 
-    public function getOne(Order $order, Request $request): JsonResponse
+    public function todayStats(): JsonResponse
     {
-        $order = $order->load('orderItems');
-        return response()->json(['data' => OrderResource::from($order)]);
+        $response = $this->orderService->todayStats();
+        return $this->sendResponse($response);
     }
 
-    public function changeStatus(Order $order, Request $request): JsonResponse
+    public function downloadPdf(Order $order, Request $request): Response
     {
-        $newStatus = $request->get('status');
-        $order->status = $newStatus;
-        $order->save();
-
-        $order = $order->fresh()->load('orderItems');
-        return response()->json(['data' => OrderResource::from($order)]);
+        return $this->orderService->slipResponse($order);
     }
-
-    public function slip(Order $order, Request $request): Response
-    {
-        $order->load('orderItems');
-
-        $pdf = Pdf::loadView('orders.slip', [
-            'order' => $order,
-            'paymentMethod' => $order->payment_method ?? 'n/a',
-        ])->setPaper('a4');
-
-        $filename = 'order-' . $order->id . '-slip.pdf';
-        $disposition = $request->boolean('download', true) ? 'attachment' : 'inline';
-
-        return response($pdf->output(), 200, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => $disposition . '; filename="' . $filename . '"',
-        ]);
-    }
-
-    public function getTodayStats(Request $request): JsonResponse
-    {
-        $orders = Order::query()->whereDay('created_at', '=', now())->get();
-
-        return response()->json([
-            'data' => [
-                'orders_count' => $orders->count(),
-                'revenue' => $orders->sum('subtotal'),
-                'shipped' => $orders->filter(fn (Order $order) => $order->status === 'shipped')->count(),
-                'received' => $orders->filter(fn (Order $order) => $order->status === 'received')->count(),
-            ]
-        ]);
-    }
-
 }

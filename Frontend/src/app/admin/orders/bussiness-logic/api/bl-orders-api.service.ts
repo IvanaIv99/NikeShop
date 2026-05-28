@@ -35,8 +35,8 @@ export class BlOrdersApiService {
     return this.webApiService.get<ITodayStats>(url);
   }
 
-  public downloadSlip(id: number): Observable<Blob> {
-    let url = `${environment.apiUrl}/orders/${id}/slip`;
+  public downloadPdf(id: number): Observable<Blob> {
+    let url = `${environment.apiUrl}/orders/${id}/pdf`;
     return this.http.get(url, { responseType: 'blob' });
   }
 

@@ -7,7 +7,7 @@
         <div class="ps-sub">Packing slip · {{ order.id ? '#ORD-' + order.id : '' }}</div>
       </div>
       <div class="ps-meta">
-        <div><b>Date</b> {{ order.created_at | date: 'd MMM yyyy · HH:mm' }}</div>
+        <div><b>Date</b> {{ order.createdAt | date: 'd MMM yyyy · HH:mm' }}</div>
         <div><b>Status</b> {{ order.status }}</div>
         <div><b>Payment</b> {{ PaymentMethod[order.paymentMethod] }}</div>
       </div>
@@ -36,7 +36,7 @@
         <span>·</span>
         <span style="font-family:'Geist Mono',monospace;color:#03a68b">#ORD-{{ order.id }}</span>
         <span>·</span>
-        <span>{{ order.created_at | date: 'd MMM yyyy · HH:mm' }}</span>
+        <span>{{ order.createdAt | date: 'd MMM yyyy · HH:mm' }}</span>
       </div>
     </div>
     <a class="tm-btn" [routerLink]="['/admin-panel/orders']">
@@ -59,14 +59,14 @@
 
       <div class="tm-tl">
         <div class="pt cur">
-          <div class="ts">{{ order.created_at | date: 'yyyy-MM-dd · HH:mm:ss' }}</div>
+          <div class="ts">{{ order.createdAt | date: 'yyyy-MM-dd · HH:mm:ss' }}</div>
           <div class="ev">
             Order received
             <small>{{ order.orderItems?.length || 0 }} items · {{ PaymentMethod[order.paymentMethod] }}</small>
           </div>
         </div>
         <div class="pt cur">
-          <div class="ts">{{ order.created_at | date: 'yyyy-MM-dd · HH:mm:ss' }}</div>
+          <div class="ts">{{ order.createdAt | date: 'yyyy-MM-dd · HH:mm:ss' }}</div>
           <div class="ev">
             Payment captured
             <small>method: {{ PaymentMethod[order.paymentMethod] }} · amount: ${{ order.subtotal }}</small>

@@ -19,7 +19,7 @@ interface IOrderBase {
 
 export interface IOrder extends IOrderBase {
   id: number;
-  created_at: string,
+  createdAt: string,
   status: OrderStatus;
 }
 

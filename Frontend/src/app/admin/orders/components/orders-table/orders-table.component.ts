@@ -81,11 +81,11 @@ export class OrdersTableComponent implements OnInit, OnChanges, AfterViewInit {
 
     if (this.filters.dateFrom) {
       const from = new Date(this.filters.dateFrom);
-      filtered = filtered.filter(o => new Date(o.created_at) >= from);
+      filtered = filtered.filter(o => new Date(o.createdAt) >= from);
     }
     if (this.filters.dateTo) {
       const to = new Date(this.filters.dateTo);
-      filtered = filtered.filter(o => new Date(o.created_at) <= to);
+      filtered = filtered.filter(o => new Date(o.createdAt) <= to);
     }
 
     this.dataSource.data = filtered;

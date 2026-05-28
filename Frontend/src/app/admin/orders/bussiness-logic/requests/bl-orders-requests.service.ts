@@ -29,7 +29,7 @@ export class BlOrdersRequestsService {
     return this.apiService.getTodayStats();
   }
 
-  public downloadSlip(id: number): Observable<Blob> {
-    return this.apiService.downloadSlip(id);
+  public downloadPdf(id: number): Observable<Blob> {
+    return this.apiService.downloadPdf(id);
   }
 }
