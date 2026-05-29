@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ProductController::class, 'index']);
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->group(function (): void {
     Route::get('/stats', [ProductController::class, 'stats']);
     Route::post('/', [ProductController::class, 'store']);
 });
@@ -13,7 +13,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/{product}', [ProductController::class, 'show'])
     ->whereNumber('product');
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->group(function (): void {
     Route::put('/{product}', [ProductController::class, 'update'])
         ->whereNumber('product');
     Route::delete('/{product}', [ProductController::class, 'destroy'])

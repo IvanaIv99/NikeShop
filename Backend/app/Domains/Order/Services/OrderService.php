@@ -8,8 +8,11 @@ use App\Domains\Order\Dto\ChangeOrderStatusDto;
 use App\Domains\Order\Dto\CreateOrderDto;
 use App\Domains\Order\Dto\SingleOrderItemDto;
 use App\Domains\Order\Enums\OrderStatus;
+use App\Domains\Order\Notifications\NewOrderReceived;
 use App\Domains\Order\Notifications\OrderStatusChanged;
+use App\Domains\Product\Notifications\LowStockAlert;
 use App\Exceptions\ApiException;
+use App\Models\Admin;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductVariant;
@@ -79,6 +82,8 @@ final readonly class OrderService
 
         Notification::route('mail', $order->email)
             ->notify(new OrderStatusChanged($order));
+
+        Notification::send(Admin::all(), new NewOrderReceived($order));
 
         return $order;
     }
@@ -151,7 +156,14 @@ final readonly class OrderService
             );
         }
 
+        $stockBefore = $variant->stock;
         $variant->decrement('stock', $item->quantity);
+        $variant->stock = $stockBefore - $item->quantity;
+
+        $threshold = (int) config('shop.low_stock_threshold');
+        if ($stockBefore > $threshold && $variant->stock <= $threshold) {
+            Notification::send(Admin::all(), new LowStockAlert($variant, $threshold));
+        }
 
         return $variant;
     }

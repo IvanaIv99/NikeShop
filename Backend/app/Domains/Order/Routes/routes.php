@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/create', [OrderController::class, 'store']);
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->group(function (): void {
     Route::get('/', [OrderController::class, 'index']);
     Route::get('/today-stats', [OrderController::class, 'todayStats']);
 

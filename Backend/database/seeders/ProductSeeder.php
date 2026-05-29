@@ -23,6 +23,8 @@ class ProductSeeder extends Seeder
             'IMG_123.png',
             'transparent.png',
             'IMG_456.png',
+            'IMG_111.png',
+            'IMG_222.png',
         ];
 
         File::makeDirectory(storage_path('app/public/products'), 0755, true, true);
@@ -80,6 +82,22 @@ class ProductSeeder extends Seeder
                 'description' => "Air force 1 Retro COLORS 'Off-White - UNC' sneakers",
                 'price' => 1050,
                 'image' => "IMG_456.png",
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'name' => 'Nike X LADY GAGA',
+                'description' => "Air force 1 Retro COLORS 'Off-White - UNC' sneakers",
+                'price' => 2000,
+                'image' => "IMG_111.png",
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'name' => 'Nike STARWALK',
+                'description' => "Air force 1 Retro COLORS 'Off-White - UNC' sneakers",
+                'price' => 2500,
+                'image' => "IMG_222.png",
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
