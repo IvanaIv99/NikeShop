@@ -41,7 +41,7 @@ final readonly class ProductService
             $product = new Product();
             $product->name = $dto->name;
             $product->description = $dto->description;
-            $product->price = $dto->price;
+            $product->price = (float) $dto->price;
             $product->image = $this->storeImage($dto->image);
             $product->save();
 
@@ -60,7 +60,7 @@ final readonly class ProductService
 
             $locked->name = $dto->name;
             $locked->description = $dto->description;
-            $locked->price = $dto->price;
+            $locked->price = (float) $dto->price;
 
             if (! $dto->image instanceof Optional) {
                 $oldImage = $locked->getRawOriginal('image');
@@ -71,7 +71,7 @@ final readonly class ProductService
             $locked->categories()->sync($dto->categories);
             $this->replaceVariants($locked, $dto->variants);
 
-            return $locked->fresh(['categories', 'variants.size', 'variants.color']);
+            return $locked->refresh()->load('categories', 'variants.size', 'variants.color');
         });
 
         if ($oldImage !== null && $oldImage !== '') {
@@ -112,8 +112,9 @@ final readonly class ProductService
      */
     private function replaceVariants(Product $product, DataCollection $variants): void
     {
-        $existingAll = $product->variants()
+        $existingAll = ProductVariant::query()
             ->withTrashed()
+            ->where('product_id', $product->id)
             ->lockForUpdate()
             ->get();
 

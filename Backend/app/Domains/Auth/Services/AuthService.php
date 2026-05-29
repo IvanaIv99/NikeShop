@@ -21,7 +21,7 @@ final readonly class AuthService
                 throw new ApiException('Credentials does not match with our record.');
             }
 
-            $user = Admin::query()->where('email', $dto->email)->first();
+            $user = Admin::query()->where('email', $dto->email)->firstOrFail();
 
             return [
                 'token' => $user->createToken("API TOKEN")->plainTextToken,

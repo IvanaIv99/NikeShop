@@ -47,7 +47,7 @@ final readonly class OrderService
             $order->address         = $dto->address;
             $order->additional      = $dto->additional;
             $order->payment_method  = $dto->paymentMethod;
-            $order->subtotal        = $dto->subtotal;
+            $order->subtotal        = (float) $dto->subtotal;
             $order->status          = OrderStatus::Received;
             $order->save();
 
@@ -86,7 +86,7 @@ final readonly class OrderService
     public function changeStatus(Order $order, ChangeOrderStatusDto $dto): Order
     {
         if ($order->status === $dto->status) {
-            return $order->fresh(['orderItems']);
+            return $order->refresh()->load('orderItems');
         }
 
         $order->status = $dto->status;
@@ -95,7 +95,7 @@ final readonly class OrderService
         Notification::route('mail', $order->email)
             ->notify(new OrderStatusChanged($order));
 
-        return $order->fresh(['orderItems']);
+        return $order->refresh()->load('orderItems');
     }
 
     public function todayStats(): array

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -34,23 +35,27 @@ class Product extends Model
     {
         static::deleting(function (Product $product): void {
             if ($product->isForceDeleting()) {
-                $product->variants()->withTrashed()->forceDelete();
+                ProductVariant::withTrashed()->where('product_id', $product->id)->forceDelete();
             } else {
                 $product->variants()->delete();
             }
         });
 
         static::restoring(function (Product $product): void {
-            $product->variants()->onlyTrashed()->restore();
+            ProductVariant::onlyTrashed()->where('product_id', $product->id)->restore();
         });
     }
 
-    public function getImageAttribute($value): string
+    public function getImageAttribute(?string $value): string
     {
         return asset('storage/products/' . $value);
     }
 
-    public function scopeActive($query)
+    /**
+     * @param  Builder<Product>  $query
+     * @return Builder<Product>
+     */
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
     }

@@ -11,8 +11,8 @@ trait DynamicRoute
 {
     private function mapRoute(
         string $routePrefix,
-        string $routeNamespace = null,
-        string $routeBasePath = null
+        ?string $routeNamespace = null,
+        ?string $routeBasePath = null
     ): void {
         $baseCut = Str::before(static::class, '\Providers');
 

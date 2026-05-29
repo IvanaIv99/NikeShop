@@ -131,7 +131,7 @@ namespace App\Models{
  * @property string|null $additional
  * @property string $payment_method
  * @property numeric $subtotal
- * @property string $status
+ * @property \App\Domains\Order\Enums\OrderStatus $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrderItem> $orderItems

@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Domains\Auth\Tokens;
 
+use App\Models\Admin;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Laravel\Sanctum\PersonalAccessToken;
 
 /**
  * @mixin IdeHelperAccessToken
+ *
+ * @property-read Admin $tokenable
  */
 final class AccessToken extends PersonalAccessToken implements TokenInterface
 {
@@ -20,7 +23,7 @@ final class AccessToken extends PersonalAccessToken implements TokenInterface
 
     public function getTokenType(): string
     {
-        return 'Sanctum '. $this->getType();
+        return 'Sanctum';
     }
 
     public function getEmail(): ?string
@@ -30,6 +33,6 @@ final class AccessToken extends PersonalAccessToken implements TokenInterface
 
     public function getUserId(): string
     {
-        return $this->tokenable->id;
+        return (string) $this->tokenable->id;
     }
 }
