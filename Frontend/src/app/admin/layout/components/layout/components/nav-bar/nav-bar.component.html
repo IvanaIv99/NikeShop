@@ -1,14 +1,38 @@
-
-
 <div class="tm-top-right">
   <a class="tm-pill-link" [routerLink]="['/shop']">
     <i class="ti ti-shopping-cart"></i><span>Back to shop</span>
   </a>
 
-  <button class="tm-iconbtn" type="button" aria-label="notifications">
+  <button class="tm-iconbtn" type="button" aria-label="notifications" [matMenuTriggerFor]="notifMenu">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 8a6 6 0 1112 0c0 7 3 8 3 8H3s3-1 3-8M10 20a2 2 0 004 0"/></svg>
-    <span class="nd">3</span>
+    <span class="nd" *ngIf="unreadCount > 0">{{ unreadCount > 99 ? '99+' : unreadCount }}</span>
   </button>
+
+  <mat-menu #notifMenu="matMenu" class="tm-notif-menu" xPosition="before">
+    <div class="tm-notif-head" (click)="$event.stopPropagation()">
+      <span class="tm-notif-kicker">// NOTIFICATIONS</span>
+      <span class="tm-notif-actions">
+        <button class="tm-notif-action" type="button" (click)="markAllRead($event)" [disabled]="unreadCount === 0">MARK ALL READ</button>
+        <button class="tm-notif-action danger" type="button" (click)="deleteAll($event)" [disabled]="notifications.length === 0">DELETE ALL</button>
+      </span>
+    </div>
+
+    <div class="tm-notif-empty" *ngIf="notifications.length === 0">// NO NOTIFICATIONS</div>
+
+    <button
+      mat-menu-item
+      *ngFor="let n of notifications"
+      class="tm-notif-item"
+      [class.unread]="n.read_at === null"
+      (click)="onNotificationClick(n)"
+    >
+      <span class="tm-notif-dot" [class.new-order]="n.data?.['type'] === 'new_order'" [class.low]="n.data?.['type'] === 'low_stock' || n.data?.['type'] === 'out_of_stock'"></span>
+      <span class="tm-notif-body">
+        <span class="tm-notif-title">{{ titleFor(n) }}</span>
+        <span class="tm-notif-sub">{{ bodyFor(n) }}</span>
+      </span>
+    </button>
+  </mat-menu>
 
   <button class="tm-iconbtn danger" type="button" (click)="logout()" title="Logout" aria-label="logout">
     <i class="ti ti-logout"></i>

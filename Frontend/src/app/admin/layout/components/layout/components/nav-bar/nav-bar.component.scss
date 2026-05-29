@@ -12,3 +12,111 @@
   top: 0;
   z-index: 20;
 }
+
+::ng-deep .tm-notif-menu.mat-mdc-menu-panel {
+  background: #0e0e0c;
+  border: 1px solid #1d1d1d;
+  min-width: 320px;
+  max-width: 380px;
+  padding: 0;
+  font-family: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+  color: #f5f5f0;
+
+  .mat-mdc-menu-content { padding: 0; }
+}
+
+::ng-deep .tm-notif-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid #1d1d1d;
+
+  .tm-notif-kicker {
+    color: #7a7a75;
+    font-size: 10px;
+    letter-spacing: .24em;
+  }
+
+  .tm-notif-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .tm-notif-action {
+    background: transparent;
+    border: 0;
+    color: #FF5A1F;
+    font-family: inherit;
+    font-size: 10px;
+    letter-spacing: .18em;
+    cursor: pointer;
+    padding: 4px 0;
+
+    &:hover:not(:disabled) { color: #ff7849; }
+    &.danger { color: #E5484D; }
+    &.danger:hover:not(:disabled) { color: #ff6e72; }
+    &:disabled { color: #3a3a35; cursor: default; }
+  }
+}
+
+::ng-deep .tm-notif-empty {
+  padding: 18px 14px;
+  color: #4a4a45;
+  font-size: 11px;
+  letter-spacing: .22em;
+}
+
+::ng-deep .tm-notif-item.mat-mdc-menu-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px dashed #1a1a1a;
+  background: transparent;
+  min-height: 0;
+  height: auto;
+
+  &:last-of-type { border-bottom: 0; }
+  &:hover { background: #131311; }
+
+  &.unread { background: rgba(255, 90, 31, 0.04); }
+
+  .tm-notif-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    margin-top: 6px;
+    background: #4a4a45;
+    flex: 0 0 auto;
+
+    &.new-order { background: #FF5A1F; }
+    &.low { background: #E5484D; }
+  }
+
+  .tm-notif-body {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    line-height: 1.3;
+    text-align: left;
+    overflow: hidden;
+  }
+
+  .tm-notif-title {
+    color: #f5f5f0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .tm-notif-sub {
+    color: #7a7a75;
+    font-size: 10.5px;
+    letter-spacing: .1em;
+  }
+}

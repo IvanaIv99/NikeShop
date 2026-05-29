@@ -73,6 +73,27 @@ export class NotificationsService implements OnDestroy {
     );
   }
 
+  public deleteOne(id: string): Observable<unknown> {
+    return this.webApiService.delete(`${this.base}/${id}`).pipe(
+      tap(() => {
+        const removed = this.items$.value.find((n) => n.id === id);
+        this.items$.next(this.items$.value.filter((n) => n.id !== id));
+        if (removed && removed.read_at === null) {
+          this.unreadCount$.next(Math.max(0, this.unreadCount$.value - 1));
+        }
+      })
+    );
+  }
+
+  public deleteAll(): Observable<unknown> {
+    return this.webApiService.delete(`${this.base}`).pipe(
+      tap(() => {
+        this.items$.next([]);
+        this.unreadCount$.next(0);
+      })
+    );
+  }
+
   public ngOnDestroy(): void {
     this.stopPolling();
   }
