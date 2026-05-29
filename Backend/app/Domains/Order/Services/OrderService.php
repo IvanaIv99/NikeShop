@@ -8,6 +8,7 @@ use App\Domains\Order\Dto\ChangeOrderStatusDto;
 use App\Domains\Order\Dto\CreateOrderDto;
 use App\Domains\Order\Dto\SingleOrderItemDto;
 use App\Domains\Order\Enums\OrderStatus;
+use App\Domains\Order\Notifications\OrderStatusChanged;
 use App\Exceptions\ApiException;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -15,6 +16,7 @@ use App\Models\ProductVariant;
 use Barryvdh\DomPDF\Facade\Pdf as PDFFacade;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\Response;
 
 final readonly class OrderService
@@ -34,7 +36,7 @@ final readonly class OrderService
 
     public function create(CreateOrderDto $dto): Order
     {
-        return DB::transaction(function () use ($dto): Order {
+        $order = DB::transaction(function () use ($dto): Order {
             $order = new Order();
             $order->first_name      = $dto->firstName;
             $order->last_name       = $dto->lastName;
@@ -74,12 +76,24 @@ final readonly class OrderService
 
             return $order->load('orderItems.variant.product', 'orderItems.variant.size', 'orderItems.variant.color');
         });
+
+        Notification::route('mail', $order->email)
+            ->notify(new OrderStatusChanged($order));
+
+        return $order;
     }
 
     public function changeStatus(Order $order, ChangeOrderStatusDto $dto): Order
     {
+        if ($order->status === $dto->status) {
+            return $order->fresh(['orderItems']);
+        }
+
         $order->status = $dto->status;
         $order->save();
+
+        Notification::route('mail', $order->email)
+            ->notify(new OrderStatusChanged($order));
 
         return $order->fresh(['orderItems']);
     }
@@ -98,7 +112,7 @@ final readonly class OrderService
 
     public function slipResponse(Order $order): Response
     {
-        $order->load('orderItems.variant.product', 'orderItems.variant.size', 'orderItems.variant.color',);
+        $order->load('orderItems.variant.product', 'orderItems.variant.size', 'orderItems.variant.color', );
 
         $pdf = PDFFacade::loadView('orders.slip', [
             'order'         => $order,
