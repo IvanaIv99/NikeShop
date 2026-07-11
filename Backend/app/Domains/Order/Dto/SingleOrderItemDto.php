@@ -11,7 +11,6 @@ final class SingleOrderItemDto extends BaseData
     public function __construct(
         public readonly int $variantId,
         public readonly int $quantity,
-        public readonly string $total,
     ) {
     }
 
@@ -20,7 +19,6 @@ final class SingleOrderItemDto extends BaseData
         return [
             'variantId' => ['required', 'integer', 'exists:product_variants,id'],
             'quantity' => ['required', 'integer', 'min:1'],
-            'total' => ['required', 'numeric', 'min:0'],
         ];
     }
 }

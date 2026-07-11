@@ -53,6 +53,18 @@ final class OrderController extends Controller
         return $this->sendResponse($response);
     }
 
+    public function chart(): JsonResponse
+    {
+        return $this->sendResponse($this->orderService->chart());
+    }
+
+    public function shippingFee(): JsonResponse
+    {
+        return $this->sendResponse([
+            'shipping_fee' => (float) config('shop.shipping_fee'),
+        ]);
+    }
+
     public function downloadPdf(Order $order, Request $request): Response
     {
         return $this->orderService->slipResponse($order);

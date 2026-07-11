@@ -17,6 +17,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductVariant;
 use Barryvdh\DomPDF\Facade\Pdf as PDFFacade;
+use Carbon\CarbonImmutable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -39,7 +40,9 @@ final readonly class OrderService
 
     public function create(CreateOrderDto $dto): Order
     {
-        $order = DB::transaction(function () use ($dto): Order {
+        $shippingFee = (float) config('shop.shipping_fee');
+
+        $order = DB::transaction(function () use ($dto, $shippingFee): Order {
             $order = new Order();
             $order->first_name      = $dto->firstName;
             $order->last_name       = $dto->lastName;
@@ -50,15 +53,20 @@ final readonly class OrderService
             $order->address         = $dto->address;
             $order->additional      = $dto->additional;
             $order->payment_method  = $dto->paymentMethod;
-            $order->subtotal        = (float) $dto->subtotal;
+            $order->subtotal        = 0;
             $order->status          = OrderStatus::Received;
             $order->save();
 
             $now = now();
             $rows = [];
+            $itemsTotal = 0.0;
 
             foreach ($dto->orderItems as $item) {
                 $variant = $this->reserveStock($item);
+
+                $unitPrice = (float) $variant->product->price;
+                $lineTotal = $unitPrice * $item->quantity;
+                $itemsTotal += $lineTotal;
 
                 $rows[] = [
                     'order_id'      => $order->id,
@@ -67,15 +75,18 @@ final readonly class OrderService
                     'product_image' => $variant->product->getRawOriginal('image'),
                     'size_value'    => (string) $variant->size->size,
                     'color_name'    => $variant->color->name,
-                    'unit_price'    => $variant->product->price,
+                    'unit_price'    => $unitPrice,
                     'quantity'      => $item->quantity,
-                    'total'         => $item->total,
+                    'total'         => $lineTotal,
                     'created_at'    => $now,
                     'updated_at'    => $now,
                 ];
             }
 
             OrderItem::query()->insert($rows);
+
+            $order->subtotal = $itemsTotal + $shippingFee;
+            $order->save();
 
             return $order->load('orderItems.variant.product', 'orderItems.variant.size', 'orderItems.variant.color');
         });
@@ -113,6 +124,171 @@ final readonly class OrderService
             'shipped'      => (clone $base)->where('status', OrderStatus::Shipped)->count(),
             'received'     => (clone $base)->where('status', OrderStatus::Received)->count(),
         ];
+    }
+
+    /**
+     * @return array{ranges: array<string, list<array{label: string, revenue: float, orders: int}>>, activity: array<int, array<string, mixed>>}
+     */
+    public function chart(): array
+    {
+        $now = CarbonImmutable::now();
+
+        $hourly  = $this->hourlyBuckets($now);
+        $weekly  = $this->weeklyBuckets($now, 12);
+        $monthly = $this->monthlyBucketsYtd($now);
+
+        $earliest = min($hourly[0]['start'], $weekly[0]['start'], $monthly[0]['start']);
+
+        $orders = Order::query()
+            ->where('created_at', '>=', $earliest)
+            ->get(['subtotal', 'created_at']);
+
+        foreach ($orders as $order) {
+            $placed  = CarbonImmutable::parse((string) $order->created_at);
+            $revenue = (float) $order->subtotal;
+
+            $this->assignToBucket($hourly, $placed, $revenue);
+            $this->assignToBucket($weekly, $placed, $revenue);
+            $this->assignToBucket($monthly, $placed, $revenue);
+        }
+
+        return [
+            'ranges' => [
+                '24h' => $this->stripBuckets($hourly),
+                '12w' => $this->stripBuckets($weekly),
+                'ytd' => $this->stripBuckets($monthly),
+            ],
+            'activity' => $this->recentActivity(6),
+        ];
+    }
+
+    /**
+     * @return list<array{label: string, start: CarbonImmutable, end: CarbonImmutable, revenue: float, orders: int}>
+     */
+    private function hourlyBuckets(CarbonImmutable $now): array
+    {
+        $currentHour = $now->startOfHour();
+        $buckets = [];
+
+        for ($i = 23; $i >= 0; $i--) {
+            $start = $currentHour->subHours($i);
+            $hour  = (int) $start->format('G');
+
+            $buckets[] = $this->newBucket(
+                $i === 0 ? 'now' : ($hour % 6 === 0 ? sprintf('%02dh', $hour) : ''),
+                $start,
+                $start->addHour(),
+            );
+        }
+
+        return $buckets;
+    }
+
+    /**
+     * @return list<array{label: string, start: CarbonImmutable, end: CarbonImmutable, revenue: float, orders: int}>
+     */
+    private function weeklyBuckets(CarbonImmutable $now, int $weeks): array
+    {
+        $startOfThisWeek = $now->startOfWeek();
+        $buckets = [];
+
+        for ($i = $weeks - 1; $i >= 0; $i--) {
+            $start = $startOfThisWeek->subWeeks($i);
+
+            $buckets[] = $this->newBucket(
+                $i === 0 ? 'now' : 'w' . ($weeks - $i),
+                $start,
+                $start->addWeek(),
+            );
+        }
+
+        return $buckets;
+    }
+
+    /**
+     * @return list<array{label: string, start: CarbonImmutable, end: CarbonImmutable, revenue: float, orders: int}>
+     */
+    private function monthlyBucketsYtd(CarbonImmutable $now): array
+    {
+        $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        $currentMonth = (int) $now->format('n');
+        $startOfYear = $now->startOfYear();
+        $buckets = [];
+
+        for ($m = 1; $m <= $currentMonth; $m++) {
+            $start = $startOfYear->addMonths($m - 1);
+
+            $buckets[] = $this->newBucket(
+                $m === $currentMonth ? 'now' : $months[$m - 1],
+                $start,
+                $start->addMonth(),
+            );
+        }
+
+        return $buckets;
+    }
+
+    /**
+     * @return array{label: string, start: CarbonImmutable, end: CarbonImmutable, revenue: float, orders: int}
+     */
+    private function newBucket(string $label, CarbonImmutable $start, CarbonImmutable $end): array
+    {
+        return [
+            'label'   => $label,
+            'start'   => $start,
+            'end'     => $end,
+            'revenue' => 0.0,
+            'orders'  => 0,
+        ];
+    }
+
+    /**
+     * @param  list<array{label: string, start: CarbonImmutable, end: CarbonImmutable, revenue: float, orders: int}>  $buckets
+     */
+    private function assignToBucket(array &$buckets, CarbonImmutable $placed, float $revenue): void
+    {
+        foreach ($buckets as &$bucket) {
+            if ($placed >= $bucket['start'] && $placed < $bucket['end']) {
+                $bucket['revenue'] += $revenue;
+                $bucket['orders']  += 1;
+                break;
+            }
+        }
+    }
+
+    /**
+     * @param  list<array{label: string, start: CarbonImmutable, end: CarbonImmutable, revenue: float, orders: int}>  $buckets
+     * @return list<array{label: string, revenue: float, orders: int}>
+     */
+    private function stripBuckets(array $buckets): array
+    {
+        return array_map(static fn (array $bucket): array => [
+            'label'   => $bucket['label'],
+            'revenue' => round($bucket['revenue'], 2),
+            'orders'  => $bucket['orders'],
+        ], $buckets);
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    private function recentActivity(int $limit): array
+    {
+        return Order::query()
+            ->latest('created_at')
+            ->limit($limit)
+            ->get(['id', 'first_name', 'last_name', 'email', 'subtotal', 'status', 'created_at'])
+            ->map(static fn (Order $order): array => [
+                'id'        => $order->id,
+                'firstName' => $order->first_name,
+                'lastName'  => $order->last_name,
+                'email'     => $order->email,
+                'subtotal'  => (string) $order->subtotal,
+                'status'    => $order->status->value,
+                'createdAt' => $order->created_at?->toIso8601String() ?? '',
+            ])
+            ->values()
+            ->all();
     }
 
     public function slipResponse(Order $order): Response

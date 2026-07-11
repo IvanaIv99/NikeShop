@@ -20,8 +20,6 @@ final class CreateOrderDto extends BaseData
         public readonly string $address,
         public readonly ?string $additional,
         public readonly string $paymentMethod,
-        public readonly string $subtotal,
-        public readonly string $total,
         #[DataCollectionOf(SingleOrderItemDto::class)]
         public readonly DataCollection $orderItems
     ) {
@@ -39,8 +37,6 @@ final class CreateOrderDto extends BaseData
             'address' => ['required', 'string', 'max:255'],
             'additional' => ['nullable', 'string', 'max:1000'],
             'paymentMethod' => ['required', 'string', 'max:50'],
-            'subtotal' => ['required', 'numeric', 'min:0'],
-            'total' => ['required', 'numeric', 'min:0'],
             'orderItems' => ['required', 'array', 'min:1'],
         ];
     }
