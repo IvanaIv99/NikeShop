@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {OrderStatus} from "../../enums/order-status";
+import { EnumsService } from "../../../../shared/business-logic/services/enums/enums.service";
+import { IEnumOption } from "../../../../shared/interfaces/i-enums";
 
 @Component({
   selector: 'app-orders',
@@ -15,11 +16,16 @@ export class OrdersComponent implements OnInit {
   };
 
   public search = '';
-  public statusOptions = Object.values(OrderStatus);
+  public statusOptions: IEnumOption[] = [];
 
   public tableInfo = { total: 0 };
 
+  constructor(private enumsService: EnumsService) {}
+
   ngOnInit(): void {
+    this.enumsService.getOrderStatuses().subscribe({
+      next: (statuses) => this.statusOptions = statuses
+    });
   }
 
   public applySearch(value: string) {

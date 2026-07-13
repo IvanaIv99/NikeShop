@@ -29,8 +29,8 @@
       <button mat-menu-item type="button" (click)="applyStatus(null)" [class.on]="!filters.status">
         <span class="dot any"></span>All
       </button>
-      <button mat-menu-item type="button" *ngFor="let s of statusOptions" (click)="applyStatus(s)" [class.on]="filters.status === s">
-        <span class="dot" [attr.data-status]="s"></span>{{ s }}
+      <button mat-menu-item type="button" *ngFor="let s of statusOptions" (click)="applyStatus(s.value)" [class.on]="filters.status === s.value">
+        <span class="dot" [attr.data-status]="s.value"></span>{{ s.label }}
       </button>
     </mat-menu>
 

@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
+import { Subject, takeUntil } from 'rxjs';
 import { ColumnType } from "../../../../shared/enums/column-type";
 import { BlOrdersTableService } from "../../bussiness-logic/tables/bl-orders-table.service";
 import { BlOrdersRequestsService } from "../../bussiness-logic/requests/bl-orders-requests.service";
@@ -13,7 +14,7 @@ import {SnackbarService} from "../../../../shared/business-logic/services/common
   templateUrl: './orders-table.component.html',
   styleUrls: ['./orders-table.component.scss']
 })
-export class OrdersTableComponent implements OnInit, OnChanges, AfterViewInit {
+export class OrdersTableComponent implements OnChanges, AfterViewInit, OnDestroy {
 
   @Input() filters: {
     status?: string | null;
@@ -27,9 +28,10 @@ export class OrdersTableComponent implements OnInit, OnChanges, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   dataSource = new MatTableDataSource<IOrder>([]);
-  allOrders: IOrder[] = [];
 
   columnTypeEnum = ColumnType;
+
+  private destroy$ = new Subject<void>();
 
   constructor(
     private requestsService: BlOrdersRequestsService,
@@ -38,63 +40,46 @@ export class OrdersTableComponent implements OnInit, OnChanges, AfterViewInit {
     private snackbarService: SnackbarService
   ) {}
 
-  ngOnInit(): void {
-    this.loadOrders();
-  }
-
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
+    this.paginator.pageSize = this.tableService.pageSizeOptions[0];
+    this.paginator.page
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.loadOrders());
+
+    // Defer to next tick — the paginator's pageSize is set within this hook.
+    Promise.resolve().then(() => this.loadOrders());
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['filters'] && !changes['filters'].firstChange) {
-      this.applyFilters();
+    if (changes['filters'] && !changes['filters'].firstChange && this.paginator) {
+      this.paginator.pageIndex = 0;
+      this.loadOrders();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   private loadOrders(): void {
-    this.requestsService.getAllOrders().subscribe({
-      next: (response) => {
-        this.allOrders = response;
-        this.applyFilters();
-      },
-      error: (e) => this.snackbarService.showError('Error getting orders.')
-    });
-  }
-
-  private applyFilters(): void {
-    let filtered = [...this.allOrders];
-
-    if (this.filters.status) {
-      filtered = filtered.filter(o => o.status === this.filters.status);
-    }
-
-    if (this.filters.search) {
-      const search = this.filters.search.toLowerCase();
-      filtered = filtered.filter(o =>
-        o.id.toString().includes(search) ||
-        o.firstName.toLowerCase().includes(search) ||
-        o.lastName.toLowerCase().includes(search) ||
-        o.email.toLowerCase().includes(search)
-      );
-    }
-
-    if (this.filters.dateFrom) {
-      const from = new Date(this.filters.dateFrom);
-      filtered = filtered.filter(o => new Date(o.createdAt) >= from);
-    }
-    if (this.filters.dateTo) {
-      const to = new Date(this.filters.dateTo);
-      filtered = filtered.filter(o => new Date(o.createdAt) <= to);
-    }
-
-    this.dataSource.data = filtered;
-
-    if (this.paginator) {
-      this.paginator.firstPage();
-    }
-
-    this.filterChange.emit({ total: filtered.length });
+    this.requestsService.getAllOrders({
+      status: this.filters?.status || null,
+      search: this.filters?.search || null,
+      dateFrom: this.filters?.dateFrom || null,
+      dateTo: this.filters?.dateTo || null,
+      page: this.paginator.pageIndex + 1,
+      perPage: this.paginator.pageSize
+    })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.dataSource.data = response.data;
+          this.paginator.length = response.meta.total;
+          this.filterChange.emit({ total: response.meta.total });
+        },
+        error: () => this.snackbarService.showError('Error getting orders.')
+      });
   }
 
   navigateOrderDetails(order: IOrder): void {

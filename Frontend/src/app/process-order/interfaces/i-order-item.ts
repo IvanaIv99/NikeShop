@@ -1,13 +1,13 @@
 import {IOrder} from "./i-order";
 
-interface IOrderItemBase {
+export interface IOrderItemRequest {
   variantId: number;
   quantity: number;
-  total: number;
 }
 
-export interface IOrderItem extends IOrderItemBase {
+export interface IOrderItem extends IOrderItemRequest {
   id: number;
+  total: number;
   productName: string;
   productImage: string;
   sizeValue: string;
@@ -15,5 +15,3 @@ export interface IOrderItem extends IOrderItemBase {
   unitPrice: string;
   order?: IOrder;
 }
-
-export interface IOrderItemRequest extends IOrderItemBase {}

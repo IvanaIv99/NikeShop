@@ -1,7 +1,7 @@
 <header class="cu-shop-head">
   <div>
     <div class="mlabel">// catalogue · ss26</div>
-    <h1>All sneakers <span class="count">· {{ products?.length || 0 }} styles</span></h1>
+    <h1>All sneakers <span class="count">· {{ total }} styles</span></h1>
   </div>
   <div class="sort">
     <span>sort by</span> <b>newest</b>
@@ -12,9 +12,9 @@
   <div class="lbl">filter</div>
   <label class="cu-search-input">
     <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>
-    <input type="text" placeholder="Search products…" [(ngModel)]="searchTerm">
+    <input type="text" placeholder="Search products…" [ngModel]="searchTerm" (ngModelChange)="onSearchChange($event)">
   </label>
-  <span class="chip on">all <b *ngIf="products?.length">· {{ products.length }}</b></span>
+  <span class="chip on">all <b>· {{ total }}</b></span>
   <span class="chip">lifestyle</span>
   <span class="chip">running</span>
   <span class="chip">basketball</span>
@@ -23,6 +23,11 @@
 
 <app-product-list
   [products]="products"
-  [searchTerm]="searchTerm"
   (productAdded)="addProductToCart($event)">
 </app-product-list>
+
+<div *ngIf="hasMore" style="text-align:center;padding:32px">
+  <button class="chip" type="button" (click)="loadMore()" [disabled]="loading">
+    {{ loading ? 'Loading…' : 'Load more' }}
+  </button>
+</div>

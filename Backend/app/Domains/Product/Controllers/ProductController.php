@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domains\Product\Controllers;
 
 use App\Domains\Product\Dto\CreateProductDto;
+use App\Domains\Product\Dto\ListProductsDto;
 use App\Domains\Product\Dto\UpdateProductDto;
 use App\Domains\Product\Resources\ProductResource;
 use App\Domains\Product\Services\ProductService;
@@ -20,12 +21,14 @@ final class ProductController extends Controller
     ) {
     }
 
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $response = $this->service->all();
-        return $this->sendResponse(
-            ProductResource::collect($response)
-        );
+        $paginator = $this->service->paginate(ListProductsDto::from($request));
+
+        return $this->sendResponse([
+            'data' => ProductResource::collect($paginator->items()),
+            'meta' => $this->paginationMeta($paginator),
+        ]);
     }
 
     public function show(Product $product): JsonResponse

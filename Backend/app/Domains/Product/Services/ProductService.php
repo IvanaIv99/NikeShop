@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domains\Product\Services;
 
 use App\Domains\Product\Dto\CreateProductDto;
+use App\Domains\Product\Dto\ListProductsDto;
 use App\Domains\Product\Dto\ProductVariantDto;
 use App\Domains\Product\Dto\UpdateProductDto;
 use App\Models\Product;
@@ -25,9 +26,20 @@ final readonly class ProductService
         return Product::with('categories', 'variants.size', 'variants.color')->get();
     }
 
-    public function paginate(int $perPage = 24): LengthAwarePaginator
+    public function paginate(ListProductsDto $filters): LengthAwarePaginator
     {
-        return Product::with('categories', 'variants.size', 'variants.color')->paginate($perPage);
+        $query = Product::with('categories', 'variants.size', 'variants.color');
+
+        if ($filters->search !== null && $filters->search !== '') {
+            $term = '%' . $filters->search . '%';
+            $query->where(static function ($q) use ($term): void {
+                $q->where('name', 'like', $term)
+                    ->orWhere('description', 'like', $term)
+                    ->orWhere('id', 'like', $term);
+            });
+        }
+
+        return $query->paginate($filters->perPage, ['*'], 'page', $filters->page);
     }
 
     public function loadFull(Product $product): Product

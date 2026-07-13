@@ -7,6 +7,7 @@ import {ICategory} from "../../../../shop/interfaces/i-category";
 import {IProductsStatistics} from "../../interfaces/i-top-product";
 import {IProduct} from "../../../../shop/interfaces/i-product";
 import {WebApiService} from "../../../../shared/business-logic/services/api/web-api.service";
+import {IListParams, IPaginated, toQueryString} from "../../../../shared/interfaces/i-paginated";
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +17,9 @@ export class BlProductsApiService {
     public webApiService: WebApiService
   ) {}
 
-  getAll(): Observable<IProduct[]> {
-    let url = `${environment.apiUrl}/products`;
-    return this.webApiService.get<IProduct[]>(url);
+  getAll(params: IListParams = {}): Observable<IPaginated<IProduct>> {
+    let url = `${environment.apiUrl}/products${toQueryString(params)}`;
+    return this.webApiService.get<IPaginated<IProduct>>(url);
   }
 
   getOne(id: any): Observable<IProduct> {

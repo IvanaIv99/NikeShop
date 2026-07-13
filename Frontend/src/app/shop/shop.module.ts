@@ -5,14 +5,12 @@ import { SharedModule } from '../shared/shared.module';
 import {ShopComponent} from "./components/shop/shop.component";
 import {ProductComponent} from "./components/product/product.component";
 import {ProductListComponent} from "./components/product-list/product-list.component";
-import {ProductFilterPipe} from "./pipes/product-filter.pipe";
 
 @NgModule({
   declarations: [
     ShopComponent,
     ProductComponent,
-    ProductListComponent,
-    ProductFilterPipe
+    ProductListComponent
   ],
   imports: [
     CommonModule,

@@ -14,9 +14,9 @@ export class HomeComponent implements OnInit {
   constructor(private productsService: BlProductsRequestService) {}
 
   ngOnInit(): void {
-    this.productsService.getAllProducts().subscribe({
-      next: (products) => {
-        this.featured = (products || []).slice(0, 5);
+    this.productsService.getAllProducts({ perPage: 5 }).subscribe({
+      next: (response) => {
+        this.featured = response.data || [];
       },
       error: () => { /* silent — page still renders */ }
     });

@@ -10,7 +10,7 @@ import {IOrderRequest} from "../../interfaces/i-order";
 export class BlProcessOrderApiService {
 
   constructor(
-    public http: HttpClient
+    public http: HttpClient,
   ) {}
 
   public insert(dataToSend: IOrderRequest): Observable<any> {

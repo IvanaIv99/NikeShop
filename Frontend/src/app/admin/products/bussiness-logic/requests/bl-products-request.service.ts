@@ -6,6 +6,7 @@ import {IColor} from "../../../../shop/interfaces/i-color";
 import {ICategory} from "../../../../shop/interfaces/i-category";
 import {IProductsStatistics} from "../../interfaces/i-top-product";
 import {IProduct} from "../../../../shop/interfaces/i-product";
+import {IListParams, IPaginated} from "../../../../shared/interfaces/i-paginated";
 
 
 @Injectable({
@@ -17,8 +18,8 @@ export class BlProductsRequestService {
     private apiService: BlProductsApiService,
   ) { }
 
-  getAllProducts(): Observable<IProduct[]> {
-    return this.apiService.getAll();
+  getAllProducts(params: IListParams = {}): Observable<IPaginated<IProduct>> {
+    return this.apiService.getAll(params);
   }
 
   getOneProduct(id: any): Observable<IProduct> {

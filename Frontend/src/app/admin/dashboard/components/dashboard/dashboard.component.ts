@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { BlOrdersRequestsService } from '../../../orders/bussiness-logic/requests/bl-orders-requests.service';
-import { IOrder } from '../../../../process-order/interfaces/i-order';
+import { IActivityOrder, IChartBucket, IDashboardChart } from '../../../orders/interfaces/i-dashboard-chart';
 
 type Range = '24h' | '12w' | 'ytd';
 
 interface ChartPoint {
   label: string;
-  bucketStart: Date;
   revenue: number;
   orders: number;
   x: number;
@@ -43,16 +42,16 @@ export class DashboardComponent implements OnInit {
 
   activity: ActivityEvent[] = [];
 
-  private orders: IOrder[] = [];
+  private ranges?: IDashboardChart['ranges'];
 
   constructor(private ordersRequestsService: BlOrdersRequestsService) {}
 
   ngOnInit(): void {
-    this.ordersRequestsService.getAllOrders().subscribe({
-      next: (orders) => {
-        this.orders = orders || [];
+    this.ordersRequestsService.getChart().subscribe({
+      next: (chart) => {
+        this.ranges = chart.ranges;
         this.buildChart();
-        this.buildActivity(this.orders);
+        this.buildActivity(chart.activity || []);
         this.loading = false;
       },
       error: () => {
@@ -84,21 +83,7 @@ export class DashboardComponent implements OnInit {
   }
 
   private buildChart(): void {
-    const buckets = this.range === '24h'
-      ? this.bucketsByHour()
-      : this.range === 'ytd'
-        ? this.bucketsByMonthYTD()
-        : this.bucketsByWeek(12);
-
-    for (const o of this.orders) {
-      const placed = new Date(o.createdAt);
-      if (isNaN(placed.getTime())) continue;
-      const idx = this.findBucketIndex(buckets, placed);
-      if (idx >= 0) {
-        buckets[idx].revenue += Number((o as any).subtotal || 0);
-        buckets[idx].orders += 1;
-      }
-    }
+    const buckets: IChartBucket[] = this.ranges ? this.ranges[this.range] : [];
 
     this.hasOrders = buckets.some(b => b.revenue > 0);
     this.chartMax = Math.max(1, ...buckets.map(b => b.revenue));
@@ -106,107 +91,19 @@ export class DashboardComponent implements OnInit {
 
     const denom = Math.max(1, buckets.length - 1);
     const range = CHART_H - CHART_PAD_TOP;
-    buckets.forEach((b, i) => {
-      b.x = (i / denom) * CHART_W;
-      b.y = CHART_H - (b.revenue / this.chartMax) * range;
-    });
+    this.chartPoints = buckets.map((b, i) => ({
+      label: b.label,
+      revenue: b.revenue,
+      orders: b.orders,
+      x: (i / denom) * CHART_W,
+      y: CHART_H - (b.revenue / this.chartMax) * range
+    }));
 
-    this.chartPoints = buckets;
-    this.chartLinePath = buckets.map((b, i) => `${i === 0 ? 'M' : 'L'}${b.x.toFixed(1)},${b.y.toFixed(1)}`).join(' ');
+    this.chartLinePath = this.chartPoints.map((b, i) => `${i === 0 ? 'M' : 'L'}${b.x.toFixed(1)},${b.y.toFixed(1)}`).join(' ');
     this.chartFillPath = `${this.chartLinePath} L${CHART_W},${CHART_H} L0,${CHART_H} Z`;
   }
 
-  private bucketsByHour(): ChartPoint[] {
-    const now = new Date();
-    const startHour = new Date(now);
-    startHour.setMinutes(0, 0, 0);
-
-    const out: ChartPoint[] = [];
-    for (let i = 23; i >= 0; i--) {
-      const bs = new Date(startHour);
-      bs.setHours(bs.getHours() - i);
-      const h = bs.getHours();
-      out.push({
-        label: i === 0 ? 'now' : (h % 6 === 0 ? `${h.toString().padStart(2, '0')}h` : ''),
-        bucketStart: bs,
-        revenue: 0,
-        orders: 0,
-        x: 0,
-        y: 0
-      });
-    }
-    return out;
-  }
-
-  private bucketsByWeek(weeks: number): ChartPoint[] {
-    const now = new Date();
-    const startOfThisWeek = this.startOfWeek(now);
-
-    const out: ChartPoint[] = [];
-    for (let i = weeks - 1; i >= 0; i--) {
-      const bs = new Date(startOfThisWeek);
-      bs.setDate(bs.getDate() - i * 7);
-      out.push({
-        label: i === 0 ? 'now' : `w${weeks - i}`,
-        bucketStart: bs,
-        revenue: 0,
-        orders: 0,
-        x: 0,
-        y: 0
-      });
-    }
-    return out;
-  }
-
-  private bucketsByMonthYTD(): ChartPoint[] {
-    const now = new Date();
-    const currentMonth = now.getMonth(); // 0..11
-    const year = now.getFullYear();
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-    const out: ChartPoint[] = [];
-    for (let m = 0; m <= currentMonth; m++) {
-      out.push({
-        label: m === currentMonth ? 'now' : months[m],
-        bucketStart: new Date(year, m, 1, 0, 0, 0, 0),
-        revenue: 0,
-        orders: 0,
-        x: 0,
-        y: 0
-      });
-    }
-    return out;
-  }
-
-  private findBucketIndex(buckets: ChartPoint[], when: Date): number {
-    if (!buckets.length) return -1;
-    switch (this.range) {
-      case '24h': {
-        const hourStart = new Date(when);
-        hourStart.setMinutes(0, 0, 0);
-        return buckets.findIndex(b => +b.bucketStart === +hourStart);
-      }
-      case '12w': {
-        const ws = this.startOfWeek(when);
-        return buckets.findIndex(b => +b.bucketStart === +ws);
-      }
-      case 'ytd': {
-        if (when.getFullYear() !== buckets[0].bucketStart.getFullYear()) return -1;
-        return when.getMonth();
-      }
-    }
-  }
-
-  private startOfWeek(d: Date): Date {
-    const day = d.getDay();
-    const diff = (day + 6) % 7; // monday-start
-    const ws = new Date(d);
-    ws.setHours(0, 0, 0, 0);
-    ws.setDate(ws.getDate() - diff);
-    return ws;
-  }
-
-  private buildActivity(orders: IOrder[]): void {
+  private buildActivity(orders: IActivityOrder[]): void {
     const sorted = [...orders].sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));
     this.activity = sorted.slice(0, 6).map(o => {
       const first = o.firstName ?? '';
@@ -217,7 +114,7 @@ export class DashboardComponent implements OnInit {
         ts: this.formatActivityTime(new Date(o.createdAt)),
         title: `Order #ORD-${o.id} · ${customer}`,
         subtitle: `$${subtotal} · ${o.status}`,
-        tag: this.tagFor(o.status as unknown as string)
+        tag: this.tagFor(o.status)
       };
     });
   }

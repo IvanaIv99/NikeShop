@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges, ViewChild, OnDestroy, OnChanges, AfterViewInit } from '@angular/core';
 import { BlProductsRequestService } from "../../bussiness-logic/requests/bl-products-request.service";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
@@ -16,9 +16,8 @@ import {MatDialog} from "@angular/material/dialog";
   templateUrl: './products-table.component.html',
   styleUrls: ['./products-table.component.scss']
 })
-export class ProductsTableComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ProductsTableComponent implements AfterViewInit, OnChanges, OnDestroy {
 
-  products: IProduct[] = [];
   dataSource: MatTableDataSource<IProduct> = new MatTableDataSource<IProduct>([]);
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -37,47 +36,38 @@ export class ProductsTableComponent implements OnInit, AfterViewInit, OnDestroy 
     private dialog: MatDialog,
   ) {}
 
-  ngOnInit() {
-    this.loadProducts();
-  }
-
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
+    this.paginator.pageSize = this.tableService.pageSizeOptions[0];
+    this.paginator.page
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.loadProducts());
+
+    // Defer to next tick — the paginator's pageSize is set within this hook.
+    Promise.resolve().then(() => this.loadProducts());
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['filters'] && !changes['filters'].firstChange) {
-      this.applyFilters();
+    if (changes['filters'] && !changes['filters'].firstChange && this.paginator) {
+      this.paginator.pageIndex = 0;
+      this.loadProducts();
     }
   }
 
   private loadProducts(): void {
-    this.requestsService.getAllProducts()
+    this.requestsService.getAllProducts({
+      search: this.filters?.search || null,
+      page: this.paginator.pageIndex + 1,
+      perPage: this.paginator.pageSize
+    })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (response: IProduct[]) => {
-          this.products = response;
-          this.applyFilters();
+        next: (response) => {
+          this.dataSource.data = response.data;
+          this.paginator.length = response.meta.total;
+          this.filterChange.emit({ total: response.meta.total });
         },
         error: (error) => console.error(error)
       });
-  }
-
-  private applyFilters(): void {
-    let filtered = [...this.products];
-
-    if (this.filters?.search) {
-      const search = this.filters.search.toLowerCase();
-      filtered = filtered.filter(p =>
-        p.id.toString().includes(search) ||
-        p.name.toLowerCase().includes(search)
-      );
-    }
-
-    this.dataSource.data = filtered;
-    this.paginator?.firstPage();
-
-    this.filterChange.emit({ total: filtered.length });
   }
 
   doAction(row: IProduct): void {
@@ -97,8 +87,7 @@ export class ProductsTableComponent implements OnInit, AfterViewInit, OnDestroy 
           .subscribe({
             next: () => {
               this.snackbarService.showSuccess('Deleted.');
-              this.products = this.products.filter(p => p.id !== row.id);
-              this.applyFilters();
+              this.loadProducts();
             },
             error: (error) => this.snackbarService.showError('Error deleting product: ' + error)
           });

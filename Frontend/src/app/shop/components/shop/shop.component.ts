@@ -1,4 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Subject} from "rxjs";
+import {debounceTime, distinctUntilChanged, takeUntil} from "rxjs/operators";
 import { ICartItem } from '../../../cart/interfaces/i-cart-item';
 import {CartService} from "../../../cart/business-logic/services/cart.service";
 import {IProduct} from "../../interfaces/i-product";
@@ -10,10 +12,17 @@ import {SnackbarService} from "../../../shared/business-logic/services/common/sn
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.scss'],
 })
-export class ShopComponent implements OnInit {
+export class ShopComponent implements OnInit, OnDestroy {
 
   protected products: IProduct[] = [];
   protected searchTerm: string = '';
+  protected total = 0;
+  protected loading = false;
+
+  private page = 1;
+  private readonly perPage = 12;
+  private searchChange$ = new Subject<string>();
+  private destroy$ = new Subject<void>();
 
   constructor(
     public requestService: BlProductsRequestService,
@@ -23,7 +32,33 @@ export class ShopComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.searchChange$
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe(term => {
+        this.searchTerm = term;
+        this.resetAndLoad();
+      });
+
+    this.resetAndLoad();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  protected onSearchChange(term: string): void {
+    this.searchChange$.next(term);
+  }
+
+  protected loadMore(): void {
+    if (!this.hasMore) return;
+    this.page++;
     this.loadProducts();
+  }
+
+  protected get hasMore(): boolean {
+    return this.products.length < this.total;
   }
 
   protected addProductToCart(product: any) {
@@ -54,11 +89,28 @@ export class ShopComponent implements OnInit {
     this.cartService.addToCart(item);
   }
 
-  private loadProducts(): void
-  {
-    this.requestService.getAllProducts().subscribe({
-      next: (products: IProduct[]) => this.products = products,
-      error: (err) => this.snackbarService.showError("Error loading products.")
+  private resetAndLoad(): void {
+    this.page = 1;
+    this.products = [];
+    this.loadProducts();
+  }
+
+  private loadProducts(): void {
+    this.loading = true;
+    this.requestService.getAllProducts({
+      search: this.searchTerm || null,
+      page: this.page,
+      perPage: this.perPage
+    }).subscribe({
+      next: (response) => {
+        this.products = this.page === 1 ? response.data : [...this.products, ...response.data];
+        this.total = response.meta.total;
+        this.loading = false;
+      },
+      error: () => {
+        this.snackbarService.showError("Error loading products.");
+        this.loading = false;
+      }
     });
   }
 

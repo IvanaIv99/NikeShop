@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ICartItem } from '../../interfaces/i-cart-item';
 import { CartService } from '../../business-logic/services/cart.service';
+import { CartSummaryService } from '../../business-logic/services/cart-summary.service';
 
 @Component({
   selector: 'app-cart-table',
@@ -11,28 +12,40 @@ import { CartService } from '../../business-logic/services/cart.service';
 export class CartTableComponent implements OnInit, OnDestroy {
 
   public cartItems: ICartItem[] = [];
+  public subtotal = 0;
+  public shipping = 0;
+  public grandTotal = 0;
+
   private sub?: Subscription;
 
-  constructor(private cartService: CartService) {}
+  constructor(
+    private cartService: CartService,
+    private cartSummaryService: CartSummaryService
+  ) {}
 
   ngOnInit(): void {
-    this.sub = this.cartService.items$.subscribe(items => this.cartItems = items);
+    this.sub = this.cartService.items$.subscribe(items => {
+      this.cartItems = items;
+      this.loadSummary();
+    });
   }
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
   }
 
-  get subtotal(): number {
-    return this.cartService.getTotal();
-  }
+  private loadSummary(): void {
+    if (!this.cartItems.length) {
+      this.subtotal = this.shipping = this.grandTotal = 0;
+      return;
+    }
 
-  get taxEstimate(): number {
-    return Math.round(this.subtotal * 0.08875 * 100) / 100;
-  }
-
-  get grandTotal(): number {
-    const shipping = this.subtotal >= 150 ? 0 : (this.cartItems.length ? 9.95 : 0);
-    return Math.round((this.subtotal + this.taxEstimate + shipping) * 100) / 100;
+    this.cartSummaryService.getSummary(this.cartItems).subscribe({
+      next: (summary) => {
+        this.subtotal = summary.subtotal;
+        this.shipping = summary.shipping;
+        this.grandTotal = summary.grandTotal;
+      }
+    });
   }
 }

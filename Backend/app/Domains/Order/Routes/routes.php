@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/create', [OrderController::class, 'store']);
 Route::get('/shipping-fee', [OrderController::class, 'shippingFee']);
+Route::post('/summary', [OrderController::class, 'summary']);
+Route::get('/enums', [OrderController::class, 'enums']);
 
 Route::middleware('auth:sanctum')->group(function (): void {
     Route::get('/', [OrderController::class, 'index']);

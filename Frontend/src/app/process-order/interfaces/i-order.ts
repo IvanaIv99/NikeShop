@@ -1,4 +1,4 @@
-import {IOrderItem} from "./i-order-item";
+import {IOrderItem, IOrderItemRequest} from "./i-order-item";
 import {PaymentMethod} from "../../admin/orders/enums/payment-method";
 import {OrderStatus} from "../../admin/orders/enums/order-status";
 
@@ -13,16 +13,16 @@ interface IOrderBase {
   address: string;
   paymentMethod: PaymentMethod,
   additional: string,
-  subtotal: number,
-  orderItems: IOrderItem[]
 }
 
 export interface IOrder extends IOrderBase {
   id: number;
   createdAt: string,
   status: OrderStatus;
+  subtotal: number;
+  orderItems: IOrderItem[];
 }
 
 export interface IOrderRequest extends IOrderBase {
-
+  orderItems: IOrderItemRequest[];
 }

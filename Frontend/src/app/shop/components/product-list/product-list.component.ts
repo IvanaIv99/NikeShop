@@ -10,7 +10,6 @@ import {IProduct} from "../../interfaces/i-product";
 export class ProductListComponent {
 
   @Input() products: IProduct[];
-  @Input() searchTerm: string = '';
 
   @Output() productAdded = new EventEmitter();
   constructor(

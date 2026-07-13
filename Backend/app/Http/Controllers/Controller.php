@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
@@ -11,6 +12,19 @@ abstract class Controller
 {
     use AuthorizesRequests;
     use ValidatesRequests;
+
+    /**
+     * @return array{page: int, perPage: int, total: int, lastPage: int}
+     */
+    protected function paginationMeta(LengthAwarePaginator $paginator): array
+    {
+        return [
+            'page'     => $paginator->currentPage(),
+            'perPage'  => $paginator->perPage(),
+            'total'    => $paginator->total(),
+            'lastPage' => $paginator->lastPage(),
+        ];
+    }
 
     protected function sendResponse(mixed $data, int $responseCode = Response::HTTP_OK): JsonResponse
     {

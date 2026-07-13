@@ -31,16 +31,12 @@
       <span class="v">${{ subtotal | number:'1.2-2' }}</span>
     </div>
     <div class="ln">
-      <span class="k">Shipping <small>{{ subtotal >= 150 ? 'free · 2-day' : 'standard' }}</small></span>
-      <span class="v" [class.free]="subtotal >= 150">{{ subtotal >= 150 ? 'FREE' : '$9.95' }}</span>
-    </div>
-    <div class="ln">
-      <span class="k">Tax <small>estimated</small></span>
-      <span class="v">${{ taxEstimate | number:'1.2-2' }}</span>
+      <span class="k">Shipping <small>{{ shipping === 0 ? 'free' : 'standard' }}</small></span>
+      <span class="v" [class.free]="shipping === 0">{{ shipping === 0 ? 'FREE' : ('$' + (shipping | number:'1.2-2')) }}</span>
     </div>
 
     <div class="grand">
-      <div class="k">Total<small>USD · incl. tax</small></div>
+      <div class="k">Total<small>USD</small></div>
       <div class="v"><sup>$</sup>{{ grandTotal | number:'1.2-2' }}</div>
     </div>
 

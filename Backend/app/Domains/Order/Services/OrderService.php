@@ -6,8 +6,11 @@ namespace App\Domains\Order\Services;
 
 use App\Domains\Order\Dto\ChangeOrderStatusDto;
 use App\Domains\Order\Dto\CreateOrderDto;
+use App\Domains\Order\Dto\ListOrdersDto;
 use App\Domains\Order\Dto\SingleOrderItemDto;
+use App\Domains\Order\Dto\SummarizeOrderDto;
 use App\Domains\Order\Enums\OrderStatus;
+use App\Domains\Order\Enums\PaymentMethod;
 use App\Domains\Order\Notifications\NewOrderReceived;
 use App\Domains\Order\Notifications\OrderStatusChanged;
 use App\Domains\Product\Notifications\LowStockAlert;
@@ -18,24 +21,102 @@ use App\Models\OrderItem;
 use App\Models\ProductVariant;
 use Barryvdh\DomPDF\Facade\Pdf as PDFFacade;
 use Carbon\CarbonImmutable;
-use Illuminate\Support\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Spatie\LaravelData\DataCollection;
 use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\Response;
 
 final readonly class OrderService
 {
-    public function list(): Collection
+    public function list(ListOrdersDto $filters): LengthAwarePaginator
     {
-        return Order::query()
+        $query = Order::query()
             ->with('orderItems')
-            ->orderByDesc('created_at')
-            ->get();
+            ->orderByDesc('created_at');
+
+        if ($filters->status !== null && $filters->status !== '') {
+            $query->where('status', $filters->status);
+        }
+
+        if ($filters->search !== null && $filters->search !== '') {
+            $term = '%' . $filters->search . '%';
+            $query->where(static function ($q) use ($term): void {
+                $q->where('first_name', 'like', $term)
+                    ->orWhere('last_name', 'like', $term)
+                    ->orWhere('email', 'like', $term)
+                    ->orWhere('id', 'like', $term);
+            });
+        }
+
+        if ($filters->dateFrom !== null && $filters->dateFrom !== '') {
+            $query->whereDate('created_at', '>=', $filters->dateFrom);
+        }
+
+        if ($filters->dateTo !== null && $filters->dateTo !== '') {
+            $query->whereDate('created_at', '<=', $filters->dateTo);
+        }
+
+        return $query->paginate($filters->perPage, ['*'], 'page', $filters->page);
     }
 
     public function find(Order $order): Order
     {
         return $order->load('orderItems');
+    }
+
+    /**
+     * Server-authoritative price preview for a set of cart items. Read-only:
+     * prices come from the database, never from the client, and stock is not
+     * reserved. Mirrors the money math applied in {@see self::create()}.
+     *
+     * @return array{subtotal: float, shipping: float, grandTotal: float}
+     */
+    public function summarize(SummarizeOrderDto $dto): array
+    {
+        $subtotal    = $this->itemsSubtotal($dto->orderItems);
+        $shippingFee = (float) config('shop.shipping_fee');
+
+        return [
+            'subtotal'   => round($subtotal, 2),
+            'shipping'   => round($shippingFee, 2),
+            'grandTotal' => round($subtotal + $shippingFee, 2),
+        ];
+    }
+
+    /**
+     * Sum of (current DB unit price × quantity) across the given items.
+     *
+     * @param  DataCollection<int, SingleOrderItemDto>  $items
+     */
+    private function itemsSubtotal(DataCollection $items): float
+    {
+        $variantIds = collect($items->toCollection())
+            ->map(static fn (SingleOrderItemDto $item): int => $item->variantId)
+            ->unique()
+            ->all();
+
+        $variants = ProductVariant::query()
+            ->with('product')
+            ->findMany($variantIds)
+            ->keyBy('id');
+
+        $subtotal = 0.0;
+
+        foreach ($items as $item) {
+            $variant = $variants->get($item->variantId);
+
+            if ($variant === null) {
+                throw new ApiException(
+                    'Selected variant does not exist.',
+                    Response::HTTP_UNPROCESSABLE_ENTITY
+                );
+            }
+
+            $subtotal += (float) $variant->product->price * $item->quantity;
+        }
+
+        return $subtotal;
     }
 
     public function create(CreateOrderDto $dto): Order
@@ -97,6 +178,35 @@ final readonly class OrderService
         Notification::send(Admin::all(), new NewOrderReceived($order));
 
         return $order;
+    }
+
+    /**
+     * Single source of truth for order/payment enum values shown in the UI,
+     * so adding a status or payment method never requires a frontend redeploy.
+     *
+     * @return array{
+     *     orderStatuses: list<array{value: string, label: string}>,
+     *     paymentMethods: list<array{value: string, label: string}>
+     * }
+     */
+    public function enums(): array
+    {
+        return [
+            'orderStatuses' => array_map(
+                static fn (OrderStatus $status): array => [
+                    'value' => $status->value,
+                    'label' => $status->label(),
+                ],
+                OrderStatus::cases()
+            ),
+            'paymentMethods' => array_map(
+                static fn (PaymentMethod $method): array => [
+                    'value' => $method->value,
+                    'label' => $method->label(),
+                ],
+                PaymentMethod::cases()
+            ),
+        ];
     }
 
     public function changeStatus(Order $order, ChangeOrderStatusDto $dto): Order

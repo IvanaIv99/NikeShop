@@ -5,8 +5,10 @@ import { BlProcessOrderRequestsService } from "../../business-logic/requests/bl-
 import { City, Country } from 'country-state-city';
 import { Router } from "@angular/router";
 import { IOrderRequest } from "../../interfaces/i-order";
-import { IOrderItem } from "../../interfaces/i-order-item";
 import { SnackbarService } from "../../../shared/business-logic/services/common/snackbar/snackbar.service";
+import { CartSummaryService } from "../../../cart/business-logic/services/cart-summary.service";
+import { EnumsService } from "../../../shared/business-logic/services/enums/enums.service";
+import { IEnumOption } from "../../../shared/interfaces/i-enums";
 
 @Component({
   selector: 'app-orders',
@@ -19,17 +21,20 @@ export class ProcessOrderComponent implements OnInit {
   submitted = false;
 
   protected cartProducts = [];
-  protected subTotal: any = 0;
+  protected itemsSubtotal = 0;
+  protected shippingFee = 0;
+  protected grandTotal = 0;
   protected countries = Country.getAllCountries();
   protected cities = [];
   protected selectedCountry: any;
-
-  protected readonly SHIPPING_CHARGE = 20;
+  protected paymentMethods: IEnumOption[] = [];
 
   constructor(
     private fb: FormBuilder,
     private cartService: CartService,
     private requestsService: BlProcessOrderRequestsService,
+    private cartSummaryService: CartSummaryService,
+    private enumsService: EnumsService,
     private router: Router,
     private snackbarService: SnackbarService
   ) {}
@@ -37,6 +42,26 @@ export class ProcessOrderComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.loadCart();
+    this.loadSummary();
+    this.loadPaymentMethods();
+  }
+
+  private loadPaymentMethods(): void {
+    this.enumsService.getPaymentMethods().subscribe({
+      next: (methods) => this.paymentMethods = methods
+    });
+  }
+
+  private loadSummary(): void {
+    if (!this.cartProducts.length) return;
+
+    this.cartSummaryService.getSummary(this.cartProducts).subscribe({
+      next: (summary) => {
+        this.itemsSubtotal = summary.subtotal;
+        this.shippingFee = summary.shipping;
+        this.grandTotal = summary.grandTotal;
+      }
+    });
   }
 
   private initForm(): void {
@@ -57,7 +82,6 @@ export class ProcessOrderComponent implements OnInit {
   private loadCart(): void {
     this.cartService.loadCart();
     this.cartProducts = this.cartService.getCartItems();
-    this.subTotal = this.cartService.getTotal() + this.SHIPPING_CHARGE;
   }
 
   protected onCountryChange(): void {
@@ -96,12 +120,10 @@ export class ProcessOrderComponent implements OnInit {
       address: formValue.address,
       paymentMethod: formValue.paymentMethod,
       additional: formValue.additional,
-      subtotal: this.subTotal,
       orderItems: this.cartProducts.map(item => ({
         variantId: item.variantId,
-        quantity: item.quantity,
-        total: item.total
-      })) as IOrderItem[]
+        quantity: item.quantity
+      }))
     }
   }
 
