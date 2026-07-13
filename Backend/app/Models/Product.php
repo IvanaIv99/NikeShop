@@ -28,7 +28,7 @@ class Product extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
-        'price'     => 'float',
+        'price'     => 'decimal:2',
     ];
 
     protected static function booted(): void

@@ -18,7 +18,7 @@ final class SingleOrderItemDto extends BaseData
     {
         return [
             'variantId' => ['required', 'integer', 'exists:product_variants,id'],
-            'quantity' => ['required', 'integer', 'min:1'],
+            'quantity' => ['required', 'integer', 'min:1', 'max:10000'],
         ];
     }
 }

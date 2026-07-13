@@ -21,7 +21,7 @@ final class ProductVariantDto extends BaseData
         return [
             'sizeId' => ['required', 'integer', 'exists:sizes,id'],
             'colorId' => ['required', 'integer', 'exists:colors,id'],
-            'stock' => ['required', 'integer', 'min:0'],
+            'stock' => ['required', 'integer', 'min:0', 'max:999999'],
             'sku' => ['nullable', 'string', 'max:64'],
         ];
     }

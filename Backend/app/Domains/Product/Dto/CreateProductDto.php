@@ -28,7 +28,7 @@ final class CreateProductDto extends BaseData
         return [
             'name' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string', 'max:2000'],
-            'price' => ['required', 'numeric', 'min:0'],
+            'price' => ['required', 'numeric', 'min:0', 'max:999999.99'],
             'image' => ['required', 'image', 'mimes:jpeg,jpg,png,webp', 'max:5120'],
             'categories' => ['required', 'array', 'min:1'],
             'categories.*' => ['integer', 'exists:categories,id'],

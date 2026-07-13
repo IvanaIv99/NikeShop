@@ -33,7 +33,7 @@ final class CreateOrderTotalsTest extends TestCase
             'city'          => 'Belgrade',
             'address'       => 'Main St 1',
             'additional'    => null,
-            'paymentMethod' => 'card',
+            'paymentMethod' => 'cash_on_delivery',
             // Deliberately bogus client-supplied money — must be ignored:
             'subtotal'      => 0.01,
             'orderItems'    => [
@@ -70,7 +70,7 @@ final class CreateOrderTotalsTest extends TestCase
             'city'          => 'Novi Sad',
             'address'       => 'Second St 2',
             'additional'    => null,
-            'paymentMethod' => 'cash',
+            'paymentMethod' => 'cash_on_delivery',
             'orderItems'    => [
                 ['variantId' => $cheap->id, 'quantity' => 3],   // 150
                 ['variantId' => $pricey->id, 'quantity' => 1],  // 120
@@ -93,6 +93,27 @@ final class CreateOrderTotalsTest extends TestCase
         $this->getJson('/api/orders/shipping-fee')
             ->assertSuccessful()
             ->assertJsonPath('data.shipping_fee', 12.5);
+    }
+
+    public function test_unknown_payment_method_is_rejected(): void
+    {
+        Notification::fake();
+        $variant = $this->makeVariant(price: 100.0, stock: 10);
+
+        $this->postJson('/api/orders/create', [
+            'firstName'     => 'John',
+            'lastName'      => 'Doe',
+            'email'         => 'john@example.com',
+            'phone'         => '123456789',
+            'country'       => 'Serbia',
+            'city'          => 'Belgrade',
+            'address'       => 'Main St 1',
+            'additional'    => null,
+            'paymentMethod' => 'bitcoin',
+            'orderItems'    => [
+                ['variantId' => $variant->id, 'quantity' => 1],
+            ],
+        ])->assertStatus(422);
     }
 
     private function makeVariant(float $price, int $stock): ProductVariant

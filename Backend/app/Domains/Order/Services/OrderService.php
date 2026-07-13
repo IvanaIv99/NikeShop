@@ -215,6 +215,8 @@ final readonly class OrderService
             return $order->refresh()->load('orderItems');
         }
 
+        $this->assertValidTransition($order->status, $dto->status);
+
         $order->status = $dto->status;
         $order->save();
 
@@ -222,6 +224,30 @@ final readonly class OrderService
             ->notify(new OrderStatusChanged($order));
 
         return $order->refresh()->load('orderItems');
+    }
+
+    /**
+     * Enforces the order lifecycle so invalid jumps (e.g. refunded → shipped)
+     * are rejected server-side.
+     *
+     * @throws ApiException
+     */
+    private function assertValidTransition(OrderStatus $from, OrderStatus $to): void
+    {
+        $allowed = match ($from) {
+            OrderStatus::Received  => [OrderStatus::Shipped, OrderStatus::Cancelled],
+            OrderStatus::Shipped   => [OrderStatus::Done, OrderStatus::Refunded],
+            OrderStatus::Done      => [OrderStatus::Refunded],
+            OrderStatus::Cancelled => [],
+            OrderStatus::Refunded  => [],
+        };
+
+        if (! in_array($to, $allowed, true)) {
+            throw new ApiException(
+                sprintf('Cannot change order status from %s to %s.', $from->value, $to->value),
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
     }
 
     public function todayStats(): array

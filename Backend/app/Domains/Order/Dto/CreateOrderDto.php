@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domains\Order\Dto;
 
+use App\Domains\Order\Enums\PaymentMethod;
 use App\Http\Data\BaseData;
+use Illuminate\Validation\Rules\Enum;
 use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\DataCollection;
 
@@ -36,7 +38,7 @@ final class CreateOrderDto extends BaseData
             'city' => ['required', 'string', 'max:100'],
             'address' => ['required', 'string', 'max:255'],
             'additional' => ['nullable', 'string', 'max:1000'],
-            'paymentMethod' => ['required', 'string', 'max:50'],
+            'paymentMethod' => ['required', new Enum(PaymentMethod::class)],
             'orderItems' => ['required', 'array', 'min:1'],
         ];
     }
