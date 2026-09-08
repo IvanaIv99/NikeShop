@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @mixin IdeHelperOrderItem
@@ -34,7 +35,7 @@ class OrderItem extends Model
     protected function productImage(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value): string => asset('storage/products/'.$value),
+            get: fn (string $value): string => Storage::url('products/'.$value),
         );
     }
 

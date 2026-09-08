@@ -203,6 +203,11 @@
       <path value="$PROJECT_DIR$/Backend/vendor/dompdf/php-font-lib" />
       <path value="$PROJECT_DIR$/Backend/vendor/dompdf/dompdf" />
       <path value="$PROJECT_DIR$/Backend/vendor/sabberworm/php-css-parser" />
+      <path value="$PROJECT_DIR$/Backend/vendor/mtdowling/jmespath.php" />
+      <path value="$PROJECT_DIR$/Backend/vendor/symfony/filesystem" />
+      <path value="$PROJECT_DIR$/Backend/vendor/league/flysystem-aws-s3-v3" />
+      <path value="$PROJECT_DIR$/Backend/vendor/aws/aws-crt-php" />
+      <path value="$PROJECT_DIR$/Backend/vendor/aws/aws-sdk-php" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.3" />

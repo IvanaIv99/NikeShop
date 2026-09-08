@@ -176,13 +176,13 @@ final readonly class ProductService
     {
         $extension = $image->getClientOriginalExtension();
         $newName = sprintf('%s_%s.%s', now()->timestamp, Str::random(16), $extension);
-        $image->storeAs('public/products', $newName);
+        $image->storePubliclyAs('products', $newName);
 
         return $newName;
     }
 
     private function deleteImage(string $filename): void
     {
-        Storage::disk('public')->delete('products/' . $filename);
+        Storage::delete('products/' . $filename);
     }
 }
