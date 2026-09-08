@@ -95,10 +95,10 @@ html::after {
 }
 
 .error-snackbar {
-  --mdc-snackbar-container-color: #872c2c;
+  --mat-snackbar-container-color: #872c2c;
   --mat-snack-bar-button-color: white;
   --mat-snack-bar-button-background-color: white;
-  --mdc-snackbar-supporting-text-color: white;
+  --mat-snackbar-supporting-text-color: white;
   .mat-mdc-button {
     background-color: brown !important;
   }
@@ -106,10 +106,10 @@ html::after {
 }
 
 .success-snackbar{
-  --mdc-snackbar-container-color: #337745;
+  --mat-snackbar-container-color: #337745;
   --mat-snack-bar-button-color: white;
   --mat-snack-bar-button-background-color: white;
-  --mdc-snackbar-supporting-text-color: white;
+  --mat-snackbar-supporting-text-color: white;
   .mat-mdc-button {
     background-color: #306e41 !important;
   }

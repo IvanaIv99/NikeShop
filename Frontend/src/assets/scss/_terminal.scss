@@ -1022,7 +1022,7 @@ body.tm-admin .tm-tnum {
 }
 
 // Override mat-form-field inside admin form
-.tm-form .mat-mdc-form-field { width: 100%; --mdc-outlined-text-field-outline-color: #{$tm-line}; --mdc-outlined-text-field-hover-outline-color: #2a2d31; --mdc-outlined-text-field-focus-outline-color: #{$tm-accent} }
+.tm-form .mat-mdc-form-field { width: 100%; --mat-form-field-outlined-outline-color: #{$tm-line}; --mat-form-field-outlined-hover-outline-color: #2a2d31; --mat-form-field-outlined-focus-outline-color: #{$tm-accent} }
 .tm-form .mat-mdc-form-field .mdc-text-field--outlined { background: $tm-surface-2; border-radius: 6px }
 .tm-form .mat-mdc-form-field .mdc-floating-label,
 .tm-form .mat-mdc-form-field .mat-mdc-form-field-label { color: $tm-muted !important; font-family: $tm-sans !important; font-size: 12px !important; letter-spacing: -.003em }
