@@ -65,12 +65,7 @@
               <div class="col-md-4">
                 <mat-form-field appearance="fill" class="w-100">
                   <mat-label>City</mat-label>
-                  <mat-select formControlName="city">
-                    <mat-option [value]="null">Select City</mat-option>
-                    <mat-option *ngFor="let city of cities" [value]="city">
-                      {{ city.name }}
-                    </mat-option>
-                  </mat-select>
+                  <input matInput formControlName="city" placeholder="Enter city">
                   <mat-error *ngFor="let error of getFormErrors('city')">{{ error }}</mat-error>
                 </mat-form-field>
               </div>

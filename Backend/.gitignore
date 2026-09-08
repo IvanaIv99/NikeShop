@@ -3,6 +3,12 @@
 /public/build
 /public/hot
 /public/storage
+# Angular SPA build output is generated into public/ at deploy time
+# (see scripts/build-frontend.sh). Ignore all of it except Laravel's own files.
+/public/*
+!/public/index.php
+!/public/robots.txt
+!/public/favicon.ico
 /storage/*.key
 /vendor
 .env

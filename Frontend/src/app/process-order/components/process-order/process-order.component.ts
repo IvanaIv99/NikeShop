@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CartService } from "../../../cart/business-logic/services/cart.service";
 import { BlProcessOrderRequestsService } from "../../business-logic/requests/bl-process-order-requests.service";
-import { City, Country } from 'country-state-city';
+import { Country } from 'country-state-city';
 import { Router } from "@angular/router";
 import { IOrderRequest } from "../../interfaces/i-order";
 import { SnackbarService } from "../../../shared/business-logic/services/common/snackbar/snackbar.service";
@@ -25,7 +25,6 @@ export class ProcessOrderComponent implements OnInit {
   protected shippingFee = 0;
   protected grandTotal = 0;
   protected countries = Country.getAllCountries();
-  protected cities = [];
   protected selectedCountry: any;
   protected paymentMethods: IEnumOption[] = [];
 
@@ -71,7 +70,7 @@ export class ProcessOrderComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required]],
       country: [null, [Validators.required]],
-      city: [null, [Validators.required]],
+      city: ['', [Validators.required, Validators.minLength(2)]],
       zip: [null, [Validators.required, Validators.pattern(/^\d{5}(-\d{4})?$/)]],
       address: ['', [Validators.required, Validators.minLength(2)]],
       paymentMethod: ['', [Validators.required]],
@@ -86,7 +85,6 @@ export class ProcessOrderComponent implements OnInit {
 
   protected onCountryChange(): void {
     this.selectedCountry = this.form.get('country')!.value;
-    this.cities = City.getCitiesOfCountry(this.selectedCountry.isoCode);
   }
 
   protected submit(): void {
@@ -115,7 +113,7 @@ export class ProcessOrderComponent implements OnInit {
       email: formValue.email,
       phone: formValue.phone,
       country: this.selectedCountry.name,
-      city: formValue.city.name,
+      city: formValue.city,
       zip: formValue.zip,
       address: formValue.address,
       paymentMethod: formValue.paymentMethod,
