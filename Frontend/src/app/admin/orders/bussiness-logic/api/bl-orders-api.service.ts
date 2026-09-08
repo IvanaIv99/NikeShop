@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {environment} from "../../../../shared/environment/environment";
 import {ITodayStats} from "../../interfaces/i-today-stats";
 import {IDashboardChart} from "../../interfaces/i-dashboard-chart";
