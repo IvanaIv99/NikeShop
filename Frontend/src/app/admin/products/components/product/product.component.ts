@@ -3,9 +3,10 @@ import {SnackbarService} from "../../../../shared/business-logic/services/common
 import {BlProductsRequestService} from "../../bussiness-logic/requests/bl-products-request.service";
 import {IProduct} from "../../../../shop/interfaces/i-product";
 @Component({
-  selector: 'tr[app-product-item]',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.scss']
+    selector: 'tr[app-product-item]',
+    templateUrl: './product.component.html',
+    styleUrls: ['./product.component.scss'],
+    standalone: false
 })
 export class ProductComponent implements OnInit  {
 

@@ -4,12 +4,11 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {SharedModule} from "../../shared.module";
 
 @Component({
-  selector: 'app-confirm-dialog',
-  standalone: true,
-  imports: [
-    SharedModule
-  ],
-  template: `
+    selector: 'app-confirm-dialog',
+    imports: [
+        SharedModule
+    ],
+    template: `
     <h2 mat-dialog-title>Confirm</h2>
     <mat-dialog-content>
       {{ data.message }}

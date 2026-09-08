@@ -10,9 +10,10 @@ import {IOrder} from "../../../../process-order/interfaces/i-order";
 import {SnackbarService} from "../../../../shared/business-logic/services/common/snackbar/snackbar.service";
 
 @Component({
-  selector: 'app-orders-table',
-  templateUrl: './orders-table.component.html',
-  styleUrls: ['./orders-table.component.scss']
+    selector: 'app-orders-table',
+    templateUrl: './orders-table.component.html',
+    styleUrls: ['./orders-table.component.scss'],
+    standalone: false
 })
 export class OrdersTableComponent implements OnChanges, AfterViewInit, OnDestroy {
 

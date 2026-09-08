@@ -2,9 +2,10 @@ import {Component} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
-  selector: 'app-order-success',
-  templateUrl: './order-success.component.html',
-  styleUrls: ['./order-success.component.scss']
+    selector: 'app-order-success',
+    templateUrl: './order-success.component.html',
+    styleUrls: ['./order-success.component.scss'],
+    standalone: false
 })
 export class OrderSuccessComponent {
 

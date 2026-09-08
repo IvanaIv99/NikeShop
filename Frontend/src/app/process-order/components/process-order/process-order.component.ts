@@ -11,9 +11,10 @@ import { EnumsService } from "../../../shared/business-logic/services/enums/enum
 import { IEnumOption } from "../../../shared/interfaces/i-enums";
 
 @Component({
-  selector: 'app-orders',
-  templateUrl: './process-order.component.html',
-  styleUrls: ['./process-order.component.scss']
+    selector: 'app-orders',
+    templateUrl: './process-order.component.html',
+    styleUrls: ['./process-order.component.scss'],
+    standalone: false
 })
 export class ProcessOrderComponent implements OnInit {
 

@@ -8,9 +8,10 @@ import {BlProductsRequestService} from "../../../admin/products/bussiness-logic/
 import {SnackbarService} from "../../../shared/business-logic/services/common/snackbar/snackbar.service";
 
 @Component({
-  selector: 'app-shop',
-  templateUrl: './shop.component.html',
-  styleUrls: ['./shop.component.scss'],
+    selector: 'app-shop',
+    templateUrl: './shop.component.html',
+    styleUrls: ['./shop.component.scss'],
+    standalone: false
 })
 export class ShopComponent implements OnInit, OnDestroy {
 

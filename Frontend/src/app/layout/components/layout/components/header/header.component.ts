@@ -5,9 +5,10 @@ import {filter} from "rxjs";
 import {CartService} from "../../../../../cart/business-logic/services/cart.service";
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss'],
+    standalone: false
 })
 export class HeaderComponent {
 
@@ -47,7 +48,7 @@ export class HeaderComponent {
   }
 
   isHome(): boolean {
-    return this.currentRoute === ('/home' || '/');
+    return this.currentRoute === '/home' || this.currentRoute === '/';
   }
 
 }

@@ -12,9 +12,10 @@ import {ConfirmDialogComponent} from "../../../../shared/components/confirm-dial
 import {MatDialog} from "@angular/material/dialog";
 
 @Component({
-  selector: 'app-products-table',
-  templateUrl: './products-table.component.html',
-  styleUrls: ['./products-table.component.scss']
+    selector: 'app-products-table',
+    templateUrl: './products-table.component.html',
+    styleUrls: ['./products-table.component.scss'],
+    standalone: false
 })
 export class ProductsTableComponent implements AfterViewInit, OnChanges, OnDestroy {
 

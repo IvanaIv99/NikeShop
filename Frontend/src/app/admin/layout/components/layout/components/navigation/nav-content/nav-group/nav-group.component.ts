@@ -3,9 +3,10 @@ import { NavigationItem } from '../../../../../../../../shared/inferfaces/admin/
 import { Location, LocationStrategy } from '@angular/common';
 
 @Component({
-  selector: 'app-nav-group',
-  templateUrl: './nav-group.component.html',
-  styleUrls: ['./nav-group.component.scss']
+    selector: 'app-nav-group',
+    templateUrl: './nav-group.component.html',
+    styleUrls: ['./nav-group.component.scss'],
+    standalone: false
 })
 export class NavGroupComponent implements OnInit {
   @Input() item!: NavigationItem;

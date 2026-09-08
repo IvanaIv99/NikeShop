@@ -20,9 +20,10 @@ interface VariantInput {
 }
 
 @Component({
-  selector: 'product-form',
-  templateUrl: './product-form.component.html',
-  styleUrls: ['./product-form.component.scss']
+    selector: 'product-form',
+    templateUrl: './product-form.component.html',
+    styleUrls: ['./product-form.component.scss'],
+    standalone: false
 })
 export class ProductFormComponent implements OnInit {
 

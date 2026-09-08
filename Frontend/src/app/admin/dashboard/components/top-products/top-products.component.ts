@@ -3,9 +3,10 @@ import { BlProductsRequestService } from '../../../products/bussiness-logic/requ
 import {IProduct} from "../../../products/interfaces/i-top-product";
 
 @Component({
-  selector: 'app-top-products',
-  templateUrl: './top-products.component.html',
-  styleUrls: ['./top-products.component.scss']
+    selector: 'app-top-products',
+    templateUrl: './top-products.component.html',
+    styleUrls: ['./top-products.component.scss'],
+    standalone: false
 })
 export class TopProductsComponent implements OnInit {
 

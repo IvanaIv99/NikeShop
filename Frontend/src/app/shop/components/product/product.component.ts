@@ -5,9 +5,10 @@ import {IColor} from "../../interfaces/i-color";
 import {IProduct} from "../../interfaces/i-product";
 
 @Component({
-  selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.scss']
+    selector: 'app-product',
+    templateUrl: './product.component.html',
+    styleUrls: ['./product.component.scss'],
+    standalone: false
 })
 export class ProductComponent implements OnInit {
   @Input() product: IProduct;

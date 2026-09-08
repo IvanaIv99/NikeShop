@@ -5,9 +5,10 @@ import { CartService } from '../../business-logic/services/cart.service';
 import { CartSummaryService } from '../../business-logic/services/cart-summary.service';
 
 @Component({
-  selector: 'app-cart-table',
-  templateUrl: './cart-table.component.html',
-  styleUrls: ['./cart-table.component.scss']
+    selector: 'app-cart-table',
+    templateUrl: './cart-table.component.html',
+    styleUrls: ['./cart-table.component.scss'],
+    standalone: false
 })
 export class CartTableComponent implements OnInit, OnDestroy {
 

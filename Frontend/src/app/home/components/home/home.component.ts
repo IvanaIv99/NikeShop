@@ -3,9 +3,10 @@ import { BlProductsRequestService } from '../../../admin/products/bussiness-logi
 import { IProduct } from '../../../shop/interfaces/i-product';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
+    standalone: false
 })
 export class HomeComponent implements OnInit {
 

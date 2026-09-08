@@ -4,9 +4,10 @@ import { AuthService } from "../../../shared/business-logic/services/auth/auth.s
 import { ICredentials } from "../../interfaces/i-credentials";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    standalone: false
 })
 export class LoginComponent implements OnInit {
 

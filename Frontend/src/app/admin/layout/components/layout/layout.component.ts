@@ -3,9 +3,10 @@ import { Location, LocationStrategy } from '@angular/common';
 import { BerryConfig } from '../../../../app-config';
 
 @Component({
-  selector: 'layout',
-  templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss']
+    selector: 'layout',
+    templateUrl: './layout.component.html',
+    styleUrls: ['./layout.component.scss'],
+    standalone: false
 })
 
 export class LayoutComponent implements OnDestroy {

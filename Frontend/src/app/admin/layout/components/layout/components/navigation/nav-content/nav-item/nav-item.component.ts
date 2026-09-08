@@ -5,9 +5,10 @@ import { Component, Input } from '@angular/core';
 import { NavigationItem } from '../../../../../../../../shared/inferfaces/admin/i-navigation';
 
 @Component({
-  selector: 'app-nav-item',
-  templateUrl: './nav-item.component.html',
-  styleUrls: ['./nav-item.component.scss']
+    selector: 'app-nav-item',
+    templateUrl: './nav-item.component.html',
+    styleUrls: ['./nav-item.component.scss'],
+    standalone: false
 })
 export class NavItemComponent {
   // public props

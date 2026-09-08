@@ -3,9 +3,10 @@ import { EnumsService } from "../../../../shared/business-logic/services/enums/e
 import { IEnumOption } from "../../../../shared/interfaces/i-enums";
 
 @Component({
-  selector: 'app-orders',
-  templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.scss']
+    selector: 'app-orders',
+    templateUrl: './orders.component.html',
+    styleUrls: ['./orders.component.scss'],
+    standalone: false
 })
 export class OrdersComponent implements OnInit {
   public filters: any = {
