@@ -8,6 +8,7 @@ import { BlOrdersRequestsService } from "../../bussiness-logic/requests/bl-order
 import { Router } from "@angular/router";
 import {IOrder} from "../../../../process-order/interfaces/i-order";
 import {SnackbarService} from "../../../../shared/business-logic/services/common/snackbar/snackbar.service";
+import {extractApiErrorMessage} from "../../../../shared/utils/api-error";
 
 @Component({
     selector: 'app-orders-table',
@@ -79,7 +80,7 @@ export class OrdersTableComponent implements OnChanges, AfterViewInit, OnDestroy
           this.paginator.length = response.meta.total;
           this.filterChange.emit({ total: response.meta.total });
         },
-        error: () => this.snackbarService.showError('Error getting orders.')
+        error: (err) => this.snackbarService.showError(extractApiErrorMessage(err, 'Error getting orders.'))
       });
   }
 

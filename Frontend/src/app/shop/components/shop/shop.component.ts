@@ -6,6 +6,7 @@ import {CartService} from "../../../cart/business-logic/services/cart.service";
 import {IProduct} from "../../interfaces/i-product";
 import {BlProductsRequestService} from "../../../admin/products/bussiness-logic/requests/bl-products-request.service";
 import {SnackbarService} from "../../../shared/business-logic/services/common/snackbar/snackbar.service";
+import {extractApiErrorMessage} from "../../../shared/utils/api-error";
 
 @Component({
     selector: 'app-shop',
@@ -108,8 +109,8 @@ export class ShopComponent implements OnInit, OnDestroy {
         this.total = response.meta.total;
         this.loading = false;
       },
-      error: () => {
-        this.snackbarService.showError("Error loading products.");
+      error: (err) => {
+        this.snackbarService.showError(extractApiErrorMessage(err, "Error loading products."));
         this.loading = false;
       }
     });

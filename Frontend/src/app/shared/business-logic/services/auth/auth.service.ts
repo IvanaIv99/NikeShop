@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import {BlLoginRequestsService} from "../../../../login/business-logic/requests/bl-login-requests.service";
 import {ICredentials} from "../../../../login/interfaces/i-credentials";
 import {SnackbarService} from "../common/snackbar/snackbar.service";
+import {extractApiErrorMessage} from "../../../utils/api-error";
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class AuthService {
         this.setJwtToken(data.token);
         this.router.navigateByUrl("/admin-panel/dashboard");
       },
-      error: (resp) => this.snackBarService.showError(resp.error.message)
+      error: (resp) => this.snackBarService.showError(extractApiErrorMessage(resp, 'Login failed.'))
     })
   }
 
@@ -31,7 +32,7 @@ export class AuthService {
         this.removeJwtToken();
         this.router.navigate(['login']);
       },
-      error: (err) => this.snackBarService.showError(err)
+      error: (err) => this.snackBarService.showError(extractApiErrorMessage(err, 'Logout failed.'))
     })
   }
 

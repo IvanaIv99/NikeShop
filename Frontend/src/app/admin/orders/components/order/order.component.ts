@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BlOrdersRequestsService} from "../../bussiness-logic/requests/bl-orders-requests.service";
+import {extractApiErrorMessage} from "../../../../shared/utils/api-error";
 import {ActivatedRoute} from "@angular/router";
 import {PaymentMethod} from "../../enums/payment-method";
 import {OrderStatus} from "../../enums/order-status";
@@ -32,7 +33,7 @@ export class OrderComponent implements OnInit {
   protected updateStatus() {
     this.requestsService.changeStatus(this.order.id, this.order.status).subscribe({
       next: () => this.snackbarService.showSuccess('Saved.'),
-      error: () => this.snackbarService.showError('Error saving order.')
+      error: (err) => this.snackbarService.showError(extractApiErrorMessage(err, 'Error saving order.'))
     });
   }
 
@@ -40,7 +41,7 @@ export class OrderComponent implements OnInit {
   {
     this.requestsService.getOneOrder(id).subscribe({
       next: (response: IOrder) => this.order = response,
-      error: () => this.snackbarService.showError("Error getting order")
+      error: (err) => this.snackbarService.showError(extractApiErrorMessage(err, 'Error getting order.'))
     });
   }
 
@@ -64,8 +65,8 @@ export class OrderComponent implements OnInit {
         URL.revokeObjectURL(blobUrl);
         this.downloadingPdf = false;
       },
-      error: () => {
-        this.snackbarService.showError('Could not generate PDF.');
+      error: (err) => {
+        this.snackbarService.showError(extractApiErrorMessage(err, 'Could not generate PDF.'));
         this.downloadingPdf = false;
       }
     });

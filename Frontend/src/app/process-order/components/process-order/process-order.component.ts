@@ -8,6 +8,7 @@ import { IOrderRequest } from "../../interfaces/i-order";
 import { SnackbarService } from "../../../shared/business-logic/services/common/snackbar/snackbar.service";
 import { CartSummaryService } from "../../../cart/business-logic/services/cart-summary.service";
 import { EnumsService } from "../../../shared/business-logic/services/enums/enums.service";
+import { extractApiErrorMessage } from "../../../shared/utils/api-error";
 import { IEnumOption } from "../../../shared/interfaces/i-enums";
 
 @Component({
@@ -102,7 +103,7 @@ export class ProcessOrderComponent implements OnInit {
         this.router.navigate(['process-order/success', data.order_id]);
         this.cartService.clearCart();
       },
-      error: () => this.snackbarService.showError('Error processing order.')
+      error: (err) => this.snackbarService.showError(extractApiErrorMessage(err, 'Error processing order.'))
     });
   }
 

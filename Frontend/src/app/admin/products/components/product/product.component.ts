@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {SnackbarService} from "../../../../shared/business-logic/services/common/snackbar/snackbar.service";
+import {extractApiErrorMessage} from "../../../../shared/utils/api-error";
 import {BlProductsRequestService} from "../../bussiness-logic/requests/bl-products-request.service";
 import {IProduct} from "../../../../shop/interfaces/i-product";
 @Component({
@@ -54,7 +55,7 @@ export class ProductComponent implements OnInit  {
         window.location.reload();
       },
       (error) => {
-        this.snackbarService.showError('Error deleting product:'+ error)
+        this.snackbarService.showError(extractApiErrorMessage(error, 'Error deleting product.'))
       }
     );
   }

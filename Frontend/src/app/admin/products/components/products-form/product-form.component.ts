@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import {firstValueFrom, forkJoin, Observable} from "rxjs";
 import {SnackbarService} from "../../../../shared/business-logic/services/common/snackbar/snackbar.service";
+import {extractApiErrorMessage} from "../../../../shared/utils/api-error";
 import {BlProductsRequestService} from "../../bussiness-logic/requests/bl-products-request.service";
 import {IProduct} from "../../../../shop/interfaces/i-product";
 import {ICategory} from "../../../../shop/interfaces/i-category";
@@ -189,8 +190,8 @@ export class ProductFormComponent implements OnInit {
     try {
       await firstValueFrom(this.saveProduct(this.id));
       this.snackbar.showSuccess('Saved.');
-    } catch (error: any) {
-      this.snackbar.showError(error);
+    } catch (error) {
+      this.snackbar.showError(extractApiErrorMessage(error, 'Error saving product.'));
       this.submitting = false;
     }
   }

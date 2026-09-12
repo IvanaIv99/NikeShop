@@ -6,6 +6,7 @@ import { ColumnType } from "../../../../shared/enums/column-type";
 import { BlProductsTableService } from "../../bussiness-logic/tables/bl-products-table.service";
 import { Router } from "@angular/router";
 import { SnackbarService } from "../../../../shared/business-logic/services/common/snackbar/snackbar.service";
+import { extractApiErrorMessage } from "../../../../shared/utils/api-error";
 import { IProduct } from "../../../../shop/interfaces/i-product";
 import { Subject, takeUntil } from 'rxjs';
 import {ConfirmDialogComponent} from "../../../../shared/components/confirm-dialog/confirm-dialog.component";
@@ -90,7 +91,7 @@ export class ProductsTableComponent implements AfterViewInit, OnChanges, OnDestr
               this.snackbarService.showSuccess('Deleted.');
               this.loadProducts();
             },
-            error: (error) => this.snackbarService.showError('Error deleting product: ' + error)
+            error: (error) => this.snackbarService.showError(extractApiErrorMessage(error, 'Error deleting product.'))
           });
       }
     });
