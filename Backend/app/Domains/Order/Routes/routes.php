@@ -3,7 +3,7 @@
 use App\Domains\Order\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/create', [OrderController::class, 'store']);
+Route::post('/create', [OrderController::class, 'store'])->middleware('throttle:orders');
 Route::get('/shipping-fee', [OrderController::class, 'shippingFee']);
 Route::post('/summary', [OrderController::class, 'summary']);
 Route::get('/enums', [OrderController::class, 'enums']);

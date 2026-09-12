@@ -21,6 +21,7 @@ class Order extends Model
         'phone',
         'country',
         'city',
+        'zip',
         'address',
         'additional',
         'payment_method',

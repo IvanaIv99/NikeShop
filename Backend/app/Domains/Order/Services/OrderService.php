@@ -22,7 +22,9 @@ use App\Models\ProductVariant;
 use Barryvdh\DomPDF\Facade\Pdf as PDFFacade;
 use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Spatie\LaravelData\DataCollection;
 use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\Response;
@@ -131,6 +133,7 @@ final readonly class OrderService
             $order->phone           = $dto->phone;
             $order->country         = $dto->country;
             $order->city            = $dto->city;
+            $order->zip             = $dto->zip;
             $order->address         = $dto->address;
             $order->additional      = $dto->additional;
             $order->payment_method  = $dto->paymentMethod;
@@ -171,6 +174,8 @@ final readonly class OrderService
 
             return $order->load('orderItems.variant.product', 'orderItems.variant.size', 'orderItems.variant.color');
         });
+
+        Cache::forget('orders.chart');
 
         Notification::route('mail', $order->email)
             ->notify(new OrderStatusChanged($order));
@@ -217,8 +222,19 @@ final readonly class OrderService
 
         $this->assertValidTransition($order->status, $dto->status);
 
+        $from = $order->status;
         $order->status = $dto->status;
         $order->save();
+
+        // Audit trail: who moved the order between which states, and when.
+        Log::info('order.status_changed', [
+            'order_id'   => $order->id,
+            'from'       => $from->value,
+            'to'         => $dto->status->value,
+            'changed_by' => getLoggedInUserId(),
+        ]);
+
+        Cache::forget('orders.chart');
 
         Notification::route('mail', $order->email)
             ->notify(new OrderStatusChanged($order));
@@ -266,6 +282,17 @@ final readonly class OrderService
      * @return array{ranges: array<string, list<array{label: string, revenue: float, orders: int}>>, activity: array<int, array<string, mixed>>}
      */
     public function chart(): array
+    {
+        // Aggregating every order into 24h/12w/ytd buckets is expensive; the
+        // dashboard polls this repeatedly, so cache briefly (60s staleness is
+        // acceptable for a revenue chart). Invalidated on new orders.
+        return Cache::remember('orders.chart', 60, fn (): array => $this->buildChart());
+    }
+
+    /**
+     * @return array{ranges: array<string, list<array{label: string, revenue: float, orders: int}>>, activity: array<int, array<string, mixed>>}
+     */
+    private function buildChart(): array
     {
         $now = CarbonImmutable::now();
 

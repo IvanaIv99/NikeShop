@@ -30,11 +30,15 @@ return Application::configure(basePath: dirname(__DIR__))
             Request::HEADER_X_FORWARDED_PROTO |
             Request::HEADER_X_FORWARDED_AWS_ELB
         );
-        $middleware->api(prepend: [
-            ForceJsonMiddleware::class,
-            AddTraceIdToRequest::class,
-            //ThrottleRequestsWithRedis::class . ':api'
-        ]);
+        $middleware->api(
+            prepend: [
+                ForceJsonMiddleware::class,
+                AddTraceIdToRequest::class,
+            ],
+            append: [
+                'throttle:api',
+            ],
+        );
         $middleware->alias([
 //            'authenticated-with-id-token' => AuthenticatedWithIdToken::class
         ]);

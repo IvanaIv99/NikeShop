@@ -31,6 +31,7 @@ final class CreateOrderTotalsTest extends TestCase
             'phone'         => '123456789',
             'country'       => 'Serbia',
             'city'          => 'Belgrade',
+            'zip'           => '11000',
             'address'       => 'Main St 1',
             'additional'    => null,
             'paymentMethod' => 'cash_on_delivery',
@@ -68,6 +69,7 @@ final class CreateOrderTotalsTest extends TestCase
             'phone'         => '987654321',
             'country'       => 'Serbia',
             'city'          => 'Novi Sad',
+            'zip'           => '21000',
             'address'       => 'Second St 2',
             'additional'    => null,
             'paymentMethod' => 'cash_on_delivery',
@@ -107,6 +109,7 @@ final class CreateOrderTotalsTest extends TestCase
             'phone'         => '123456789',
             'country'       => 'Serbia',
             'city'          => 'Belgrade',
+            'zip'           => '11000',
             'address'       => 'Main St 1',
             'additional'    => null,
             'paymentMethod' => 'bitcoin',
@@ -114,6 +117,78 @@ final class CreateOrderTotalsTest extends TestCase
                 ['variantId' => $variant->id, 'quantity' => 1],
             ],
         ])->assertStatus(422);
+    }
+
+    public function test_zip_is_persisted_on_the_order(): void
+    {
+        Notification::fake();
+        $variant = $this->makeVariant(price: 100.0, stock: 10);
+
+        $this->postJson('/api/orders/create', [
+            'firstName'     => 'John',
+            'lastName'      => 'Doe',
+            'email'         => 'john@example.com',
+            'phone'         => '123456789',
+            'country'       => 'Serbia',
+            'city'          => 'Belgrade',
+            'zip'           => '11000',
+            'address'       => 'Main St 1',
+            'additional'    => null,
+            'paymentMethod' => 'cash_on_delivery',
+            'orderItems'    => [
+                ['variantId' => $variant->id, 'quantity' => 1],
+            ],
+        ])->assertSuccessful();
+
+        $this->assertSame('11000', Order::query()->latest('id')->firstOrFail()->zip);
+    }
+
+    public function test_zip_is_required(): void
+    {
+        Notification::fake();
+        $variant = $this->makeVariant(price: 100.0, stock: 10);
+
+        $this->postJson('/api/orders/create', [
+            'firstName'     => 'John',
+            'lastName'      => 'Doe',
+            'email'         => 'john@example.com',
+            'phone'         => '123456789',
+            'country'       => 'Serbia',
+            'city'          => 'Belgrade',
+            // zip omitted
+            'address'       => 'Main St 1',
+            'additional'    => null,
+            'paymentMethod' => 'cash_on_delivery',
+            'orderItems'    => [
+                ['variantId' => $variant->id, 'quantity' => 1],
+            ],
+        ])->assertStatus(422);
+    }
+
+    public function test_ordering_more_than_available_stock_is_rejected_and_creates_no_order(): void
+    {
+        Notification::fake();
+        $variant = $this->makeVariant(price: 100.0, stock: 3);
+
+        $this->postJson('/api/orders/create', [
+            'firstName'     => 'John',
+            'lastName'      => 'Doe',
+            'email'         => 'john@example.com',
+            'phone'         => '123456789',
+            'country'       => 'Serbia',
+            'city'          => 'Belgrade',
+            'zip'           => '11000',
+            'address'       => 'Main St 1',
+            'additional'    => null,
+            'paymentMethod' => 'cash_on_delivery',
+            'orderItems'    => [
+                ['variantId' => $variant->id, 'quantity' => 5],
+            ],
+        ])->assertStatus(422);
+
+        // The transaction must roll back: no order, and stock untouched.
+        $this->assertSame(0, Order::query()->count());
+        $this->assertSame(3, $variant->refresh()->stock);
     }
 
     private function makeVariant(float $price, int $stock): ProductVariant

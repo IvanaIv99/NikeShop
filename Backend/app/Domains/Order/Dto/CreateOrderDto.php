@@ -19,6 +19,7 @@ final class CreateOrderDto extends BaseData
         public readonly string $phone,
         public readonly string $country,
         public readonly string $city,
+        public readonly string $zip,
         public readonly string $address,
         public readonly ?string $additional,
         public readonly string $paymentMethod,
@@ -36,6 +37,9 @@ final class CreateOrderDto extends BaseData
             'phone' => ['required', 'string', 'max:30'],
             'country' => ['required', 'string', 'max:100'],
             'city' => ['required', 'string', 'max:100'],
+            // Kept intentionally lenient: the shop ships internationally, so a
+            // US-only 5-digit rule (as on the frontend) would reject valid codes.
+            'zip' => ['required', 'string', 'max:20'],
             'address' => ['required', 'string', 'max:255'],
             'additional' => ['nullable', 'string', 'max:1000'],
             'paymentMethod' => ['required', new Enum(PaymentMethod::class)],
