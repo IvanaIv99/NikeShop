@@ -22,7 +22,7 @@ final class OrderStatusTransitionTest extends TestCase
         $this->actingAs($this->makeAdmin(), 'sanctum');
     }
 
-    public function test_valid_transition_is_allowed(): void
+    public function test_forward_transition_is_allowed(): void
     {
         $order = $this->makeOrder(OrderStatus::Received);
 
@@ -32,14 +32,16 @@ final class OrderStatusTransitionTest extends TestCase
         $this->assertSame(OrderStatus::Shipped, $order->refresh()->status);
     }
 
-    public function test_invalid_transition_is_rejected(): void
+    public function test_any_transition_is_allowed(): void
     {
+        // Lifecycle restrictions were removed: an admin may move an order to
+        // any status, including previously-rejected jumps like refunded → shipped.
         $order = $this->makeOrder(OrderStatus::Refunded);
 
         $this->patchJson("/api/orders/{$order->id}/status", ['status' => 'shipped'])
-            ->assertStatus(422);
+            ->assertSuccessful();
 
-        $this->assertSame(OrderStatus::Refunded, $order->refresh()->status);
+        $this->assertSame(OrderStatus::Shipped, $order->refresh()->status);
     }
 
     private function makeOrder(OrderStatus $status): Order

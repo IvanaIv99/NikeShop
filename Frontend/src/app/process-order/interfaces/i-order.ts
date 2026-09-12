@@ -9,7 +9,7 @@ interface IOrderBase {
   phone: string;
   country: string;
   city: string;
-  zip: number;
+  zip: string;
   address: string;
   paymentMethod: PaymentMethod,
   additional: string,

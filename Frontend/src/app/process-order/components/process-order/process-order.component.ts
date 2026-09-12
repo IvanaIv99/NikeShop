@@ -100,8 +100,8 @@ export class ProcessOrderComponent implements OnInit {
     const dataToSend: IOrderRequest = this.getDataForSend();
     this.requestsService.insert(dataToSend).subscribe({
       next: (data) => {
-        this.router.navigate(['process-order/success', data.order_id]);
         this.cartService.clearCart();
+        this.router.navigate(['process-order/success', data.id]);
       },
       error: (err) => this.snackbarService.showError(extractApiErrorMessage(err, 'Error processing order.'))
     });

@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {environment} from "../../../shared/environment/environment";
-import {IOrderRequest} from "../../interfaces/i-order";
+import {IOrder, IOrderRequest} from "../../interfaces/i-order";
+import {WebApiService} from "../../../shared/business-logic/services/api/web-api.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,10 +10,10 @@ import {IOrderRequest} from "../../interfaces/i-order";
 export class BlProcessOrderApiService {
 
   constructor(
-    public http: HttpClient,
+    private webApiService: WebApiService,
   ) {}
 
-  public insert(dataToSend: IOrderRequest): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/orders/create`, dataToSend);
+  public insert(dataToSend: IOrderRequest): Observable<IOrder> {
+    return this.webApiService.post<IOrder>(`${environment.apiUrl}/orders/create`, dataToSend);
   }
 }
