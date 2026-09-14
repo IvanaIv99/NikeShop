@@ -93,6 +93,11 @@ export class ProcessOrderComponent implements OnInit {
     this.submitted = true;
 
     if (!this.form || this.form.invalid) {
+      // TEMP DIAGNOSTIC — remove after debugging: shows which controls block submit
+      console.warn('Order submit blocked. Invalid controls:',
+        Object.entries(this.form.controls)
+          .filter(([, c]) => c.invalid)
+          .map(([name, c]) => ({ name, errors: c.errors })));
       this.form.markAllAsTouched();
       return;
     }

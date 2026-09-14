@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BlOrdersRequestsService } from '../../../orders/bussiness-logic/requests/bl-orders-requests.service';
 import { IActivityOrder, IChartBucket, IDashboardChart } from '../../../orders/interfaces/i-dashboard-chart';
-
-type Range = '24h' | '12w' | 'ytd';
+import { ByRange, DashboardRange } from '../../../../shared/inferfaces/admin/dashboard-range';
 
 interface ChartPoint {
   label: string;
@@ -30,7 +29,7 @@ const CHART_PAD_TOP = 20;
     standalone: false
 })
 export class DashboardComponent implements OnInit {
-  range: Range = '12w';
+  range: DashboardRange = '24h';
 
   chartPoints: ChartPoint[] = [];
   chartLinePath = '';
@@ -44,6 +43,7 @@ export class DashboardComponent implements OnInit {
   activity: ActivityEvent[] = [];
 
   private ranges?: IDashboardChart['ranges'];
+  private activityByRange?: ByRange<IActivityOrder[]>;
 
   constructor(private ordersRequestsService: BlOrdersRequestsService) {}
 
@@ -51,8 +51,9 @@ export class DashboardComponent implements OnInit {
     this.ordersRequestsService.getChart().subscribe({
       next: (chart) => {
         this.ranges = chart.ranges;
+        this.activityByRange = chart.activity;
         this.buildChart();
-        this.buildActivity(chart.activity || []);
+        this.buildActivity();
         this.loading = false;
       },
       error: () => {
@@ -61,10 +62,11 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  setRange(r: Range): void {
+  setRange(r: DashboardRange): void {
     if (r === this.range) return;
     this.range = r;
     this.buildChart();
+    this.buildActivity();
   }
 
   get rangeLabel(): string {
@@ -72,6 +74,22 @@ export class DashboardComponent implements OnInit {
       case '24h': return 'USD · last 24 hours';
       case '12w': return 'USD · last 12 weeks';
       case 'ytd': return 'USD · year to date';
+    }
+  }
+
+  get rangeShortLabel(): string {
+    switch (this.range) {
+      case '24h': return '24h';
+      case '12w': return '12w';
+      case 'ytd': return 'YTD';
+    }
+  }
+
+  get rangeSnapshot(): string {
+    switch (this.range) {
+      case '24h': return 'Last 24 hours';
+      case '12w': return 'Last 12 weeks';
+      case 'ytd': return 'Year to date';
     }
   }
 
@@ -104,7 +122,8 @@ export class DashboardComponent implements OnInit {
     this.chartFillPath = `${this.chartLinePath} L${CHART_W},${CHART_H} L0,${CHART_H} Z`;
   }
 
-  private buildActivity(orders: IActivityOrder[]): void {
+  private buildActivity(): void {
+    const orders = this.activityByRange ? this.activityByRange[this.range] : [];
     const sorted = [...orders].sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));
     this.activity = sorted.slice(0, 6).map(o => {
       const first = o.firstName ?? '';

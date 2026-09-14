@@ -51,9 +51,9 @@ final class OrderController extends Controller
         return $this->sendResponse(OrderResource::from($response));
     }
 
-    public function todayStats(): JsonResponse
+    public function stats(): JsonResponse
     {
-        $response = $this->orderService->todayStats();
+        $response = $this->orderService->stats();
         return $this->sendResponse($response);
     }
 

@@ -22,16 +22,17 @@
         (keyup)="applySearch(search)"
       >
     </label>
-    <span class="chip on">All</span>
-    <span class="chip">Lifestyle</span>
-    <span class="chip">Running</span>
-    <span class="chip">Basketball</span>
-    <span class="chip">Skate</span>
+    <span class="chip" [class.on]="!filters.category" (click)="selectCategory(null)">All</span>
+    <span
+      class="chip"
+      *ngFor="let category of categories"
+      [class.on]="filters.category === category.id"
+      (click)="selectCategory(category.id)"
+    >{{ category.name }}</span>
     <span class="sep"></span>
-    <span class="chip">status: <b>live</b></span>
-    <span class="chip">stock: <b>any</b></span>
+    <span class="chip" [class.on]="!!filters.stock" (click)="cycleStock()">stock: <b>{{ stockLabel }}</b></span>
     <div class="right">
-      <button class="tm-btn" type="button" (click)="clearFilters()" *ngIf="search">
+      <button class="tm-btn" type="button" (click)="clearFilters()" *ngIf="hasActiveFilters">
         <mat-icon style="font-size:14px;width:14px;height:14px;line-height:14px">filter_alt_off</mat-icon>
         Clear
       </button>

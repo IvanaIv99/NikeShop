@@ -1,0 +1,149 @@
+@use "sass:color";
+@use "style-variables" as *;
+
+:host {
+  display: block;
+}
+
+.os-wrap {
+  min-height: calc(100vh - 4rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.25rem;
+  background: #070708;
+  font-family: 'Geist', sans-serif;
+}
+
+.os-inner {
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+  animation: os-fade 0.4s ease both;
+}
+
+/* --- Minimal check mark --- */
+.os-check {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 1.75rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid rgba($primary, 0.45);
+
+  svg {
+    width: 26px;
+    height: 26px;
+    fill: none;
+    stroke: $primary;
+    stroke-width: 2.25;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+/* --- Text --- */
+.os-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #fafafa;
+  margin: 0 0 0.65rem;
+}
+
+.os-subtitle {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #a8abb0;
+  letter-spacing: -0.003em;
+  margin: 0 auto 2rem;
+  max-width: 32ch;
+}
+
+/* --- Order number --- */
+.os-order {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 1rem;
+  border: 1px solid #181a1c;
+  border-radius: 6px;
+  background: #0e0f10;
+  margin-bottom: 2rem;
+}
+
+.os-order__label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #6d7176;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.os-order__value {
+  font-family: 'Geist Mono', 'Geist', monospace;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fafafa;
+}
+
+/* --- Actions --- */
+.os-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.os-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: 'Geist', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: -0.003em;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: 0.16s;
+  cursor: pointer;
+}
+
+.os-btn--primary {
+  width: 100%;
+  padding: 0.8rem 1.4rem;
+  background: $primary;
+  color: #000;
+  font-weight: 600;
+  border: 1px solid $primary;
+
+  &:hover {
+    background: color.adjust($primary, $lightness: -4%);
+    border-color: color.adjust($primary, $lightness: -4%);
+  }
+}
+
+.os-btn--ghost {
+  padding: 0.4rem 0.5rem;
+  background: transparent;
+  color: #a8abb0;
+
+  .os-arrow { transition: transform 0.18s; }
+
+  &:hover {
+    color: $primary;
+    .os-arrow { transform: translateX(4px); }
+  }
+}
+
+@keyframes os-fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .os-inner { animation: none; }
+}

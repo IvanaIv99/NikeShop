@@ -11,6 +11,7 @@ import { IProduct } from "../../../../shop/interfaces/i-product";
 import { Subject, takeUntil } from 'rxjs';
 import {ConfirmDialogComponent} from "../../../../shared/components/confirm-dialog/confirm-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {IProductListParams} from "../../../../shared/interfaces/i-paginated";
 
 @Component({
     selector: 'app-products-table',
@@ -25,7 +26,7 @@ export class ProductsTableComponent implements AfterViewInit, OnChanges, OnDestr
 
   columnTypeEnum = ColumnType;
 
-  @Input() filters: { search?: string | null };
+  @Input() filters: IProductListParams = {};
   @Output() filterChange = new EventEmitter<{ total: number }>();
 
   private destroy$ = new Subject<void>();
@@ -58,6 +59,8 @@ export class ProductsTableComponent implements AfterViewInit, OnChanges, OnDestr
   private loadProducts(): void {
     this.requestsService.getAllProducts({
       search: this.filters?.search || null,
+      category: this.filters?.category ?? null,
+      stock: this.filters?.stock ?? null,
       page: this.paginator.pageIndex + 1,
       perPage: this.paginator.pageSize
     })

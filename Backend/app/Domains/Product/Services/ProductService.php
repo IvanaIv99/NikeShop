@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Domains\Product\Services;
 
+use App\Domains\Order\Enums\DashboardRange;
 use App\Domains\Product\Dto\CreateProductDto;
 use App\Domains\Product\Dto\ListProductsDto;
 use App\Domains\Product\Dto\ProductVariantDto;
 use App\Domains\Product\Dto\UpdateProductDto;
 use App\Models\Product;
 use App\Models\ProductVariant;
+use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
@@ -37,6 +39,24 @@ final readonly class ProductService
                     ->orWhere('description', 'like', $term)
                     ->orWhere('id', 'like', $term);
             });
+        }
+
+        if ($filters->category !== null) {
+            $query->whereHas('categories', static fn ($q) => $q->where('categories.id', $filters->category));
+        }
+
+        if ($filters->stock === 'in') {
+            $query->whereHas('variants', static fn ($q) => $q->where('product_variants.stock', '>', 0));
+        } elseif ($filters->stock === 'out') {
+            $query->whereDoesntHave('variants', static fn ($q) => $q->where('product_variants.stock', '>', 0));
+        }
+
+        if ($filters->sort === 'newest') {
+            $query->orderByDesc('created_at');
+        } elseif ($filters->sort === 'price_asc') {
+            $query->orderBy('price');
+        } elseif ($filters->sort === 'price_desc') {
+            $query->orderByDesc('price');
         }
 
         return $query->paginate($filters->perPage, ['*'], 'page', $filters->page);
@@ -106,17 +126,35 @@ final readonly class ProductService
         return $deleted;
     }
 
-    public function stats(int $limit = 3, int $windowDays = 30): array
+    /**
+     * Top-selling products for each dashboard range. Windows mirror the order
+     * stats/chart so the toggle updates every panel consistently.
+     *
+     * @return array<string, Collection<int, Product>>
+     */
+    public function stats(int $limit = 3): array
     {
-        $since = now()->subDays($windowDays);
+        $now = CarbonImmutable::now();
 
-        $topSelling = Product::query()
+        $stats = [];
+        foreach (DashboardRange::cases() as $range) {
+            $stats[$range->value] = $this->topSelling($limit, $range->since($now));
+        }
+
+        return $stats;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    private function topSelling(int $limit, CarbonImmutable $since): Collection
+    {
+        return Product::query()
             ->withCount(['orders as orders_count' => fn ($q) => $q->where('order_items.created_at', '>=', $since)])
+            ->having('orders_count', '>', 0)
             ->orderByDesc('orders_count')
             ->take($limit)
             ->get();
-
-        return ['topSelling' => $topSelling];
     }
 
     /**

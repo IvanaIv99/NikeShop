@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import {BlLoginRequestsService} from "../../../../login/business-logic/requests/bl-login-requests.service";
 import {ICredentials} from "../../../../login/interfaces/i-credentials";
 import {SnackbarService} from "../common/snackbar/snackbar.service";
 import {extractApiErrorMessage} from "../../../utils/api-error";
+import {IAdminUser} from "../../../inferfaces/admin/i-admin-user";
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +36,10 @@ export class AuthService {
       },
       error: (err) => this.snackBarService.showError(extractApiErrorMessage(err, 'Logout failed.'))
     })
+  }
+
+  public getCurrentUser(): Observable<IAdminUser> {
+    return this.loginRequestsService.getUser();
   }
 
   public isLoggedIn(): boolean {

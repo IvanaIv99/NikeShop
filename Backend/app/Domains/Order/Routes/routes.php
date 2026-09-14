@@ -10,7 +10,7 @@ Route::get('/enums', [OrderController::class, 'enums']);
 
 Route::middleware('auth:sanctum')->group(function (): void {
     Route::get('/', [OrderController::class, 'index']);
-    Route::get('/today-stats', [OrderController::class, 'todayStats']);
+    Route::get('/stats', [OrderController::class, 'stats']);
     Route::get('/chart', [OrderController::class, 'chart']);
 
     Route::get('/{order}', [OrderController::class, 'show'])->whereNumber('order');

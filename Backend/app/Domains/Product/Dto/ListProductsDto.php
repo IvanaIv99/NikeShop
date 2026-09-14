@@ -10,6 +10,9 @@ final class ListProductsDto extends BaseData
 {
     public function __construct(
         public readonly ?string $search = null,
+        public readonly ?int $category = null,
+        public readonly ?string $stock = null,
+        public readonly ?string $sort = null,
         public readonly int $page = 1,
         public readonly int $perPage = 24,
     ) {
@@ -18,9 +21,12 @@ final class ListProductsDto extends BaseData
     public static function rules(): array
     {
         return [
-            'search'  => ['nullable', 'string', 'max:255'],
-            'page'    => ['nullable', 'integer', 'min:1'],
-            'perPage' => ['nullable', 'integer', 'min:1', 'max:100'],
+            'search'   => ['nullable', 'string', 'max:255'],
+            'category' => ['nullable', 'integer', 'exists:categories,id'],
+            'stock'    => ['nullable', 'in:in,out'],
+            'sort'     => ['nullable', 'in:newest,price_asc,price_desc'],
+            'page'     => ['nullable', 'integer', 'min:1'],
+            'perPage'  => ['nullable', 'integer', 'min:1', 'max:100'],
         ];
     }
 }

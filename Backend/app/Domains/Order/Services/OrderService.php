@@ -9,6 +9,7 @@ use App\Domains\Order\Dto\CreateOrderDto;
 use App\Domains\Order\Dto\ListOrdersDto;
 use App\Domains\Order\Dto\SingleOrderItemDto;
 use App\Domains\Order\Dto\SummarizeOrderDto;
+use App\Domains\Order\Enums\DashboardRange;
 use App\Domains\Order\Enums\OrderStatus;
 use App\Domains\Order\Enums\PaymentMethod;
 use App\Domains\Order\Notifications\NewOrderReceived;
@@ -240,9 +241,31 @@ final readonly class OrderService
         return $order->refresh()->load('orderItems');
     }
 
-    public function todayStats(): array
+    /**
+     * Order KPIs for each dashboard range. Windows match the chart buckets in
+     * {@see self::buildChart()} so the "total" shown next to the chart agrees
+     * with the revenue KPI for the same range.
+     *
+     * @return array<string, array{orders_count: int, revenue: float, shipped: int, received: int}>
+     */
+    public function stats(): array
     {
-        $base = Order::query()->whereDate('created_at', today());
+        $now = CarbonImmutable::now();
+
+        $stats = [];
+        foreach (DashboardRange::cases() as $range) {
+            $stats[$range->value] = $this->statsForWindow($range->since($now));
+        }
+
+        return $stats;
+    }
+
+    /**
+     * @return array{orders_count: int, revenue: float, shipped: int, received: int}
+     */
+    private function statsForWindow(CarbonImmutable $since): array
+    {
+        $base = Order::query()->where('created_at', '>=', $since);
 
         return [
             'orders_count' => (clone $base)->count(),
@@ -253,7 +276,7 @@ final readonly class OrderService
     }
 
     /**
-     * @return array{ranges: array<string, list<array{label: string, revenue: float, orders: int}>>, activity: array<int, array<string, mixed>>}
+     * @return array{ranges: array<string, list<array{label: string, revenue: float, orders: int}>>, activity: array<string, array<int, array<string, mixed>>>}
      */
     public function chart(): array
     {
@@ -264,7 +287,7 @@ final readonly class OrderService
     }
 
     /**
-     * @return array{ranges: array<string, list<array{label: string, revenue: float, orders: int}>>, activity: array<int, array<string, mixed>>}
+     * @return array{ranges: array<string, list<array{label: string, revenue: float, orders: int}>>, activity: array<string, array<int, array<string, mixed>>>}
      */
     private function buildChart(): array
     {
@@ -291,11 +314,15 @@ final readonly class OrderService
 
         return [
             'ranges' => [
-                '24h' => $this->stripBuckets($hourly),
-                '12w' => $this->stripBuckets($weekly),
-                'ytd' => $this->stripBuckets($monthly),
+                DashboardRange::H24->value => $this->stripBuckets($hourly),
+                DashboardRange::W12->value => $this->stripBuckets($weekly),
+                DashboardRange::Ytd->value => $this->stripBuckets($monthly),
             ],
-            'activity' => $this->recentActivity(6),
+            'activity' => [
+                DashboardRange::H24->value => $this->recentActivity(6, $hourly[0]['start']),
+                DashboardRange::W12->value => $this->recentActivity(6, $weekly[0]['start']),
+                DashboardRange::Ytd->value => $this->recentActivity(6, $monthly[0]['start']),
+            ],
         ];
     }
 
@@ -409,9 +436,10 @@ final readonly class OrderService
     /**
      * @return array<int, array<string, mixed>>
      */
-    private function recentActivity(int $limit): array
+    private function recentActivity(int $limit, ?CarbonImmutable $since = null): array
     {
         return Order::query()
+            ->when($since !== null, static fn ($q) => $q->where('created_at', '>=', $since))
             ->latest('created_at')
             ->limit($limit)
             ->get(['id', 'first_name', 'last_name', 'email', 'subtotal', 'status', 'created_at'])

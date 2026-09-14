@@ -4,9 +4,12 @@ import {debounceTime, distinctUntilChanged, takeUntil} from "rxjs/operators";
 import { ICartItem } from '../../../cart/interfaces/i-cart-item';
 import {CartService} from "../../../cart/business-logic/services/cart.service";
 import {IProduct} from "../../interfaces/i-product";
+import {ICategory} from "../../interfaces/i-category";
 import {BlProductsRequestService} from "../../../admin/products/bussiness-logic/requests/bl-products-request.service";
 import {SnackbarService} from "../../../shared/business-logic/services/common/snackbar/snackbar.service";
 import {extractApiErrorMessage} from "../../../shared/utils/api-error";
+
+type SortOption = 'newest' | 'price_asc' | 'price_desc';
 
 @Component({
     selector: 'app-shop',
@@ -20,6 +23,16 @@ export class ShopComponent implements OnInit, OnDestroy {
   protected searchTerm: string = '';
   protected total = 0;
   protected loading = false;
+
+  protected categories: ICategory[] = [];
+  protected selectedCategoryId: number | null = null;
+
+  protected sort: SortOption = 'newest';
+  protected readonly sortOptions: { value: SortOption; label: string }[] = [
+    { value: 'newest', label: 'Newest' },
+    { value: 'price_asc', label: 'Price: low to high' },
+    { value: 'price_desc', label: 'Price: high to low' },
+  ];
 
   private page = 1;
   private readonly perPage = 12;
@@ -41,7 +54,27 @@ export class ShopComponent implements OnInit, OnDestroy {
         this.resetAndLoad();
       });
 
+    this.requestService.getCategories()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(categories => this.categories = categories);
+
     this.resetAndLoad();
+  }
+
+  protected selectCategory(categoryId: number | null): void {
+    if (this.selectedCategoryId === categoryId) return;
+    this.selectedCategoryId = categoryId;
+    this.resetAndLoad();
+  }
+
+  protected setSort(value: SortOption): void {
+    if (this.sort === value) return;
+    this.sort = value;
+    this.resetAndLoad();
+  }
+
+  protected get sortLabel(): string {
+    return this.sortOptions.find(o => o.value === this.sort)?.label ?? 'Newest';
   }
 
   ngOnDestroy(): void {
@@ -101,6 +134,8 @@ export class ShopComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.requestService.getAllProducts({
       search: this.searchTerm || null,
+      category: this.selectedCategoryId,
+      sort: this.sort,
       page: this.page,
       perPage: this.perPage
     }).subscribe({

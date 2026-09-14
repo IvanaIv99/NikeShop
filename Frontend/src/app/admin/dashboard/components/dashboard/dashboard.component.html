@@ -5,9 +5,9 @@
       <div class="meta">
         <span class="live"><span class="pulse"></span>Live</span>
         <span>·</span>
-        <span>Today's snapshot</span>
+        <span>{{ rangeSnapshot }}</span>
         <span>·</span>
-        <span style="font-family:'Geist Mono',monospace">total 12w: {{ formatMoney(chartTotal) }}</span>
+        <span style="font-family:'Geist Mono',monospace">total {{ rangeShortLabel }}: {{ formatMoney(chartTotal) }}</span>
       </div>
     </div>
     <div class="tm-seg">
@@ -17,7 +17,7 @@
     </div>
   </div>
 
-  <app-stats></app-stats>
+  <app-stats [range]="range"></app-stats>
 
   <div class="tm-rowgrid">
     <section class="tm-panel">
@@ -112,5 +112,5 @@
     </section>
   </div>
 
-  <app-top-products></app-top-products>
+  <app-top-products [range]="range"></app-top-products>
 </div>

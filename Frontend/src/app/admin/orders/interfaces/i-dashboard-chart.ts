@@ -1,3 +1,5 @@
+import { ByRange } from '../../../shared/inferfaces/admin/dashboard-range';
+
 export interface IChartBucket {
   label: string;
   revenue: number;
@@ -15,10 +17,6 @@ export interface IActivityOrder {
 }
 
 export interface IDashboardChart {
-  ranges: {
-    '24h': IChartBucket[];
-    '12w': IChartBucket[];
-    'ytd': IChartBucket[];
-  };
-  activity: IActivityOrder[];
+  ranges: ByRange<IChartBucket[]>;
+  activity: ByRange<IActivityOrder[]>;
 }

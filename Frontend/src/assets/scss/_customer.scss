@@ -678,7 +678,37 @@ body.tm-customer html::after { display: none !important; } // hide the leftover 
     color: var(--c-muted);
     letter-spacing: .06em;
     text-transform: uppercase;
-    b { color: var(--c-text); font-weight: 500; }
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    transition: color .16s;
+    &:hover b { color: var(--c-accent); }
+    b { color: var(--c-text); font-weight: 500; transition: color .16s; }
+    .caret { color: var(--c-muted); }
+  }
+}
+
+// Sort dropdown — rendered in the CDK overlay, so styled at the top level.
+.cu-sort-menu.mat-mdc-menu-panel {
+  background: var(--c-surface);
+  border: 1px solid var(--c-line);
+  min-width: 172px;
+
+  .mat-mdc-menu-content { padding: 4px 0; }
+
+  .mat-mdc-menu-item {
+    min-height: 0;
+    padding: 9px 14px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .02em;
+    color: var(--c-muted);
+
+    .mat-mdc-menu-item-text { font: inherit; letter-spacing: inherit; }
+
+    &:hover { background: var(--c-accent-glow); color: var(--c-text); }
+    &.on { color: var(--c-accent); }
   }
 }
 
@@ -904,6 +934,20 @@ body.tm-customer html::after { display: none !important; } // hide the leftover 
   align-items: start;
 
   @media (max-width: 1000px) { grid-template-columns: 1fr; }
+
+  // Empty cart: no summary column, so span full width and let the empty
+  // panel fill the area edge-to-edge (no surrounding padding).
+  &.is-empty {
+    grid-template-columns: 1fr;
+    padding: 0;
+
+    .cu-cart-items {
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      overflow: visible;
+    }
+  }
 }
 
 .cu-cart-items {
@@ -929,14 +973,23 @@ body.tm-customer html::after { display: none !important; } // hide the leftover 
   }
 
   .empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 60vh;
     padding: 64px 24px;
     text-align: center;
+    background: #000;
     font-family: 'Geist Mono', monospace;
     font-size: 12px;
     color: var(--c-muted-2);
     letter-spacing: .06em;
     text-transform: uppercase;
-    a { color: var(--c-accent); text-decoration: none; }
+
+    p { margin: 0; }
+    a { color: var(--c-accent); text-decoration: none; &:hover { text-decoration: underline; } }
   }
 }
 

@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { BlOrdersRequestsService } from '../../../orders/bussiness-logic/requests/bl-orders-requests.service';
-import {IStatCard} from "../../../../shared/inferfaces/admin/i-stat-card";
+import { IStatCard } from '../../../../shared/inferfaces/admin/i-stat-card';
+import { IRangedStats } from '../../../orders/interfaces/i-today-stats';
+import { DashboardRange } from '../../../../shared/inferfaces/admin/dashboard-range';
 
 @Component({
     selector: 'app-stats',
@@ -8,30 +10,51 @@ import {IStatCard} from "../../../../shared/inferfaces/admin/i-stat-card";
     styleUrls: ['./stats.component.scss'],
     standalone: false
 })
-export class StatsComponent implements OnInit {
-  stats: IStatCard[] = [
-    { icon: 'inventory_2', label: 'New Orders Today', value: 0 },
-    { icon: 'paid', label: 'Revenue Today', value: '$0' },
-    { icon: 'hourglass_top', label: 'Received', value: 0 },
-    { icon: 'local_shipping', label: 'Shipped', value: 0 }
-  ];
+export class StatsComponent implements OnInit, OnChanges {
+  @Input() range: DashboardRange = '24h';
+
+  stats: IStatCard[] = this.buildCards();
+
+  private rangedStats?: IRangedStats;
 
   constructor(
     private ordersRequestsService: BlOrdersRequestsService,
   ) {}
 
   ngOnInit(): void {
-    this.loadTodaysOrderStatistics();
+    this.ordersRequestsService.getStats().subscribe(res => {
+      this.rangedStats = res;
+      this.stats = this.buildCards();
+    });
   }
 
-  public loadTodaysOrderStatistics() {
-    this.ordersRequestsService.getTodayStats().subscribe(res => {
-      this.stats = [
-        { icon: 'inventory_2', label: 'New Orders Today', value: res.orders_count },
-        { icon: 'paid', label: 'Revenue Today', value: `$ ${res.revenue}` },
-        { icon: 'hourglass_top', label: 'Received', value: res.received },
-        { icon: 'local_shipping', label: 'Shipped', value: res.shipped }
-      ];
-    });
+  ngOnChanges(): void {
+    this.stats = this.buildCards();
+  }
+
+  public get rangePill(): string {
+    switch (this.range) {
+      case '24h': return 'last 24h';
+      case '12w': return 'last 12w';
+      case 'ytd': return 'YTD';
+    }
+  }
+
+  public get rangeSub(): string {
+    switch (this.range) {
+      case '24h': return 'from the last 24 hours';
+      case '12w': return 'from the last 12 weeks';
+      case 'ytd': return 'from year to date';
+    }
+  }
+
+  private buildCards(): IStatCard[] {
+    const s = this.rangedStats?.[this.range];
+    return [
+      { icon: 'inventory_2', label: 'New Orders', value: s?.orders_count ?? 0 },
+      { icon: 'paid', label: 'Revenue', value: `$ ${s?.revenue ?? 0}` },
+      { icon: 'hourglass_top', label: 'Received', value: s?.received ?? 0 },
+      { icon: 'local_shipping', label: 'Shipped', value: s?.shipped ?? 0 }
+    ];
   }
 }

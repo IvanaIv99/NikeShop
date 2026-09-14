@@ -64,7 +64,7 @@ final class OrderChartTest extends TestCase
         $this->assertSame(350.0, (float) $y[5]['revenue']);
     }
 
-    public function test_activity_returns_the_six_most_recent_orders_newest_first(): void
+    public function test_activity_returns_the_six_most_recent_orders_newest_first_per_range(): void
     {
         $now = CarbonImmutable::now();
         for ($i = 0; $i < 8; $i++) {
@@ -73,12 +73,30 @@ final class OrderChartTest extends TestCase
 
         $activity = $this->getJson('/api/orders/chart')->assertSuccessful()->json('data.activity');
 
-        $this->assertCount(6, $activity);
-        // newest first: the order created at `now` (subtotal 10) is first
-        $this->assertSame('10.00', (string) $activity[0]['subtotal']);
-        $this->assertArrayHasKey('firstName', $activity[0]);
-        $this->assertArrayHasKey('status', $activity[0]);
-        $this->assertArrayHasKey('createdAt', $activity[0]);
+        // Activity is bucketed per range; all 8 orders fall inside every window.
+        foreach (['24h', '12w', 'ytd'] as $range) {
+            $this->assertCount(6, $activity[$range]);
+            // newest first: the order created at `now` (subtotal 10) is first
+            $this->assertSame('10.00', (string) $activity[$range][0]['subtotal']);
+            $this->assertArrayHasKey('firstName', $activity[$range][0]);
+            $this->assertArrayHasKey('status', $activity[$range][0]);
+            $this->assertArrayHasKey('createdAt', $activity[$range][0]);
+        }
+    }
+
+    public function test_activity_is_scoped_to_the_window_of_each_range(): void
+    {
+        $now = CarbonImmutable::now();
+
+        $this->makeOrder(100, $now);                 // within all ranges
+        $this->makeOrder(200, $now->subWeek());      // outside 24h, inside 12w/ytd
+        $this->makeOrder(300, CarbonImmutable::create(2026, 1, 10, 9, 0, 0)); // ytd only
+
+        $activity = $this->getJson('/api/orders/chart')->assertSuccessful()->json('data.activity');
+
+        $this->assertCount(1, $activity['24h']);
+        $this->assertCount(2, $activity['12w']);
+        $this->assertCount(3, $activity['ytd']);
     }
 
     private function makeOrder(float $subtotal, CarbonImmutable $at): Order

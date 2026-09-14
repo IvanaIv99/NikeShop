@@ -1,6 +1,6 @@
-export interface IProductsStatistics {
-  topSelling: IProduct[];
-}
+import { ByRange } from '../../../shared/inferfaces/admin/dashboard-range';
+
+export type IProductsStatistics = ByRange<IProduct[]>;
 
 export interface IProduct {
   id: number;

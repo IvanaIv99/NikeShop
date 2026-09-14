@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import {firstValueFrom, forkJoin, Observable} from "rxjs";
 import {SnackbarService} from "../../../../shared/business-logic/services/common/snackbar/snackbar.service";
@@ -27,6 +27,9 @@ interface VariantInput {
     standalone: false
 })
 export class ProductFormComponent implements OnInit {
+
+  @ViewChild('fileUpload') fileUpload?: ElementRef<HTMLInputElement>;
+  @ViewChild(FormGroupDirective) formDirective?: FormGroupDirective;
 
   form!: FormGroup;
   id?: string;
@@ -190,9 +193,33 @@ export class ProductFormComponent implements OnInit {
     try {
       await firstValueFrom(this.saveProduct(this.id));
       this.snackbar.showSuccess('Saved.');
+      // On create, clear the populated form so the next product can be entered.
+      // On edit, keep the values so the record stays in context.
+      if (!this.id) {
+        this.resetForm();
+      }
     } catch (error) {
       this.snackbar.showError(extractApiErrorMessage(error, 'Error saving product.'));
+    } finally {
       this.submitting = false;
+    }
+  }
+
+  private resetForm(): void {
+    // Reset through the FormGroupDirective (not this.form.reset()) so the
+    // directive's `submitted` flag is also cleared. Otherwise Material's error
+    // state stays "submitted" and paints every now-empty required field red.
+    // Reassigning this.form (= createForm()) is also wrong — it breaks the
+    // template's formControlName bindings and the next submit sends nothing.
+    this.formDirective?.resetForm({ categories: [] });
+    this.selectedSizeIds = [];
+    this.selectedColorIds = [];
+    this.stockMatrix = {};
+    this.fileName = null;
+    this.image = null;
+    this.submitted = false;
+    if (this.fileUpload) {
+      this.fileUpload.nativeElement.value = '';
     }
   }
 

@@ -1,12 +1,14 @@
 <a class="tm-brand" [routerLink]="['/admin-panel/dashboard']">
   <div class="sq">N</div>
-  <div class="nm">NikeStore</div>
+  <div class="nm">
+    NikeStore
+    <small>Admin Panel</small>
+  </div>
 </a>
 
 <app-nav-content (NavCollapsedMob)="navCollapseMob()"></app-nav-content>
 
 <div class="tm-side-foot">
-  <div class="av">N</div>
-  <div>Admin Panel</div>
-  <span class="dot" title="online"></span>
+  <div class="av">{{ initials || 'N' }}</div>
+  <div>{{ fullName || 'Admin Panel' }}</div>
 </div>

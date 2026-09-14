@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {BlOrdersApiService} from "../api/bl-orders-api.service";
-import {ITodayStats} from "../../interfaces/i-today-stats";
+import {IRangedStats} from "../../interfaces/i-today-stats";
 import {IDashboardChart} from "../../interfaces/i-dashboard-chart";
 import {IOrder} from "../../../../process-order/interfaces/i-order";
 import {IOrderListParams, IPaginated} from "../../../../shared/interfaces/i-paginated";
@@ -27,8 +27,8 @@ export class BlOrdersRequestsService {
     return this.apiService.changeStatus(id, status);
   }
 
-  public getTodayStats(): Observable<ITodayStats> {
-    return this.apiService.getTodayStats();
+  public getStats(): Observable<IRangedStats> {
+    return this.apiService.getStats();
   }
 
   public getChart(): Observable<IDashboardChart> {

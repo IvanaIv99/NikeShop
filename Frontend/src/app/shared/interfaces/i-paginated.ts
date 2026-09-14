@@ -22,6 +22,12 @@ export interface IOrderListParams extends IListParams {
   dateTo?: string | null;
 }
 
+export interface IProductListParams extends IListParams {
+  category?: number | null;
+  stock?: 'in' | 'out' | null;
+  sort?: 'newest' | 'price_asc' | 'price_desc' | null;
+}
+
 /**
  * Builds a query string from list params, skipping null/undefined/empty values.
  */

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import {environment} from "../../../../shared/environment/environment";
-import {ITodayStats} from "../../interfaces/i-today-stats";
+import {IRangedStats} from "../../interfaces/i-today-stats";
 import {IDashboardChart} from "../../interfaces/i-dashboard-chart";
 import {IOrder} from "../../../../process-order/interfaces/i-order";
 import {WebApiService} from "../../../../shared/business-logic/services/api/web-api.service";
@@ -32,9 +32,9 @@ export class BlOrdersApiService {
     return this.webApiService.patch<IOrder>(url, { status });
   }
 
-  public getTodayStats(): Observable<ITodayStats> {
-    let url = `${environment.apiUrl}/orders/today-stats`;
-    return this.webApiService.get<ITodayStats>(url);
+  public getStats(): Observable<IRangedStats> {
+    let url = `${environment.apiUrl}/orders/stats`;
+    return this.webApiService.get<IRangedStats>(url);
   }
 
   public getChart(): Observable<IDashboardChart> {

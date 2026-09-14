@@ -2,13 +2,13 @@
   <div class="tm-stat" *ngFor="let card of stats">
     <div class="k">
       <span>{{ card.label }}</span>
-      <span class="pill" style="background:transparent;border-color:transparent;color:#6a6d72;font-family:'Geist Mono',monospace">today</span>
+      <span class="pill" style="background:transparent;border-color:transparent;color:#6a6d72;font-family:'Geist Mono',monospace">{{ rangePill }}</span>
     </div>
     <div class="v">
       <mat-icon>{{ card.icon }}</mat-icon>{{ card.value }}
     </div>
     <div class="sub">
-      <span>from today's orders</span>
+      <span>{{ rangeSub }}</span>
     </div>
   </div>
 </div>
