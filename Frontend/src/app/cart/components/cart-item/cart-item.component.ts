@@ -24,24 +24,15 @@ export class CartItemComponent implements OnInit {
   }
 
   public increment(): void {
-    this.cartItem.quantity += 1;
-    this.recalcAndSave();
+    this.cartService.updateItemQuantity(this.cartItem, this.cartItem.quantity + 1);
   }
 
   public decrement(): void {
     if (this.cartItem.quantity <= 1) return;
-    this.cartItem.quantity -= 1;
-    this.recalcAndSave();
+    this.cartService.updateItemQuantity(this.cartItem, this.cartItem.quantity - 1);
   }
 
   public itemTotal(): number {
-    const total = this.cartItem.product.price * this.cartItem.quantity;
-    this.cartItem.total = total;
-    return total;
-  }
-
-  private recalcAndSave(): void {
-    this.cartItem.total = this.cartItem.product.price * this.cartItem.quantity;
-    this.cartService.saveCart();
+    return this.cartItem.product.price * this.cartItem.quantity;
   }
 }

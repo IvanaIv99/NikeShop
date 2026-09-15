@@ -47,6 +47,21 @@ export class CartService {
     this.snackBarService.showSuccess('Added to cart.');
   }
 
+  public updateItemQuantity(item: ICartItem, quantity: number): void {
+    if (quantity < 1) return;
+
+    const existing = this.items.find(cartItem =>
+      cartItem.product.id === item.product.id &&
+      cartItem.size.id === item.size.id &&
+      cartItem.color.id === item.color.id
+    );
+    if (!existing) return;
+
+    existing.quantity = quantity;
+    existing.total = existing.quantity * existing.product.price;
+    this.updateCart();
+  }
+
   public removeFromCart(item: ICartItem) {
     this.items = this.items.filter(cartItem =>
       !(cartItem.product.id === item.product.id &&

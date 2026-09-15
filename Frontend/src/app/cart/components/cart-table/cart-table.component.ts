@@ -27,8 +27,14 @@ export class CartTableComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.sub = this.cartService.items$.subscribe(items => {
       this.cartItems = items;
+      this.computeLocalTotals();
       this.loadSummary();
     });
+  }
+
+  private computeLocalTotals(): void {
+    this.subtotal = this.cartItems.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+    this.grandTotal = this.subtotal + this.shipping;
   }
 
   ngOnDestroy(): void {
