@@ -43,10 +43,26 @@
     padding: 0 !important;
   }
   .mat-date-range-input-mirror { display: none !important }
-  .mat-date-range-input-separator { display: none !important }
+  .mat-date-range-input-separator {
+    color: #3a3d41 !important;
+    opacity: 1 !important;
+    margin: 0 4px !important;
+  }
+
+  // The start/end wrappers use overflow:hidden and size to the (now-hidden)
+  // mirror, so absolutely-positioned inners collapse to 0 width. Force the
+  // inners to flow in-place with a fixed width so the value/placeholder shows.
+  .mat-date-range-input-start-wrapper,
+  .mat-date-range-input-end-wrapper {
+    overflow: visible !important;
+    width: auto !important;
+    max-width: none !important;
+  }
 
   input.mat-start-date,
-  input.mat-end-date {
+  input.mat-end-date,
+  .mat-date-range-input-inner {
+    position: relative !important;
     background: transparent !important;
     border: 0 !important;
     outline: none !important;
@@ -55,7 +71,7 @@
     font-size: 10.5px !important;
     letter-spacing: .02em;
     padding: 0 !important;
-    width: 64px;
+    width: 80px !important;
     text-align: center;
 
     &::placeholder { color: #6a6d72 }
