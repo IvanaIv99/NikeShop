@@ -7,7 +7,7 @@
     @page { margin: 14mm 14mm 18mm; }
     * { box-sizing: border-box; }
     body {
-      font-family: 'Helvetica', sans-serif;
+      font-family: 'DejaVu Sans', sans-serif;
       color: #000;
       font-size: 11px;
       line-height: 1.45;
@@ -25,34 +25,39 @@
       letter-spacing: 2px;
     }
     .brand-sub {
-      font-family: 'Courier', monospace;
+      font-family: 'DejaVu Sans Mono', monospace;
       font-size: 11px;
       color: #444;
       margin-top: 3px;
       letter-spacing: 1px;
     }
     .meta {
-      font-family: 'Courier', monospace;
+      font-family: 'DejaVu Sans Mono', monospace;
       font-size: 10px;
       color: #000;
-      text-align: right;
+    }
+    .meta-tbl {
+      border-collapse: collapse;
+      margin-left: auto;
       line-height: 1.7;
     }
+    .meta-tbl td { padding: 0; vertical-align: top; }
     .meta-label {
-      display: inline-block;
-      min-width: 64px;
+      text-align: left;
+      padding-right: 14px;
       color: #666;
       font-weight: normal;
       text-transform: uppercase;
       letter-spacing: 1.2px;
       font-size: 9px;
-      margin-right: 4px;
+      white-space: nowrap;
     }
+    .meta-val { text-align: right; white-space: nowrap; }
     .addr { margin-bottom: 16px; }
     .addr-grid { width: 100%; border-collapse: collapse; }
     .addr-cell { vertical-align: top; width: 50%; padding-right: 24px; }
     .addr-label {
-      font-family: 'Courier', monospace;
+      font-family: 'DejaVu Sans Mono', monospace;
       font-size: 9px;
       text-transform: uppercase;
       letter-spacing: 1.4px;
@@ -70,7 +75,7 @@
     }
     table.items th {
       text-align: left;
-      font-family: 'Courier', monospace;
+      font-family: 'DejaVu Sans Mono', monospace;
       font-size: 9px;
       text-transform: uppercase;
       letter-spacing: 1.4px;
@@ -84,20 +89,12 @@
       padding: 10px 6px;
       vertical-align: top;
     }
-    table.items td.thumb { width: 56px; }
-    table.items td.thumb img {
-      width: 48px;
-      height: 36px;
-      object-fit: contain;
-      background: #f3f3f3;
-      border: 1px solid #ddd;
-    }
     table.items td.qty,
     table.items td.unit,
-    table.items td.tot { text-align: right; font-family: 'Courier', monospace; }
+    table.items td.tot { text-align: right; font-family: 'DejaVu Sans Mono', monospace; }
     table.items .nm { font-weight: 500; }
     table.items .sub {
-      font-family: 'Courier', monospace;
+      font-family: 'DejaVu Sans Mono', monospace;
       color: #555;
       font-size: 10px;
       margin-top: 3px;
@@ -111,7 +108,7 @@
       margin-top: 18px;
       border-top: 1.5px solid #000;
       padding-top: 8px;
-      font-family: 'Courier', monospace;
+      font-family: 'DejaVu Sans Mono', monospace;
       font-size: 11px;
     }
     .totals table { width: 100%; border-collapse: collapse; }
@@ -121,7 +118,7 @@
     .totals tr.grand td {
       border-top: 1px solid #000;
       padding-top: 9px;
-      font-family: 'Helvetica', sans-serif;
+      font-family: 'DejaVu Sans', sans-serif;
       font-weight: bold;
       font-size: 16px;
     }
@@ -130,7 +127,7 @@
       margin-top: 24px;
       padding-top: 10px;
       border-top: 1px solid #ddd;
-      font-family: 'Courier', monospace;
+      font-family: 'DejaVu Sans Mono', monospace;
       font-size: 9px;
       color: #666;
       text-align: center;
@@ -149,9 +146,11 @@
         <div class="brand-sub">Packing slip · #ORD-{{ $order->id }}</div>
       </td>
       <td class="meta">
-        <div><span class="meta-label">Date</span>{{ $order->created_at->format('d M Y · H:i') }}</div>
-        <div><span class="meta-label">Status</span>{{ $order->status }}</div>
-        <div><span class="meta-label">Payment</span>{{ $paymentMethod }}</div>
+        <table class="meta-tbl">
+          <tr><td class="meta-label">Date</td><td class="meta-val">{{ $order->created_at->format('d M Y · H:i') }}</td></tr>
+          <tr><td class="meta-label">Status</td><td class="meta-val">{{ $order->status }}</td></tr>
+          <tr><td class="meta-label">Payment</td><td class="meta-val">{{ $paymentMethod }}</td></tr>
+        </table>
       </td>
     </tr>
   </table>
@@ -181,7 +180,7 @@
 <table class="items">
   <thead>
     <tr>
-      <th colspan="2">Item</th>
+      <th>Item</th>
       <th class="qty" style="width:60px">Qty</th>
       <th class="unit" style="width:90px">Unit</th>
       <th class="tot" style="width:90px">Total</th>
@@ -190,11 +189,6 @@
   <tbody>
     @foreach($order->orderItems as $item)
     <tr>
-      <td class="thumb">
-        @if($item->product_image)
-          <img src="{{ $item->product_image }}" alt="">
-        @endif
-      </td>
       <td>
         <div class="nm">{{ $item->product_name }}</div>
         <div class="sub">size {{ $item->size_value }} · colour {{ $item->color_name }}</div>
