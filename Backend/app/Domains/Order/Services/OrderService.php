@@ -26,7 +26,6 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Spatie\LaravelData\DataCollection;
 use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -69,26 +68,11 @@ final readonly class OrderService
     }
 
     /**
-     * @return array{subtotal: float, shipping: float, grandTotal: float}
+     * @return array{subtotal: float, shipping: float, grandTotal: float, allInStock: bool, items: list<array{variantId: int, quantity: int, available: int, inStock: bool}>}
      */
     public function summarize(SummarizeOrderDto $dto): array
     {
-        $subtotal    = $this->itemsSubtotal($dto->orderItems);
-        $shippingFee = (float) config('shop.shipping_fee');
-
-        return [
-            'subtotal'   => round($subtotal, 2),
-            'shipping'   => round($shippingFee, 2),
-            'grandTotal' => round($subtotal + $shippingFee, 2),
-        ];
-    }
-
-    /**
-     * @param  DataCollection<int, SingleOrderItemDto>  $items
-     */
-    private function itemsSubtotal(DataCollection $items): float
-    {
-        $variantIds = collect($items->toCollection())
+        $variantIds = collect($dto->orderItems->toCollection())
             ->map(static fn (SingleOrderItemDto $item): int => $item->variantId)
             ->unique()
             ->all();
@@ -98,9 +82,12 @@ final readonly class OrderService
             ->findMany($variantIds)
             ->keyBy('id');
 
+        $shippingFee = (float) config('shop.shipping_fee');
         $subtotal = 0.0;
+        $allInStock = true;
+        $items = [];
 
-        foreach ($items as $item) {
+        foreach ($dto->orderItems as $item) {
             $variant = $variants->get($item->variantId);
 
             if ($variant === null) {
@@ -111,9 +98,25 @@ final readonly class OrderService
             }
 
             $subtotal += (float) $variant->product->price * $item->quantity;
+
+            $inStock = $variant->stock >= $item->quantity;
+            $allInStock = $allInStock && $inStock;
+
+            $items[] = [
+                'variantId' => $item->variantId,
+                'quantity'  => $item->quantity,
+                'available' => (int) $variant->stock,
+                'inStock'   => $inStock,
+            ];
         }
 
-        return $subtotal;
+        return [
+            'subtotal'   => round($subtotal, 2),
+            'shipping'   => round($shippingFee, 2),
+            'grandTotal' => round($subtotal + $shippingFee, 2),
+            'allInStock' => $allInStock,
+            'items'      => $items,
+        ];
     }
 
     public function create(CreateOrderDto $dto): Order
@@ -213,13 +216,28 @@ final readonly class OrderService
         }
 
         $from = $order->status;
-        $order->status = $dto->status;
-        $order->save();
+        $to   = $dto->status;
+
+        if (! $from->canTransitionTo($to)) {
+            throw new ApiException(
+                sprintf('Cannot change order status from %s to %s.', $from->value, $to->value),
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
+
+        DB::transaction(function () use ($order, $to): void {
+            $order->status = $to;
+            $order->save();
+
+            if ($to->restocksInventory()) {
+                $this->restockOrder($order);
+            }
+        });
 
         Log::info('order.status_changed', [
             'order_id'   => $order->id,
             'from'       => $from->value,
-            'to'         => $dto->status->value,
+            'to'         => $to->value,
             'changed_by' => getLoggedInUserId(),
         ]);
 
@@ -229,6 +247,19 @@ final readonly class OrderService
             ->notify(new OrderStatusChanged($order));
 
         return $order->refresh()->load('orderItems');
+    }
+
+    /**
+     * Return each line's quantity to its variant's stock. Uses withTrashed so a
+     * later-deleted variant still has its inventory reconciled.
+     */
+    private function restockOrder(Order $order): void
+    {
+        foreach ($order->orderItems as $item) {
+            ProductVariant::withTrashed()
+                ->whereKey($item->variant_id)
+                ->increment('stock', $item->quantity);
+        }
     }
 
     /**

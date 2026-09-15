@@ -26,6 +26,7 @@ export class ProcessOrderComponent implements OnInit {
   protected itemsSubtotal = 0;
   protected shippingFee = 0;
   protected grandTotal = 0;
+  protected allInStock = true;
   protected countries = Country.getAllCountries();
   protected selectedCountry: any;
   protected paymentMethods: IEnumOption[] = [];
@@ -61,6 +62,7 @@ export class ProcessOrderComponent implements OnInit {
         this.itemsSubtotal = summary.subtotal;
         this.shippingFee = summary.shipping;
         this.grandTotal = summary.grandTotal;
+        this.allInStock = summary.allInStock;
       }
     });
   }
@@ -98,6 +100,11 @@ export class ProcessOrderComponent implements OnInit {
           .filter(([, c]) => c.invalid)
           .map(([name, c]) => ({ name, errors: c.errors })));
       this.form.markAllAsTouched();
+      return;
+    }
+
+    if (!this.allInStock) {
+      this.snackbarService.showError('Some items are no longer in stock. Please update your bag.');
       return;
     }
 

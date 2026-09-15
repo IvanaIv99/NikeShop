@@ -75,7 +75,6 @@ final class OrderSummaryTest extends TestCase
             'color_id'   => $color->id,
             'stock'      => $stock,
             'sku'        => 'TEST-SKU-V',
-            'is_active'  => true,
         ]);
     }
 }

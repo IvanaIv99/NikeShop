@@ -137,7 +137,11 @@
               <strong>${{ grandTotal }}</strong>
             </div>
 
-            <button mat-raised-button type="submit" class="background-primary w-100 mt-3">
+            <div *ngIf="!allInStock" class="alert alert-danger mt-3 mb-0 py-2 px-3" style="font-size:13px;">
+              Some items in your bag are no longer in stock. Please update your bag before ordering.
+            </div>
+
+            <button mat-raised-button type="submit" class="background-primary w-100 mt-3" [disabled]="!allInStock">
               <mat-icon class="me-1">shopping_cart</mat-icon> Send Order
             </button>
 

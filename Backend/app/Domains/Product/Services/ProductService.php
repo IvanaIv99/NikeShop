@@ -185,7 +185,6 @@ final readonly class ProductService
                 'color_id'   => $v->colorId,
                 'stock'      => $v->stock,
                 'sku'        => $v->sku,
-                'is_active'  => true,
                 'deleted_at' => null,
                 'created_at' => $now,
                 'updated_at' => $now,
@@ -200,7 +199,7 @@ final readonly class ProductService
             ProductVariant::query()->upsert(
                 $rows,
                 ['product_id', 'size_id', 'color_id'],
-                ['stock', 'sku', 'is_active', 'deleted_at', 'updated_at']
+                ['stock', 'sku', 'deleted_at', 'updated_at']
             );
         }
 

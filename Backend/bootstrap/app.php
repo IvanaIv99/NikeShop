@@ -38,9 +38,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 'throttle:api',
             ],
         );
-        $middleware->alias([
-//            'authenticated-with-id-token' => AuthenticatedWithIdToken::class
-        ]);
+        $middleware->alias([]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions

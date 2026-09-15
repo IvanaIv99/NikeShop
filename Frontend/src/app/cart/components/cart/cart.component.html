@@ -8,4 +8,8 @@
   </div>
 </header>
 
+<div class="cu-cart-warn" *ngIf="cartItems.length && !allInStock">
+  ⚠ Some items in your bag are out of stock or exceed available quantity. Please adjust before checkout.
+</div>
+
 <app-cart-table></app-cart-table>
