@@ -1,7 +1,3 @@
-// ============================================================
-//  Customer storefront — Home / Shop / Cart
-//  Uses the same Operator Terminal tokens, adapted for retail.
-// ============================================================
 
 :root {
   --c-bg:        #070708;
@@ -20,9 +16,6 @@
   --c-warn:      #e0a866;
 }
 
-// ------------------------------------------------------------
-//  Body scope — only apply inside the customer layout
-// ------------------------------------------------------------
 body.tm-customer {
   background: var(--c-bg) !important;
   color: var(--c-text-2) !important;
@@ -31,11 +24,8 @@ body.tm-customer {
   font-feature-settings: 'ss01', 'cv11';
 }
 
-body.tm-customer html::after { display: none !important; } // hide the leftover #19191a banner from the base shell
+body.tm-customer html::after { display: none !important; }
 
-// ------------------------------------------------------------
-//  Nike swoosh — CSS-only, two rotated rounded shapes
-// ------------------------------------------------------------
 .nike-swoosh {
   --sw-fg: currentColor;
   --sw-bg: var(--c-bg);
@@ -68,9 +58,6 @@ body.tm-customer html::after { display: none !important; } // hide the leftover 
   }
 }
 
-// ------------------------------------------------------------
-//  Top nav (customer)
-// ------------------------------------------------------------
 .cu-nav {
   display: flex;
   align-items: center;
@@ -224,9 +211,6 @@ body.tm-customer html::after { display: none !important; } // hide the leftover 
   }
 }
 
-// ------------------------------------------------------------
-//  Buttons / mtag / chips
-// ------------------------------------------------------------
 .cu-btn {
   display: inline-flex;
   align-items: center;
@@ -333,9 +317,6 @@ body.tm-customer html::after { display: none !important; } // hide the leftover 
   &.out { color: var(--c-muted-3); }
 }
 
-// ------------------------------------------------------------
-//  Home — hero + featured strip
-// ------------------------------------------------------------
 .cu-hero {
   padding: 64px 56px 88px;
   position: relative;
@@ -493,9 +474,6 @@ body.tm-customer html::after { display: none !important; } // hide the leftover 
   }
 }
 
-// ------------------------------------------------------------
-//  Product card (used on home + shop)
-// ------------------------------------------------------------
 .cu-pcard {
   background: var(--c-surface);
   border: 1px solid var(--c-line);
@@ -630,9 +608,6 @@ body.tm-customer html::after { display: none !important; } // hide the leftover 
   }
 }
 
-// ------------------------------------------------------------
-//  Shop — page header + filter bar + grid + pagination
-// ------------------------------------------------------------
 .cu-shop-head {
   padding: 36px 32px 18px;
   border-bottom: 1px solid var(--c-line);
@@ -689,7 +664,6 @@ body.tm-customer html::after { display: none !important; } // hide the leftover 
   }
 }
 
-// Sort dropdown — rendered in the CDK overlay, so styled at the top level.
 .cu-sort-menu.mat-mdc-menu-panel {
   background: var(--c-surface);
   border: 1px solid var(--c-line);
@@ -809,9 +783,6 @@ body.tm-customer html::after { display: none !important; } // hide the leftover 
   @media (max-width: 560px)  { grid-template-columns: 1fr; }
 }
 
-// ------------------------------------------------------------
-//  Product card variant picker (used inside expanded card / detail)
-// ------------------------------------------------------------
 .cu-pcard-pickers {
   display: flex;
   flex-wrap: wrap;
@@ -886,9 +857,6 @@ body.tm-customer html::after { display: none !important; } // hide the leftover 
   }
 }
 
-// ------------------------------------------------------------
-//  Cart — items list + sticky summary
-// ------------------------------------------------------------
 .cu-cart-head {
   padding: 32px 32px 18px;
   border-bottom: 1px solid var(--c-line);
@@ -935,8 +903,6 @@ body.tm-customer html::after { display: none !important; } // hide the leftover 
 
   @media (max-width: 1000px) { grid-template-columns: 1fr; }
 
-  // Empty cart: no summary column, so span full width and let the empty
-  // panel fill the area edge-to-edge (no surrounding padding).
   &.is-empty {
     grid-template-columns: 1fr;
     padding: 0;
@@ -1285,9 +1251,6 @@ body.tm-customer html::after { display: none !important; } // hide the leftover 
   }
 }
 
-// ------------------------------------------------------------
-//  Footer
-// ------------------------------------------------------------
 .cu-foot {
   background: var(--c-surface-2);
   border-top: 1px solid var(--c-line);

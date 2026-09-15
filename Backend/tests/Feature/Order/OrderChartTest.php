@@ -33,10 +33,10 @@ final class OrderChartTest extends TestCase
     {
         $now = CarbonImmutable::now();
 
-        $this->makeOrder(100, $now);                 // this hour, this week, June
-        $this->makeOrder(50, $now->subHours(2));     // 2h ago, this week, June
-        $this->makeOrder(200, $now->subWeek());      // last week, June, outside 24h
-        $this->makeOrder(300, CarbonImmutable::create(2026, 1, 10, 9, 0, 0)); // January only
+        $this->makeOrder(100, $now);
+        $this->makeOrder(50, $now->subHours(2));
+        $this->makeOrder(200, $now->subWeek());
+        $this->makeOrder(300, CarbonImmutable::create(2026, 1, 10, 9, 0, 0));
 
         $data = $this->getJson('/api/orders/chart')->assertSuccessful()->json('data');
 
@@ -44,22 +44,18 @@ final class OrderChartTest extends TestCase
         $w = $data['ranges']['12w'];
         $y = $data['ranges']['ytd'];
 
-        // Bucket counts
         $this->assertCount(24, $h);
         $this->assertCount(12, $w);
-        $this->assertCount(6, $y); // Jan..Jun
+        $this->assertCount(6, $y);
 
-        // 24h: only the two recent orders (100 + 50), last bucket holds the 100
         $this->assertSame(150.0, (float) array_sum(array_column($h, 'revenue')));
         $this->assertSame(100.0, (float) $h[23]['revenue']);
-        $this->assertSame(0.0, (float) $h[0]['revenue']); // empty bucket reads zero
+        $this->assertSame(0.0, (float) $h[0]['revenue']);
 
-        // 12w: this week = 150 (last bucket), previous week = 200, January order excluded
         $this->assertSame(150.0, (float) $w[11]['revenue']);
         $this->assertSame(200.0, (float) $w[10]['revenue']);
         $this->assertSame(350.0, (float) array_sum(array_column($w, 'revenue')));
 
-        // ytd: January bucket = 300, June (current) = 350
         $this->assertSame(300.0, (float) $y[0]['revenue']);
         $this->assertSame(350.0, (float) $y[5]['revenue']);
     }
@@ -73,10 +69,8 @@ final class OrderChartTest extends TestCase
 
         $activity = $this->getJson('/api/orders/chart')->assertSuccessful()->json('data.activity');
 
-        // Activity is bucketed per range; all 8 orders fall inside every window.
         foreach (['24h', '12w', 'ytd'] as $range) {
             $this->assertCount(6, $activity[$range]);
-            // newest first: the order created at `now` (subtotal 10) is first
             $this->assertSame('10.00', (string) $activity[$range][0]['subtotal']);
             $this->assertArrayHasKey('firstName', $activity[$range][0]);
             $this->assertArrayHasKey('status', $activity[$range][0]);
@@ -88,9 +82,9 @@ final class OrderChartTest extends TestCase
     {
         $now = CarbonImmutable::now();
 
-        $this->makeOrder(100, $now);                 // within all ranges
-        $this->makeOrder(200, $now->subWeek());      // outside 24h, inside 12w/ytd
-        $this->makeOrder(300, CarbonImmutable::create(2026, 1, 10, 9, 0, 0)); // ytd only
+        $this->makeOrder(100, $now);
+        $this->makeOrder(200, $now->subWeek());
+        $this->makeOrder(300, CarbonImmutable::create(2026, 1, 10, 9, 0, 0));
 
         $activity = $this->getJson('/api/orders/chart')->assertSuccessful()->json('data.activity');
 

@@ -35,7 +35,6 @@ final class CreateOrderTotalsTest extends TestCase
             'address'       => 'Main St 1',
             'additional'    => null,
             'paymentMethod' => 'cash_on_delivery',
-            // Deliberately bogus client-supplied money — must be ignored:
             'subtotal'      => 0.01,
             'orderItems'    => [
                 ['variantId' => $variant->id, 'quantity' => 2, 'total' => 0.01],
@@ -46,7 +45,6 @@ final class CreateOrderTotalsTest extends TestCase
 
         $order = Order::query()->latest('id')->firstOrFail();
 
-        // 100 * 2 = 200 items + 10 shipping = 210
         $this->assertSame('210.00', (string) $order->subtotal);
 
         $item = $order->orderItems()->firstOrFail();
@@ -74,8 +72,8 @@ final class CreateOrderTotalsTest extends TestCase
             'additional'    => null,
             'paymentMethod' => 'cash_on_delivery',
             'orderItems'    => [
-                ['variantId' => $cheap->id, 'quantity' => 3],   // 150
-                ['variantId' => $pricey->id, 'quantity' => 1],  // 120
+                ['variantId' => $cheap->id, 'quantity' => 3],
+                ['variantId' => $pricey->id, 'quantity' => 1],
             ],
         ]);
 
@@ -83,7 +81,6 @@ final class CreateOrderTotalsTest extends TestCase
 
         $order = Order::query()->latest('id')->firstOrFail();
 
-        // (50*3) + (120*1) = 270 items + 15 shipping = 285
         $this->assertSame('285.00', (string) $order->subtotal);
         $this->assertSame(2, $order->orderItems()->count());
     }
@@ -155,7 +152,6 @@ final class CreateOrderTotalsTest extends TestCase
             'phone'         => '123456789',
             'country'       => 'Serbia',
             'city'          => 'Belgrade',
-            // zip omitted
             'address'       => 'Main St 1',
             'additional'    => null,
             'paymentMethod' => 'cash_on_delivery',
@@ -186,7 +182,6 @@ final class CreateOrderTotalsTest extends TestCase
             ],
         ])->assertStatus(422);
 
-        // The transaction must roll back: no order, and stock untouched.
         $this->assertSame(0, Order::query()->count());
         $this->assertSame(3, $variant->refresh()->stock);
     }

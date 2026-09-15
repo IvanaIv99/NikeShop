@@ -1,6 +1,5 @@
 :host { display: block }
 
-// Mat-select inside the actions row
 :host ::ng-deep .od-actions .mat-mdc-form-field { font-size: 12px }
 :host ::ng-deep .od-actions .mat-mdc-form-field-infix { min-height: 36px; padding-top: 8px; padding-bottom: 8px }
 :host ::ng-deep .od-actions .mdc-text-field--outlined { background: #0e0f10; border-radius: 5px }

@@ -19,7 +19,6 @@
         (keyup)="applySearch(search)">
     </label>
 
-    <!-- Status — chip-button opens a menu -->
     <button class="chip tm-chip-trigger" type="button" [matMenuTriggerFor]="statusMenu" [class.on]="!!filters.status">
       <span class="lbl">status:</span>
       <b>{{ filters.status || 'all' }}</b>
@@ -34,7 +33,6 @@
       </button>
     </mat-menu>
 
-    <!-- Date range — chip-shaped wrapper around the picker -->
     <div class="chip tm-chip-daterange" [class.on]="filters.dateFrom || filters.dateTo">
       <span class="lbl">dates:</span>
       <mat-date-range-input [rangePicker]="picker" class="tm-range-input">

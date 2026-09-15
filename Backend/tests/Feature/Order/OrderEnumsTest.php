@@ -22,7 +22,6 @@ final class OrderEnumsTest extends TestCase
         $paymentValues = array_column($data['paymentMethods'], 'value');
         $this->assertContains('cash_on_delivery', $paymentValues);
 
-        // Each option carries a human-readable label.
         $this->assertSame('Received', collect($data['orderStatuses'])->firstWhere('value', 'received')['label']);
         $this->assertSame('Cash on Delivery', collect($data['paymentMethods'])->firstWhere('value', 'cash_on_delivery')['label']);
     }

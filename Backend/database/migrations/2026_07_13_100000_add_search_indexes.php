@@ -5,11 +5,6 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
-    /**
-     * Indexes backing the server-side order/product search, filter and sort
-     * endpoints (status/date filters, email search, created_at ordering,
-     * product name search).
-     */
     public function up(): void
     {
         Schema::table('orders', function (Blueprint $table): void {

@@ -48,7 +48,6 @@ export class OrdersTableComponent implements OnChanges, AfterViewInit, OnDestroy
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.loadOrders());
 
-    // Defer to next tick — the paginator's pageSize is set within this hook.
     Promise.resolve().then(() => this.loadOrders());
   }
 

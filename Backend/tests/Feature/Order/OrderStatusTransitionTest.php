@@ -34,8 +34,6 @@ final class OrderStatusTransitionTest extends TestCase
 
     public function test_any_transition_is_allowed(): void
     {
-        // Lifecycle restrictions were removed: an admin may move an order to
-        // any status, including previously-rejected jumps like refunded → shipped.
         $order = $this->makeOrder(OrderStatus::Refunded);
 
         $this->patchJson("/api/orders/{$order->id}/status", ['status' => 'shipped'])

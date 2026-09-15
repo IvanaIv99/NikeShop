@@ -12,11 +12,6 @@ enum DashboardRange: string
     case W12 = '12w';
     case Ytd = 'ytd';
 
-    /**
-     * Window start for this range, relative to $now. Kept in one place so the
-     * revenue chart, order KPIs and top-seller stats all bucket by the exact
-     * same boundaries.
-     */
     public function since(CarbonImmutable $now): CarbonImmutable
     {
         return match ($this) {

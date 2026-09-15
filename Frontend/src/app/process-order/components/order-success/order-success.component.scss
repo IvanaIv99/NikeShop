@@ -22,7 +22,6 @@
   animation: os-fade 0.4s ease both;
 }
 
-/* --- Minimal check mark --- */
 .os-check {
   width: 52px;
   height: 52px;
@@ -44,7 +43,6 @@
   }
 }
 
-/* --- Text --- */
 .os-title {
   font-size: 1.5rem;
   font-weight: 600;
@@ -62,7 +60,6 @@
   max-width: 32ch;
 }
 
-/* --- Order number --- */
 .os-order {
   display: inline-flex;
   align-items: center;
@@ -89,7 +86,6 @@
   color: #fafafa;
 }
 
-/* --- Actions --- */
 .os-actions {
   display: flex;
   flex-direction: column;

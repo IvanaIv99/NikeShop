@@ -1,7 +1,5 @@
-// Angular import
 import { Component, Input } from '@angular/core';
 
-// Project import
 import { NavigationItem } from '../../../../../../../../shared/inferfaces/admin/i-navigation';
 
 @Component({
@@ -11,10 +9,8 @@ import { NavigationItem } from '../../../../../../../../shared/inferfaces/admin/
     standalone: false
 })
 export class NavItemComponent {
-  // public props
   @Input() item!: NavigationItem;
 
-  // public method
   closeOtherMenu(event: any) {
     const ele = event.target;
     if (ele !== null && ele !== undefined) {

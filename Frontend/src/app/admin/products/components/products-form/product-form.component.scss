@@ -1,7 +1,5 @@
-// Form styled globally via .tm-form / .tm-form-wrap / .tm-side-pnl
 :host { display: block }
 
-// Material checkbox tints inside the form
 :host ::ng-deep .tm-form .mat-mdc-checkbox {
   --mat-checkbox-selected-icon-color: #03a68b;
   --mat-checkbox-selected-focus-icon-color: #03a68b;

@@ -127,9 +127,6 @@ final readonly class ProductService
     }
 
     /**
-     * Top-selling products for each dashboard range. Windows mirror the order
-     * stats/chart so the toggle updates every panel consistently.
-     *
      * @return array<string, array<int, array{id: int, name: string, orders_count: int, image: string}>>
      */
     public function stats(int $limit = 3): array

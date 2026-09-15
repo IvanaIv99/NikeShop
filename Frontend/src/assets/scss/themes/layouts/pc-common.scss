@@ -1,6 +1,3 @@
-// ============================
-//     Common layout css start
-// ============================
 
 body {
   background-color: $sidebar-background;
@@ -156,7 +153,6 @@ body {
   position: relative;
 }
 
-// Common layout css end
 
 .footer-wrapper,
 .coded-content {
@@ -179,7 +175,6 @@ body {
   }
 }
 
-// dropdown
 
 .dropdown-toggle::after {
   content: none;

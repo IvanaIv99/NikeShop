@@ -28,9 +28,6 @@ export interface IProductListParams extends IListParams {
   sort?: 'newest' | 'price_asc' | 'price_desc' | null;
 }
 
-/**
- * Builds a query string from list params, skipping null/undefined/empty values.
- */
 export function toQueryString(params: Record<string, any>): string {
   const search = new URLSearchParams();
   Object.keys(params).forEach(key => {

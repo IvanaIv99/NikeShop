@@ -5,11 +5,6 @@ import { environment } from "../../../environment/environment";
 import { WebApiService } from "../api/web-api.service";
 import { IEnumOption, IEnums } from "../../../interfaces/i-enums";
 
-/**
- * Backend is the single source of truth for order/payment enum values and
- * their labels. Fetched once and cached, so dropdowns stay in sync with the
- * server without a frontend redeploy when an option is added or removed.
- */
 @Injectable({
   providedIn: 'root'
 })

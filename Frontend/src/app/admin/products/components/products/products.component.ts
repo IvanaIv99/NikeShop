@@ -19,7 +19,6 @@ export class ProductsComponent implements OnInit {
 
   categories: ICategory[] = [];
 
-  // Cycle order for the chip toggle; null = "any".
   private readonly stockCycle: StockFilter[] = [null, 'in', 'out'];
 
   constructor(private productsRequestService: BlProductsRequestService) {}

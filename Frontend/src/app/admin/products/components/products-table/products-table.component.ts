@@ -45,7 +45,6 @@ export class ProductsTableComponent implements AfterViewInit, OnChanges, OnDestr
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.loadProducts());
 
-    // Defer to next tick — the paginator's pageSize is set within this hook.
     Promise.resolve().then(() => this.loadProducts());
   }
 

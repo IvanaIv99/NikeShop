@@ -20,6 +20,5 @@ final class ApiException extends Exception
 
     public function report(): void
     {
-        //
     }
 }

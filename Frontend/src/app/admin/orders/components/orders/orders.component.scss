@@ -1,6 +1,5 @@
 :host { display: block }
 
-// Chip-styled button that opens the status menu
 :host ::ng-deep .tm-chip-trigger {
   display: inline-flex;
   align-items: center;
@@ -24,7 +23,6 @@
   }
 }
 
-// Chip-shaped wrapper around mat-date-range-input
 :host ::ng-deep .tm-chip-daterange {
   display: inline-flex;
   align-items: center;
@@ -36,7 +34,6 @@
 
   .lbl { color: #6a6d72 }
 
-  // Strip Material chrome from mat-date-range-input
   .mat-date-range-input,
   .mat-date-range-input-container {
     display: inline-flex !important;
@@ -46,7 +43,7 @@
     padding: 0 !important;
   }
   .mat-date-range-input-mirror { display: none !important }
-  .mat-date-range-input-separator { display: none !important } // Hide built-in "–", we use our own
+  .mat-date-range-input-separator { display: none !important }
 
   input.mat-start-date,
   input.mat-end-date {

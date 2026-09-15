@@ -1,7 +1,3 @@
-// ============================================================
-//  Operator Terminal — global stylesheet for the admin panel
-//  Geist + JetBrains Mono. Dense, keyboard-driven, teal accent.
-// ============================================================
 
 $tm-bg:        #070708;
 $tm-surface:   #0e0f10;
@@ -20,9 +16,6 @@ $tm-warn:      #e0a866;
 $tm-sans: 'Geist', system-ui, -apple-system, sans-serif;
 $tm-mono: 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
 
-// ------------------------------------------------------------
-//  Admin-scoped resets — only apply inside the admin layout
-// ------------------------------------------------------------
 body.tm-admin {
   background: $tm-bg !important;
   font-family: $tm-sans !important;
@@ -36,9 +29,6 @@ body.tm-admin .tm-tnum {
   font-variant-numeric: tabular-nums;
 }
 
-// ------------------------------------------------------------
-//  Layout shell
-// ------------------------------------------------------------
 .tm-app {
   display: grid;
   grid-template-columns: 240px 1fr;
@@ -47,9 +37,6 @@ body.tm-admin .tm-tnum {
   font-feature-settings: 'ss01', 'cv11';
 }
 
-// ------------------------------------------------------------
-//  Sidebar
-// ------------------------------------------------------------
 .tm-side {
   background: $tm-surface;
   border-right: 1px solid $tm-line;
@@ -154,7 +141,6 @@ body.tm-admin .tm-tnum {
   padding: 14px 10px 6px;
 }
 
-// Nav items — used by nav-item.component
 .tm-nav-item {
   display: flex;
   align-items: center;
@@ -197,7 +183,6 @@ body.tm-admin .tm-tnum {
   }
 }
 
-// Nav group label
 .tm-nav-group {
   font-family: $tm-mono;
   font-size: 9.5px;
@@ -248,12 +233,9 @@ body.tm-admin .tm-tnum {
   }
 }
 
-// ------------------------------------------------------------
-//  Topbar
-// ------------------------------------------------------------
 .tm-main {
   background: $tm-bg;
-  min-width: 0; // allow children to shrink
+  min-width: 0;
   display: flex;
   flex-direction: column;
 }
@@ -405,9 +387,6 @@ body.tm-admin .tm-tnum {
   .kbd { font-family: $tm-mono; font-size: 9.5px; color: $tm-muted-2; border: 1px solid $tm-line; padding: 1px 4px; border-radius: 3px; margin-left: 4px }
 }
 
-// ------------------------------------------------------------
-//  Page body
-// ------------------------------------------------------------
 .tm-body {
   padding: 22px 22px 32px;
   display: flex;
@@ -470,9 +449,6 @@ body.tm-admin .tm-tnum {
   }
 }
 
-// ------------------------------------------------------------
-//  Stat tiles with sparklines
-// ------------------------------------------------------------
 .tm-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -553,9 +529,6 @@ body.tm-admin .tm-tnum {
   }
 }
 
-// ------------------------------------------------------------
-//  Generic panel
-// ------------------------------------------------------------
 .tm-panel {
   background: $tm-surface;
   border: 1px solid $tm-line;
@@ -586,7 +559,6 @@ body.tm-admin .tm-tnum {
     &:hover:not(.on) { color: $tm-text }
   }
 
-  // "Go to full view" action — reads as a link, not a selected state
   .tab-link {
     display: inline-flex;
     align-items: center;
@@ -646,9 +618,6 @@ body.tm-admin .tm-tnum {
   .help span { color: $tm-muted; border: 1px solid $tm-line; padding: 1px 5px; border-radius: 3px; background: $tm-surface; margin-right: 4px }
 }
 
-// ------------------------------------------------------------
-//  Top products dense list
-// ------------------------------------------------------------
 .tm-topprods { padding: 6px 0 }
 
 .tm-prowrap {
@@ -708,9 +677,6 @@ body.tm-admin .tm-tnum {
   }
 }
 
-// ------------------------------------------------------------
-//  Activity feed
-// ------------------------------------------------------------
 .tm-feed .ev {
   display: grid;
   grid-template-columns: 64px 1fr auto;
@@ -748,9 +714,6 @@ body.tm-admin .tm-tnum {
   }
 }
 
-// ------------------------------------------------------------
-//  Command bar (used on products/orders pages)
-// ------------------------------------------------------------
 .tm-bar {
   display: flex;
   align-items: center;
@@ -820,9 +783,6 @@ body.tm-admin .tm-tnum {
   input::placeholder { color: $tm-muted-2 }
 }
 
-// ------------------------------------------------------------
-//  Tables (overrides for mat-table)
-// ------------------------------------------------------------
 .tm-table-wrap {
   border: 1px solid $tm-line;
   border-radius: 8px;
@@ -853,7 +813,6 @@ body.tm-admin .tm-tnum {
   &.warn::before { background: $tm-warn; box-shadow: 0 0 0 2px rgba($tm-warn, .18) }
 }
 
-// Mat-table re-skin — needs ::ng-deep-free global override
 .tm-table-wrap table.mat-mdc-table,
 .tm-table-wrap .mat-mdc-table {
   background: $tm-surface !important;
@@ -907,7 +866,6 @@ body.tm-admin .tm-tnum {
 .tm-table-wrap .mat-mdc-paginator .mat-mdc-select-arrow,
 .tm-table-wrap .mat-mdc-paginator .mat-mdc-icon-button { color: $tm-muted !important }
 
-// product image inside a table cell
 .tm-table-pc {
   display: flex;
   align-items: center;
@@ -951,7 +909,6 @@ body.tm-admin .tm-tnum {
 .tm-mono-cell { font-family: $tm-mono !important; font-size: 11.5px !important; color: $tm-muted !important; letter-spacing: .02em }
 .tm-num-cell  { font-family: $tm-mono !important; font-size: 12px !important; color: $tm-text !important; font-variant-numeric: tabular-nums; text-align: right }
 
-// action icon buttons in tables
 .tm-row-actions {
   display: flex;
   align-items: center;
@@ -982,9 +939,6 @@ body.tm-admin .tm-tnum {
   &.danger:hover { color: $tm-danger !important; border-color: rgba($tm-danger, .4) }
 }
 
-// ------------------------------------------------------------
-//  Form
-// ------------------------------------------------------------
 .tm-form-wrap {
   display: grid;
   grid-template-columns: 1fr 320px;
@@ -1021,7 +975,6 @@ body.tm-admin .tm-tnum {
   .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px }
 }
 
-// Override mat-form-field inside admin form
 .tm-form .mat-mdc-form-field { width: 100%; --mat-form-field-outlined-outline-color: #{$tm-line}; --mat-form-field-outlined-hover-outline-color: #2a2d31; --mat-form-field-outlined-focus-outline-color: #{$tm-accent} }
 .tm-form .mat-mdc-form-field .mdc-text-field--outlined { background: $tm-surface-2; border-radius: 6px }
 .tm-form .mat-mdc-form-field .mdc-floating-label,
@@ -1091,7 +1044,6 @@ body.tm-admin .tm-tnum {
   }
 }
 
-// File dropzone
 .tm-dropzone {
   border: 1.5px dashed $tm-line;
   background: $tm-surface-2;
@@ -1113,7 +1065,6 @@ body.tm-admin .tm-tnum {
   .hint { font-family: $tm-mono; font-size: 10px; color: $tm-muted-3; letter-spacing: .04em; text-transform: uppercase }
 }
 
-// Variant stock table
 .tm-variant-table {
   width: 100%;
   border-collapse: separate;
@@ -1153,9 +1104,6 @@ body.tm-admin .tm-tnum {
   }
 }
 
-// ------------------------------------------------------------
-//  Side panel (form summary)
-// ------------------------------------------------------------
 .tm-side-pnl {
   padding: 22px;
   display: flex;
@@ -1193,9 +1141,6 @@ body.tm-admin .tm-tnum {
   }
 }
 
-// ------------------------------------------------------------
-//  Order detail
-// ------------------------------------------------------------
 .tm-order-detail {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
@@ -1333,7 +1278,6 @@ body.tm-admin .tm-tnum {
   }
 }
 
-// Order header card (above the split)
 .tm-order-head {
   display: flex;
   align-items: end;
@@ -1346,16 +1290,11 @@ body.tm-admin .tm-tnum {
   .meta b { color: $tm-text; font-weight: 500 }
 }
 
-// Status row for status-only column rendering
 .tm-status-cell { display: inline-flex }
 
-// ------------------------------------------------------------
-//  Helpers
-// ------------------------------------------------------------
 .tm-grow { flex: 1 }
 .tm-hidden-sm { @media (max-width: 900px) { display: none } }
 
-// Hide leftover berry/coded chrome classes inside admin scope
 body.tm-admin .pc-container { padding: 0 !important; margin-left: 0 !important; background: $tm-bg !important }
 body.tm-admin .coded-wrapper,
 body.tm-admin .coded-content,
@@ -1363,11 +1302,7 @@ body.tm-admin .coded-inner-content,
 body.tm-admin .main-body,
 body.tm-admin .page-wrapper { padding: 0; margin: 0; background: transparent }
 
-// ------------------------------------------------------------
-//  Overlay components (mat-menu / mat-datepicker) rendered at body root
-// ------------------------------------------------------------
 
-// Mat-menu — terminal "tm-menu" panel
 .mat-mdc-menu-panel.tm-menu {
   background: $tm-surface !important;
   border: 1px solid $tm-line !important;
@@ -1419,7 +1354,6 @@ body.tm-admin .page-wrapper { padding: 0; margin: 0; background: transparent }
   }
 }
 
-// Mat-datepicker calendar — terminal palette
 .mat-datepicker-popup .mat-datepicker-content,
 .mat-datepicker-content {
   background: $tm-surface !important;
@@ -1474,42 +1408,32 @@ body.tm-admin .page-wrapper { padding: 0; margin: 0; background: transparent }
   .mat-datepicker-content-container { background: $tm-surface !important; color: $tm-text !important }
 }
 
-// MDC backdrop tint (subtle)
 .cdk-overlay-dark-backdrop { background: rgba(0, 0, 0, .45) }
 
-// ------------------------------------------------------------
-//  Print — packing slip mode
-// ------------------------------------------------------------
 
-// Print-only packing slip header inside order detail
 .print-slip-head { display: none }
 
 @media print {
-  // White paper, dark ink
   body.tm-admin,
   html,
   body { background: #fff !important; color: #000 !important; font-family: $tm-sans !important }
 
-  // Hide admin chrome
   app-navigation,
   app-nav-bar,
   .tm-side,
   .tm-top,
   app-footer { display: none !important }
 
-  // Single column, full bleed
   .tm-app { display: block !important; min-height: 0 !important }
   .tm-main { display: block !important; background: #fff !important }
   .tm-body { padding: 0 !important; gap: 16px !important }
 
-  // Hide screen-only navigation + actions in the order page
-  .tm-body > .tm-pgh,        // screen page header (with Back-to-orders button)
-  .tm-tl,                     // event timeline
-  .od-actions,                // status-change form + screen action buttons
-  .tm-feed,                   // (just in case)
+  .tm-body > .tm-pgh,
+  .tm-tl,
+  .od-actions,
+  .tm-feed,
   .tm-seg { display: none !important }
 
-  // Reveal the print-only packing slip header
   .print-slip-head {
     display: block !important;
     padding: 0 0 14px;
@@ -1540,7 +1464,6 @@ body.tm-admin .page-wrapper { padding: 0; margin: 0; background: transparent }
     .ps-note { font-style: italic; color: #333 }
   }
 
-  // Strip dark-theme styling from the order detail block
   .tm-order-detail {
     display: block !important;
     border: 0 !important;
@@ -1584,17 +1507,14 @@ body.tm-admin .page-wrapper { padding: 0; margin: 0; background: transparent }
     }
   }
 
-  // Status pill: render as plain text on paper
   .tm-status {
     color: #000 !important;
     font-family: $tm-mono !important;
     &::before { display: none !important }
   }
 
-  // Page setup
   @page { size: A4; margin: 14mm 14mm 18mm }
 
-  // Page-break hints
   .tm-order-detail { page-break-inside: avoid }
   .tm-od-right .li { page-break-inside: avoid }
 

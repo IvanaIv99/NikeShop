@@ -69,10 +69,6 @@ final readonly class OrderService
     }
 
     /**
-     * Server-authoritative price preview for a set of cart items. Read-only:
-     * prices come from the database, never from the client, and stock is not
-     * reserved. Mirrors the money math applied in {@see self::create()}.
-     *
      * @return array{subtotal: float, shipping: float, grandTotal: float}
      */
     public function summarize(SummarizeOrderDto $dto): array
@@ -88,8 +84,6 @@ final readonly class OrderService
     }
 
     /**
-     * Sum of (current DB unit price × quantity) across the given items.
-     *
      * @param  DataCollection<int, SingleOrderItemDto>  $items
      */
     private function itemsSubtotal(DataCollection $items): float
@@ -187,9 +181,6 @@ final readonly class OrderService
     }
 
     /**
-     * Single source of truth for order/payment enum values shown in the UI,
-     * so adding a status or payment method never requires a frontend redeploy.
-     *
      * @return array{
      *     orderStatuses: list<array{value: string, label: string}>,
      *     paymentMethods: list<array{value: string, label: string}>
@@ -225,7 +216,6 @@ final readonly class OrderService
         $order->status = $dto->status;
         $order->save();
 
-        // Audit trail: who moved the order between which states, and when.
         Log::info('order.status_changed', [
             'order_id'   => $order->id,
             'from'       => $from->value,
@@ -242,10 +232,6 @@ final readonly class OrderService
     }
 
     /**
-     * Order KPIs for each dashboard range. Windows match the chart buckets in
-     * {@see self::buildChart()} so the "total" shown next to the chart agrees
-     * with the revenue KPI for the same range.
-     *
      * @return array<string, array{orders_count: int, revenue: float, shipped: int, received: int}>
      */
     public function stats(): array
@@ -280,9 +266,6 @@ final readonly class OrderService
      */
     public function chart(): array
     {
-        // Aggregating every order into 24h/12w/ytd buckets is expensive; the
-        // dashboard polls this repeatedly, so cache briefly (60s staleness is
-        // acceptable for a revenue chart). Invalidated on new orders.
         return Cache::remember('orders.chart', 60, fn (): array => $this->buildChart());
     }
 

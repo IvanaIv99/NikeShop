@@ -275,7 +275,6 @@
     }
   }
 
-  // menu collapse
   &.navbar-collapsed {
     width: 0px;
     height: 100%;
@@ -287,7 +286,6 @@
     }
   }
 
-  //media open media after 1024px
   &.mob-open {
     .m-header {
       display: flex;
@@ -305,7 +303,6 @@
     }
   }
 
-  // caption hide
   &.caption-hide {
     .coded-menu-caption {
       display: none;
@@ -313,7 +310,6 @@
   }
 }
 
-//navbar-collapsed
 
 .navbar-collapsed {
   .mobile-menu {
@@ -332,7 +328,6 @@
   }
 }
 
-// table media
 
 @media (max-width: 1024px) {
   .pc-sidebar {

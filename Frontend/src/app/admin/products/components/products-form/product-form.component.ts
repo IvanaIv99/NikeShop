@@ -193,8 +193,6 @@ export class ProductFormComponent implements OnInit {
     try {
       await firstValueFrom(this.saveProduct(this.id));
       this.snackbar.showSuccess('Saved.');
-      // On create, clear the populated form so the next product can be entered.
-      // On edit, keep the values so the record stays in context.
       if (!this.id) {
         this.resetForm();
       }
@@ -206,11 +204,6 @@ export class ProductFormComponent implements OnInit {
   }
 
   private resetForm(): void {
-    // Reset through the FormGroupDirective (not this.form.reset()) so the
-    // directive's `submitted` flag is also cleared. Otherwise Material's error
-    // state stays "submitted" and paints every now-empty required field red.
-    // Reassigning this.form (= createForm()) is also wrong — it breaks the
-    // template's formControlName bindings and the next submit sends nothing.
     this.formDirective?.resetForm({ categories: [] });
     this.selectedSizeIds = [];
     this.selectedColorIds = [];

@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
       next: (response) => {
         this.featured = response.data || [];
       },
-      error: () => { /* silent — page still renders */ }
+      error: () => { }
     });
   }
 

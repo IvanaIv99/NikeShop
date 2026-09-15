@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ForceJsonMiddleware
 {
-    // Force the API to always use JSON.
     public function handle(Request $request, Closure $next): Response
     {
         $request->headers->set('Accept', 'application/json');

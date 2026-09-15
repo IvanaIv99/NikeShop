@@ -23,12 +23,10 @@ final class OrderSummaryTest extends TestCase
 
         $data = $this->postJson('/api/orders/summary', [
             'orderItems' => [
-                // Client cannot influence the price — only variantId + quantity are read.
                 ['variantId' => $variant->id, 'quantity' => 2, 'total' => 0.01],
             ],
         ])->assertSuccessful()->json('data');
 
-        // 100 * 2 = 200 items + 10 shipping = 210, no tax line.
         $this->assertEquals(200, $data['subtotal']);
         $this->assertEquals(10, $data['shipping']);
         $this->assertEquals(210, $data['grandTotal']);
@@ -44,8 +42,8 @@ final class OrderSummaryTest extends TestCase
 
         $data = $this->postJson('/api/orders/summary', [
             'orderItems' => [
-                ['variantId' => $cheap->id, 'quantity' => 3],   // 150
-                ['variantId' => $pricey->id, 'quantity' => 1],  // 120
+                ['variantId' => $cheap->id, 'quantity' => 3],
+                ['variantId' => $pricey->id, 'quantity' => 1],
             ],
         ])->assertSuccessful()->json('data');
 
