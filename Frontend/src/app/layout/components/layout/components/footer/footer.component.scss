@@ -1,1 +1,15 @@
 :host { display: block; }
+
+// Right-hand text block mirrors the left one; typography is inherited from the
+// global .cu-foot-signup rules (.mlabel / h4 / p).
+.cu-foot-signup .rl {
+  max-width: 420px;
+  text-align: right;
+}
+
+@media (max-width: 720px) {
+  .cu-foot-signup .rl {
+    max-width: none;
+    text-align: left;
+  }
+}
