@@ -14,6 +14,7 @@ export class StatsComponent implements OnInit, OnChanges {
   @Input() range: DashboardRange = '24h';
 
   stats: IStatCard[] = this.buildCards();
+  public loading = true;
 
   private rangedStats?: IRangedStats;
 
@@ -22,9 +23,15 @@ export class StatsComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    this.ordersRequestsService.getStats().subscribe(res => {
-      this.rangedStats = res;
-      this.stats = this.buildCards();
+    this.ordersRequestsService.getStats().subscribe({
+      next: (res) => {
+        this.rangedStats = res;
+        this.stats = this.buildCards();
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+      }
     });
   }
 

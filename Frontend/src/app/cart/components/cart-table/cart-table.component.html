@@ -31,13 +31,15 @@
       <span class="v">${{ subtotal | number:'1.2-2' }}</span>
     </div>
     <div class="ln">
-      <span class="k">Shipping <small>{{ shipping === 0 ? 'free' : 'standard' }}</small></span>
-      <span class="v" [class.free]="shipping === 0">{{ shipping === 0 ? 'FREE' : ('$' + (shipping | number:'1.2-2')) }}</span>
+      <span class="k">Shipping <small>{{ summaryLoading ? 'estimating' : (shipping === 0 ? 'free' : 'standard') }}</small></span>
+      <span *ngIf="summaryLoading" class="v skeleton" aria-hidden="true"></span>
+      <span *ngIf="!summaryLoading" class="v" [class.free]="shipping === 0">{{ shipping === 0 ? 'FREE' : ('$' + (shipping | number:'1.2-2')) }}</span>
     </div>
 
     <div class="grand">
       <div class="k">Total<small>USD</small></div>
-      <div class="v"><sup>$</sup>{{ grandTotal | number:'1.2-2' }}</div>
+      <div *ngIf="summaryLoading" class="v skeleton skeleton--lg" aria-hidden="true"></div>
+      <div *ngIf="!summaryLoading" class="v"><sup>$</sup>{{ grandTotal | number:'1.2-2' }}</div>
     </div>
 
     <a class="checkout" [routerLink]="['/process-order']">

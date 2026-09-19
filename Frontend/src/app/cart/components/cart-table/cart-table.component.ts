@@ -16,6 +16,7 @@ export class CartTableComponent implements OnInit, OnDestroy {
   public subtotal = 0;
   public shipping = 0;
   public grandTotal = 0;
+  public summaryLoading = false;
 
   private sub?: Subscription;
 
@@ -33,8 +34,9 @@ export class CartTableComponent implements OnInit, OnDestroy {
   }
 
   private computeLocalTotals(): void {
+    // Subtotal is safe to show instantly; shipping & total are server-authoritative
+    // and are revealed only once loadSummary() resolves, to avoid a visible jump.
     this.subtotal = this.cartItems.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
-    this.grandTotal = this.subtotal + this.shipping;
   }
 
   ngOnDestroy(): void {
@@ -44,14 +46,20 @@ export class CartTableComponent implements OnInit, OnDestroy {
   private loadSummary(): void {
     if (!this.cartItems.length) {
       this.subtotal = this.shipping = this.grandTotal = 0;
+      this.summaryLoading = false;
       return;
     }
 
+    this.summaryLoading = true;
     this.cartSummaryService.getSummary(this.cartItems).subscribe({
       next: (summary) => {
         this.subtotal = summary.subtotal;
         this.shipping = summary.shipping;
         this.grandTotal = summary.grandTotal;
+        this.summaryLoading = false;
+      },
+      error: () => {
+        this.summaryLoading = false;
       }
     });
   }

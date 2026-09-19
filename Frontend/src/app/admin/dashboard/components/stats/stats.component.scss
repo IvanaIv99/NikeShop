@@ -1,0 +1,21 @@
+// Server-authoritative numbers are revealed only once getStats() resolves,
+// so the cards never flash zeros before the real values arrive.
+.tm-skeleton {
+  display: inline-block;
+  min-width: 3.2rem;
+  height: 0.72em;
+  vertical-align: 1px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.06) 25%, rgba(255, 255, 255, 0.14) 37%, rgba(255, 255, 255, 0.06) 63%);
+  background-size: 400% 100%;
+  animation: tm-skeleton-shimmer 1.2s ease-in-out infinite;
+}
+
+@keyframes tm-skeleton-shimmer {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tm-skeleton { animation: none; }
+}

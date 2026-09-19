@@ -5,7 +5,7 @@
       <span class="pill" style="background:transparent;border-color:transparent;color:#6a6d72;font-family:'Geist Mono',monospace">{{ rangePill }}</span>
     </div>
     <div class="v">
-      <mat-icon>{{ card.icon }}</mat-icon>{{ card.value }}
+      <mat-icon>{{ card.icon }}</mat-icon><span *ngIf="loading" class="tm-skeleton" aria-hidden="true"></span><span *ngIf="!loading">{{ card.value }}</span>
     </div>
     <div class="sub">
       <span>{{ rangeSub }}</span>
